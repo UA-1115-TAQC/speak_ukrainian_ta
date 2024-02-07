@@ -55,3 +55,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+##Project
+config.properties

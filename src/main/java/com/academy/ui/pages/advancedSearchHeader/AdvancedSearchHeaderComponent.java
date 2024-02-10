@@ -18,7 +18,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
 
     public WebElement getAdvancedSearchTextHeading() {
         if (advancedSearchTextHeading == null) {
-            advancedSearchTextHeading = rootElement.findElement(By.xpath("//div[contains(@class, \"city-name-box\")]/h2"));
+            advancedSearchTextHeading = rootElement.findElement(By.xpath("//h2[@class='city-name']"));
         }
         return advancedSearchTextHeading;
     }

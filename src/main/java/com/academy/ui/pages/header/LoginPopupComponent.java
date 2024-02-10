@@ -5,10 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LogonPopupComponent extends BaseComponent {
-    protected WebElement logonPopupHeaderText;
-    protected WebElement closeLogonPopupButton;
-    protected WebElement logonMenu;
+public class LoginPopupComponent extends BaseComponent {
+    protected WebElement loginPopupHeaderText;
+    protected WebElement closeLoginPopupButton;
+    protected WebElement loginMenu;
     protected WebElement googleIcon;
     protected WebElement facebookIcon;
     protected WebElement authorizationByGoogle;
@@ -21,29 +21,29 @@ public class LogonPopupComponent extends BaseComponent {
     protected WebElement hidePasswordCircle;
 
 
-    public LogonPopupComponent(WebDriver driver, WebElement rootElement) {
+    public LoginPopupComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public WebElement getLogonPopupMenu() {
-        if (logonMenu == null) {
-            logonMenu = rootElement.findElement(By.xpath("//div[contains(@class, 'right-side-menu')]"));
+    public WebElement getLoginPopupMenu() {
+        if (loginMenu == null) {
+            loginMenu = rootElement.findElement(By.xpath("//div[contains(@class, 'right-side-menu')]"));
         }
-        return logonMenu;
+        return loginMenu;
     }
 
-    public  WebElement getLogonPopupHeaderText() {
-        if (logonPopupHeaderText == null) {
-            logonPopupHeaderText = rootElement.findElement(By.xpath("//div[@class='login-header']"));
+    public  WebElement getLoginPopupHeaderText() {
+        if (loginPopupHeaderText == null) {
+            loginPopupHeaderText = rootElement.findElement(By.xpath("//div[@class='login-header']"));
         }
-        return logonPopupHeaderText;
+        return loginPopupHeaderText;
     }
 
-    public WebElement getCloseLogonPopupButton() {
-        if (closeLogonPopupButton == null) {
-            closeLogonPopupButton = rootElement.findElement(By.xpath("//button[contains(@aria-label, 'Close')]"));
+    public WebElement getCloseLoginPopupButton() {
+        if (closeLoginPopupButton == null) {
+            closeLoginPopupButton = rootElement.findElement(By.xpath("//div[contains(@class, 'modal-login')]//button[@aria-label= 'Close']"));
         }
-        return closeLogonPopupButton;
+        return closeLoginPopupButton;
     }
 
     public WebElement getGoogleIcon() {
@@ -116,7 +116,7 @@ public class LogonPopupComponent extends BaseComponent {
         return hidePasswordCircle;
     }
 
-    public void clickLogonPopupMenu() {
-        getLogonPopupMenu().click();
+    public void clickLoginPopupMenu() {
+        getLoginPopupMenu().click();
     }
 }

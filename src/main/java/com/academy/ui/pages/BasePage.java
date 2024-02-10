@@ -1,19 +1,19 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.pages.header.HeaderComponent;
-import com.academy.ui.pages.header.LogonPopupComponent;
+import com.academy.ui.pages.header.LoginPopupComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public abstract class BasePage extends Base {
     public HeaderComponent header;
-    public LogonPopupComponent logonPopupComponent;
+    public LoginPopupComponent loginPopupComponent;
 
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();
-        this.logonPopupComponent = getLogonPopupComponent();
+        this.loginPopupComponent = getLogonPopupComponent();
     }
 
     public HeaderComponent getHeader() {
@@ -24,12 +24,12 @@ public abstract class BasePage extends Base {
         return header;
     }
 
-    public LogonPopupComponent getLogonPopupComponent() {
-        if (logonPopupComponent == null) {
+    public LoginPopupComponent getLogonPopupComponent() {
+        if (loginPopupComponent == null) {
             WebElement node = driver.findElement(By.xpath("//div[contains(@class, 'right-side-menu')]"));
-            logonPopupComponent = new LogonPopupComponent(driver, node);
+            loginPopupComponent = new LoginPopupComponent(driver, node);
         }
-        return logonPopupComponent;
+        return loginPopupComponent;
     }
 
     public void openURL(String url) {

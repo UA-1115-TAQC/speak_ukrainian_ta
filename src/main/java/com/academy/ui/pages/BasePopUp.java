@@ -17,7 +17,7 @@ public abstract class BasePopUp extends Base {
 
     public WebElement getCloseButton() {
         if (closeButton == null) {
-            closeButton = driver.findElement(By.xpath("//div[contains(@class,'ant-modal-centered') and not(@style)]/descendant::button[@class='ant-modal-close']"));
+            closeButton = driver.findElement(By.xpath("//div[contains(@class,'ant-modal-centered') and not(contains(@style,'display'))]/descendant::button[@class='ant-modal-close']"));
         }
         return closeButton;
     }

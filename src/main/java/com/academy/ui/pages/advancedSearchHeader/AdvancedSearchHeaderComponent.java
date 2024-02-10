@@ -31,7 +31,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     }
     public WebElement getSelectionSearchInputFieldPlaceholder() {
         if (selectionSearchInputFieldPlaceholder == null) {
-            selectionSearchInputFieldPlaceholder = rootElement.findElement(By.xpath("//div[contains(@class, \"search\")]//span[contains(@class,\"ant-select-selection-placeholder\")]"));
+            selectionSearchInputFieldPlaceholder = rootElement.findElement(By.xpath("//span[@class='ant-select-selection-placeholder']"));
         }
         return selectionSearchInputFieldPlaceholder;
     }

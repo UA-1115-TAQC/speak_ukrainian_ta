@@ -15,17 +15,20 @@ public class HomePage extends BasePage{
         this.carouselCardComponent = getCarouselCardComponent();
         this.carouselImgComponent = getCarouselImgComponent();
     }
+
     public CarouselCardComponent getCarouselCardComponent() {
         if (carouselCardComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"categories-carousel-block\")]"));
-            carouselCardComponent = new CarouselCardComponent(driver, node);
+            String rootElementClass = "categories-carousel-block";
+            WebElement node = driver.findElement(By.xpath(String.format("//div[contains(@class,\"%s\")]",rootElementClass)));
+            carouselCardComponent = new CarouselCardComponent(driver, node,rootElementClass);
         }
         return carouselCardComponent;
     }
     public CarouselImgComponent getCarouselImgComponent(){
         if (carouselImgComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"about-carousel-block\")]"));
-            carouselImgComponent = new CarouselImgComponent(driver, node);
+            String rootElementClass = "about-carousel-block";
+            WebElement node = driver.findElement(By.xpath(String.format("//div[contains(@class,\"%s\")]",rootElementClass)));
+            carouselImgComponent = new CarouselImgComponent(driver, node, rootElementClass);
         }
         return carouselImgComponent;
     }

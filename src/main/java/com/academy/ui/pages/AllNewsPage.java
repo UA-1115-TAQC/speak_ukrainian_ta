@@ -20,12 +20,6 @@ public class AllNewsPage extends BasePage {
         super(driver);
     }
 
-    //when NewsPage will be implemented
-    /*public NewsPage toNewsPage() {
-        newsCardComponent.getNewsCardLink().click();
-        return new NewsPage(driver);
-    }*/
-
     public NewsCardComponent getNewsCardComponent() {
         if (newsCardComponent == null) {
             WebElement node = driver.findElement(xpath("(//div[@id = 'newsContainer'])[1]"));

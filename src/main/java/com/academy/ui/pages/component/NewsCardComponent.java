@@ -15,9 +15,12 @@ public class NewsCardComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-    public void toNewsPage() {
+    //when NewsPage will be implemented
+    /*public NewsPage toNewsPage() {
         getNewsCardLink().click();
+        return new NewsPage(driver);
     }
+    */
 
     public WebElement getNewsCardImage() {
         if (newsCardImage == null) {

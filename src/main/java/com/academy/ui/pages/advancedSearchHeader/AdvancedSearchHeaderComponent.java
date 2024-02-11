@@ -35,6 +35,19 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
         }
         return selectionSearchInputFieldPlaceholder;
     }
+
+    public void setTextSelectionSearchInputField(String text){
+        this.getSelectionSearchInputField().sendKeys(text);
+    }
+
+    public String getTextSelectionSearchInputField(){
+       return this.getSelectionSearchInputField().getAttribute("innerText");
+    }
+
+    public String getValueAttributeSelectionSearchInputField(){
+        return this.getSelectionSearchInputField().getAttribute("value");
+    }
+
     public WebElement getSearchIcon(){
         if(searchIcon == null){
             searchIcon=rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]"));

@@ -140,8 +140,8 @@ public class RegistrationPopupComponent extends BasePopUp {
         return passwordConfirmationHeader;
     }
 
-    public String getClubTitleText() {
-        return getClubTitle().getAttribute("innerText");
+    public String getRegistrationHeaderText() {
+        return getRegistrationHeader().getAttribute("innerText");
     }
 
     public WebElement getLastNameInput() {

@@ -3,16 +3,19 @@ package com.academy.ui.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 
-public abstract class BasePopUp extends Base {
+public abstract class BasePopUp extends BaseComponent {
     protected WebElement closeButton;
 
-    public BasePopUp(WebDriver driver) {
-        super(driver);
+    public BasePopUp(WebDriver driver, String className) {
+        super(driver, driver.findElement(By.xpath("//div[contains(@class,'" + className + "')]")));
+    }
+
+    public boolean waitPopUpOpen(java.time.Duration timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        return wait.until(e -> rootElement.isDisplayed());
     }
 
     public WebElement getCloseButton() {

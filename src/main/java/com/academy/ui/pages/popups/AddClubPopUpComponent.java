@@ -1,4 +1,4 @@
-package com.academy.ui.pages.header;
+package com.academy.ui.pages.popups;
 
 import com.academy.ui.pages.BasePopUp;
 import org.openqa.selenium.By;
@@ -21,14 +21,15 @@ public class AddClubPopUpComponent extends BasePopUp {
     protected WebElement centerSelect;
     protected List<WebElement> centersList;
     protected WebElement nextStepButton;
+    protected static final String className = "modal-add-club";
 
     public AddClubPopUpComponent(WebDriver driver) {
-        super(driver);
+        super(driver, className);
     }
 
     public WebElement getClubTitle() {
         if (clubTitle == null) {
-            clubTitle = driver.findElement(By.xpath("//div[contains(@class,'add-club-header')]"));
+            clubTitle = rootElement.findElement(By.xpath("//div[contains(@class,'add-club-header')]"));
         }
         return clubTitle;
     }
@@ -39,7 +40,7 @@ public class AddClubPopUpComponent extends BasePopUp {
 
     public WebElement getClubNameInput() {
         if (clubNameInput == null) {
-            clubNameInput = driver.findElement(By.xpath("//input[@id='basic_name']"));
+            clubNameInput = rootElement.findElement(By.xpath("//input[@id='basic_name']"));
         }
         return clubNameInput;
     }
@@ -65,7 +66,7 @@ public class AddClubPopUpComponent extends BasePopUp {
 
     public List<WebElement> getCategoriesCheckboxList() {
         if (categoriesCheckboxList == null) {
-            categoriesCheckboxList = driver.findElements(By.xpath("//input[@class='ant-checkbox-input']"));
+            categoriesCheckboxList = rootElement.findElements(By.xpath("//input[@class='ant-checkbox-input']"));
         }
         return categoriesCheckboxList;
     }
@@ -78,7 +79,7 @@ public class AddClubPopUpComponent extends BasePopUp {
 
     public WebElement getCategoryItem(String category) {
         if (categoryCheckboxItem == null || !categoryCheckboxItem.getAttribute("value").equals(category)) {
-            categoryCheckboxItem = driver.findElement(By.xpath("//input[@value='" + category + "']"));
+            categoryCheckboxItem = rootElement.findElement(By.xpath("//input[@value='" + category + "']"));
         }
         return categoryCheckboxItem;
     }
@@ -89,7 +90,7 @@ public class AddClubPopUpComponent extends BasePopUp {
 
     public List<WebElement> getCheckedCategoriesList() {
         if (checkedCategoriesList == null) {
-            checkedCategoriesList = driver.findElements(By.xpath("//span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']"));
+            checkedCategoriesList = rootElement.findElements(By.xpath("//span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']"));
         }
         return checkedCategoriesList;
     }
@@ -101,12 +102,12 @@ public class AddClubPopUpComponent extends BasePopUp {
     }
 
     public String getCategoriesErrorText() {
-        return driver.findElement(By.xpath("//ancestor::div[@id='basic_categories_help']/div")).getAttribute("innerText");
+        return rootElement.findElement(By.xpath("//ancestor::div[@id='basic_categories_help']/div")).getAttribute("innerText");
     }
 
     public WebElement getMinAgeInput() {
         if (minAgeInput == null) {
-            minAgeInput = driver.findElement(By.xpath("//input[@id='basic_ageFrom']"));
+            minAgeInput = rootElement.findElement(By.xpath("//input[@id='basic_ageFrom']"));
         }
         return minAgeInput;
     }
@@ -121,7 +122,7 @@ public class AddClubPopUpComponent extends BasePopUp {
 
     public WebElement getMaxAgeInput() {
         if (maxAgeInput == null) {
-            maxAgeInput = driver.findElement(By.xpath("//input[@id='basic_ageTo']"));
+            maxAgeInput = rootElement.findElement(By.xpath("//input[@id='basic_ageTo']"));
         }
         return maxAgeInput;
     }
@@ -135,16 +136,16 @@ public class AddClubPopUpComponent extends BasePopUp {
     }
 
     public String getMinAgeErrorText() {
-        return driver.findElement(By.xpath("//div[@id='basic_ageFrom_help']/div")).getAttribute("innerText");
+        return rootElement.findElement(By.xpath("//div[@id='basic_ageFrom_help']/div")).getAttribute("innerText");
     }
 
     public String getMaxAgeErrorText() {
-        return driver.findElement(By.xpath("//div[@id='basic_ageTo_help']/div")).getAttribute("innerText");
+        return rootElement.findElement(By.xpath("//div[@id='basic_ageTo_help']/div")).getAttribute("innerText");
     }
 
     public WebElement getCenterSelect() {
         if (centerSelect == null) {
-            centerSelect = driver.findElement(By.xpath("//input[@id='basic_centerId']"));
+            centerSelect = rootElement.findElement(By.xpath("//input[@id='basic_centerId']"));
         }
         return centerSelect;
     }
@@ -158,9 +159,8 @@ public class AddClubPopUpComponent extends BasePopUp {
     }
 
     public List<WebElement> getCentersList() {
-        clickCenterSelect();
         if (centersList == null) {
-            centersList = driver.findElements(By.xpath("//div[@class='ant-select-item-option-content']"));
+            centersList = rootElement.findElements(By.xpath("//div[@class='ant-select-item-option-content']"));
         }
         return centersList;
     }
@@ -172,13 +172,12 @@ public class AddClubPopUpComponent extends BasePopUp {
     }
 
     public void selectCenter(String name) {
-        clickCenterSelect();
-        driver.findElement(By.xpath("//div[contains(@class,'ant-select-item-option') and @title='" + name + "']")).click();
+        rootElement.findElement(By.xpath("//div[contains(@class,'ant-select-item-option') and @title='" + name + "']")).click();
     }
 
     public WebElement getNextStepButton() {
         if (nextStepButton == null) {
-            nextStepButton = driver.findElement(By.xpath("//button[contains(@class,'add-club-content-next')]"));
+            nextStepButton = rootElement.findElement(By.xpath("//button[contains(@class,'add-club-content-next')]"));
         }
         return nextStepButton;
     }

@@ -9,7 +9,7 @@ public class ExampleTest extends BaseTestRunner {
     public void open_menu_test() {
         HomePage home = new HomePage(driver);
         //home.header.clickMenu();
-        System.out.println(home.header.toAllNewsPage().getClubCardLineComponent()
-                .getClubTitle().getText().contains("Школа перкусії"));
+        /*System.out.println(home.header.toAllNewsPage().getClubCardLineComponent()
+                .getClubTitle().getText().contains("Школа перкусії"));*/
     }
 }

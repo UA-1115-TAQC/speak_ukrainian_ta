@@ -1,9 +1,10 @@
 package com.academy.ui.pages.component;
 
 import com.academy.ui.pages.BaseComponent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import static org.openqa.selenium.By.xpath;
 
 public class ClubCardLineComponent extends BaseComponent {
     private WebElement clubLogo;
@@ -15,37 +16,43 @@ public class ClubCardLineComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    //when ClubPage will be implemented
+    /*public ClubPage toClubPage() {
+        getClubLink().click();
+        return new ClubPage(driver);
+    }*/
+
     public WebElement getClubLogo() {
         if (clubLogo == null) {
-            clubLogo = rootElement.findElement(By.xpath(".//div[contains(@class, 'icon')]//img"));
+            clubLogo = rootElement.findElement(xpath(".//div[contains(@class, 'icon')]//img"));
         }
         return clubLogo;
     }
 
     public WebElement getClubTitle() {
         if (clubTitle == null) {
-            clubTitle = rootElement.findElement(By.xpath(".//div[contains(@class, 'name')]"));
+            clubTitle = rootElement.findElement(xpath(".//div[contains(@class, 'name')]"));
         }
         return clubTitle;
     }
 
     public WebElement getClubTags() {
         if (clubTags == null) {
-            clubTags = rootElement.findElement(By.xpath(".//span[contains(@class, 'name')]"));
+            clubTags = rootElement.findElement(xpath(".//span[contains(@class, 'name')]"));
         }
         return clubTags;
     }
 
     public WebElement getClubDescription() {
         if (clubDescription == null) {
-            clubDescription = driver.findElement(By.xpath(".//p[contains(@class, 'description')]"));
+            clubDescription = driver.findElement(xpath(".//p[contains(@class, 'description')]"));
         }
         return clubDescription;
     }
 
     public WebElement getClubLink() {
         if (clubLink == null) {
-            clubLink = rootElement.findElement(By.xpath(".//a//a[contains(@href, '/club/')]"));
+            clubLink = rootElement.findElement(xpath(".//a//a[contains(@href, '/club/')]"));
         }
         return clubLink;
     }

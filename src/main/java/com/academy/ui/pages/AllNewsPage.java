@@ -2,10 +2,9 @@ package com.academy.ui.pages;
 
 import com.academy.ui.pages.component.ClubCardLineComponent;
 import com.academy.ui.pages.component.NewsCardComponent;
+import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 import static org.openqa.selenium.By.xpath;
 
@@ -38,7 +37,7 @@ public class AllNewsPage extends BasePage {
 
     public List<WebElement> getNewsPages() {
         if (newsPages == null) {
-            newsPages = driver.findElements(xpath("//li[contains(@class, 'ant-pagination-item-')]"));
+            newsPages = driver.findElements(xpath(".//li[contains(@class, 'ant-pagination-item-')]"));
         }
         return newsPages;
     }
@@ -47,7 +46,7 @@ public class AllNewsPage extends BasePage {
         if (previousPageArrow == null) {
             previousPageArrow = driver.findElement(xpath("//li[contains(@title, 'Previous')]"));
         }
-        return getPreviousPageArrow();
+        return previousPageArrow;
     }
 
     public WebElement getNextPageArrow() {

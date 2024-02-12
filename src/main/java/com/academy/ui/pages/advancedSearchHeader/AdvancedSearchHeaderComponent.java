@@ -4,6 +4,10 @@ import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class AdvancedSearchHeaderComponent extends BaseComponent {
     protected WebElement advancedSearchTextHeading;
@@ -41,13 +45,8 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     }
 
     public String getTextSelectionSearchInputField(){
-       return this.getSelectionSearchInputField().getAttribute("innerText");
-    }
-
-    public String getValueAttributeSelectionSearchInputField(){
         return this.getSelectionSearchInputField().getAttribute("value");
     }
-
     public WebElement getSearchIcon(){
         if(searchIcon == null){
             searchIcon=rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]"));

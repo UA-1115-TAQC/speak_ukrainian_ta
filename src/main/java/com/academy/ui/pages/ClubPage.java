@@ -3,38 +3,58 @@ package com.academy.ui.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClubPage extends BasePage {
 
-    protected WebElement signUpForTheGroupButton;
+    @FindBy(xpath = "//span[text()='Записатись на гурток'])")
+    private WebElement signUpForTheGroupButton;
 
-    protected WebElement writeToTheManagerButton;
+    @FindBy(xpath = "//span[text()='Записатись на гурток'])")
+    private WebElement writeToTheManagerButton;
+
+    @FindBy(xpath = "//div[@class='content']")
+    private WebElement content;
+
+    @FindBy(xpath = "//span[@class='club-name']")
+    private WebElement clubName;
+
+    @FindBy(xpath = "//div[@class='tags ']//span[@class='name']")
+    private WebElement categoryClubTag;
+
+    @FindBy(xpath = "//p[@class='show-more-p']")
+    private WebElement showMoreButton;
+
+    @FindBy(xpath = "//div[@class='ant-comment-content-detail']")
+    private List<WebElement> comments;
 
     public ClubPage(WebDriver driver) {
         super(driver);
     }
 
-    public WebElement getSignUpForTheGroupButton() {
-        if (signUpForTheGroupButton == null) {
-            signUpForTheGroupButton = driver.findElement(By.xpath("//span[text()='Записатись на гурток'])"));
-        }
-        return signUpForTheGroupButton;
+    public void clickOnSignUpForTheGroupButton() {
+        signUpForTheGroupButton.click();
     }
 
-    public WebElement getWriteToTheManagerButton() {
-        if (writeToTheManagerButton == null) {
-            writeToTheManagerButton = driver.findElement(By.xpath("//span[text()='Написати менеджеру']"));
-        }
-        return writeToTheManagerButton;
+    public void clickOnWriteToTheManagerButton() {
+        writeToTheManagerButton.click();
     }
 
-    public void clickOnSignUpForTheGroupButton(){
-        this.signUpForTheGroupButton.click();
+    public List<String> getComments() {
+        return comments.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+
     }
 
-    public void clickOnWriteToTheManagerButton(){
-        this.writeToTheManagerButton.click();
+    public void getNameOfTheClub() {
+        clubName.getText();
+
     }
+
 }
 
 

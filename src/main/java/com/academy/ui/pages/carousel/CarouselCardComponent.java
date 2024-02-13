@@ -8,19 +8,19 @@ public class CarouselCardComponent extends BasicCarouselComponent{
   public  CarouselCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
-    protected WebElement CarouselCardHeading;
-  protected WebElement CarouselCardAllClubsButton;
+    protected WebElement carouselCardHeading;
+  protected WebElement carouselCardAllClubsButton;
     public WebElement getCarouselCardHeading(){
-        if(CarouselCardHeading == null){
-            CarouselCardHeading = rootElement.findElement(By.xpath("//div[contains(@class,\"categories-header\")]/h2"));
+        if(carouselCardHeading == null){
+            carouselCardHeading = rootElement.findElement(By.xpath("//div[contains(@class,\"categories-header\")]/h2"));
         }
-        return CarouselCardHeading;
+        return carouselCardHeading;
     }
     public WebElement getCarouselCardAllClubsButton(){
-        if(CarouselCardAllClubsButton == null){
-            CarouselCardAllClubsButton = rootElement.findElement(By.xpath("//div[contains(@class,\"categories-header\")]/a/button"));
+        if(carouselCardAllClubsButton == null){
+            carouselCardAllClubsButton = rootElement.findElement(By.xpath("//div[contains(@class,\"categories-header\")]/a/button"));
         }
-        return CarouselCardAllClubsButton;
+        return carouselCardAllClubsButton;
     }
     public void clickCarouselCardAllClubsButton(){
         this.getCarouselCardAllClubsButton().click();

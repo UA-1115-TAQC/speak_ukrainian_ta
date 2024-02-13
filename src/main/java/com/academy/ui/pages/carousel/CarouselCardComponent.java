@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class CarouselCardComponent extends BasicCarouselComponent{
-  public  CarouselCardComponent(WebDriver driver, WebElement rootElement, String rootElementClass) {
-        super(driver, rootElement, rootElementClass);
+  public  CarouselCardComponent(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
     }
     protected WebElement CarouselCardHeading;
   protected WebElement CarouselCardAllClubsButton;

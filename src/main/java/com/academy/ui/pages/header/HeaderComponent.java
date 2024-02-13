@@ -1,5 +1,6 @@
 package com.academy.ui.pages.header;
 
+import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebElement;
 public class HeaderComponent extends BaseComponent {
     protected WebElement profileMenuButton;
     protected WebElement groupButton;
+    protected WebElement newsButton;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -26,5 +28,17 @@ public class HeaderComponent extends BaseComponent {
 
     public void clickMenu() {
         this.getProfileMenuButton().click();
+    }
+
+    public WebElement getNewsButton() {
+        if (newsButton == null) {
+            newsButton = rootElement.findElement(By.xpath("//a[@href='/news']"));
+        }
+        return newsButton;
+    }
+
+    public AllNewsPage toAllNewsPage() {
+        getNewsButton().click();
+        return new AllNewsPage(driver);
     }
 }

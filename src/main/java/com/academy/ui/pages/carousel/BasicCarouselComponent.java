@@ -10,40 +10,37 @@ import java.util.List;
 import java.util.Objects;
 
 public class BasicCarouselComponent extends BaseComponent {
-    public BasicCarouselComponent(WebDriver driver, WebElement rootElement, String rootElementClass ) {
+    public BasicCarouselComponent(WebDriver driver, WebElement rootElement ) {
         super(driver, rootElement);
-        this.rootElementClass = rootElementClass ;
     }
-    protected String rootElementClass;
-    protected WebElement LeftArrowButton;
-    protected WebElement RightArrowButton;
-    protected List<WebElement> SlickDots;
-    protected WebElement SliderContainer;
+    protected WebElement leftArrowButton;
+    protected WebElement rightArrowButton;
+    protected List<WebElement> slickDots;
+    protected WebElement sliderContainer;
     public WebElement getLeftArrowButton() {
-        if (LeftArrowButton == null) {
-            System.out.println(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-left']", rootElementClass));
-            LeftArrowButton = rootElement.findElement(By.xpath(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-left']", rootElementClass)));
+        if (leftArrowButton == null) {
+            leftArrowButton = rootElement.findElement(By.xpath(".//span[contains(@aria-label, 'arrow-left')]"));
         }
-        return LeftArrowButton;
+        return leftArrowButton;
     }
     public void clickLeftArrowButton() {
         this.getLeftArrowButton().click();
     }
     public WebElement getRightArrowButton() {
-        if (RightArrowButton == null) {
-            RightArrowButton = rootElement.findElement(By.xpath(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-right']", rootElementClass)));
+        if (rightArrowButton == null) {
+            rightArrowButton = rootElement.findElement(By.xpath(".//span[contains(@aria-label, 'arrow-right')]"));
         }
-        return RightArrowButton;
+        return rightArrowButton;
     }
     public void clickRightArrowButton () {
         this.getRightArrowButton().click();
     }
     public List<WebElement> getSlickDots () {
-        if (SlickDots == null) {
-            SlickDots = new ArrayList<>();
-            SlickDots.addAll(rootElement.findElements(By.xpath("//ul[contains(@class,\"slick-dots\")]/li")));
+        if (slickDots == null) {
+            slickDots = new ArrayList<>();
+            slickDots.addAll(rootElement.findElements(By.xpath(".//ul[contains(@class,\"slick-dots\")]/li")));
         }
-        return SlickDots;
+        return slickDots;
     }
     public WebElement getSlickDotByIndex (int index){
         if(index >=0 && index < this.getSlickDots().size()) {
@@ -67,10 +64,10 @@ public class BasicCarouselComponent extends BaseComponent {
         this.getActiveSlickDot().click();
     }
     public WebElement getSliderContainer () {
-        if (SliderContainer == null) {
-            SliderContainer = rootElement.findElement(By.xpath("//div[contains(@class,\"slick-slider\")]"));
+        if (sliderContainer == null) {
+            sliderContainer = rootElement.findElement(By.xpath(".//div[contains(@class,\"slick-slider\")]"));
         }
-        return SliderContainer;
+        return sliderContainer;
     }
     }
 

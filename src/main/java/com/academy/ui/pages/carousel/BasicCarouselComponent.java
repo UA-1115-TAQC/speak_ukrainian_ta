@@ -10,19 +10,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class BasicCarouselComponent extends BaseComponent {
-    public BasicCarouselComponent(WebDriver driver, WebElement rootElement, String rootElementClass ) {
+    public BasicCarouselComponent(WebDriver driver, WebElement rootElement ) {
         super(driver, rootElement);
-        this.rootElementClass = rootElementClass ;
     }
-    protected String rootElementClass;
     protected WebElement LeftArrowButton;
     protected WebElement RightArrowButton;
     protected List<WebElement> SlickDots;
     protected WebElement SliderContainer;
     public WebElement getLeftArrowButton() {
         if (LeftArrowButton == null) {
-            System.out.println(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-left']", rootElementClass));
-            LeftArrowButton = rootElement.findElement(By.xpath(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-left']", rootElementClass)));
+            LeftArrowButton = rootElement.findElement(By.xpath(".//span[contains(@aria-label, 'arrow-left')]"));
         }
         return LeftArrowButton;
     }
@@ -31,7 +28,7 @@ public class BasicCarouselComponent extends BaseComponent {
     }
     public WebElement getRightArrowButton() {
         if (RightArrowButton == null) {
-            RightArrowButton = rootElement.findElement(By.xpath(String.format("//div[contains(@class,'%s')]/span[@aria-label='arrow-right']", rootElementClass)));
+            RightArrowButton = rootElement.findElement(By.xpath(".//span[contains(@aria-label, 'arrow-right')]"));
         }
         return RightArrowButton;
     }
@@ -41,7 +38,7 @@ public class BasicCarouselComponent extends BaseComponent {
     public List<WebElement> getSlickDots () {
         if (SlickDots == null) {
             SlickDots = new ArrayList<>();
-            SlickDots.addAll(rootElement.findElements(By.xpath("//ul[contains(@class,\"slick-dots\")]/li")));
+            SlickDots.addAll(rootElement.findElements(By.xpath(".//ul[contains(@class,\"slick-dots\")]/li")));
         }
         return SlickDots;
     }
@@ -68,7 +65,7 @@ public class BasicCarouselComponent extends BaseComponent {
     }
     public WebElement getSliderContainer () {
         if (SliderContainer == null) {
-            SliderContainer = rootElement.findElement(By.xpath("//div[contains(@class,\"slick-slider\")]"));
+            SliderContainer = rootElement.findElement(By.xpath(".//div[contains(@class,\"slick-slider\")]"));
         }
         return SliderContainer;
     }

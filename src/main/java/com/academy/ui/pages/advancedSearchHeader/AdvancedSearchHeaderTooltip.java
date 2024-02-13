@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.HashMap;
 import java.util.List;
 
-public class AdvancedSearchTooltip extends BaseComponent {
+public class AdvancedSearchHeaderTooltip extends BaseComponent {
     protected WebElement categoryNameCategories;
     protected WebElement categoryNameClubs;
 
@@ -16,7 +16,7 @@ public class AdvancedSearchTooltip extends BaseComponent {
     protected HashMap<String, WebElement>  clubs;
 
 
-    public AdvancedSearchTooltip(WebDriver driver, WebElement rootElement) {
+    public AdvancedSearchHeaderTooltip(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
 
     }

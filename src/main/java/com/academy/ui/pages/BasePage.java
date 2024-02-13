@@ -1,7 +1,5 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.pages.advancedSearchHeader.AdvancedSearchHeaderComponent;
-import com.academy.ui.pages.advancedSearchHeader.AdvancedSearchTooltip;
 import com.academy.ui.pages.header.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

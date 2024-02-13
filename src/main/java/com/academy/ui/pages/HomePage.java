@@ -60,14 +60,10 @@ public class HomePage extends BasePageWithAdvancedSearch {
         this.getSpeakingClubHeading().click();
     }
 
-    public WebElement getSpeakingClubImage() {
+  public WebElement getSpeakingClubImage() {
         if (SpeakingClubImage == null) {
             SpeakingClubImage = driver.findElement(By.xpath("//img[contains(@class,\"banner-image\")]"));
         }
         return SpeakingClubImage;
-    }
-
-    public void clickSpeakingClubImage() {
-        this.getSpeakingClubImage().click();
     }
 }

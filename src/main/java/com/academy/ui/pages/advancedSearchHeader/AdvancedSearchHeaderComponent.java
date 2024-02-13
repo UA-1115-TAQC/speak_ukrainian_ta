@@ -4,10 +4,6 @@ import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class AdvancedSearchHeaderComponent extends BaseComponent {
     protected WebElement advancedSearchTextHeading;
@@ -15,7 +11,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     protected WebElement selectionSearchInputFieldPlaceholder;
     protected WebElement searchIcon;
     protected WebElement advancedSearchIcon;
-    protected AdvancedSearchTooltip advancedSearchTooltip;
+    protected AdvancedSearchHeaderTooltip advancedSearchHeaderTooltip;
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -62,14 +58,14 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     }
     public void clickSelectionSearchInputField(){
             this.getSelectionSearchInputField().click();
-            if(advancedSearchTooltip == null){
+            if(advancedSearchHeaderTooltip == null){
                 WebElement node = driver.findElement(By.xpath("//div[contains(@class, \"rc-virtual-list-holder-inner\")]"));
-                advancedSearchTooltip = new AdvancedSearchTooltip(driver, node);
+                advancedSearchHeaderTooltip = new AdvancedSearchHeaderTooltip(driver, node);
             }
     }
 
-    public AdvancedSearchTooltip getAdvancedSearchTooltip() {
-        return advancedSearchTooltip;
+    public AdvancedSearchHeaderTooltip getAdvancedSearchHeaderTooltip() {
+        return advancedSearchHeaderTooltip;
     }
 
     public void clickSearchIcon(){

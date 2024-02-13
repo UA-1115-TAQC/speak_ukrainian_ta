@@ -1,5 +1,4 @@
 package com.academy.ui.pages;
-
 import com.academy.ui.pages.carousel.CarouselCardComponent;
 import com.academy.ui.pages.carousel.CarouselImgComponent;
 import com.academy.ui.pages.header.HeaderComponent;

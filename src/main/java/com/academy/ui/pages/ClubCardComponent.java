@@ -3,12 +3,15 @@ package com.academy.ui.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chromium.ChromiumDriver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClubCardComponent extends BaseComponent {
     protected WebElement title;
-    protected List<WebElement> directions;
+    protected List<DirectionTagComponent> directionTags;
     protected WebElement description;
     protected WebElement rating;
     protected WebElement address;
@@ -30,12 +33,16 @@ public class ClubCardComponent extends BaseComponent {
         getTitle().click();
     }
 
-    public List<WebElement> getDirections(){
-        if(directions == null){
-            directions = rootElement.findElements(By.xpath(
+    public List<DirectionTagComponent> getDirections(){
+        if(directionTags == null){
+            directionTags = new ArrayList<>();
+            List<WebElement> tags = rootElement.findElements(By.xpath(
                    ".//descendant::span[contains(@class,'ant-tag')]"));
+            for(WebElement tag : tags){
+                directionTags.add(new DirectionTagComponent(driver, tag));
+            }
         }
-        return directions;
+        return directionTags;
     }
 
     public WebElement getDescription(){

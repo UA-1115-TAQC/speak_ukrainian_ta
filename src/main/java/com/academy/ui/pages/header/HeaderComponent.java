@@ -5,6 +5,10 @@ import com.academy.ui.pages.popups.AddClubPopUpComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class HeaderComponent extends BaseComponent {
@@ -41,6 +45,8 @@ public class HeaderComponent extends BaseComponent {
     }
 
     public void addClubButtonClick() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(@class,'avatarIfLogin')]")));
         getAddClubButton().click();
         addClubPopUp = getAddClubPopUp();
     }

@@ -37,7 +37,7 @@ public class HeaderComponent extends BaseComponent {
         return newsButton;
     }
 
-    public AllNewsPage toAllNewsPage() {
+    public AllNewsPage newsButtonClick() {
         getNewsButton().click();
         return new AllNewsPage(driver);
     }

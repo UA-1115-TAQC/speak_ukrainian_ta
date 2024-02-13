@@ -2,20 +2,17 @@ package com.academy.ui.pages;
 
 import com.academy.ui.pages.component.ClubCardLineComponent;
 import com.academy.ui.pages.component.NewsCardComponent;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
+import com.academy.ui.pages.component.PaginationComponent;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.openqa.selenium.WebDriver;
 
 import static org.openqa.selenium.By.xpath;
 
 public class AllNewsPage extends BasePage {
     private List<NewsCardComponent> newsCardComponents;
     private List<ClubCardLineComponent> clubCardLineComponents;
-    private List<WebElement> newsPages;
-    private WebElement previousPageArrow;
-    private WebElement nextPageArrow;
+    private PaginationComponent paginationComponent;
 
     public AllNewsPage(WebDriver driver) {
         super(driver);
@@ -35,15 +32,10 @@ public class AllNewsPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public List<WebElement> getNewsPages() {
-        return newsPages = driver.findElements(xpath(".//li[contains(@class, 'ant-pagination-item-')]"));
-    }
-
-    public WebElement getPreviousPageArrow() {
-        return previousPageArrow = driver.findElement(xpath("//li[contains(@title, 'Previous')]"));
-    }
-
-    public WebElement getNextPageArrow() {
-        return nextPageArrow = driver.findElement(xpath("//li[contains(@title, 'Next')]"));
+    public PaginationComponent getPaginationComponent() {
+        if (paginationComponent == null) {
+            paginationComponent = new PaginationComponent(driver);
+        }
+        return paginationComponent;
     }
 }

@@ -3,8 +3,6 @@ package com.academy.ui.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chromium.ChromiumDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +30,5 @@ public class ClubsPage extends BasePage{
     public List<ClubCardComponent> getClubCards(){
         return clubCards;
     }
-    
+
 }

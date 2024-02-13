@@ -2,15 +2,17 @@ package com.academy.ui.pages;
 
 import com.academy.ui.pages.component.ClubCardLineComponent;
 import com.academy.ui.pages.component.NewsCardComponent;
-import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.By.xpath;
 
 public class AllNewsPage extends BasePage {
-    private NewsCardComponent newsCardComponent;
-    private ClubCardLineComponent clubCardLineComponent;
+    private List<NewsCardComponent> newsCardComponents;
+    private List<ClubCardLineComponent> clubCardLineComponents;
     private List<WebElement> newsPages;
     private WebElement previousPageArrow;
     private WebElement nextPageArrow;
@@ -19,20 +21,20 @@ public class AllNewsPage extends BasePage {
         super(driver);
     }
 
-    public NewsCardComponent getNewsCardComponent() {
-        if (newsCardComponent == null) {
-            WebElement node = driver.findElement(xpath("(//div[@id = 'newsContainer'])[1]"));
-            newsCardComponent = new NewsCardComponent(driver, node);
-        }
-        return newsCardComponent;
+    public List<NewsCardComponent> getNewsCardComponents() {
+        newsCardComponents = driver.findElements(xpath("//div[@id = 'newsContainer']"))
+                .stream()
+                .map(webElement -> new NewsCardComponent(driver, webElement))
+                .collect(Collectors.toList());
+        return newsCardComponents;
     }
 
-    public ClubCardLineComponent getClubCardLineComponent() {
-        if (clubCardLineComponent == null) {
-            WebElement node = driver.findElement(xpath("(//div[contains(@class, 'ant-card')])[1]"));
-            clubCardLineComponent = new ClubCardLineComponent(driver, node);
-        }
-        return clubCardLineComponent;
+    public List<ClubCardLineComponent> getClubCardLineComponents() {
+        clubCardLineComponents = driver.findElements(xpath("//div[contains(@class, 'ant-card')]"))
+                .stream()
+                .map(webElement -> new ClubCardLineComponent(driver, webElement))
+                .collect(Collectors.toList());
+        return clubCardLineComponents;
     }
 
     public List<WebElement> getNewsPages() {

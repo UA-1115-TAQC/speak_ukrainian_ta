@@ -22,39 +22,28 @@ public class AllNewsPage extends BasePage {
     }
 
     public List<NewsCardComponent> getNewsCardComponents() {
-        newsCardComponents = driver.findElements(xpath("//div[@id = 'newsContainer']"))
+        return newsCardComponents = driver.findElements(xpath("//div[@id = 'newsContainer']"))
                 .stream()
                 .map(webElement -> new NewsCardComponent(driver, webElement))
                 .collect(Collectors.toList());
-        return newsCardComponents;
     }
 
     public List<ClubCardLineComponent> getClubCardLineComponents() {
-        clubCardLineComponents = driver.findElements(xpath("//div[contains(@class, 'ant-card')]"))
+        return clubCardLineComponents = driver.findElements(xpath("//div[contains(@class, 'ant-card')]"))
                 .stream()
                 .map(webElement -> new ClubCardLineComponent(driver, webElement))
                 .collect(Collectors.toList());
-        return clubCardLineComponents;
     }
 
     public List<WebElement> getNewsPages() {
-        if (newsPages == null) {
-            newsPages = driver.findElements(xpath(".//li[contains(@class, 'ant-pagination-item-')]"));
-        }
-        return newsPages;
+        return newsPages = driver.findElements(xpath(".//li[contains(@class, 'ant-pagination-item-')]"));
     }
 
     public WebElement getPreviousPageArrow() {
-        if (previousPageArrow == null) {
-            previousPageArrow = driver.findElement(xpath("//li[contains(@title, 'Previous')]"));
-        }
-        return previousPageArrow;
+        return previousPageArrow = driver.findElement(xpath("//li[contains(@title, 'Previous')]"));
     }
 
     public WebElement getNextPageArrow() {
-        if (nextPageArrow == null) {
-            nextPageArrow = driver.findElement(xpath("//li[contains(@title, 'Next')]"));
-        }
-        return nextPageArrow;
+        return nextPageArrow = driver.findElement(xpath("//li[contains(@title, 'Next')]"));
     }
 }

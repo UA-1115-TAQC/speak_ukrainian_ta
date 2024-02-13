@@ -13,6 +13,9 @@ public class ClubDirectionCard {
     protected WebElement clubCardText;
     protected WebElement clubCardButton;
     protected WebElement clubCardButtonPointer;
+    public WebElement getRootCard(){
+        return rootCard;
+    }
     public WebElement getClubCardImage(){
         if(clubCardImage ==null){
             clubCardImage = rootCard.findElement(By.xpath(".//div[contains(@class,\"icon-box\")]/img"));

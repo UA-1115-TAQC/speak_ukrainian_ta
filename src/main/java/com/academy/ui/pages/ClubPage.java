@@ -1,6 +1,5 @@
 package com.academy.ui.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -44,15 +43,12 @@ public class ClubPage extends BasePage {
     }
 
     public List<String> getComments() {
-        return comments.stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        return comments.stream().map(WebElement::getText).collect(Collectors.toList());
 
     }
 
-    public void getNameOfTheClub() {
-        clubName.getText();
-
+    public String getNameOfTheClub() {
+        return clubName.getText();
     }
 
 }

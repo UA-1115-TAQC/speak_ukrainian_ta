@@ -1,4 +1,4 @@
-package com.academy.ui.pages.carousel;
+package com.academy.ui.components.carousel;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

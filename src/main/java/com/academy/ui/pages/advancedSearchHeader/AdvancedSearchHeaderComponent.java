@@ -1,13 +1,9 @@
 package com.academy.ui.pages.advancedSearchHeader;
 
-import com.academy.ui.pages.BaseComponent;
+import com.academy.ui.components.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class AdvancedSearchHeaderComponent extends BaseComponent {
     protected WebElement advancedSearchTextHeading;
@@ -16,6 +12,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     protected WebElement searchIcon;
     protected WebElement advancedSearchIcon;
     protected AdvancedSearchTooltip advancedSearchTooltip;
+
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -33,6 +30,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
         }
         return selectionSearchInputField;
     }
+
     public WebElement getSelectionSearchInputFieldPlaceholder() {
         if (selectionSearchInputFieldPlaceholder == null) {
             selectionSearchInputFieldPlaceholder = rootElement.findElement(By.xpath("//span[@class='ant-select-selection-placeholder']"));
@@ -40,42 +38,45 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
         return selectionSearchInputFieldPlaceholder;
     }
 
-    public void setTextSelectionSearchInputField(String text){
+    public void setTextSelectionSearchInputField(String text) {
         this.getSelectionSearchInputField().sendKeys(text);
     }
 
-    public String getTextSelectionSearchInputField(){
+    public String getTextSelectionSearchInputField() {
         return this.getSelectionSearchInputField().getAttribute("value");
     }
-    public WebElement getSearchIcon(){
-        if(searchIcon == null){
-            searchIcon=rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]"));
+
+    public WebElement getSearchIcon() {
+        if (searchIcon == null) {
+            searchIcon = rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]"));
         }
         return searchIcon;
     }
 
-    public WebElement getAdvancedSearchIcon(){
-        if(advancedSearchIcon == null){
-            advancedSearchIcon=rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"control\"]"));
+    public WebElement getAdvancedSearchIcon() {
+        if (advancedSearchIcon == null) {
+            advancedSearchIcon = rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"control\"]"));
         }
         return advancedSearchIcon;
     }
-    public void clickSelectionSearchInputField(){
-            this.getSelectionSearchInputField().click();
-            if(advancedSearchTooltip == null){
-                WebElement node = driver.findElement(By.xpath("//div[contains(@class, \"rc-virtual-list-holder-inner\")]"));
-                advancedSearchTooltip = new AdvancedSearchTooltip(driver, node);
-            }
+
+    public void clickSelectionSearchInputField() {
+        this.getSelectionSearchInputField().click();
+        if (advancedSearchTooltip == null) {
+            WebElement node = driver.findElement(By.xpath("//div[contains(@class, \"rc-virtual-list-holder-inner\")]"));
+            advancedSearchTooltip = new AdvancedSearchTooltip(driver, node);
+        }
     }
 
     public AdvancedSearchTooltip getAdvancedSearchTooltip() {
         return advancedSearchTooltip;
     }
 
-    public void clickSearchIcon(){
+    public void clickSearchIcon() {
         this.getSearchIcon().click();
     }
-    public void clickAdvancedSearchIcon(){
+
+    public void clickAdvancedSearchIcon() {
         this.getAdvancedSearchIcon().click();
     }
 

@@ -1,10 +1,10 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FooterComponent extends BaseComponent {
@@ -26,7 +26,7 @@ public class FooterComponent extends BaseComponent {
         return footerLogo;
     }
 
-    public void clickFooterLogo(){
+    public void clickFooterLogo() {
         this.getFooterLogo().click();
     }
 
@@ -39,7 +39,7 @@ public class FooterComponent extends BaseComponent {
 
     public List<WebElement> getFooterSocialLinks() {
         if (footerSocialLinks == null) {
-            footerSocialLinks =  rootElement.findElements(By.xpath("//div[contains(@class,'links')]//a[contains(@href, 'https')]"));
+            footerSocialLinks = rootElement.findElements(By.xpath("//div[contains(@class,'links')]//a[contains(@href, 'https')]"));
         }
         return footerSocialLinks;
     }
@@ -66,7 +66,7 @@ public class FooterComponent extends BaseComponent {
         return footerDonateButton;
     }
 
-    public void clickFooterDonateButton(){
+    public void clickFooterDonateButton() {
         this.getFooterDonateButton().click();
     }
 

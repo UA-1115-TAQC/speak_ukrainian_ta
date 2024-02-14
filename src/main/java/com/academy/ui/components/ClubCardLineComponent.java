@@ -1,6 +1,5 @@
 package com.academy.ui.components;
 
-import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -12,6 +11,7 @@ public class ClubCardLineComponent extends BaseComponent {
     private WebElement clubTags;
     private WebElement clubDescription;
     private WebElement clubLink;
+
     public ClubCardLineComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

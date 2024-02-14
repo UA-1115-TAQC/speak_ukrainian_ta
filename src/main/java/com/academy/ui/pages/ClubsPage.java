@@ -1,16 +1,18 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.AdvancedSearchComponent.AdvancedSearchClubHeaderComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ClubsPage extends BasePage{
+public class ClubsPage extends BasePage {
     private final String SEARCH_CLUB_HEADER_ROOT_XPATH =
             "//div[contains(@class, 'lower-header-box')]";
     private final String SWITCH_PAGINATION_ROOT_XPATH =
             "//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]";
-    private AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    private SwitchPaginationComponent switchPagination;
+    private final AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
+    private final SwitchPaginationComponent switchPagination;
 
     public ClubsPage(WebDriver driver) {
         super(driver);
@@ -21,11 +23,11 @@ public class ClubsPage extends BasePage{
         switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationRootElement);
     }
 
-    public AdvancedSearchClubHeaderComponent getAdvancedSearchClubHeader(){
+    public AdvancedSearchClubHeaderComponent getAdvancedSearchClubHeader() {
         return advancedSearchClubHeader;
     }
 
-    public SwitchPaginationComponent getSwitchPagination(){
+    public SwitchPaginationComponent getSwitchPagination() {
         return switchPagination;
     }
 

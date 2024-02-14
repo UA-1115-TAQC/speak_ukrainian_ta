@@ -1,7 +1,7 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.pages.component.ClubCardLineComponent;
-import com.academy.ui.pages.component.NewsCardComponent;
+import com.academy.ui.components.ClubCardLineComponent;
+import com.academy.ui.components.NewsCardComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 

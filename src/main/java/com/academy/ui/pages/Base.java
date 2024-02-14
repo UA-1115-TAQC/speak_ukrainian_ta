@@ -11,9 +11,6 @@ public abstract class Base {
         PageFactory.initElements(driver, this);
     }
 
-    public void get(String url) {
-        this.driver.get(url);
-    }
 
     public void sleep(long seconds) {
         try {

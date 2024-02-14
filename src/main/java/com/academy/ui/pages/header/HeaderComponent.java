@@ -1,7 +1,7 @@
 package com.academy.ui.pages.header;
 
+import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.AllNewsPage;
-import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

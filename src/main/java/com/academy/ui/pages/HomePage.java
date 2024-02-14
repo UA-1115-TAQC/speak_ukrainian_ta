@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
-import com.academy.ui.pages.carousel.CarouselCardComponent;
-import com.academy.ui.pages.carousel.CarouselImgComponent;
+
+import com.academy.ui.components.carousel.CarouselCardComponent;
+import com.academy.ui.components.carousel.CarouselImgComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +17,7 @@ public class HomePage extends BasePageWithAdvancedSearch {
     protected WebElement speakingClubHeading;
     protected WebElement speakingClubImage;
     protected String challengeDescriptionDivPath = "//div[contains(@class,\"challenge-description\")]";
+
     public HomePage(WebDriver driver) {
         super(driver);
         this.carouselCardComponent = getCarouselCardComponent();
@@ -29,7 +31,8 @@ public class HomePage extends BasePageWithAdvancedSearch {
         }
         return carouselCardComponent;
     }
-    public CarouselImgComponent getCarouselImgComponent(){
+
+    public CarouselImgComponent getCarouselImgComponent() {
         if (carouselImgComponent == null) {
             WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"about-carousel-block\")]"));
             carouselImgComponent = new CarouselImgComponent(driver, node);

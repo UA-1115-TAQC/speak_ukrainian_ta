@@ -1,4 +1,4 @@
-package com.academy.ui.pages;
+package com.academy.ui.components;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

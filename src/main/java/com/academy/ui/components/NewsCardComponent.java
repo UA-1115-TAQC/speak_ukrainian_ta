@@ -1,6 +1,5 @@
 package com.academy.ui.components;
 
-import com.academy.ui.pages.BaseComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,6 +10,7 @@ public class NewsCardComponent extends BaseComponent {
     private WebElement newsCardData;
     private WebElement newsCardTitle;
     private WebElement newsCardLink;
+
     public NewsCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

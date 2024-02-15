@@ -12,13 +12,10 @@ import org.openqa.selenium.support.FindBy;
 
 @Getter
 public class HomePage extends BasePageWithAdvancedSearch {
-    protected LanguageSphereFacebookPage languageSphereFacebookPage;
-    protected ChallengeUkrainianClubSpeakPage challengeUkrainianClubSpeakPage;
-    protected ChallengeTeachInUkrainian challengeTeachInUkrainian;
     public CarouselImgComponent carouselImgComponent;
+    public CarouselCardComponent carouselCardComponent;
     @FindBy(xpath="//div[contains(@class,\"about-carousel-block\")]")
     protected WebElement carouselImgComponentWebElement;
-    public CarouselCardComponent carouselCardComponent;
     @FindBy(xpath="//div[contains(@class,\"categories-carousel-block\")]")
     protected WebElement carouselCardComponentWebElement;
     @FindBy(xpath= CHALLENGE_DESCRIPTION_PATH + "/h2")
@@ -53,21 +50,15 @@ public class HomePage extends BasePageWithAdvancedSearch {
                 carouselImgComponent;
     }
     public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
-        this.challengeFindOutMoreButton.click();
-        return challengeTeachInUkrainian == null ?
-                challengeTeachInUkrainian = new ChallengeTeachInUkrainian(driver) :
-                challengeTeachInUkrainian;
+        this.getChallengeFindOutMoreButton().click();
+        return  new ChallengeTeachInUkrainian(driver);
     }
     public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
-        this.speakingClubHeading.click();
-        return challengeUkrainianClubSpeakPage ==null ?
-                challengeUkrainianClubSpeakPage = new ChallengeUkrainianClubSpeakPage(driver) :
-                challengeUkrainianClubSpeakPage;
+        this.getSpeakingClubHeading().click();
+        return new ChallengeUkrainianClubSpeakPage(driver);
     }
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
-        this.speakingClubImage.click();
-        return languageSphereFacebookPage ==null ?
-                languageSphereFacebookPage = new LanguageSphereFacebookPage(driver) :
-                languageSphereFacebookPage;
+        this.getSpeakingClubImage().click();
+        return new LanguageSphereFacebookPage(driver);
     }
 }

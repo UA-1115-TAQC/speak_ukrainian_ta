@@ -74,8 +74,9 @@ public class ClubCardComponent extends BaseComponent {
         return detailsButton;
     }
 
-    public void clickDetailsButton() {
+    public ClubPage clickDetailsButton() {
         getDetailsButton().click();
+        return new ClubPage(driver);
     }
 
 }

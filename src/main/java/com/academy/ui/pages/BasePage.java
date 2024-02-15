@@ -14,7 +14,6 @@ public abstract class BasePage extends Base {
     public HeaderComponent header;
     protected String currentTabHandle;
     protected ArrayList<String> tabHandles;
-    protected String currentUrl;
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();

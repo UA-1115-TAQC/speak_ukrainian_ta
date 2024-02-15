@@ -8,16 +8,16 @@ public class CarouselImgCard {
         this.rootImgCard = rootImgCard;
     }
     protected WebElement rootImgCard;
-    protected WebElement BackgroundImage;
+    protected WebElement backgroundImage;
     protected WebElement cardHeading;
     protected WebElement cardText;
-    protected WebElement CardButton;
+    protected WebElement cardButton;
 
     public WebElement getBackgroundImage() {
-        if(BackgroundImage == null){
-            BackgroundImage = rootImgCard.findElement(By.xpath(".//div[@class=\"carousel-item\"]"));
+        if(backgroundImage == null){
+            backgroundImage = rootImgCard.findElement(By.xpath(".//div[@class=\"carousel-item\"]"));
         }
-        return BackgroundImage;
+        return backgroundImage;
     }
     public WebElement getCardHeading(){
         if(cardHeading==null){
@@ -32,10 +32,10 @@ public class CarouselImgCard {
         return cardText;
     }
     public WebElement getCardButton(){
-        if(CardButton == null){
-            CardButton = rootImgCard.findElement(By.xpath(".//a"));
+        if(cardButton == null){
+            cardButton = rootImgCard.findElement(By.xpath(".//a"));
         }
-        return CardButton;
+        return cardButton;
     }
     public void clickCardButton(){
         this.getCardButton().click();

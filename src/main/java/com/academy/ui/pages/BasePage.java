@@ -1,5 +1,6 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.header.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,9 +15,11 @@ public abstract class BasePage extends Base {
     public HeaderComponent header;
     protected String currentTabHandle;
     protected ArrayList<String> tabHandles;
+    public FooterComponent footer;
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();
+        this.footer = getFooter();
     }
 
     public HeaderComponent getHeader() {
@@ -40,10 +43,17 @@ public abstract class BasePage extends Base {
     public boolean checkThatAPageIsOpenedInANewTab(String previousHandle, String newHandle){
         return (Objects.equals(previousHandle, newHandle)) && (getTabHandles().size() == 2);
     }
-    public void switchToANewTabByItsIndex(int index){
-        if(index >= 0 && index < getTabHandles().size()){
+    public void switchToANewTabByItsIndex(int index) {
+        if (index >= 0 && index < getTabHandles().size()) {
             driver.switchTo().window(getTabHandles().get(index));
         }
-        throw new Error("The index must be in the range from 0 to " + (getTabHandles().size()-1)+", inclusive");
+        throw new Error("The index must be in the range from 0 to " + (getTabHandles().size() - 1) + ", inclusive");
+    }
+    public FooterComponent getFooter(){
+        if (footer == null) {
+            WebElement node = driver.findElement(By.xpath(".//footer"));
+            footer = new FooterComponent(driver, node);
+        }
+        return footer;
     }
 }

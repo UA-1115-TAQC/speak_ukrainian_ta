@@ -1,6 +1,6 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.pages.advancedSearchHeader.AdvancedSearchHeaderComponent;
+import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

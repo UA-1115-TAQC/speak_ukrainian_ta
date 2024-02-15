@@ -73,18 +73,21 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         clubNameInput.sendKeys(name);
     }
 
-    public void selectCategory(int index) {
+    public AddClubPopUpStepOne selectCategory(int index) {
         if (index >= 0 && index < categoriesCheckboxList.size()) {
             categoriesCheckboxList.get(index).click();
         }
+        return this;
     }
 
-    public void setMinAgeInput(String age) {
+    public AddClubPopUpStepOne setMinAgeInput(String age) {
         minAgeInput.sendKeys(age);
+        return this;
     }
 
-    public void setMaxAgeInput(String age) {
+    public AddClubPopUpStepOne setMaxAgeInput(String age) {
         maxAgeInput.sendKeys(age);
+        return this;
     }
 
     public void clickCenterSelect(){

@@ -2,15 +2,13 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.header.HeaderComponent;
-import com.academy.ui.pages.header.LoginPopupComponent;
+import com.academy.ui.components.LoginPopupComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public abstract class BasePage extends Base {
     public HeaderComponent header;
-    public LoginPopupComponent loginPopupComponent;
-
     public FooterComponent footer;
 
     public BasePage(WebDriver driver) {

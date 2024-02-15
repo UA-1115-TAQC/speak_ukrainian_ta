@@ -1,5 +1,6 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.BaseComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,67 +20,61 @@ public class ClubCardComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-    public WebElement getTitle(){
+    public WebElement getTitle() {
         if (title == null) {
-            title = rootElement.findElement(By.xpath(
-                    ".//descendant::div[contains(@class,'title')]"));
+            title = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'title')]"));
         }
         return title;
     }
 
-    public void clickTitle(){
+    public void clickTitle() {
         getTitle().click();
     }
 
-    public List<DirectionTagComponent> getDirections(){
-        if(directionTags == null){
+    public List<DirectionTagComponent> getDirections() {
+        if (directionTags == null) {
             directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(
-                   ".//descendant::span[contains(@class,'ant-tag')]"));
-            for(WebElement tag : tags){
+            List<WebElement> tags = rootElement.findElements(By.xpath(".//descendant::span[contains(@class,'ant-tag')]"));
+            for (WebElement tag : tags) {
                 directionTags.add(new DirectionTagComponent(driver, tag));
             }
         }
         return directionTags;
     }
 
-    public WebElement getDescription(){
+    public WebElement getDescription() {
         if (description == null) {
-            description = rootElement.findElement(By.xpath(
-                    ".//descendant::p[contains(@class,'description')]"));
+            description = rootElement.findElement(By.xpath(".//descendant::p[contains(@class,'description')]"));
         }
         return description;
     }
 
-    public WebElement getRating(){
+    public WebElement getRating() {
         if (rating == null) {
-            rating = rootElement.findElement(By.xpath(
-                    ".//descendant::ul[contains(@class,'rating')]"));
+            rating = rootElement.findElement(By.xpath(".//descendant::ul[contains(@class,'rating')]"));
         }
         return rating;
     }
 
-    public WebElement getAddress(){
+    public WebElement getAddress() {
         if (address == null) {
-            address = rootElement.findElement(By.xpath(
-                    ".//descendant::div[contains(@class,'address')]"));
+            address = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'address')]"));
         }
         return address;
     }
 
-    public void clickAddress(){
+    public void clickAddress() {
         getAddress().click();
     }
 
-    public WebElement getDetailsButton(){
+    public WebElement getDetailsButton() {
         if (detailsButton == null) {
-            detailsButton = rootElement.findElement(By.xpath(
-                    ".//descendant::a[contains(@class,'details-button')]"));
+            detailsButton = rootElement.findElement(By.xpath(".//descendant::a[contains(@class,'details-button')]"));
         }
         return detailsButton;
     }
 
-    public void clickDetailsButton(){
+    public void clickDetailsButton() {
         getDetailsButton().click();
     }
 

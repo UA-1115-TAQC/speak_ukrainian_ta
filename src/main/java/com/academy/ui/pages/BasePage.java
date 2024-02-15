@@ -1,5 +1,6 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.header.HeaderComponent;
 import com.academy.ui.pages.header.LoginPopupComponent;
 import org.openqa.selenium.By;
@@ -10,10 +11,12 @@ public abstract class BasePage extends Base {
     public HeaderComponent header;
     public LoginPopupComponent loginPopupComponent;
 
+    public FooterComponent footer;
+
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();
-        this.loginPopupComponent = getLogonPopupComponent();
+        this.footer = getFooter();
     }
 
     public HeaderComponent getHeader() {
@@ -24,15 +27,15 @@ public abstract class BasePage extends Base {
         return header;
     }
 
-    public LoginPopupComponent getLogonPopupComponent() {
-        if (loginPopupComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class, 'right-side-menu')]"));
-            loginPopupComponent = new LoginPopupComponent(driver, node);
-        }
-        return loginPopupComponent;
-    }
-
     public void openURL(String url) {
         driver.get(url);
+    }
+
+    public FooterComponent getFooter() {
+        if (footer == null) {
+            WebElement node = driver.findElement(By.xpath(".//footer"));
+            footer = new FooterComponent(driver, node);
+        }
+        return footer;
     }
 }

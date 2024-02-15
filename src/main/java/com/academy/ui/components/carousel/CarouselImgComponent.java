@@ -1,5 +1,6 @@
 package com.academy.ui.components.carousel;
 
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
-
+@Getter
 public class CarouselImgComponent extends BasicCarouselComponent {
     protected HashMap<Integer, WebElement> switchingCarouselImgCards;
     public  CarouselImgComponent(WebDriver driver, WebElement rootElement) {
@@ -33,7 +34,7 @@ public class CarouselImgComponent extends BasicCarouselComponent {
             WebElement imgCard = this.getCarouselImgCards().get(dataIndex);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
             wait.until(ExpectedConditions.visibilityOf(imgCard));
-            return new CarouselImgCard(imgCard);
+            return new CarouselImgCard(driver, imgCard);
         }
         throw new IllegalArgumentException("The index must be in the range from 0 to "+(getCarouselImgCards().size()-1)+", inclusive.");
     }
@@ -45,6 +46,6 @@ public class CarouselImgComponent extends BasicCarouselComponent {
             }
 
         }
-        return new CarouselImgCard( this.getCarouselImgCards().get(dataIndex));
+        return new CarouselImgCard( driver, this.getCarouselImgCards().get(dataIndex));
     }
 }

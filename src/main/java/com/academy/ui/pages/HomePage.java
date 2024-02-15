@@ -2,6 +2,8 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
+import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,8 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class HomePage extends BasePageWithAdvancedSearch {
     protected LanguageSphereFacebookPage languageSphereFacebookPage;
+    protected ChallengeUkrainianClubSpeakPage challengeUkrainianClubSpeakPage;
+    protected ChallengeTeachInUkrainian challengeTeachInUkrainian;
     public CarouselImgComponent carouselImgComponent;
     @FindBy(xpath="//div[contains(@class,\"about-carousel-block\")]")
     protected WebElement carouselImgComponentWebElement;
@@ -38,25 +42,32 @@ public class HomePage extends BasePageWithAdvancedSearch {
     }
 
     public CarouselCardComponent getCarouselCardComponent() {
-        return carouselCardComponent == null ? new CarouselCardComponent(driver, carouselCardComponentWebElement):carouselCardComponent;
+        return carouselCardComponent == null ?
+                carouselCardComponent = new CarouselCardComponent(driver, carouselCardComponentWebElement) :
+                carouselCardComponent;
     }
 
     public CarouselImgComponent getCarouselImgComponent() {
-        return carouselImgComponent == null ? new CarouselImgComponent(driver, carouselImgComponentWebElement):carouselImgComponent;
+        return carouselImgComponent == null ?
+                carouselImgComponent = new CarouselImgComponent(driver, carouselImgComponentWebElement) :
+                carouselImgComponent;
     }
-    //has to return a new object
-    public void clickChallengeFindOutMoreButton() {
+    public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
         this.challengeFindOutMoreButton.click();
+        return challengeTeachInUkrainian == null ?
+                challengeTeachInUkrainian = new ChallengeTeachInUkrainian(driver) :
+                challengeTeachInUkrainian;
     }
-    //has to return a new object
-    public void clickSpeakingClubHeading() {
+    public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.speakingClubHeading.click();
-
-
+        return challengeUkrainianClubSpeakPage ==null ?
+                challengeUkrainianClubSpeakPage = new ChallengeUkrainianClubSpeakPage(driver) :
+                challengeUkrainianClubSpeakPage;
     }
-
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
         this.speakingClubImage.click();
-        return languageSphereFacebookPage = new LanguageSphereFacebookPage(driver);
+        return languageSphereFacebookPage ==null ?
+                languageSphereFacebookPage = new LanguageSphereFacebookPage(driver) :
+                languageSphereFacebookPage;
     }
 }

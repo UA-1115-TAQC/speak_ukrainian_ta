@@ -2,21 +2,34 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
-import org.openqa.selenium.By;
+import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-
+@Getter
 public class HomePage extends BasePageWithAdvancedSearch {
-    public CarouselCardComponent carouselCardComponent;
+    protected LanguageSphereFacebookPage languageSphereFacebookPage;
     public CarouselImgComponent carouselImgComponent;
+    @FindBy(xpath="//div[contains(@class,\"about-carousel-block\")]")
+    protected WebElement carouselImgComponentWebElement;
+    public CarouselCardComponent carouselCardComponent;
+    @FindBy(xpath="//div[contains(@class,\"categories-carousel-block\")]")
+    protected WebElement carouselCardComponentWebElement;
+    @FindBy(xpath= CHALLENGE_DESCRIPTION_PATH + "/h2")
     protected WebElement challengeDescriptionHeading;
+    @FindBy(xpath=CHALLENGE_DESCRIPTION_PATH + "/span")
     protected WebElement challengeDescriptionText;
+    @FindBy(xpath=CHALLENGE_DESCRIPTION_PATH +"//button")
     protected WebElement challengeFindOutMoreButton;
+    @FindBy(xpath="//div[contains(@class,\"about-challenge\")]//img")
     protected WebElement challengeImage;
+    @FindBy(xpath="//div[contains(@class,\"speakingclub-description\")]//h2")
     protected WebElement speakingClubHeading;
+    @FindBy(xpath="//img[contains(@class,\"banner-image\")]")
     protected WebElement speakingClubImage;
-    protected String challengeDescriptionDivPath = "//div[contains(@class,\"challenge-description\")]";
+    protected final String  CHALLENGE_DESCRIPTION_PATH = "//div[contains(@class,\"challenge-description\")]";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -25,72 +38,25 @@ public class HomePage extends BasePageWithAdvancedSearch {
     }
 
     public CarouselCardComponent getCarouselCardComponent() {
-        if (carouselCardComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"categories-carousel-block\")]"));
-            carouselCardComponent = new CarouselCardComponent(driver, node);
-        }
-        return carouselCardComponent;
+        return carouselCardComponent == null ? new CarouselCardComponent(driver, carouselCardComponentWebElement):carouselCardComponent;
     }
 
     public CarouselImgComponent getCarouselImgComponent() {
-        if (carouselImgComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"about-carousel-block\")]"));
-            carouselImgComponent = new CarouselImgComponent(driver, node);
-        }
-        return carouselImgComponent;
+        return carouselImgComponent == null ? new CarouselImgComponent(driver, carouselImgComponentWebElement):carouselImgComponent;
     }
-
-    public WebElement getChallengeDescriptionHeading() {
-        if (challengeDescriptionHeading == null) {
-            challengeDescriptionHeading = driver.findElement(By.xpath(challengeDescriptionDivPath + "/h2"));
-        }
-        return challengeDescriptionHeading;
-    }
-
-    public WebElement getChallengeDescriptionText() {
-        if (challengeDescriptionText == null) {
-            challengeDescriptionText = driver.findElement(By.xpath(challengeDescriptionDivPath + "/span"));
-        }
-        return challengeDescriptionText;
-    }
-
-    public WebElement getChallengeFindOutMoreButton() {
-        if (challengeFindOutMoreButton == null) {
-            challengeFindOutMoreButton = driver.findElement(By.xpath(challengeDescriptionDivPath + "//button"));
-        }
-        return challengeFindOutMoreButton;
-    }
-
+    //has to return a new object
     public void clickChallengeFindOutMoreButton() {
-        this.getChallengeFindOutMoreButton().click();
+        this.challengeFindOutMoreButton.click();
     }
-
-    public WebElement getChallengeImage() {
-        if (challengeImage == null) {
-            challengeImage = driver.findElement(By.xpath("//div[contains(@class,\"about-challenge\")]//img"));
-        }
-        return challengeImage;
-    }
-
-    public WebElement getSpeakingClubHeading() {
-        if (speakingClubHeading == null) {
-            speakingClubHeading = driver.findElement(By.xpath("//div[contains(@class,\"speakingclub-description\")]//h2"));
-        }
-        return speakingClubHeading;
-    }
-
+    //has to return a new object
     public void clickSpeakingClubHeading() {
-        this.getSpeakingClubHeading().click();
+        this.speakingClubHeading.click();
+
+
     }
 
-    public WebElement getSpeakingClubImage() {
-        if (speakingClubImage == null) {
-            speakingClubImage = driver.findElement(By.xpath("//img[contains(@class,\"banner-image\")]"));
-        }
-        return speakingClubImage;
-    }
-
-    public void clickSpeakingClubImage() {
-        this.getSpeakingClubImage().click();
+    public LanguageSphereFacebookPage clickSpeakingClubImage(){
+        this.speakingClubImage.click();
+        return languageSphereFacebookPage = new LanguageSphereFacebookPage(driver);
     }
 }

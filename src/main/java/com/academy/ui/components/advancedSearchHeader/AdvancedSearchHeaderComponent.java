@@ -1,4 +1,4 @@
-package com.academy.ui.pages.advancedSearchHeader;
+package com.academy.ui.components.advancedSearchHeader;
 
 import com.academy.ui.components.BaseComponent;
 import org.openqa.selenium.By;

@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 public class ClubPage extends BasePage {
 
-    @FindBy(xpath = "//span[text()='Записатись на гурток'])")
+    @FindBy(xpath = "//span[text()='Записатись на гурток']")
     private WebElement signUpForTheGroupButton;
 
-    @FindBy(xpath = "//span[text()='Записатись на гурток'])")
+    @FindBy(xpath = "//span[text()='Записатись на гурток']")
     private WebElement writeToTheManagerButton;
 
     @FindBy(xpath = "//div[@class='content']")

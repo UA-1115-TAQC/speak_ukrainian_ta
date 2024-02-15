@@ -53,6 +53,6 @@ public class CarouselCardComponent extends BasicCarouselComponent {
     }
 
     public boolean checkThatTheClubDirectionCardObtainedByIndexIsActive(int index) {
-        return getClubDirectionCardByIndex(index).getRootCard().isDisplayed();
+        return getClubDirectionCardByIndex(index).getWebElement().isDisplayed();
     }
 }

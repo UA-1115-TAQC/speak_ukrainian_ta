@@ -68,16 +68,18 @@ public class RegistrationPopupComponent extends BasePopUp {
     public String getRegistrationHeaderText() {
         return registrationHeader.getAttribute("innerText");
     }
-    public void setLastNameInput(String lastName) {
+    public RegistrationPopupComponent setLastNameInput(String lastName) {
         lastNameInput.sendKeys(lastName);
+        return this;
     }
-    public void setFirstNameInput(String firstName) {
+    public RegistrationPopupComponent setFirstNameInput(String firstName) {
         firstNameInput.sendKeys(firstName);
+        return this;
     }
-    public void setEmailInput(String email) { emailInput.sendKeys(email);}
-    public void setPhoneInput(String phone) { phoneInput.sendKeys(phone);}
-    public void setPasswordInput(String password) { passwordInput.sendKeys(password);}
-    public void setPasswordConfirmationInput(String phoneConfirmation) { passwordConfirmationInput.sendKeys(phoneConfirmation);}
+    public RegistrationPopupComponent setEmailInput(String email) { emailInput.sendKeys(email); return this;}
+    public RegistrationPopupComponent setPhoneInput(String phone) { phoneInput.sendKeys(phone); return this;}
+    public RegistrationPopupComponent setPasswordInput(String password) { passwordInput.sendKeys(password); return this;}
+    public RegistrationPopupComponent setPasswordConfirmationInput(String phoneConfirmation) { passwordConfirmationInput.sendKeys(phoneConfirmation); return this;}
 
     public String getLastNameErrorText() {
         return lastNameInputError != null ? lastNameInputError.getAttribute("innerText") : null;
@@ -118,16 +120,19 @@ public class RegistrationPopupComponent extends BasePopUp {
         }
     }
 
-    public void clickSetUserButton() {
+    public RegistrationPopupComponent clickSetUserButton() {
         userTypeButton.click();
+        return this;
     }
 
-    public void clickSetManagerButton() {
+    public RegistrationPopupComponent clickSetManagerButton() {
         managerTypeButton.click();
+        return this;
     }
 
-    public void clickRegisterButton() {
+    public RegistrationPopupComponent clickRegisterButton() {
         registrationButton.click();
+        return this;
     }
 
 }

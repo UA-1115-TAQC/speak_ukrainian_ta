@@ -1,42 +1,24 @@
 package com.academy.ui.components.carousel;
 
+import com.academy.ui.components.BaseComponent;
+import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-public class CarouselImgCard {
-    public CarouselImgCard( WebElement rootImgCard){
-        this.rootImgCard = rootImgCard;
+import org.openqa.selenium.support.FindBy;
+@Getter
+public class CarouselImgCard extends BaseComponent {
+    public CarouselImgCard(WebDriver driver, WebElement rootImgCard){
+        super(driver, rootImgCard);
     }
-    protected WebElement rootImgCard;
+    @FindBy(xpath = ".//div[@class=\"carousel-item\"]")
     protected WebElement backgroundImage;
+    @FindBy(xpath = ".//h2")
     protected WebElement cardHeading;
+    @FindBy(xpath = ".//span[contains(@class,\"description\")]")
     protected WebElement cardText;
+    @FindBy(xpath = ".//a/button")
     protected WebElement cardButton;
-
-    public WebElement getBackgroundImage() {
-        if(backgroundImage == null){
-            backgroundImage = rootImgCard.findElement(By.xpath(".//div[@class=\"carousel-item\"]"));
-        }
-        return backgroundImage;
-    }
-    public WebElement getCardHeading(){
-        if(cardHeading==null){
-            cardHeading = rootImgCard.findElement(By.xpath(".//h2"));
-        }
-        return cardHeading;
-    }
-    public WebElement getCardText(){
-        if(cardText==null){
-            cardText = rootImgCard.findElement(By.xpath(".//span[contains(@class,\"description\")]"));
-        }
-        return cardText;
-    }
-    public WebElement getCardButton(){
-        if(cardButton == null){
-            cardButton = rootImgCard.findElement(By.xpath(".//a"));
-        }
-        return cardButton;
-    }
     public void clickCardButton(){
         this.getCardButton().click();
     }

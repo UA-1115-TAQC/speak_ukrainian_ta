@@ -1,11 +1,14 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Getter
 public class AddClubPopUpComponent extends BasePopUp {
+
     protected static final String CLASS_NAME_ADD_CLUB_POP_UP = "modal-add-club";
     public AddClubPopUpSider sider;
     public AddClubPopUpStepOne stepOneContainer;

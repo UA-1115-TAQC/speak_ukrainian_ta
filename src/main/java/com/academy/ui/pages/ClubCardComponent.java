@@ -1,14 +1,18 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class ClubCardComponent extends BaseComponent {
+    @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
     protected List<DirectionTagComponent> directionTags;
     protected WebElement description;
@@ -20,13 +24,6 @@ public class ClubCardComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-    public WebElement getTitle() {
-        if (title == null) {
-            title = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'title')]"));
-        }
-        return title;
-    }
-
     public void clickTitle() {
         getTitle().click();
     }
@@ -34,7 +31,7 @@ public class ClubCardComponent extends BaseComponent {
     public List<DirectionTagComponent> getDirections() {
         if (directionTags == null) {
             directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(".//descendant::span[contains(@class,'ant-tag')]"));
+            List<WebElement> tags = rootElement.findElements(By.xpath(".//span[contains(@class,'ant-tag')]"));
             for (WebElement tag : tags) {
                 directionTags.add(new DirectionTagComponent(driver, tag));
             }

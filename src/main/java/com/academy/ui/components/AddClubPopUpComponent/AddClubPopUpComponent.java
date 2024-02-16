@@ -1,13 +1,12 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class AddClubPopUpComponent extends BasePopUp {
-    protected static final String classNameAddClubPopUP = "modal-add-club";
+    protected static final String CLASS_NAME_ADD_CLUB_POP_UP = "modal-add-club";
     public AddClubPopUpSider sider;
     public AddClubPopUpStepOne stepOneContainer;
 
@@ -18,7 +17,7 @@ public class AddClubPopUpComponent extends BasePopUp {
     private WebElement stepOneContainerElement;
 
     public AddClubPopUpComponent(WebDriver driver) {
-        super(driver, classNameAddClubPopUP);
+        super(driver, CLASS_NAME_ADD_CLUB_POP_UP);
         this.sider = getSider();
         this.stepOneContainer = getStepOneContainer();
     }

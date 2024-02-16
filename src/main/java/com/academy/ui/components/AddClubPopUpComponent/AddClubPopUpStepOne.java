@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,76 +8,91 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+@Getter
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
-    @FindBy(xpath = "/descendant::input[@id='basic_name']")
-    public WebElement clubNameInput;
+
+    @FindBy(xpath = "./descendant::input[@id='basic_name']")
+    private WebElement clubNameInput;
 
     @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[@role='img']")
-    public WebElement clubNameInputIcon;
+    private WebElement clubNameInputIcon;
 
     @FindBy(xpath = "./ancestor::div[contains(@class,'ant-form-item-control')]/descendant::div[@class='ant-form-item-explain-error']")
-    public WebElement clubNameInputError;
+    private WebElement clubNameInputError;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
-    public WebElement clubInputTitle;
+    private WebElement clubInputTitle;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][2]")
-    public WebElement clubCategoriesTitle;
+    private WebElement clubCategoriesTitle;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][3]")
-    public WebElement clubAgeTitle;
+    private WebElement clubAgeTitle;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][4]")
-    public WebElement clubCenterTitle;
+    private WebElement clubCenterTitle;
 
     @FindBy(xpath = "./descendant::input[@class='ant-checkbox-input']")
-    public List<WebElement> categoriesCheckboxList;
+    private List<WebElement> categoriesCheckboxList;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']")
-    public List<WebElement> checkedCategoriesList;
+    private List<WebElement> checkedCategoriesList;
 
-    @FindBy(xpath = "//ancestor::div[@id='basic_categories_help']/div")
-    public WebElement categoriesError;
+    @FindBy(xpath = "./ancestor::div[@id='basic_categories_help']/div")
+    private WebElement categoriesError;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'add-club-age')]")
-    public WebElement ageComponent;
+    private WebElement ageComponent;
 
     @FindBy(xpath = "./descendant::input[@id='basic_ageFrom']")
-    public WebElement minAgeInput;
+    private WebElement minAgeInput;
+
+    @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][1]")
+    private WebElement minAgeIncreaseButton;
+
+    @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][1]")
+    private WebElement minAgeDecreaseButton;
 
     @FindBy(xpath = "./descendant::input[@id='basic_ageTo']")
-    public WebElement maxAgeInput;
+    private WebElement maxAgeInput;
+
+    @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][2]")
+    private WebElement maxAgeIncreaseButton;
+
+    @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][2]")
+    private WebElement maxAgeDecreaseButton;
 
     @FindBy(xpath = "./descendant::div[@id='basic_ageFrom_help']/div")
-    public WebElement minAgeInputError;
+    private WebElement minAgeInputError;
 
     @FindBy(xpath = "./descendant::div[@id='basic_ageTo_help']/div")
-    public WebElement maxAgeInputError;
+    private WebElement maxAgeInputError;
 
-    @FindBy(xpath = "//input[@id='basic_centerId']")
-    public WebElement centerSelect;
+    @FindBy(xpath = "./descendant::input[@id='basic_centerId']")
+    private WebElement centerSelect;
 
-    @FindBy(xpath = "//ancestor::span[@class='ant-select-selection-search']/following-sibling::span[@class='ant-select-selection-item']")
-    public WebElement centerSelectedTitle;
+    @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
+    private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "//div[@class='ant-select-item-option-content']")
-    public List<WebElement> centersList;
+    @FindBy(xpath = "./ancestor::body/descendant::div[@class='ant-select-item-option-content']")
+    private List<WebElement> centersList;
 
-    @FindBy(xpath = "//button[contains(@class,'add-club-content-next')]")
-    public WebElement nextStepButton;
+    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-next')]")
+    private WebElement nextStepButton;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public void setClubNameInput(String name) {
+    public AddClubPopUpStepOne setClubNameInput(String name) {
         clubNameInput.sendKeys(name);
+        return this;
     }
 
-    public AddClubPopUpStepOne selectCategory(int index) {
-        if (index >= 0 && index < categoriesCheckboxList.size()) {
-            categoriesCheckboxList.get(index).click();
-        }
+    public AddClubPopUpStepOne selectCategory(String value) {
+        categoriesCheckboxList.stream()
+                .filter(category -> category.getAttribute("value").equals(value))
+                .forEach(WebElement::click);
         return this;
     }
 
@@ -90,20 +106,12 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    public void clickCenterSelect(){
-        centerSelect.click();
+    public AddClubPopUpStepOne clickToSelectCenter(String value) {
+        if (centersList == null || centersList.isEmpty()) centerSelect.click();
+        centersList.stream()
+                .filter(center -> (center.getAttribute("innerText").equals(value)))
+                .forEach(WebElement::click);
+        return this;
     }
-
-    public void clickToSelectCenter(int index) {
-        clickCenterSelect();
-        if (index >= 0 && index < centersList.size()) {
-            centersList.get(index).click();
-        }
-    }
-
-    public void clickNextButton() {
-        nextStepButton.click();
-    }
-
 
 }

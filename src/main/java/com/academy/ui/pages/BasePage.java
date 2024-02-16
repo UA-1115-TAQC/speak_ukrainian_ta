@@ -2,7 +2,6 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.header.HeaderComponent;
-import com.academy.ui.components.LoginPopupComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -44,6 +44,7 @@ public class HeaderComponent extends BaseComponent {
     }
 
     public void clickLoginPopUpMenu() {
+        clickMenu();
         loginDropDownMenu.click();
         loginPopupComponent = new LoginPopupComponent(driver);
     }

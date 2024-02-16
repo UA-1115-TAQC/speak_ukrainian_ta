@@ -32,7 +32,7 @@ public abstract class BaseTestRunner {
     @AfterMethod
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
+//            driver.quit();
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.academy.ui.pages.header;
+package com.academy.ui.components.header;
 
-import com.academy.ui.pages.BasePopUp;
+import com.academy.ui.components.BasePopUp;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,8 +36,8 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected WebElement passwordConfirmationInputError;
     protected WebElement registrationButton;
 
-    public RegistrationPopupComponent(WebDriver driver) {
-        super(driver);
+    public RegistrationPopupComponent(WebDriver driver, String CssClasName) {
+        super(driver, CssClasName);
     }
 
     public WebElement getRegistrationHeader() {
@@ -153,6 +153,10 @@ public class RegistrationPopupComponent extends BasePopUp {
         return lastNameInput;
     }
 
+    public void setLastNameInput(String lastName) {
+        getLastNameInput().sendKeys(lastName);
+    }
+
     public WebElement getFirstNameInput() {
         String xpath = "//input[@id='firstName' and @class='ant-input']";
 
@@ -160,6 +164,10 @@ public class RegistrationPopupComponent extends BasePopUp {
             firstNameInput = driver.findElement(By.xpath(xpath));
         }
         return firstNameInput;
+    }
+
+    public void setFirstNameInput(String firstName) {
+        getFirstNameInput().sendKeys(firstName);
     }
 
     public WebElement getPhoneInput() {
@@ -171,6 +179,10 @@ public class RegistrationPopupComponent extends BasePopUp {
         return phoneInput;
     }
 
+    public void setPhoneInput(String phone) {
+        getPhoneInput().sendKeys(phone);
+    }
+
     public WebElement getEmailInput() {
         String xpath = "//input[@id='email' and @class='ant-input']";
 
@@ -178,6 +190,10 @@ public class RegistrationPopupComponent extends BasePopUp {
             emailInput = driver.findElement(By.xpath(xpath));
         }
         return emailInput;
+    }
+
+    public void setEmailInput(String email) {
+        getEmailInput().sendKeys(email);
     }
 
     public WebElement getPasswordInput() {
@@ -189,6 +205,10 @@ public class RegistrationPopupComponent extends BasePopUp {
         return passwordInput;
     }
 
+    public void setPasswordInput(String password) {
+        getPasswordInput().sendKeys(password);
+    }
+
     public WebElement getPasswordConfirmationInput() {
         String xpath = "//input[@id='confirm' and @class='ant-input']";
 
@@ -196,6 +216,10 @@ public class RegistrationPopupComponent extends BasePopUp {
             passwordConfirmationInput = driver.findElement(By.xpath(xpath));
         }
         return passwordConfirmationInput;
+    }
+
+    public void setPasswordConfirmationInput(String phoneConfirmation) {
+        getPhoneInput().sendKeys(phoneConfirmation);
     }
 
     public WebElement getLastNameInputError() {
@@ -246,34 +270,26 @@ public class RegistrationPopupComponent extends BasePopUp {
         return passwordConfirmationInputError;
     }
 
-    public void setLastNameInput(String lastName) {
-        getLastNameInput().sendKeys(lastName);
-    }
-    public void setFirstNameInput(String firstName) {
-        getFirstNameInput().sendKeys(firstName);
-    }
-
-    public void setEmailInput(String email) { getEmailInput().sendKeys(email);}
-    public void setPhoneInput(String phone) { getPhoneInput().sendKeys(phone);}
-
-    public void setPasswordInput(String password) { getPasswordInput().sendKeys(password);}
-    public void setPasswordConfirmationInput(String phoneConfirmation) { getPhoneInput().sendKeys(phoneConfirmation);}
-
     public String getFirstNameInputValue() {
         return getFirstNameInput().getAttribute("value");
     }
+
     public String getLastNameInputValue() {
         return getLastNameInput().getAttribute("value");
     }
+
     public String getPhoneInputValue() {
         return getPhoneInput().getAttribute("value");
     }
+
     public String getEmailInputValue() {
         return getEmailInput().getAttribute("value");
     }
+
     public String getPasswordInputValue() {
         return getPasswordInput().getAttribute("value");
     }
+
     public String getPasswordConfirmationInputValue() {
         return getPasswordConfirmationInput().getAttribute("value");
     }

@@ -1,4 +1,4 @@
-package com.academy.ui.pages.header;
+package com.academy.ui.components.header;
 
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;

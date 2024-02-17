@@ -11,15 +11,6 @@ import java.util.List;
 @Getter
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
-    @FindBy(xpath = "./descendant::input[@id='basic_name']")
-    private WebElement clubNameInput;
-
-    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[@role='img']")
-    private WebElement clubNameInputIcon;
-
-    @FindBy(xpath = "./ancestor::div[contains(@class,'ant-form-item-control')]/descendant::div[@class='ant-form-item-explain-error']")
-    private WebElement clubNameInputError;
-
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubInputTitle;
 
@@ -74,19 +65,17 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "./ancestor::body/descendant::div[@class='ant-select-item-option-content']")
+    @FindBy(xpath = "./ancestor::body//div[@class='ant-select-item-option-content']")
     private List<WebElement> centersList;
 
     @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-next')]")
     private WebElement nextStepButton;
 
+    private InputElement clubNameInputElement;
+
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-    }
-
-    public AddClubPopUpStepOne setClubNameInput(String name) {
-        clubNameInput.sendKeys(name);
-        return this;
+        clubNameInputElement = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='basic_name']")));
     }
 
     public AddClubPopUpStepOne selectCategory(String value) {

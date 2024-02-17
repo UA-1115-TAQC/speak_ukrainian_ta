@@ -15,8 +15,8 @@ public abstract class BasePopUp extends BaseComponent {
     @FindBy(xpath = "//div[contains(@class,'ant-modal-centered') and not(contains(@style,'display'))]/descendant::button[@class='ant-modal-close']")
     private WebElement closeButton;
 
-    public BasePopUp(WebDriver driver, String className) {
-        super(driver, driver.findElement(By.xpath("//div[contains(@class,'" + className + "')]")));
+    public BasePopUp(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
 
     }
     public void waitPopUpOpen(long timeout) {

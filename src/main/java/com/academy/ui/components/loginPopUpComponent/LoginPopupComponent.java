@@ -1,5 +1,6 @@
-package com.academy.ui.components;
+package com.academy.ui.components.loginPopUpComponent;
 
+import com.academy.ui.components.BasePopUp;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +10,6 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class LoginPopupComponent extends BasePopUp {
 
-    private static final String CLASS_NAME = "modal-login";
     @FindBy(xpath = "//div[@class='login-header']")
     private WebElement loginPopUpTitle;
     @FindBy(xpath = "//img[contains(@src, 'google')]")
@@ -43,8 +43,13 @@ public class LoginPopupComponent extends BasePopUp {
     private final String EMAIL_Pattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
             + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    public LoginPopupComponent(WebDriver driver) {
-        super(driver, CLASS_NAME);
+    public LoginPopupComponent(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
+    }
+
+    public RestorationPasswordComponent getRestorationPasswordComponent() {
+        return new RestorationPasswordComponent(driver,
+                rootElement.findElement(By.xpath("//ancestor::body/descendant::div[contains(@class, 'modal-login')][2]")));
     }
 
     public WebElement getSuccessIconForEmail() {
@@ -62,7 +67,6 @@ public class LoginPopupComponent extends BasePopUp {
     }
 
     public WebElement getEmailStatusIcon(String email) {
-        loginInput.sendKeys(email);
         if (isValidEmail(email)) {
             return getSuccessIconForEmail();
         }

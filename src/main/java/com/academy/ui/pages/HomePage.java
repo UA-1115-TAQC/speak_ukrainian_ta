@@ -2,22 +2,36 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
-import org.openqa.selenium.By;
+import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
+import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
+import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-
+@Getter
 public class HomePage extends BasePageWithAdvancedSearch {
-    public CarouselCardComponent carouselCardComponent;
     public CarouselImgComponent carouselImgComponent;
+    public CarouselCardComponent carouselCardComponent;
+    @FindBy(xpath="//div[contains(@class,\"about-carousel-block\")]")
+    protected WebElement carouselImgComponentWebElement;
+    @FindBy(xpath="//div[contains(@class,\"categories-carousel-block\")]")
+    protected WebElement carouselCardComponentWebElement;
+    @FindBy(xpath= CHALLENGE_DESCRIPTION_PATH + "/h2")
     protected WebElement challengeDescriptionHeading;
+    @FindBy(xpath=CHALLENGE_DESCRIPTION_PATH + "/span")
     protected WebElement challengeDescriptionText;
+    @FindBy(xpath=CHALLENGE_DESCRIPTION_PATH +"//button")
     protected WebElement challengeFindOutMoreButton;
+    @FindBy(xpath="//div[contains(@class,\"about-challenge\")]//img")
     protected WebElement challengeImage;
+    @FindBy(xpath="//div[contains(@class,\"speakingclub-description\")]//h2")
     protected WebElement speakingClubHeading;
+    @FindBy(xpath="//img[contains(@class,\"banner-image\")]")
     protected WebElement speakingClubImage;
-    protected String challengeDescriptionDivPath = "//div[contains(@class,\"challenge-description\")]";
-  
+    protected final String  CHALLENGE_DESCRIPTION_PATH = "//div[contains(@class,\"challenge-description\")]";
+
     public HomePage(WebDriver driver) {
         super(driver);
         this.carouselCardComponent = getCarouselCardComponent();
@@ -25,72 +39,26 @@ public class HomePage extends BasePageWithAdvancedSearch {
     }
 
     public CarouselCardComponent getCarouselCardComponent() {
-        if (carouselCardComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"categories-carousel-block\")]"));
-            carouselCardComponent = new CarouselCardComponent(driver, node);
-        }
-        return carouselCardComponent;
+        return carouselCardComponent == null ?
+                carouselCardComponent = new CarouselCardComponent(driver, carouselCardComponentWebElement) :
+                carouselCardComponent;
     }
 
     public CarouselImgComponent getCarouselImgComponent() {
-        if (carouselImgComponent == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class,\"about-carousel-block\")]"));
-            carouselImgComponent = new CarouselImgComponent(driver, node);
-        }
-        return carouselImgComponent;
+        return carouselImgComponent == null ?
+                carouselImgComponent = new CarouselImgComponent(driver, carouselImgComponentWebElement) :
+                carouselImgComponent;
     }
-
-    public WebElement getChallengeDescriptionHeading() {
-        if (challengeDescriptionHeading == null) {
-            challengeDescriptionHeading = driver.findElement(By.xpath(challengeDescriptionDivPath + "/h2"));
-        }
-        return challengeDescriptionHeading;
-    }
-
-    public WebElement getChallengeDescriptionText() {
-        if (challengeDescriptionText == null) {
-            challengeDescriptionText = driver.findElement(By.xpath(challengeDescriptionDivPath + "/span"));
-        }
-        return challengeDescriptionText;
-    }
-
-    public WebElement getChallengeFindOutMoreButton() {
-        if (challengeFindOutMoreButton == null) {
-            challengeFindOutMoreButton = driver.findElement(By.xpath(challengeDescriptionDivPath + "//button"));
-        }
-        return challengeFindOutMoreButton;
-    }
-
-    public void clickChallengeFindOutMoreButton() {
+    public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
         this.getChallengeFindOutMoreButton().click();
+        return  new ChallengeTeachInUkrainian(driver);
     }
-
-    public WebElement getChallengeImage() {
-        if (challengeImage == null) {
-            challengeImage = driver.findElement(By.xpath("//div[contains(@class,\"about-challenge\")]//img"));
-        }
-        return challengeImage;
-    }
-
-    public WebElement getSpeakingClubHeading() {
-        if (speakingClubHeading == null) {
-            speakingClubHeading = driver.findElement(By.xpath("//div[contains(@class,\"speakingclub-description\")]//h2"));
-        }
-        return speakingClubHeading;
-    }
-
-    public void clickSpeakingClubHeading() {
+    public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.getSpeakingClubHeading().click();
+        return new ChallengeUkrainianClubSpeakPage(driver);
     }
-
-    public WebElement getSpeakingClubImage() {
-        if (speakingClubImage == null) {
-            speakingClubImage = driver.findElement(By.xpath("//img[contains(@class,\"banner-image\")]"));
-        }
-        return speakingClubImage;
-    }
-
-    public void clickSpeakingClubImage() {
+    public LanguageSphereFacebookPage clickSpeakingClubImage(){
         this.getSpeakingClubImage().click();
+        return new LanguageSphereFacebookPage(driver);
     }
 }

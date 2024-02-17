@@ -2,6 +2,7 @@ package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,6 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class AddClubPopUpComponent extends BasePopUp {
 
-    protected static final String CLASS_NAME_ADD_CLUB_POP_UP = "modal-add-club";
     public AddClubPopUpSider sider;
     public AddClubPopUpStepOne stepOneContainer;
 
@@ -20,7 +20,7 @@ public class AddClubPopUpComponent extends BasePopUp {
     private WebElement stepOneContainerElement;
 
     public AddClubPopUpComponent(WebDriver driver) {
-        super(driver, CLASS_NAME_ADD_CLUB_POP_UP);
+        super(driver, driver.findElement(By.xpath("//div[contains(@class,'modal-add-club')]")));
         this.sider = getSider();
         this.stepOneContainer = getStepOneContainer();
     }

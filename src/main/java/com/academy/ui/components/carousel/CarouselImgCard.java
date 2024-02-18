@@ -1,11 +1,18 @@
 package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.pages.BasePage;
+import com.academy.ui.pages.ClubsPage;
+import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
+import com.academy.ui.pages.challenges.ChallengeUnited;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+
 @Getter
 public class CarouselImgCard extends BaseComponent {
     public CarouselImgCard(WebDriver driver, WebElement rootImgCard){
@@ -19,8 +26,20 @@ public class CarouselImgCard extends BaseComponent {
     protected WebElement cardText;
     @FindBy(xpath = ".//a/button")
     protected WebElement cardButton;
-    public void clickCardButton(){
+    @FindBy(xpath = ".//a")
+    protected WebElement cardLink;
+    public String getCardLinkText(){
+       return this.getCardLink().getAttribute("href");
+    }
+    public BasePage clickCardButton(){
         this.getCardButton().click();
-        //?
+        if(getCardLinkText().contains("clubs")){
+            return new ClubsPage(driver);
+        } else if(getCardLinkText().contains("about")){
+            return new ChallengeTeachInUkrainian(driver);
+        } else if (getCardLinkText().contains("challenges/5")){
+            return new ChallengeUnited(driver);
+     }
+        return null;
     }
 }

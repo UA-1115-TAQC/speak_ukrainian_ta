@@ -1,8 +1,8 @@
 package com.academy.ui.components.loginPopUpComponent;
 
+import com.academy.ui.components.AddClubPopUpComponent.InputElement;
 import com.academy.ui.components.BasePopUp;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,10 +26,6 @@ public class LoginPopupComponent extends BasePopUp {
     private WebElement passwordTittle;
     @FindBy(xpath = "//a[contains(@href, 'authorize/facebook')]")
     private WebElement getAuthorizationByFacebook;
-    @FindBy(xpath = "//input[@id='basic_email']")
-    private WebElement loginInput;
-    @FindBy(xpath = "//input[@id='basic_password']")
-    private WebElement passwordInput;
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement submitButton;
     @FindBy(xpath = "//a[contains(@class, 'restore-password-button')]")
@@ -38,42 +34,18 @@ public class LoginPopupComponent extends BasePopUp {
     private WebElement showPassword;
     @FindBy(xpath = "//span[@aria-label='eye-invisible']")
     private WebElement hidePassword;
-    private WebElement iconSuccessInput;
-    private WebElement iconErrorInput;
-    private final String EMAIL_Pattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    @FindBy(xpath = "//body/descendant::div[contains(@class, 'modal-login')][2]")
+    private WebElement innerLoginMenu;
+    @FindBy(xpath = "./descendant::div[@class='ant-form-item-control-input']")
+    private WebElement itemInputForm;
+    private InputElement inputElement;
 
     public LoginPopupComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        inputElement = new InputElement(driver, itemInputForm);
     }
 
     public RestorationPasswordComponent getRestorationPasswordComponent() {
-        return new RestorationPasswordComponent(driver,
-                rootElement.findElement(By.xpath("//ancestor::body/descendant::div[contains(@class, 'modal-login')][2]")));
-    }
-
-    public WebElement getSuccessIconForEmail() {
-        if (iconSuccessInput == null) {
-            iconSuccessInput = rootElement.findElement(By.xpath("//div[contains(@id, 'basic_email')]/descendant::span[@aria-label='check-circle']"));
-        }
-        return iconSuccessInput;
-    }
-
-    public WebElement getErrorIconForEmail() {
-        if (iconErrorInput == null) {
-            iconErrorInput = rootElement.findElement(By.xpath("//div[contains(@id, 'basic_email')]/descendant::span[@aria-label='close-circle']"));
-        }
-        return iconErrorInput;
-    }
-
-    public WebElement getEmailStatusIcon(String email) {
-        if (isValidEmail(email)) {
-            return getSuccessIconForEmail();
-        }
-        return getErrorIconForEmail();
-    }
-
-    private boolean isValidEmail(String email) {
-        return email.matches(EMAIL_Pattern);
+        return new RestorationPasswordComponent(driver, innerLoginMenu);
     }
 }

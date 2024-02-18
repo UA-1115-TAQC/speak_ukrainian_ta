@@ -11,8 +11,10 @@ public class RestorationPasswordComponent extends BasePopUp {
 
     @FindBy(xpath = "./descendant::div[contains(@class, 'login-header')]")
     private WebElement restorationTittle;
-    @FindBy(xpath = "./descendant::button[@class='ant-modal-close']")
-    private WebElement restorationCloseButton;
+    @FindBy(xpath = "./descendant::button[@type='submit']")
+    private WebElement submitButton;
+    @FindBy(xpath = "./descendant::button[@type='button']")
+    private WebElement closeButton;
 
     public RestorationPasswordComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

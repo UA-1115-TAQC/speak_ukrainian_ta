@@ -5,8 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -30,24 +28,19 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "//p[@class='show-more-p']")
     private WebElement showMoreButton;
 
-    @FindBy(xpath = "//div[@class='ant-comment-content-detail']")
-    private List<WebElement> comments;
 
     public ClubPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickOnSignUpForTheGroupButton() {
-        signUpForTheGroupButton.click();
+    public ClubPage clickOnSignUpForTheGroupButton() {
+        this.signUpForTheGroupButton.click();
+        return new ClubPage(driver);
     }
 
-    public void clickOnWriteToTheManagerButton() {
-        writeToTheManagerButton.click();
-    }
-
-    public List<String> getComments() {
-        return comments.stream().map(WebElement::getText).collect(Collectors.toList());
-
+    public ClubPage clickOnWriteToTheManagerButton() {
+        this.writeToTheManagerButton.click();
+        return new ClubPage(driver);
     }
 
     public String getNameOfTheClub() {

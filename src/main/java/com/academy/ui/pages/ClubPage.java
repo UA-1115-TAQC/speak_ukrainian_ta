@@ -83,6 +83,12 @@ public class ClubPage extends BasePage {
                 footerComponent = new FooterComponent(driver,footerComponentWebelement):
                 footerComponent;
     }
+
+    public String getDescriptionOgTheClub(){
+        return getContent().getText();
+    }
+
+
 }
 
 

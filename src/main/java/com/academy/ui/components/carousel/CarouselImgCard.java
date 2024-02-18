@@ -21,5 +21,6 @@ public class CarouselImgCard extends BaseComponent {
     protected WebElement cardButton;
     public void clickCardButton(){
         this.getCardButton().click();
+        //?
     }
 }

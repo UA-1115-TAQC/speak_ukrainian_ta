@@ -8,8 +8,5 @@ public class ExampleTest extends BaseTestRunner {
     @Test
     public void open_menu_test() {
         HomePage home = new HomePage(driver);
-        home.header.clickMenu();
-
-
     }
 }

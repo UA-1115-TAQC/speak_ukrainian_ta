@@ -6,22 +6,31 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class InputElement extends BaseComponent {
 
-    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[@role='img']")
-    private WebElement inputIcon;
+    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[contains(@class,'anticon') and contains(@class,'circle')]")
+    private WebElement validationIcon;
 
-    @FindBy(xpath = "./ancestor::div[contains(@class,'ant-form-item-control')]/descendant::div[@class='ant-form-item-explain-error']")
-    public WebElement inputError;
+    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::div[@class='icon']")
+    private WebElement infoIcon;
+
+    @FindBy(xpath = "./ancestor::div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
+    private List<WebElement> errorMessages;
 
     public InputElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public InputElement setInput(String value) {
+    public InputElement setValue(String value) {
         rootElement.sendKeys(value);
         return this;
     }
 
+    public List<String> getErrorMessagesTextList() {
+        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+    }
 }

@@ -10,8 +10,6 @@ public abstract class Base {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-
-
     public void sleep(long seconds) {
         try {
             Thread.sleep(seconds);

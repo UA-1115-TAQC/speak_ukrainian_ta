@@ -12,11 +12,14 @@ import java.util.stream.Collectors;
 @Getter
 public class InputElement extends BaseComponent {
 
-    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[contains(@class,'anticon') and contains(@class,'circle')]")
-    private WebElement validationIcon;
+    @FindBy(xpath = "./ancestor::div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
+    private WebElement validationCircleIcon;
 
-    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::div[@class='icon']")
-    private WebElement infoIcon;
+    @FindBy(xpath = "./ancestor::div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-check-circle')]")
+    private WebElement infoCircleHintIcon;
+
+    @FindBy(xpath = "./ancestor::div[@class='ant-form-item-control-input']/descendant::span[@class='ant-input-suffix']/div[@class='icon']")
+    private WebElement staticIcon;
 
     @FindBy(xpath = "./ancestor::div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;

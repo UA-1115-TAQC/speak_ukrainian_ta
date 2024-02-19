@@ -1,50 +1,46 @@
 package com.academy.ui.components;
 
+
+//import lombok.AccessLevel;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+@Getter
 public class SwitchPaginationComponent extends BaseComponent {
+
+    @FindBy(xpath = ".//li[contains(@class,'ant-pagination-prev')]")
     protected WebElement previousItem;
+
+    @FindBy(xpath = ".//li[contains(@class,'ant-pagination-next')]")
     protected WebElement nextItem;
+
+    @FindBy(xpath = ".//li[contains(@class, 'ant-pagination-item') or contains(@class, 'ant-pagination-jump-')]")
     protected List<WebElement> paginationItems;
 
     public SwitchPaginationComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public WebElement getPrevious() {
-        if (previousItem == null) {
-            previousItem = rootElement.findElement(By.xpath(
-                    ".//li[contains(@class,'ant-pagination-prev')]"));
-        }
-        return previousItem;
-    }
+//    private void createPagItemsList() {
+//        paginationItems = rootElement.findElements(By.xpath(
+//                ".//li[contains(@class, 'ant-pagination-item') or contains(@class, 'ant-pagination-jump-')]"));
+//    }
 
-    public WebElement getNext() {
-        if (nextItem == null) {
-            nextItem = rootElement.findElement(By.xpath(
-                    ".//li[contains(@class,'ant-pagination-next')]"));
-        }
-        return nextItem;
-    }
-
-    private void createPagItemsList() {
-        paginationItems = rootElement.findElements(By.xpath(
-                ".//li[contains(@class, 'ant-pagination-item') or contains(@class, 'ant-pagination-jump-')]"));
-    }
-
-    public List<WebElement> getPagItems() {
-        if (paginationItems == null) {
-            createPagItemsList();
-        }
-        return paginationItems;
-    }
+//    public List<WebElement> getPaginationItems() {
+//        if (paginationItems == null) {
+//            createPagItemsList();
+//        }
+//        return paginationItems;
+//    }
 
     public WebElement getPagItemByTitle(String pageNum) {
-        getPagItems();
+        getPaginationItems();
         for (WebElement pagItem : paginationItems) {
             String str = pagItem.getDomAttribute("title");
             if (str.equals(pageNum)) {
@@ -55,7 +51,7 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public boolean isPagItemActive(String pageNum) {
-        getPagItems();
+        getPaginationItems();
         WebElement pagItem = getPagItemByTitle(pageNum);
         if (pagItem != null) {
             String str = pagItem.getDomAttribute("class");
@@ -65,7 +61,7 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public void clickPrevious() {
-        getPrevious();
+//        WebElement p = this.getPreviousItem();
         WebElement previousButton = previousItem.findElement(By.xpath(
                 ".//button"));
         if (previousButton.isEnabled()) {
@@ -74,7 +70,7 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public void clickNext() {
-        getNext();
+//        getNext();
         WebElement nextButton = nextItem.findElement(By.xpath(
                 ".//button"));
         if (nextButton.isEnabled()) {
@@ -84,11 +80,12 @@ public class SwitchPaginationComponent extends BaseComponent {
 
     public void clickPagItem(WebElement item) {
         item.click();
-        createPagItemsList();
+//        createPagItemsList();
+        getPaginationItems();
     }
 
     public void clickPagItemByNum(String pageNum) {
-        getPagItems();
+        getPaginationItems();
         WebElement pagItem = getPagItemByTitle(pageNum);
         if (pagItem != null) {
             clickPagItem(pagItem);
@@ -96,7 +93,7 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public void clickPrevFivePages() {
-        getPagItems();
+        getPaginationItems();
         WebElement pagItem = getPagItemByTitle("Previous 5 Pages");
         if (pagItem != null) {
             clickPagItem(pagItem);
@@ -104,11 +101,41 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public void clickNextFivePages() {
-        getPagItems();
+        getPaginationItems();
         WebElement pagItem = getPagItemByTitle("Next 5 Pages");
         if (pagItem != null) {
             clickPagItem(pagItem);
         }
+    }
+
+//    TODO DELETE
+    public static void main(String[] strs){
+        ChromeDriver driver = new ChromeDriver();
+        driver.get("http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/clubs");
+        WebElement root = driver.findElement(By.xpath(
+                "//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]"));
+        SwitchPaginationComponent c = new SwitchPaginationComponent(driver, root);
+        c.clickNext();
+
+//        List<WebElement> l = c.getPaginationItems();
+//        for(WebElement e : l){
+//            System.out.print(e.getText() + ", ");
+//        }
+//        System.out.println("******");
+//
+//        c.clickPagItemByNum("5");
+//        l = c.getPaginationItems();
+//        for(WebElement e : l){
+//            System.out.print(e.getText() + ", ");
+//        }
+//        System.out.println("******");
+//
+//        c.clickPagItemByNum("7");
+//        l = c.getPaginationItems();
+//        for(WebElement e : l){
+//            System.out.print(e.getText() + ", ");
+//        }
+//        System.out.println("******");
     }
 
 }

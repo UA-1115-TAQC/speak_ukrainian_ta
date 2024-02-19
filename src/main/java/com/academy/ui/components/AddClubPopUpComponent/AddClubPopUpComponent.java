@@ -26,6 +26,8 @@ public class AddClubPopUpComponent extends BasePopUp {
     private AddClubPopUpSider sider;
     @Getter(AccessLevel.NONE)
     private AddClubPopUpStepOne stepOneContainer;
+    @Getter(AccessLevel.NONE)
+    private AddClubPopUpStepTwo stepTwoContainer;
 
     public AddClubPopUpComponent(WebDriver driver) {
         super(driver, driver.findElement(By.xpath("//div[contains(@class,'modal-add-club')]")));
@@ -39,4 +41,10 @@ public class AddClubPopUpComponent extends BasePopUp {
         return stepOneContainer;
     }
 
+    public AddClubPopUpStepTwo getStepTwoContainer() {
+        if (activeStep.getAttribute("innerText").equals("2")) {
+            stepTwoContainer = new AddClubPopUpStepTwo(driver, stepContainerElement);
+        }
+        return stepTwoContainer;
+    }
 }

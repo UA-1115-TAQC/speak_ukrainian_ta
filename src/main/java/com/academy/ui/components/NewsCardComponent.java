@@ -1,14 +1,22 @@
 package com.academy.ui.components;
 
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-import static org.openqa.selenium.By.xpath;
-
+@Getter
 public class NewsCardComponent extends BaseComponent {
+    @FindBy(id = "newsImage")
     private WebElement newsCardImage;
-    private WebElement newsCardData;
+
+    @FindBy(id = "newsDate")
+    private WebElement newsCardDate;
+
+    @FindBy(id = "newsTitle")
     private WebElement newsCardTitle;
+
+    @FindBy(xpath = ".//a[contains(@href, '/news/')]")
     private WebElement newsCardLink;
 
     public NewsCardComponent(WebDriver driver, WebElement rootElement) {
@@ -22,31 +30,11 @@ public class NewsCardComponent extends BaseComponent {
     }
     */
 
-    public WebElement getNewsCardImage() {
-        if (newsCardImage == null) {
-            newsCardImage = rootElement.findElement(xpath(".//div[@id = 'newsImage']"));
-        }
-        return newsCardImage;
+    public String getNewsDate() {
+        return newsCardDate.getText();
     }
 
-    public WebElement getNewsCardData() {
-        if (newsCardData == null) {
-            newsCardData = rootElement.findElement(xpath(".//div[@id = 'newsDate']"));
-        }
-        return newsCardData;
-    }
-
-    public WebElement getNewsCardTitle() {
-        if (newsCardTitle == null) {
-            newsCardTitle = rootElement.findElement(xpath(".//div[@id = 'newsTitle']"));
-        }
-        return newsCardTitle;
-    }
-
-    public WebElement getNewsCardLink() {
-        if (newsCardLink == null) {
-            newsCardLink = rootElement.findElement(xpath(".//a[contains(@href, '/news/')]"));
-        }
-        return newsCardLink;
+    public String getNewsTitle() {
+        return newsCardTitle.getText();
     }
 }

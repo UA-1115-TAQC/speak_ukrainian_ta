@@ -1,59 +1,40 @@
 package com.academy.ui.components;
 
+import com.academy.ui.pages.ClubPage;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.openqa.selenium.By.xpath;
+import org.openqa.selenium.support.FindBy;
 
 public class ClubCardLineComponent extends BaseComponent {
+    @FindBy(xpath = ".//div[contains(@class, 'icon')]//img")
     private WebElement clubLogo;
+
+    @FindBy(xpath = ".//div[contains(@class, 'name')]")
     private WebElement clubTitle;
-    private WebElement clubTags;
+
+    @FindBy(xpath = ".//span[contains(@class, 'name')]")
+    private List<WebElement> clubTags;
+
+    @FindBy(xpath = ".//p[contains(@class, 'description')]")
     private WebElement clubDescription;
+
+    @FindBy(xpath = ".//a//a[contains(@href, '/club/')]")
     private WebElement clubLink;
 
     public ClubCardLineComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    //when ClubPage will be implemented
-    /*public ClubPage toClubPage() {
-        getClubLink().click();
+    public ClubPage clubLinkClick() {
+        clubLink.click();
         return new ClubPage(driver);
-    }*/
-
-    public WebElement getClubLogo() {
-        if (clubLogo == null) {
-            clubLogo = rootElement.findElement(xpath(".//div[contains(@class, 'icon')]//img"));
-        }
-        return clubLogo;
     }
 
-    public WebElement getClubTitle() {
-        if (clubTitle == null) {
-            clubTitle = rootElement.findElement(xpath(".//div[contains(@class, 'name')]"));
-        }
-        return clubTitle;
-    }
-
-    public WebElement getClubTags() {
-        if (clubTags == null) {
-            clubTags = rootElement.findElement(xpath(".//span[contains(@class, 'name')]"));
-        }
-        return clubTags;
-    }
-
-    public WebElement getClubDescription() {
-        if (clubDescription == null) {
-            clubDescription = driver.findElement(xpath(".//p[contains(@class, 'description')]"));
-        }
-        return clubDescription;
-    }
-
-    public WebElement getClubLink() {
-        if (clubLink == null) {
-            clubLink = rootElement.findElement(xpath(".//a//a[contains(@href, '/club/')]"));
-        }
-        return clubLink;
+    public List<String> getClubTags() {
+        return clubTags.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 }

@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -16,6 +15,7 @@ import java.time.Duration;
 public class HeaderComponent extends BaseComponent {
     protected WebElement profileMenuButton;
     protected WebElement groupButton;
+    @FindBy(xpath = "//a[@href='/news']")
     protected WebElement newsButton;
     public AddClubPopUpComponent addClubPopUp;
 
@@ -45,15 +45,8 @@ public class HeaderComponent extends BaseComponent {
         this.getProfileMenuButton().click();
     }
 
-    public WebElement getNewsButton() {
-        if (newsButton == null) {
-            newsButton = rootElement.findElement(By.xpath("//a[@href='/news']"));
-        }
-        return newsButton;
-    }
-
-    public AllNewsPage toAllNewsPage() {
-        getNewsButton().click();
+    public AllNewsPage newsButtonClick() {
+        newsButton.click();
         return new AllNewsPage(driver);
     }
 

@@ -2,48 +2,64 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.ClubCardLineComponent;
 import com.academy.ui.components.NewsCardComponent;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
+import com.academy.ui.components.SwitchPaginationComponent;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.Getter;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-import static org.openqa.selenium.By.xpath;
+@Getter
+public class AllNewsPage extends BasePageWithAdvancedSearch {
+    private List<NewsCardComponent> newsCards;
 
-public class AllNewsPage extends BasePage {
-    private List<NewsCardComponent> newsCardComponents;
-    private List<ClubCardLineComponent> clubCardLineComponents;
-    private List<WebElement> newsPages;
-    private WebElement previousPageArrow;
-    private WebElement nextPageArrow;
+    private List<ClubCardLineComponent> clubCards;
+
+    private SwitchPaginationComponent pagination;
+
+    @Getter(AccessLevel.NONE)
+    @FindBy(xpath = "//div[contains(@id, 'newsContainer')]")
+    private List<WebElement> newsCardComponents;
+
+    @Getter(AccessLevel.NONE)
+    @FindBy(xpath = "//div[contains(@class, 'ant-card')]")
+    private List<WebElement> clubCardComponents;
+
+    @Getter(AccessLevel.NONE)
+    @FindBy(xpath = "//ul[contains(@class, 'ant-pagination')]")
+    private WebElement paginationRoot;
+
+    @Getter(AccessLevel.NONE)
+    @FindBy(xpath = "//div[contains(@class, 'clubInfo')]")
+    private WebElement clubInfoPopUp;
+
+    @Getter(AccessLevel.NONE)
+    @FindBy(xpath = "//div[@class = 'club-sider']//h2")
+    private WebElement clubSiderTitle;
 
     public AllNewsPage(WebDriver driver) {
         super(driver);
+        newsCards = initNewsCardComponents();
+        clubCards = initClubCardLinesComponents();
+        pagination = new SwitchPaginationComponent(driver, paginationRoot);
     }
 
-    public List<NewsCardComponent> getNewsCardComponents() {
-        return newsCardComponents = driver.findElements(xpath("//div[@id = 'newsContainer']"))
-                .stream()
+    public String getClubSiderTitle() {
+        return clubSiderTitle.getText();
+    }
+
+    private List<NewsCardComponent> initNewsCardComponents() {
+        return newsCardComponents.stream()
                 .map(webElement -> new NewsCardComponent(driver, webElement))
                 .collect(Collectors.toList());
     }
 
-    public List<ClubCardLineComponent> getClubCardLineComponents() {
-        return clubCardLineComponents = driver.findElements(xpath("//div[contains(@class, 'ant-card')]"))
+    private List<ClubCardLineComponent> initClubCardLinesComponents() {
+        return clubCardComponents
                 .stream()
                 .map(webElement -> new ClubCardLineComponent(driver, webElement))
                 .collect(Collectors.toList());
-    }
-
-    public List<WebElement> getNewsPages() {
-        return newsPages = driver.findElements(xpath(".//li[contains(@class, 'ant-pagination-item-')]"));
-    }
-
-    public WebElement getPreviousPageArrow() {
-        return previousPageArrow = driver.findElement(xpath("//li[contains(@title, 'Previous')]"));
-    }
-
-    public WebElement getNextPageArrow() {
-        return nextPageArrow = driver.findElement(xpath("//li[contains(@title, 'Next')]"));
     }
 }

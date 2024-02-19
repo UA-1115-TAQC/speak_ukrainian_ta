@@ -40,5 +40,4 @@ public class ClubsPage extends BasePage {
         return clubs;
     }
 
-
 }

@@ -1,7 +1,8 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.components.elements.InputElement;
+import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,13 +13,8 @@ import java.util.List;
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
     @FindBy(xpath = "./descendant::input[@id='basic_name']")
+    @Getter(AccessLevel.NONE)
     private WebElement clubNameInput;
-
-    @FindBy(xpath = "./following-sibling::span[@class='ant-input-suffix']/descendant::span[@role='img']")
-    private WebElement clubNameInputIcon;
-
-    @FindBy(xpath = "./ancestor::div[contains(@class,'ant-form-item-control')]/descendant::div[@class='ant-form-item-explain-error']")
-    private WebElement clubNameInputError;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubInputTitle;
@@ -74,19 +70,15 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "./ancestor::body/descendant::div[@class='ant-select-item-option-content']")
+    @FindBy(xpath = "//div[@class='ant-select-item-option-content']")
     private List<WebElement> centersList;
 
-    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-next')]")
-    private WebElement nextStepButton;
+    @Getter(AccessLevel.NONE)
+    public InputElement clubNameInputElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-    }
-
-    public AddClubPopUpStepOne setClubNameInput(String name) {
-        clubNameInput.sendKeys(name);
-        return this;
+        clubNameInputElement = new InputElement(driver, clubNameInput);
     }
 
     public AddClubPopUpStepOne selectCategory(String value) {
@@ -107,7 +99,6 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     }
 
     public AddClubPopUpStepOne clickToSelectCenter(String value) {
-        if (centersList == null || centersList.isEmpty()) centerSelect.click();
         centersList.stream()
                 .filter(center -> (center.getAttribute("innerText").equals(value)))
                 .forEach(WebElement::click);

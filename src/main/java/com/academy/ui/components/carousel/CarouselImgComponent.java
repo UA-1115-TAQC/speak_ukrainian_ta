@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 @Getter
-public class CarouselImgComponent extends BasicCarouselComponent {
+public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgComponent>{
     protected HashMap<Integer, WebElement> switchingCarouselImgCards;
     public  CarouselImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

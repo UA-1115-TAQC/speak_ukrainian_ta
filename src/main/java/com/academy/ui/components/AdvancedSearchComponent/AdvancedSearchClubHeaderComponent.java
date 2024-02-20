@@ -1,25 +1,22 @@
 package com.academy.ui.components.AdvancedSearchComponent;
 
-import org.openqa.selenium.By;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
+
+@Getter
 public class AdvancedSearchClubHeaderComponent extends AdvancedSearchHeaderComponent {
-    protected WebElement ShowOnMapButton;
+    @FindBy(xpath = ".//button[contains(@class,'show-map-button')]")
+    protected WebElement showOnMapButton;
 
     public AdvancedSearchClubHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public WebElement getShowOnMapButton() {
-        if (ShowOnMapButton == null) {
-            ShowOnMapButton = rootElement.findElement(By.xpath(".//button[contains(@class,'show-map-button')]"));
-        }
-        return ShowOnMapButton;
-    }
-
     public void clickShowOnMapButton() {
-        this.getShowOnMapButton().click();
+        getShowOnMapButton().click();
     }
 
 }

@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -17,7 +16,6 @@ public class HeaderComponent extends BaseComponent {
     protected WebElement profileMenuButton;
     protected WebElement groupButton;
     protected WebElement newsButton;
-    public AddClubPopUpComponent addClubPopUp;
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
@@ -57,11 +55,11 @@ public class HeaderComponent extends BaseComponent {
         return new AllNewsPage(driver);
     }
 
-    public void addClubButtonClick() {
+    public AddClubPopUpComponent addClubButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(e -> isLoggedIn.isDisplayed());
         addClubButton.click();
-        addClubPopUp = new AddClubPopUpComponent(driver);
+        return new AddClubPopUpComponent(driver);
     }
 
 

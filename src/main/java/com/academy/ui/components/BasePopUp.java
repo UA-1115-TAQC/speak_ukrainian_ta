@@ -1,7 +1,6 @@
 package com.academy.ui.components;
 
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +11,7 @@ import java.time.Duration;
 @Getter
 public abstract class BasePopUp extends BaseComponent {
 
-    @FindBy(xpath = "//div[contains(@class,'ant-modal-centered') and not(contains(@style,'display'))]/descendant::button[@class='ant-modal-close']")
+    @FindBy(xpath = "./descendant::button[@class='ant-modal-close']")
     private WebElement closeButton;
 
     public BasePopUp(WebDriver driver, WebElement rootElement) {
@@ -21,7 +20,11 @@ public abstract class BasePopUp extends BaseComponent {
     }
     public void waitPopUpOpen(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
-        wait.until(e -> driver.findElement(By.xpath("//div[contains(@class,'ant-modal')]")).isDisplayed());
+        wait.until(e -> rootElement.isDisplayed());
+    }
+
+    public boolean isOpen() {
+        return rootElement.isDisplayed();
     }
 
 }

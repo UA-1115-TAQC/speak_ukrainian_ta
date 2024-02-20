@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @Getter
-public class BasicCarouselComponent extends BaseComponent {
+public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends BaseComponent  {
     public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -23,13 +23,13 @@ public class BasicCarouselComponent extends BaseComponent {
     protected List<WebElement> slickDots;
     @FindBy(xpath = ".//div[contains(@class,\"slick-slider\")]")
     protected WebElement sliderContainer;
-
-
-   public void clickLeftArrowButton() {
+   public T clickLeftArrowButton() {
       this.getLeftArrowButton().click();
+      return (T) this;
   }
-   public void clickRightArrowButton() {
+   public T clickRightArrowButton() {
     this.getRightArrowButton().click();
+    return (T) this;
    }
     public WebElement getSlickDotByIndex(int index) {
         if (index >= 0 && index < this.getSlickDots().size()) {
@@ -38,8 +38,9 @@ public class BasicCarouselComponent extends BaseComponent {
         throw new IllegalArgumentException("The index must be in the range between 0 and " + (this.getSlickDots().size() - 1) + ", inclusive");
     }
 
-    public void clickSlickDotByIndex(int index) {
+    public T clickSlickDotByIndex(int index) {
         this.getSlickDotByIndex(index).click();
+        return (T) this;
     }
 
     public WebElement getActiveSlickDot() {
@@ -52,8 +53,9 @@ public class BasicCarouselComponent extends BaseComponent {
         return activeSlickDot;
     }
 
-    public void clickActiveSlickDot() {
+    public T clickActiveSlickDot() {
         this.getActiveSlickDot().click();
+        return (T) this;
     }
 }
 

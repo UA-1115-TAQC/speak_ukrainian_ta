@@ -18,19 +18,4 @@ public class DirectionTagComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-//    public WebElement getName(){
-//        if (name == null) {
-//            name = rootElement.findElement(By.xpath(
-//                    ".//descendant::span[contains(@class,'name')]"));
-//        }
-//        return name;
-//    }
-//
-//    public WebElement getIcon(){
-//        if (icon == null) {
-//            icon = rootElement.findElement(By.xpath(
-//                    ".//descendant::div[contains(@class,'icon')]"));
-//        }
-//        return icon;
-//    }
 }

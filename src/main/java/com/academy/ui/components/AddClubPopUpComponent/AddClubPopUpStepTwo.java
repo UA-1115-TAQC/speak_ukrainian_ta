@@ -1,6 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
-import com.academy.ui.components.elements.InputElement;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -52,27 +52,27 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @Getter(AccessLevel.NONE)
     private List<WebElement> dayTimeCheckboxList;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactТелефон']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][1]")
     @Getter(AccessLevel.NONE)
     private WebElement telephoneInput;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactFacebook']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][2]")
     @Getter(AccessLevel.NONE)
     private WebElement facebookInput;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactWhatsApp']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][3]")
     @Getter(AccessLevel.NONE)
     private WebElement whatsappInput;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactПошта']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][4]")
     @Getter(AccessLevel.NONE)
     private WebElement emailInput;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactSkype']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][5]")
     @Getter(AccessLevel.NONE)
     private WebElement skypeInput;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_contactSite']")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][1]")
     @Getter(AccessLevel.NONE)
     private WebElement siteInput;
 
@@ -83,22 +83,23 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
     @Getter(AccessLevel.NONE)
     private List<LocationListElement> listOfLocationElements;
-
-    private InputElement telephoneInputElement;
-    private InputElement facebookInputElement;
-    private InputElement whatsappInputElement;
-    private InputElement emailInputElement;
-    private InputElement skypeInputElement;
-    private InputElement siteInputElement;
+    @Getter(AccessLevel.NONE)
+    private AddLocationPopUpComponent addLocationPopUpComponent;
+    private AddClubInputElement telephoneInputElement;
+    private AddClubInputElement facebookInputElement;
+    private AddClubInputElement whatsappInputElement;
+    private AddClubInputElement emailInputElement;
+    private AddClubInputElement skypeInputElement;
+    private AddClubInputElement siteInputElement;
 
     public AddClubPopUpStepTwo(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        this.telephoneInputElement = new InputElement(driver, telephoneInput);
-        this.facebookInputElement = new InputElement(driver, facebookInput);
-        this.whatsappInputElement = new InputElement(driver, whatsappInput);
-        this.emailInputElement = new InputElement(driver, emailInput);
-        this.skypeInputElement = new InputElement(driver, skypeInput);
-        this.siteInputElement = new InputElement(driver, siteInput);
+        this.telephoneInputElement = new AddClubInputElement(driver, telephoneInput);
+        this.facebookInputElement = new AddClubInputElement(driver, facebookInput);
+        this.whatsappInputElement = new AddClubInputElement(driver, whatsappInput);
+        this.emailInputElement = new AddClubInputElement(driver, emailInput);
+        this.skypeInputElement = new AddClubInputElement(driver, skypeInput);
+        this.siteInputElement = new AddClubInputElement(driver, siteInput);
     }
 
     public Boolean isSwitchButtonChecked() {
@@ -125,4 +126,8 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
+    public AddLocationPopUpComponent getAddLocationPopUpComponent() {
+        addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
+        return addLocationPopUpComponent;
+    }
 }

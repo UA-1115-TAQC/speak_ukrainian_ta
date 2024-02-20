@@ -2,6 +2,7 @@ package com.academy.ui.components.RegistrationPopup;
 
 
 import com.academy.ui.components.BasePopUp;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,7 +64,7 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected WebElement registrationButton;
 
     public RegistrationPopupComponent(WebDriver driver) {
-        super(driver, registrationPopupClassName);
+        super(driver, driver.findElement(By.xpath("//div[contains(@class, 'ant-modal-content')]")));
     }
     public String getRegistrationHeaderText() {
         return registrationHeader.getAttribute("innerText");

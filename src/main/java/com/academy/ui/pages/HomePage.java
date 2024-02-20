@@ -9,6 +9,9 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 @Getter
 public class HomePage extends BasePageWithAdvancedSearch {
@@ -58,7 +61,14 @@ public class HomePage extends BasePageWithAdvancedSearch {
         return new ChallengeUkrainianClubSpeakPage(driver);
     }
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
+        int previousTabAmount = getTabHandles().size();
         this.getSpeakingClubImage().click();
-        return new LanguageSphereFacebookPage(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.numberOfWindowsToBe( previousTabAmount +1));
+        switchToANewTabByItsIndex(previousTabAmount);
+        WebDriverWait waitNewPage = new WebDriverWait(driver, Duration.ofSeconds(30));
+        LanguageSphereFacebookPage languageSphereFacebookPage =  new LanguageSphereFacebookPage(driver);
+        waitNewPage.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
+        return languageSphereFacebookPage;
     }
 }

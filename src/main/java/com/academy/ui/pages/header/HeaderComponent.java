@@ -17,7 +17,6 @@ public class HeaderComponent extends BaseComponent {
     protected WebElement groupButton;
     @FindBy(xpath = "//a[@href='/news']")
     protected WebElement newsButton;
-    public AddClubPopUpComponent addClubPopUp;
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
@@ -50,11 +49,11 @@ public class HeaderComponent extends BaseComponent {
         return new AllNewsPage(driver);
     }
 
-    public void addClubButtonClick() {
+    public AddClubPopUpComponent addClubButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(e -> isLoggedIn.isDisplayed());
         addClubButton.click();
-        addClubPopUp = new AddClubPopUpComponent(driver);
+        return new AddClubPopUpComponent(driver);
     }
 
 

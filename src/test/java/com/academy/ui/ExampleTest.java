@@ -9,13 +9,11 @@ import org.testng.annotations.Test;
 public class ExampleTest extends BaseTestRunner {
     @Test
     public void open_menu_test() {
-
+        HomePage home = new HomePage(driver);
         driver.get("http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/clubs");
         ClubsPage page = new ClubsPage(driver);
         ClubCardComponent card = page.getClubCards().get(1);
         String s = card.getTitle().getText();
         System.out.println("test");
-
-
     }
 }

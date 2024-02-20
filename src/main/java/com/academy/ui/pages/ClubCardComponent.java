@@ -14,24 +14,30 @@ import java.util.List;
 public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
-    protected List<DirectionTagComponent> directionTags;
+
+    @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;
+
+    @FindBy(xpath = ".//ul[contains(@class,'rating')]")
     protected WebElement rating;
+
+    @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
+
+    @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;
+
+    protected List<DirectionTagComponent> directionTags;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public void clickTitle() {
-        getTitle().click();
-    }
-
     public List<DirectionTagComponent> getDirections() {
         if (directionTags == null) {
             directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(".//span[contains(@class,'ant-tag')]"));
+            List<WebElement> tags = rootElement.findElements(By.xpath(
+                    ".//span[contains(@class,'ant-tag')]"));
             for (WebElement tag : tags) {
                 directionTags.add(new DirectionTagComponent(driver, tag));
             }
@@ -39,36 +45,12 @@ public class ClubCardComponent extends BaseComponent {
         return directionTags;
     }
 
-    public WebElement getDescription() {
-        if (description == null) {
-            description = rootElement.findElement(By.xpath(".//descendant::p[contains(@class,'description')]"));
-        }
-        return description;
-    }
-
-    public WebElement getRating() {
-        if (rating == null) {
-            rating = rootElement.findElement(By.xpath(".//descendant::ul[contains(@class,'rating')]"));
-        }
-        return rating;
-    }
-
-    public WebElement getAddress() {
-        if (address == null) {
-            address = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'address')]"));
-        }
-        return address;
+    public void clickTitle() {
+        getTitle().click();
     }
 
     public void clickAddress() {
         getAddress().click();
-    }
-
-    public WebElement getDetailsButton() {
-        if (detailsButton == null) {
-            detailsButton = rootElement.findElement(By.xpath(".//descendant::a[contains(@class,'details-button')]"));
-        }
-        return detailsButton;
     }
 
     public ClubPage clickDetailsButton() {

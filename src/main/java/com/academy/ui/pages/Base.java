@@ -12,9 +12,9 @@ public abstract class Base {
     }
 
 
-    public void sleep(long seconds) {
+    public void sleep(long millisSeconds) {
         try {
-            Thread.sleep(seconds);
+            Thread.sleep(millisSeconds);
         } catch (InterruptedException e) {
 
         }

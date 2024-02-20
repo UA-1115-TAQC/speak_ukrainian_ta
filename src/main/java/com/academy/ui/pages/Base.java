@@ -10,9 +10,11 @@ public abstract class Base {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    public void sleep(long seconds) {
+
+
+    public void sleep(long millisSeconds) {
         try {
-            Thread.sleep(seconds);
+            Thread.sleep(millisSeconds);
         } catch (InterruptedException e) {
 
         }

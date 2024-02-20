@@ -31,15 +31,7 @@ public class CarouselImgCard extends BaseComponent {
     public String getCardLinkText(){
        return this.getCardLink().getAttribute("href");
     }
-    public BasePage clickCardButton(){
+    public void clickCardButton(){
         this.getCardButton().click();
-        if(getCardLinkText().contains("clubs")){
-            return new ClubsPage(driver);
-        } else if(getCardLinkText().contains("about")){
-            return new ChallengeTeachInUkrainian(driver);
-        } else if (getCardLinkText().contains("challenges/5")){
-            return new ChallengeUnited(driver);
-     }
-        return null;
     }
 }

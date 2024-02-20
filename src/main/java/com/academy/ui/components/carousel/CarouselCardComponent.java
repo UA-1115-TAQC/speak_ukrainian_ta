@@ -3,6 +3,7 @@ package com.academy.ui.components.carousel;
 import com.academy.ui.pages.ClubsPage;
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +18,6 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
     public CarouselCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
-
     protected List<ClubDirectionCard> carouselCards;
     @FindBy(xpath = "//div[contains(@class,\"categories-header\")]/h2")
     protected WebElement carouselCardHeading;
@@ -27,7 +27,7 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
 
     public ClubsPage clickCarouselCardAllClubsButton() {
         this.getCarouselCardAllClubsButton().click();
-        return new ClubsPage(driver);
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
     public List<ClubDirectionCard> getAllCarouselCards() {
@@ -52,10 +52,27 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         return getClubDirectionCardByIndex(index).getClubCardHeading().isDisplayed();
     }
     public List<ClubDirectionCard> getActiveCarouselCards(){
-        activeCarouselCards = new ArrayList<>();
-        for(ClubDirectionCard card: getAllCarouselCards()){
-            if(card.getClubCardHeading().isDisplayed()){
-                activeCarouselCards.add(card);
+        if(activeCarouselCards == null){
+            activeCarouselCards = new ArrayList<>();
+            for(ClubDirectionCard card: getAllCarouselCards()){
+                if(card.getClubCardHeading().isDisplayed()){
+                    activeCarouselCards.add(card);
+                }
+            }
+        } else{
+            List<ClubDirectionCard> oldCards = activeCarouselCards;
+            activeCarouselCards = new ArrayList<>();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            try {
+                wait.until(ExpectedConditions.invisibilityOf(oldCards.get((oldCards.size() - 1)).getClubCardHeading()));
+                for (ClubDirectionCard card : getAllCarouselCards()) {
+                    if (card.getClubCardHeading().isDisplayed()) {
+                        activeCarouselCards.add(card);
+                    }
+                }
+            }catch (TimeoutException e){
+                activeCarouselCards = oldCards;
+                System.out.println("You are already at the beginning/end of the cards list");
             }
         }
         return activeCarouselCards;

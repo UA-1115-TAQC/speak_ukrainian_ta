@@ -41,12 +41,12 @@ public class AdvancedSearchTooltip extends BaseComponent {
 
     public ClubsPage clickCategoryByTitle(String title) {
         this.getCategoryByTitle(title).click();
-        return new ClubsPage(driver);
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
     public ClubsPage clickClubByTitle(String title) {
         this.getClubByTitle(title).click();
-        return new ClubsPage(driver);
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
     public HashMap<String, WebElement> getCategories() {

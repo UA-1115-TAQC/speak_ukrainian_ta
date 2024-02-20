@@ -54,10 +54,14 @@ public class HomePage extends BasePageWithAdvancedSearch {
     }
     public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
         this.getChallengeFindOutMoreButton().click();
-        return  new ChallengeTeachInUkrainian(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        //add wait condition - wait until the page is loaded
+        return new ChallengeTeachInUkrainian(driver);
     }
     public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.getSpeakingClubHeading().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        //add wait condition - wait until the page is loaded
         return new ChallengeUkrainianClubSpeakPage(driver);
     }
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
@@ -66,9 +70,8 @@ public class HomePage extends BasePageWithAdvancedSearch {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.numberOfWindowsToBe( previousTabAmount +1));
         switchToANewTabByItsIndex(previousTabAmount);
-        WebDriverWait waitNewPage = new WebDriverWait(driver, Duration.ofSeconds(30));
         LanguageSphereFacebookPage languageSphereFacebookPage =  new LanguageSphereFacebookPage(driver);
-        waitNewPage.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
+        wait.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
         return languageSphereFacebookPage;
     }
 }

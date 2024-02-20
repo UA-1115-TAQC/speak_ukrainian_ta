@@ -7,8 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+
 @Getter
 public class AdvancedSearchHeaderComponent extends BaseComponent {
     @FindBy(xpath = "//h2[@class='city-name']")
@@ -41,10 +40,17 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
         return this.getSelectionSearchInputField().getAttribute("value");
     }
 
+    public void setTextSelectionSearchInputField(String text) {
+        this.selectionSearchInputField.sendKeys(text);
+    }
+
     public AdvancedSearchTooltip clickSelectionSearchInputField() {
         this.getSelectionSearchInputField().click();
         return advancedSearchTooltip = new AdvancedSearchTooltip(driver, getAdvancedSearchTooltipNode());
     }
+
+    //there is a bug - when you click on this icon after entering some text, nothing happens
+    public void clickSearchIcon() {
 //there is a bug - when you click on this icon after entering some text, nothing happens
     public AdvancedSearchHeaderComponent clickSearchIcon() {
         this.searchIcon.click();

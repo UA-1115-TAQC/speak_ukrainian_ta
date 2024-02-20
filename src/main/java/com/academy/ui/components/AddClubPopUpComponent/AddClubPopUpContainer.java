@@ -12,6 +12,12 @@ public abstract class AddClubPopUpContainer extends BaseComponent {
     @FindBy(xpath = "./descendant::div[contains(@class,'add-club-header')]")
     public WebElement clubTitle;
 
+    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-next')]")
+    private WebElement nextStepButton;
+
+    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-prev')]")
+    private WebElement prevStepButton;
+
     public AddClubPopUpContainer(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

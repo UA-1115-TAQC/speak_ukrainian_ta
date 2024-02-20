@@ -49,11 +49,9 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         }
         throw new IllegalArgumentException("The index must be in the range between 0 and " + (getAllCarouselCards().size() - 1) + ", inclusive");
     }
-
     public boolean checkThatTheClubDirectionCardObtainedByIndexIsActive(int index) {
         return getClubDirectionCardByIndex(index).getClubCardHeading().isDisplayed();
     }
-
     public List<ClubDirectionCard> getActiveCarouselCards() {
         if (activeCarouselCards == null) {
             activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
@@ -69,40 +67,11 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         }
         return activeCarouselCards;
     }
-
     private List<ClubDirectionCard> filterDisplayedCards(List<ClubDirectionCard> cards) {
         return cards.stream()
                 .filter(card -> card.getClubCardHeading().isDisplayed())
                 .collect(Collectors.toList());
     }
-
-
-    /*public List<ClubDirectionCard> getActiveCarouselCards(){
-        if(activeCarouselCards == null){
-            activeCarouselCards = new ArrayList<>();
-            for(ClubDirectionCard card: getAllCarouselCards()){
-                if(card.getClubCardHeading().isDisplayed()){
-                    activeCarouselCards.add(card);
-                }
-            }
-        } else{
-            List<ClubDirectionCard> oldCards = activeCarouselCards;
-            activeCarouselCards = new ArrayList<>();
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-            try {
-                wait.until(ExpectedConditions.invisibilityOf(oldCards.get((oldCards.size() - 1)).getClubCardHeading()));
-                for (ClubDirectionCard card : getAllCarouselCards()) {
-                    if (card.getClubCardHeading().isDisplayed()) {
-                        activeCarouselCards.add(card);
-                    }
-                }
-            }catch (TimeoutException e){
-                activeCarouselCards = oldCards;
-                System.out.println("You are already at the beginning/end of the cards list");
-            }
-        }
-        return activeCarouselCards;
-    }*/
     public ClubDirectionCard getActiveCarouselCardByIndex(int index){
         if (index >= 0 && index <= (getActiveCarouselCards().size() - 1)) {
             return getActiveCarouselCards().get(index);

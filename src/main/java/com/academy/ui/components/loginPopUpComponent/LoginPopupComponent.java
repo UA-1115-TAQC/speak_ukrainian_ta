@@ -1,7 +1,8 @@
 package com.academy.ui.components.loginPopUpComponent;
 
-import com.academy.ui.components.AddClubPopUpComponent.InputElement;
 import com.academy.ui.components.BasePopUp;
+import com.academy.ui.components.elements.LoginPopupElement;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,42 +11,58 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class LoginPopupComponent extends BasePopUp {
 
-    @FindBy(xpath = "//div[@class='login-header']")
+    @FindBy(xpath = "./descendant::div[@class='login-header']")
     private WebElement loginPopUpTitle;
-    @FindBy(xpath = "//img[contains(@src, 'google')]")
+    @FindBy(xpath = "./descendant::img[contains(@src, 'google')]")
     private WebElement googleIcon;
-    @FindBy(xpath = "//img[contains(@src, 'facebook')]")
+    @FindBy(xpath = "./descendant::img[contains(@src, 'facebook')]")
     private WebElement facebookIcon;
-    @FindBy(xpath = "//a[contains(@href, 'authorize/google')]")
+    @FindBy(xpath = "./descendant::a[contains(@href, 'authorize/google')]")
     private WebElement authorizationByGoogle;
-    @FindBy(xpath = "//span[contains(@class, 'label-or')]")
-    private WebElement titleOr;
-    @FindBy(xpath = "//label[@title='Емейл']")
-    private WebElement emailTittle;
-    @FindBy(xpath = "//label[@title='Пароль']")
-    private WebElement passwordTittle;
-    @FindBy(xpath = "//a[contains(@href, 'authorize/facebook')]")
-    private WebElement getAuthorizationByFacebook;
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(xpath = "./descendant::a[contains(@href, 'authorize/facebook')]")
+    private WebElement authorizationByFacebook;
+    @FindBy(xpath = "./descendant::span[contains(@class, 'label-or')]")
+    private WebElement labelOr;
+    @FindBy(xpath = "./descendant::button[@type='submit']")
     private WebElement submitButton;
-    @FindBy(xpath = "//a[contains(@class, 'restore-password-button')]")
-    private WebElement forgotPassword;
-    @FindBy(xpath = "//span[@aria-label='eye']")
-    private WebElement showPassword;
-    @FindBy(xpath = "//span[@aria-label='eye-invisible']")
-    private WebElement hidePassword;
+    @FindBy(xpath = "./descendant::a[contains(@class, 'restore-password-button')]")
+    private WebElement restorePasswordButton;
     @FindBy(xpath = "//body/descendant::div[contains(@class, 'modal-login')][2]")
-    private WebElement innerLoginMenu;
-    @FindBy(xpath = "./descendant::div[@class='ant-form-item-control-input']")
-    private WebElement itemInputForm;
-    private InputElement inputElement;
+    private WebElement restorePasswordMenu;
+    @FindBy(xpath = "./descendant::div[contains(@class, 'ant-form-item login-input css-13m256z')][1]")
+    @Getter(AccessLevel.NONE)
+    private WebElement emailInput;
+    @FindBy(xpath = "./descendant::div[contains(@class, 'ant-form-item login-input css-13m256z')][2]")
+    @Getter(AccessLevel.NONE)
+    private WebElement passwordInput;
+    private final LoginPopupElement passwordInputElement;
+    private final LoginPopupElement emailInputElement;
 
     public LoginPopupComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        inputElement = new InputElement(driver, itemInputForm);
+        passwordInputElement = new LoginPopupElement(driver, passwordInput);
+        emailInputElement = new LoginPopupElement(driver, emailInput);
     }
 
-    public RestorationPasswordComponent getRestorationPasswordComponent() {
-        return new RestorationPasswordComponent(driver, innerLoginMenu);
+    public String getMenuHeaderText() {
+        return loginPopUpTitle.getText();
+    }
+
+    public String getAuthorizationLabelTextOr() {
+        return labelOr.getText();
+    }
+
+    public LoginPopupComponent clickSubmitButton() {
+        submitButton.click();
+        return this;
+    }
+
+    private RestorationPasswordComponent getRestorationPasswordComponent() {
+        return new RestorationPasswordComponent(driver, restorePasswordMenu);
+    }
+
+    public RestorationPasswordComponent clickRestorePasswordButton() {
+        restorePasswordButton.click();
+        return getRestorationPasswordComponent();
     }
 }

@@ -1,8 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.CommentsClubComponent;
-import com.academy.ui.components.FooterComponent;
-import com.academy.ui.pages.header.HeaderComponent;
+import com.academy.ui.components.RatingComponent;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,15 +17,10 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "//div[@class='comments-container']")
     private WebElement commentsClubComponentWebelement;
 
-    private FooterComponent footerComponent;
+    private RatingComponent ratingComponent;
 
-    @FindBy(xpath = "//footer[contains(@class,'ant-layout-footer footer')]")
-    private WebElement footerComponentWebelement;
-
-    private HeaderComponent headerComponent;
-
-    @FindBy(xpath = "//header[contains(@class,'ant-layout-header header')]")
-    private WebElement headerComponentWebelement;
+    @FindBy(xpath = "//ul[@role='radiogroup']")
+    private WebElement ratingComponentWebelement;
 
 
     @FindBy(xpath = "//span[text()='Записатись на гурток']")
@@ -44,23 +38,40 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "//div[@class='tags ']//span[@class='name']")
     private WebElement categoryClubTag;
 
-    @FindBy(xpath = "//p[@class='show-more-p']")
-    private WebElement showMoreButton;
+    @FindBy(xpath = "//textarea[@placeholder='Додайте опис']")
+    private WebElement addDescriptionInput;
+
+    @FindBy(xpath = "//button[contains(@class,'MessageToClubManager')]")
+    private WebElement submitButton;
+
 
     public ClubPage(WebDriver driver) {
         super(driver);
+        this.ratingComponent = getRatingComponent();
+        this.commentsClubComponent = getCommentsClubComponent();
     }
 
 
-    public ClubPage clickOnSignUpForTheGroupButton() {
-        this.signUpForTheGroupButton.click();
-        return new ClubPage(driver);
+    public void clickOnSignUpForTheGroupButton() {
+        signUpForTheGroupButton.click();
     }
 
-    public ClubPage clickOnWriteToTheManagerButton() {
-        this.writeToTheManagerButton.click();
-        return new ClubPage(driver);
+
+    public ClubPage clickOnWriteToManagerButton() {
+        writeToTheManagerButton.click();
+        return this;
     }
+    public ClubPage addTextToManager(String text){
+        addDescriptionInput.sendKeys(text);
+        return this;
+    }
+
+    public ClubPage clickOnSubmitButton(){
+        submitButton.click();
+        return this;
+
+    }
+
 
     public String getNameOfTheClub() {
         return clubName.getText();
@@ -72,16 +83,10 @@ public class ClubPage extends BasePage {
                 commentsClubComponent;
     }
 
-    public HeaderComponent getHeaderComponent(){
-        return headerComponent == null ?
-                headerComponent = new HeaderComponent(driver,headerComponentWebelement):
-                headerComponent;
-    }
-
-    private FooterComponent getFooterComponent(){
-        return footerComponent == null ?
-                footerComponent = new FooterComponent(driver,footerComponentWebelement):
-                footerComponent;
+    public RatingComponent getRatingComponent(){
+        return ratingComponent == null ?
+                ratingComponent = new RatingComponent(driver,ratingComponentWebelement):
+                ratingComponent;
     }
 
     public String getDescriptionOgTheClub(){

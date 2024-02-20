@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
-public class CarouselCardComponent extends BasicCarouselComponent {
+public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCardComponent> {
     public CarouselCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

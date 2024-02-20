@@ -3,9 +3,17 @@ package com.academy.ui.components.advancedSearchHeader;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ClubsPage;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 @Getter
 public class AdvancedSearchHeaderComponent extends BaseComponent {
@@ -52,20 +60,19 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     }
 
     public ClubsPage clickAdvancedSearchIcon() {
-        this.advancedSearchIcon.click();
-        return new ClubsPage(driver);
+        this.getAdvancedSearchIcon().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
+        wait.until(ExpectedConditions.urlContains("clubs"));
+        ClubsPage clubsPage = new ClubsPage(driver);
+        wait.until(ExpectedConditions.visibilityOf(clubsPage.getAdvancedSearchClubHeader().getShowOnMapButton()));
+        return clubsPage;
     }
 
     public AdvancedSearchHeaderComponent clickSelectionSearchCloseButton() {
-        try {
             if (getTextSelectionSearchInputField() != null) {
                 getSelectionSearchCloseButton().click();
                 return this;
             }
-            throw new Error("You haven't entered any text in the search field");
-        } catch (Error error) {
-            System.out.println(error.getMessage());
-            return null;
-        }
+            throw new Error("You haven't entered any text");
     }
 }

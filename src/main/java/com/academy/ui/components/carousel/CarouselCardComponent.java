@@ -13,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCardComponent> {
     public CarouselCardComponent(WebDriver driver, WebElement rootElement) {
@@ -51,7 +53,31 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
     public boolean checkThatTheClubDirectionCardObtainedByIndexIsActive(int index) {
         return getClubDirectionCardByIndex(index).getClubCardHeading().isDisplayed();
     }
-    public List<ClubDirectionCard> getActiveCarouselCards(){
+
+    public List<ClubDirectionCard> getActiveCarouselCards() {
+        if (activeCarouselCards == null) {
+            activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
+        } else {
+            List<ClubDirectionCard> oldCards = new ArrayList<>(activeCarouselCards);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            try {
+                wait.until(ExpectedConditions.invisibilityOf(oldCards.get(oldCards.size() - 1).getClubCardHeading()));
+                activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
+            } catch (TimeoutException e) {
+                System.out.println("You are already at the beginning/end of the cards list");
+            }
+        }
+        return activeCarouselCards;
+    }
+
+    private List<ClubDirectionCard> filterDisplayedCards(List<ClubDirectionCard> cards) {
+        return cards.stream()
+                .filter(card -> card.getClubCardHeading().isDisplayed())
+                .collect(Collectors.toList());
+    }
+
+
+    /*public List<ClubDirectionCard> getActiveCarouselCards(){
         if(activeCarouselCards == null){
             activeCarouselCards = new ArrayList<>();
             for(ClubDirectionCard card: getAllCarouselCards()){
@@ -76,7 +102,7 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
             }
         }
         return activeCarouselCards;
-    }
+    }*/
     public ClubDirectionCard getActiveCarouselCardByIndex(int index){
         if (index >= 0 && index <= (getActiveCarouselCards().size() - 1)) {
             return getActiveCarouselCards().get(index);

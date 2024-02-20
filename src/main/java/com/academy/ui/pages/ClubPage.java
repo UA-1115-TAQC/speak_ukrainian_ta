@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
-
 @Getter
 public class ClubPage extends BasePage {
 
@@ -26,7 +25,7 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "//span[text()='Записатись на гурток']")
     private WebElement signUpForTheGroupButton;
 
-    @FindBy(xpath = "//span[text()='Записатись на гурток']")
+    @FindBy(xpath = "//span[text()='Написати менеджеру']")
     private WebElement writeToTheManagerButton;
 
     @FindBy(xpath = "//div[@class='content']")
@@ -44,11 +43,29 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "//button[contains(@class,'MessageToClubManager')]")
     private WebElement submitButton;
 
+    @FindBy(xpath = "//span[@class='ModalHint_title__ragND']")
+    private WebElement popUpForNotRegisterUser;
+
+    @FindBy(xpath = "//button[@class='ant-modal-close']")
+    private WebElement closePopUpButton;
+
 
     public ClubPage(WebDriver driver) {
         super(driver);
         this.ratingComponent = getRatingComponent();
         this.commentsClubComponent = getCommentsClubComponent();
+    }
+
+    public CommentsClubComponent getCommentsClubComponent() {
+        return commentsClubComponent == null ?
+                commentsClubComponent = new CommentsClubComponent(driver, commentsClubComponentWebelement) :
+                commentsClubComponent;
+    }
+
+    public RatingComponent getRatingComponent() {
+        return ratingComponent == null ?
+                ratingComponent = new RatingComponent(driver, ratingComponentWebelement) :
+                ratingComponent;
     }
 
 
@@ -61,36 +78,33 @@ public class ClubPage extends BasePage {
         writeToTheManagerButton.click();
         return this;
     }
-    public ClubPage addTextToManager(String text){
+
+    public ClubPage addTextToManager(String text) {
         addDescriptionInput.sendKeys(text);
         return this;
     }
 
-    public ClubPage clickOnSubmitButton(){
+    public ClubPage clickOnSubmitButton() {
         submitButton.click();
         return this;
-
     }
-
 
     public String getNameOfTheClub() {
         return clubName.getText();
     }
 
-    public CommentsClubComponent getCommentsClubComponent(){
-        return commentsClubComponent == null ?
-                commentsClubComponent = new CommentsClubComponent(driver, commentsClubComponentWebelement):
-                commentsClubComponent;
-    }
-
-    public RatingComponent getRatingComponent(){
-        return ratingComponent == null ?
-                ratingComponent = new RatingComponent(driver,ratingComponentWebelement):
-                ratingComponent;
-    }
-
-    public String getDescriptionOgTheClub(){
+    public String getDescriptionOgTheClub() {
         return getContent().getText();
+    }
+
+    public ClubPage checkVisibilityOfPopUpForNotRegisterUser() {
+        popUpForNotRegisterUser.isDisplayed();
+        return this;
+    }
+
+    public ClubPage clickOnClosePopUpButton() {
+        closePopUpButton.click();
+        return this;
     }
 
 

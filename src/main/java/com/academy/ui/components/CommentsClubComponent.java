@@ -34,17 +34,18 @@ public class CommentsClubComponent extends BaseComponent {
         return this;
     }
 
-    public CommentsClubComponent clickOnAnswerToComment(){
+    public CommentsClubComponent clickOnAnswerToComment() {
         answerToTheCommentButton.click();
         return this;
     }
-
-
+    public CommentsClubComponent clickOnLeaveComment(){
+        leaveCommentButton.click();
+        return this;
+    }
 
     public CommentsClubComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
 
     }
-
 
 }

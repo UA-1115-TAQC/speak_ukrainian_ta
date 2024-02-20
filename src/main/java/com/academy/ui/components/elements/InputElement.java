@@ -1,4 +1,4 @@
-package com.academy.ui.components.AddClubPopUpComponent;
+package com.academy.ui.components.elements;
 
 import com.academy.ui.components.BaseComponent;
 import lombok.Getter;

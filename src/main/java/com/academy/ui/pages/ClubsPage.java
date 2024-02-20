@@ -6,7 +6,10 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,5 +42,13 @@ public class ClubsPage extends BasePage {
         }
         return clubs;
     }
-
+    public ClubsPage waitUntilClubsPageIsLoaded(int seconds){
+        if(seconds > 0 ) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+            wait.until(ExpectedConditions.urlContains("clubs"));
+            wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
+            return this;
+        }
+        throw new Error("The number of seconds must be greater than 0 and an integer number");
+    }
 }

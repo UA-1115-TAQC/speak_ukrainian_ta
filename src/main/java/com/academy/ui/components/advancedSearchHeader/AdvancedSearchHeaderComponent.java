@@ -61,11 +61,7 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
 
     public ClubsPage clickAdvancedSearchIcon() {
         this.getAdvancedSearchIcon().click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-        wait.until(ExpectedConditions.urlContains("clubs"));
-        ClubsPage clubsPage = new ClubsPage(driver);
-        wait.until(ExpectedConditions.visibilityOf(clubsPage.getAdvancedSearchClubHeader().getShowOnMapButton()));
-        return clubsPage;
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
     public AdvancedSearchHeaderComponent clickSelectionSearchCloseButton() {

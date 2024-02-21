@@ -79,6 +79,9 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
     private List<WebElement> locationList;
 
+    @FindBy(xpath = "//div[contains(@class,'ant-message-top')]")
+    private WebElement topMessage;
+
     @Getter(AccessLevel.NONE)
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
     @Getter(AccessLevel.NONE)

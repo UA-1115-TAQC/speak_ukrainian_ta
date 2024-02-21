@@ -15,6 +15,7 @@ import java.time.Duration;
 public class HeaderComponent extends BaseComponent {
     protected WebElement profileMenuButton;
     protected WebElement groupButton;
+    @FindBy(xpath = "//a[@href='/news']")
     protected WebElement newsButton;
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
@@ -43,15 +44,8 @@ public class HeaderComponent extends BaseComponent {
         this.getProfileMenuButton().click();
     }
 
-    public WebElement getNewsButton() {
-        if (newsButton == null) {
-            newsButton = rootElement.findElement(By.xpath("//a[@href='/news']"));
-        }
-        return newsButton;
-    }
-
-    public AllNewsPage toAllNewsPage() {
-        getNewsButton().click();
+    public AllNewsPage newsButtonClick() {
+        newsButton.click();
         return new AllNewsPage(driver);
     }
 

@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -31,7 +32,10 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'login')]")
     protected WebElement loginDropDownMenu;
-
+    @FindBy(xpath = "//span[contains(@class,\"challenge-text\")]")
+    protected WebElement challengeButton;
+    @FindBy(xpath = "//ul[contains(@id,\"challenge_ONE-popup\")]")
+    protected WebElement headerChallengeDropdownNode;
     public LoginPopupComponent loginPopupComponent;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
@@ -40,6 +44,12 @@ public class HeaderComponent extends BaseComponent {
 
     public void clickMenu() {
         profileMenuButton.click();
+    }
+    public HeaderChallengesDropdown clickChallengeButton(){
+        this.getChallengeButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOf(getHeaderChallengeDropdownNode()));
+        return new HeaderChallengesDropdown(driver, getHeaderChallengeDropdownNode());
     }
 
     public AllNewsPage newsButtonClick() {

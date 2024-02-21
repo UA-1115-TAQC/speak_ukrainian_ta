@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoginPopupElement extends BaseInputElement {
+public class InputWithIconElement extends BaseInputElement {
     @FindBy(xpath = "./descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
     private WebElement validationCircleIcon;
     @FindBy(xpath = "./descendant::span[@class='ant-input-suffix']/span[@aria-label='mail']")
@@ -16,11 +16,11 @@ public class LoginPopupElement extends BaseInputElement {
     @FindBy(xpath = "./descendant::label[@title='Пароль']")
     private WebElement passwordTittle;
 
-    public LoginPopupElement(WebDriver driver, WebElement rootElement) {
+    public InputWithIconElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public LoginPopupElement clickPasswordVisibilityIcon() {
+    public InputWithIconElement clickPasswordVisibilityIcon() {
         passwordVisibilityIcon.click();
         return this;
     }

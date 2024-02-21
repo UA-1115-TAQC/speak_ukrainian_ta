@@ -1,7 +1,7 @@
 package com.academy.ui.components.loginPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
-import com.academy.ui.components.elements.LoginPopupElement;
+import com.academy.ui.components.elements.InputWithIconElement;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class RestorationPasswordComponent extends BasePopUp {
 
-    private final LoginPopupElement emailInputElement;
+    private final InputWithIconElement emailInputElement;
     @FindBy(xpath = "./descendant::div[contains(@class, 'login-header')]")
     private WebElement restorationTittle;
     @FindBy(xpath = "./descendant::button[@type='submit']")
@@ -24,7 +24,7 @@ public class RestorationPasswordComponent extends BasePopUp {
 
     public RestorationPasswordComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        emailInputElement = new LoginPopupElement(driver, emailInput);
+        emailInputElement = new InputWithIconElement(driver, emailInput);
     }
 
     public String getMenuHeader() {

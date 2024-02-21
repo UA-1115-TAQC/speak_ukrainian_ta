@@ -31,6 +31,7 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'login')]")
     protected WebElement loginDropDownMenu;
+
     public LoginPopupComponent loginPopupComponent;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {

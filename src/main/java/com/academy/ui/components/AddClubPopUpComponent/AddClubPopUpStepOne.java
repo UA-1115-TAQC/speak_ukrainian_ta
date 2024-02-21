@@ -1,6 +1,5 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
-import com.academy.ui.components.elements.InputElement;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +11,7 @@ import java.util.List;
 @Getter
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
-    @FindBy(xpath = "./descendant::input[@id='basic_name']")
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-row')]")
     @Getter(AccessLevel.NONE)
     private WebElement clubNameInput;
 
@@ -74,11 +73,11 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     private List<WebElement> centersList;
 
     @Getter(AccessLevel.NONE)
-    public InputElement clubNameInputElement;
+    public AddClubInputElement clubNameInputElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        clubNameInputElement = new InputElement(driver, clubNameInput);
+        clubNameInputElement = new AddClubInputElement(driver, clubNameInput);
     }
 
     public AddClubPopUpStepOne selectCategory(String value) {

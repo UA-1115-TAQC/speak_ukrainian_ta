@@ -20,6 +20,7 @@ public class HeaderComponent extends BaseComponent {
     protected WebElement profileMenuButton;
     @FindBy(xpath = "//*[@id=\"root\"]/div/header/div[2]/ul/li[1]")
     protected WebElement groupButton;
+    @FindBy(xpath = "//a[@href='/news']")
     protected WebElement newsButton;
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
@@ -40,15 +41,8 @@ public class HeaderComponent extends BaseComponent {
         profileMenuButton.click();
     }
 
-    public WebElement getNewsButton() {
-        if (newsButton == null) {
-            newsButton = rootElement.findElement(By.xpath("//a[@href='/news']"));
-        }
-        return newsButton;
-    }
-
-    public AllNewsPage toAllNewsPage() {
-        getNewsButton().click();
+    public AllNewsPage newsButtonClick() {
+        newsButton.click();
         return new AllNewsPage(driver);
     }
 

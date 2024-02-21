@@ -1,6 +1,7 @@
 package com.academy.ui.components;
 
 import com.academy.ui.components.BaseComponent;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class FooterComponent extends BaseComponent {
 
     @FindBy(xpath = "//div[contains(@class,'footer-logo')]")
@@ -35,20 +37,16 @@ public class FooterComponent extends BaseComponent {
         footerLogo.click();
     }
 
-    public String getFooterSponsorsArticle() {
-        return footerSponsorsArticle.getText();
-    }
-
     public List<String> getFooterSocialLinks() {
-        return footerSocialLinks.stream().map(WebElement::getText).collect(Collectors.toList());
-    }
-
-    public String getFooterDonateArticle() {
-        return footerDonateArticle.getText();
+        return footerSocialLinks.stream()
+                .map(link -> link.getAttribute("href"))
+                .collect(Collectors.toList());
     }
 
     public List<String> getFooterSponsorsLinks() {
-        return footerSponsorsLinks.stream().map(WebElement::getText).collect(Collectors.toList());
+        return footerSponsorsLinks.stream()
+                .map(link -> link.getAttribute("href"))
+                .collect(Collectors.toList());
     }
 
     public void clickOnFooterDonateButton() {

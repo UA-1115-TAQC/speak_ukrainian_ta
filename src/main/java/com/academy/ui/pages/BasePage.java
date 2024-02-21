@@ -14,6 +14,7 @@ import java.util.Set;
 public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
     public HeaderComponent header;
     public FooterComponent footer;
+
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();

@@ -1,5 +1,6 @@
 package com.academy.ui.components.carousel;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 @Getter
 public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgComponent>{
+    @Getter(AccessLevel.NONE)
     protected HashMap<Integer, WebElement> switchingCarouselImgCards;
+    @Getter(AccessLevel.NONE)
+    protected CarouselImgCard activeCarouselImgCard;
     public  CarouselImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -38,14 +42,23 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
         }
         throw new IllegalArgumentException("The index must be in the range from 0 to "+(getCarouselImgCards().size()-1)+", inclusive.");
     }
-    public CarouselImgCard getActiveCarouselImgCard()  {
-        int dataIndex = 0;
-        for (int i = 0; i < this.getCarouselImgCards().size(); i++){
-            if( getCarouselImgCards().get(i).getAttribute("class").contains("active")){
-                dataIndex=i;
-            }
-
+    public CarouselImgCard getActiveCarouselImgCard() {
+        int dataIndex = findActiveCarouselImgCardIndex();
+        if (activeCarouselImgCard == null) {
+            return activeCarouselImgCard = new CarouselImgCard(driver, getCarouselImgCards().get(dataIndex));
+        } else {
+            CarouselImgCard oldCard = activeCarouselImgCard;
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            wait.until(ExpectedConditions.invisibilityOf(oldCard.getCardHeading()));
+            return activeCarouselImgCard = new CarouselImgCard(driver, getCarouselImgCards().get(dataIndex));
         }
-        return new CarouselImgCard( driver, this.getCarouselImgCards().get(dataIndex));
+    }
+    public int findActiveCarouselImgCardIndex() {
+        for (int i = 0; i < getCarouselImgCards().size(); i++) {
+            if (getCarouselImgCards().get(i).getAttribute("class").contains("active")) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

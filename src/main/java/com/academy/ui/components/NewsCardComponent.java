@@ -1,11 +1,10 @@
 package com.academy.ui.components;
 
-import lombok.Getter;
+import com.academy.ui.pages.NewsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@Getter
 public class NewsCardComponent extends BaseComponent {
     @FindBy(id = "newsImage")
     private WebElement newsCardImage;
@@ -23,12 +22,10 @@ public class NewsCardComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-    //when NewsPage will be implemented
-    /*public NewsPage toNewsPage() {
-        getNewsCardLink().click();
+    public NewsPage newsCardLinkClick() {
+        newsCardLink.click();
         return new NewsPage(driver);
     }
-    */
 
     public String getNewsDate() {
         return newsCardDate.getText();

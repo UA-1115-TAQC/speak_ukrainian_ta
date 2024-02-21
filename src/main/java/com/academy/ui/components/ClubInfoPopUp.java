@@ -1,5 +1,6 @@
 package com.academy.ui.components;
 
+import com.academy.ui.pages.ClubPage;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,7 +23,7 @@ public class ClubInfoPopUp extends BasePopUp {
     private WebElement clubAgeYears;
 
     @FindBy(xpath = ".//button//a[contains(@href, '/club/')]")
-    private WebElement aboutClubButton;
+    private WebElement clubButton;
 
     @FindBy(xpath = ".//span[@class = 'title']")
     private WebElement aboutClubTitle;
@@ -30,7 +31,16 @@ public class ClubInfoPopUp extends BasePopUp {
     @FindBy(xpath = ".//div[contains(@class, 'about')]//div[@class = 'description']")
     private WebElement aboutClubDescription;
 
-    public ClubInfoPopUp(WebDriver driver, String className) {
-        super(driver, className);
+    public ClubInfoPopUp(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
+    }
+
+    public String getClubTitle() {
+        return clubTitle.getText();
+    }
+
+    public ClubPage clubButtonClick() {
+        clubButton.click();
+        return new ClubPage(driver);
     }
 }

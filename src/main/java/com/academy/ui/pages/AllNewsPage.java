@@ -32,10 +32,6 @@ public class AllNewsPage extends BasePageWithAdvancedSearch {
     private WebElement paginationRoot;
 
     @Getter(AccessLevel.NONE)
-    @FindBy(xpath = "//div[contains(@class, 'clubInfo')]")
-    private WebElement clubInfoPopUp;
-
-    @Getter(AccessLevel.NONE)
     @FindBy(xpath = "//div[@class = 'club-sider']//h2")
     private WebElement clubSiderTitle;
 
@@ -44,6 +40,16 @@ public class AllNewsPage extends BasePageWithAdvancedSearch {
         newsCards = initNewsCardComponents();
         clubCards = initClubCardLinesComponents();
         pagination = new SwitchPaginationComponent(driver, paginationRoot);
+    }
+
+    public AllNewsPage clickNextPage() {
+        pagination.clickNext();
+        return this;
+    }
+
+    public AllNewsPage clickPreviousPage() {
+        pagination.clickPrevious();
+        return this;
     }
 
     public String getClubSiderTitle() {

@@ -1,8 +1,9 @@
-package com.academy.ui.pages.header;
+package com.academy.ui.components.header;
 
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AllNewsPage;
 import lombok.Getter;
@@ -32,19 +33,23 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'login')]")
     protected WebElement loginDropDownMenu;
+
     @FindBy(xpath = "//span[contains(@class,\"challenge-text\")]")
     protected WebElement challengeButton;
+
     @FindBy(xpath = "//ul[contains(@id,\"challenge_ONE-popup\")]")
     protected WebElement headerChallengeDropdownNode;
+
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]")
+    protected WebElement profileMenuNode;
+
+
     public LoginPopupComponent loginPopupComponent;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public void clickMenu() {
-        profileMenuButton.click();
-    }
     public HeaderChallengesDropdown clickChallengeButton(){
         this.getChallengeButton().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -64,10 +69,8 @@ public class HeaderComponent extends BaseComponent {
         return new AddClubPopUpComponent(driver);
     }
 
-    public void clickLoginPopUpMenu() {
-        clickMenu();
-        loginDropDownMenu.click();
-        loginPopupComponent = new LoginPopupComponent(driver,
-                rootElement.findElement(By.xpath("//descendant::div[contains(@class, 'modal-login')][1]")));
+    public GuestMenuComponent openGuestMenu(){
+        profileMenuButton.click();
+        return new GuestMenuComponent(driver, profileMenuNode);
     }
 }

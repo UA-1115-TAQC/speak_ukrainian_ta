@@ -22,4 +22,14 @@ public abstract class AddClubPopUpContainer extends BaseComponent {
         super(driver, rootElement);
     }
 
+    public AddClubPopUpContainer clickNextStepButton(){
+        nextStepButton.click();
+        return this;
+    }
+
+    public AddClubPopUpContainer clickPreviousStepButton(){
+        prevStepButton.click();
+        return this;
+    }
+
 }

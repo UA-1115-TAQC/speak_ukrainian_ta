@@ -52,7 +52,7 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected WebElement registrationButton;
 
     public RegistrationPopupComponent(WebDriver driver) {
-        super(driver, driver.findElement(By.xpath("//div[contains(@class, 'ant-modal-content') and contains(text(), 'Реєстрація')]")));
+        super(driver, driver.findElement(By.xpath("//div[contains(@class, 'ant-modal-content') and contains(., 'Реєстрація')]")));
         lastNameInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='lastName' and @class='ant-input']")));
         firstNameInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='firstName' and @class='ant-input']")));
         phoneInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='phone' and @class='ant-input']")));

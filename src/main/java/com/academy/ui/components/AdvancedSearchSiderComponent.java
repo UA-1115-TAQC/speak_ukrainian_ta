@@ -1,7 +1,8 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.elements.SearchClubDropDownElement;
+import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubsPage;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,67 +17,73 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     @FindBy(xpath = ".//div[contains(@class,'club-list-label')]")
     protected WebElement label;
 
-    @FindBy(xpath = ".//span[contains(@class,'ant-typography')]")
-    protected List<WebElement> sectionTitles;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Гурток/Центр']")
+    protected WebElement clubOrCenterTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Місто']")
+    protected WebElement cityTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Район міста']")
+    protected WebElement districtTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Найближча станція метро']")
+    protected WebElement metroStationTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Ремоут']")
+    protected WebElement onlineTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Категорії']")
+    protected WebElement directionsTitle;
+    @FindBy(xpath = ".//span[contains(@class,'ant-typography') and text()='Вік дитини']")
+    protected WebElement ageTitle;
 
     @FindBy(xpath = ".//label[contains(@class,'ant-radio-wrapper')]")
-    protected List<WebElement> centerOrClubButton;
-
+    protected List<WebElement> centerOrClubRadioButton;
     @FindBy(xpath = ".//div[@id='basic_isOnline']")
     protected WebElement onlineCheckBox;
-
     @FindBy(xpath = ".//div[@id='basic_categoriesName']//label[contains(@class,'ant-checkbox-wrapper')]")
     protected List<WebElement> directionCheckBox;
-
-    @FindBy(xpath = ".//span[@id='basic_age']")
+    @FindBy(xpath = ".//span[@id='basic_age']//input[contains(@class,'ant-input-number-input')]")
     protected WebElement ageInput;
-
     @FindBy(xpath = ".//div[contains(@class,'mobile-clear-button')]")
     protected WebElement clearButton;
-
     @FindBy(xpath = ".//div[contains(@class,'mobile-use-button')]")
     protected WebElement useButton;
 
-    protected SearchClubDropDownElement searchCityDropDown;
-    protected SearchClubDropDownElement searchDistrictDropDown;
-    protected SearchClubDropDownElement searchMetroStationDropDown;
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-select-in-form-item')][1]")
+    @Getter(AccessLevel.NONE)private WebElement searchCityBox;
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-select-in-form-item')][2]")
+    @Getter(AccessLevel.NONE)private WebElement searchDistrictBox;
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-select-in-form-item')][3]")
+    @Getter(AccessLevel.NONE)private WebElement searchMetroBox;
+
+    protected LocationSearchSiderElement searchCityElement;
+    protected LocationSearchSiderElement searchDistrictElement;
+    protected LocationSearchSiderElement searchMetroElement;
 
     public AdvancedSearchSiderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    private SearchClubDropDownElement makeSearchClubDropDownElement(String xpath){
-        WebElement root = rootElement.findElement(By.xpath(xpath));
-        return new SearchClubDropDownElement(driver, root);
-    }
-
-    public SearchClubDropDownElement getSearchCityDropDown(){
-        if(searchCityDropDown == null){
-            searchCityDropDown = makeSearchClubDropDownElement(
-                    "./descendant::div[contains(@class,'ant-select-in-form-item')][1]");
+    public LocationSearchSiderElement getSearchCityElement(){
+        if(searchCityElement == null){
+            searchCityElement = new LocationSearchSiderElement(driver, searchCityBox);
         }
-        return searchCityDropDown;
+        return searchCityElement;
     }
 
-    public SearchClubDropDownElement getSearchDistrictDropDown(){
-        if(searchDistrictDropDown == null){
-            searchDistrictDropDown = makeSearchClubDropDownElement(
-                    "./descendant::div[contains(@class,'ant-select-in-form-item')][2]");
+    public LocationSearchSiderElement getSearchDistrictElement(){
+        if(searchDistrictElement == null){
+            searchDistrictElement = new LocationSearchSiderElement(driver, searchDistrictBox);
         }
-        return searchDistrictDropDown;
+        return searchDistrictElement;
     }
 
-    public SearchClubDropDownElement getSearchMetroStationDropDown(){
-        if(searchMetroStationDropDown == null){
-            searchMetroStationDropDown = makeSearchClubDropDownElement(
-                    "./descendant::div[contains(@class,'ant-select-in-form-item')][3]");
+    public LocationSearchSiderElement getSearchMetroElement(){
+        if(searchMetroElement == null){
+            searchMetroElement = new LocationSearchSiderElement(driver, searchMetroBox);
         }
-        return searchMetroStationDropDown;
+        return searchMetroElement;
     }
 
-    public ClubsPage chooseClubRadioButton(){
-        for(WebElement e : getCenterOrClubButton()){
-            if(e.getText().equals("Гурток")){
+    public ClubsPage chooseRadioButton(String buttonName){
+        for(WebElement e : getCenterOrClubRadioButton()){
+            if(e.getText().equals(buttonName)){
                 e.click();
             }
         }
@@ -84,41 +91,47 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     }
 
     public ClubsPage clickCityClear(){
-        getSearchCityDropDown().clickClear();
+        getSearchCityElement().clickClear();
         return new ClubsPage(driver);
     }
 
     public ClubsPage clickCityDropDown(){
-        getSearchCityDropDown().clickDropDown();
+        getSearchCityElement().clickDropDown();
+        return new ClubsPage(driver);
+    }
+
+    public ClubsPage selectItemCityDropDown(){
+        getSearchCityElement().selectItem();
         return new ClubsPage(driver);
     }
 
     public ClubsPage clickDistrictClear(){
-        getSearchDistrictDropDown().clickClear();
+        getSearchDistrictElement().clickClear();
         return new ClubsPage(driver);
     }
 
     public ClubsPage clickDistrictDropDown(){
-        getSearchDistrictDropDown().clickDropDown();
+        getSearchDistrictElement().clickDropDown();
         return new ClubsPage(driver);
     }
 
-    public ClubsPage clickMetroStationClear(){
-        getSearchMetroStationDropDown().clickClear();
+    public ClubsPage selectItemDistrictDropDown(){
+        getSearchDistrictElement().selectItem();
         return new ClubsPage(driver);
     }
 
-    public ClubsPage clickMetroStationDropDown(){
-        getSearchMetroStationDropDown().clickDropDown();
+    public ClubsPage clickMetroClear(){
+        getSearchMetroElement().clickClear();
         return new ClubsPage(driver);
     }
 
-    public ClubsPage chooseCenterRadioButton(){
-        for(WebElement e : getCenterOrClubButton()){
-            if(e.getText().equals("Центр")){
-                e.click();
-            }
-        }
+    public ClubsPage clickMetroDropDown(){
+        getSearchMetroElement().clickDropDown();
+        return new ClubsPage(driver);
+    }
+
+    public ClubsPage selectItemMetroDropDown(){
+        getSearchMetroElement().selectItem();
         return new ClubsPage(driver);
     }
 
@@ -138,9 +151,7 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     }
 
     public ClubsPage enterAge(String age){
-        getAgeInput().findElement(By.xpath(
-                ".//input[contains(@class,'ant-input-number-input')]"))
-                .sendKeys(age);
+        getAgeInput().sendKeys(age);
         return new ClubsPage(driver);
     }
 
@@ -158,9 +169,9 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         AdvancedSearchSiderComponent as = new AdvancedSearchSiderComponent(driver, root);
 
 
-        SearchClubDropDownElement s = as.getSearchCityDropDown();
+        LocationSearchSiderElement s = as.getSearchCityElement();
 //        s.clickDropDown();
-//        s.getDropDownList();
+//        s.getDropDown();
 //        System.out.println(s.getScrollbar().getAttribute("style"));
 //        System.out.println("***********");
 
@@ -169,7 +180,7 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
 //        System.out.println(s.getDropDownList().getAttribute("class"));
 //        System.out.println("***********");
 
-        s = as.getSearchMetroStationDropDown();
+        s = as.getSearchMetroElement();
         s.clickDropDown();
 //        s.getDropDownList();
         System.out.println(s.getScrollbar().getAttribute("style"));

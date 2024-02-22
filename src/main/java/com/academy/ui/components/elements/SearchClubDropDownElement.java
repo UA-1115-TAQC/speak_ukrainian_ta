@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 @Getter
 public class SearchClubDropDownElement extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@class,'ant-select-clear')]")
@@ -15,27 +17,28 @@ public class SearchClubDropDownElement extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@class,'ant-select-selection-placeholder') or contains(@class, 'ant-select-selection-item')]")
     protected WebElement inputContent;
 
-    protected WebElement dropDownList = null;
+    protected WebElement dropDown = null;
+    protected List<WebElement> dropDownList = null;
     protected WebElement scrollbar = null;
 
     public SearchClubDropDownElement(WebDriver driver, WebElement root) {
         super(driver, root);
     }
 
-    public WebElement getDropDownList(){
+    public WebElement getDropDown(){
         if(dropDownList == null){
             String listId = rootElement.findElement(By.xpath(
                     ".//input[@type='search']"))
                     .getAttribute("aria-owns");
-            dropDownList = driver.findElement(By.xpath(
+            dropDown = driver.findElement(By.xpath(
                     "//div[@id='" + listId + "']/following-sibling::div"));
         }
-        return dropDownList;
+        return dropDown;
     }
 
     public WebElement getScrollbar(){
         if(scrollbar == null){
-            scrollbar = getDropDownList().findElement(By.xpath(
+            scrollbar = getDropDown().findElement(By.xpath(
                             ".//div[@class='rc-virtual-list-scrollbar-thumb']"));
         }
         return scrollbar;
@@ -51,11 +54,19 @@ public class SearchClubDropDownElement extends BaseComponent{
         return this;
     }
 
-    public SearchClubDropDownElement scroll(){
+    public SearchClubDropDownElement scrollDown(){
 //        TODO
-//        getScrollbar().click();
         return this;
     }
 
+    public SearchClubDropDownElement scrollUp(){
+//        TODO
+        return this;
+    }
+
+    public SearchClubDropDownElement selectItem(){
+//        TODO
+        return this;
+    }
 
 }

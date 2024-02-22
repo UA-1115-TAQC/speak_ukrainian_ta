@@ -36,17 +36,16 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected WebElement passwordHeader;
     @FindBy(xpath="//label[@for='confirm' and @class='ant-form-item-required']")
     protected WebElement passwordConfirmationHeader;
-    @FindBy(xpath="//input[@id='lastName' and @class='ant-input']")
     protected InputElement lastNameInput;
-    @FindBy(xpath="//input[@id='firstName' and @class='ant-input']")
+
     protected InputElement firstNameInput;
-    @FindBy(xpath="//input[@id='phone' and @class='ant-input']")
+
     protected InputElement phoneInput;
-    @FindBy(xpath="//input[@id='email' and @class='ant-input']")
+
     protected InputElement emailInput;
-    @FindBy(xpath="//input[@id='password' and @class='ant-input']")
+
     protected InputElement passwordInput;
-    @FindBy(xpath="//input[@id='confirm' and @class='ant-input']")
+
     protected InputElement passwordConfirmationInput;
 
     @FindBy(xpath="//button[contains(@class, 'registration-button')]\n")
@@ -54,11 +53,16 @@ public class RegistrationPopupComponent extends BasePopUp {
 
     public RegistrationPopupComponent(WebDriver driver) {
         super(driver, driver.findElement(By.xpath("//div[contains(@class, 'ant-modal-content')]")));
+        lastNameInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='lastName' and @class='ant-input']")));
+        firstNameInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='firstName' and @class='ant-input']")));
+        phoneInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='phone' and @class='ant-input']")));
+        emailInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='email' and @class='ant-input']")));
+        passwordInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='password' and @class='ant-input']")));
+        passwordConfirmationInput = new InputElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='confirm' and @class='ant-input']")));
     }
     public String getRegistrationHeaderText() {
         return registrationHeader.getAttribute("innerText");
     }
-
 
     public void selectUserType(String userType) {
         if (userType.equalsIgnoreCase("ROLE_USER")) {

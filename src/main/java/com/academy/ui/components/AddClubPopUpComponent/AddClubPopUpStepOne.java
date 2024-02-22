@@ -72,8 +72,7 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "//div[@class='ant-select-item-option-content']")
     private List<WebElement> centersList;
 
-    @Getter(AccessLevel.NONE)
-    public AddClubInputElement clubNameInputElement;
+    private AddClubInputElement clubNameInputElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -97,10 +96,15 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    public AddClubPopUpStepOne clickToSelectCenter(String value) {
+    public AddClubPopUpStepOne selectCenter(String value) {
         centersList.stream()
                 .filter(center -> (center.getAttribute("innerText").equals(value)))
                 .forEach(WebElement::click);
+        return this;
+    }
+
+    public AddClubPopUpStepOne clickCenterDropdown(){
+        centerSelect.click();
         return this;
     }
 

@@ -51,6 +51,20 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         super(driver, rootElement);
     }
 
+    public AddClubPopUpStepThree clickClubLogoDownloadButton(){
+        clubLogoDownloadButton.click();
+        return this;
+    }
+    public AddClubPopUpStepThree clickClubGalleryDownloadButton(){
+        clubGalleryDownloadButton.click();
+        return this;
+    }
+
+    public AddClubPopUpStepThree clickClubCoverDownloadButton(){
+        clubCoverDownloadButton.click();
+        return this;
+    }
+
     public void clickCompleteButton(){
         getNextStepButton().click();
     }

@@ -105,6 +105,11 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         this.siteInputElement = new AddClubInputElement(driver, siteInput);
     }
 
+    public AddClubPopUpStepTwo clickSwitchButton(){
+        switchButton.click();
+        return this;
+    }
+
     public Boolean isSwitchButtonChecked() {
         return switchButton.getAttribute("aria-checked").equals("true");
     }
@@ -130,6 +135,17 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     }
 
     public AddLocationPopUpComponent getAddLocationPopUpComponent() {
+        addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
+        return addLocationPopUpComponent;
+    }
+
+    public AddClubPopUpStepTwo clickOnDayCheckbox(String day){
+        dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
+        return this;
+    }
+
+    public AddLocationPopUpComponent clickAddLocationButton(){
+        addLocationButton.click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
         return addLocationPopUpComponent;
     }

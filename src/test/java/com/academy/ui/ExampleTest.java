@@ -18,14 +18,15 @@ public class ExampleTest extends BaseTestRunner {
         String s = card.getTitle().getText();
         System.out.println("test");
     }
+
     @Test
     public void open_menu_test2() {
         LoginPopupComponent loginForm = homePage
                 .header
                 .openGuestMenu()
                 .openLoginForm();
-        loginForm.getEmailInputElement().setValue(configProperties.getAdminEmail());
-        loginForm.getPasswordInputElement().setValue(configProperties.getAdminPassword());
+        loginForm.enterEmail(configProperties.getAdminEmail());
+        loginForm.enterPassword(configProperties.getAdminPassword());
 
         loginForm.clickSubmitButton();
 

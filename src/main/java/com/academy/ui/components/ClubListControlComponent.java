@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -15,8 +16,11 @@ public class ClubListControlComponent extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@class,'control-sort-label')]")
     protected WebElement sortLabel;
 
-    @FindBy(xpath = ".//span[contains(@class, 'control-sort-option')]")
-    protected List<WebElement> sortOptions;
+    @FindBy(xpath = ".//span[text()='за алфавітом']")
+    protected WebElement sortByAlphabet;
+
+    @FindBy(xpath = ".//span[text()='за рейтингом']")
+    protected WebElement sortByRating;
 
     @FindBy(xpath = ".//span[contains(@aria-label, 'arrow-up')]")
     protected WebElement arrowUp;
@@ -24,28 +28,23 @@ public class ClubListControlComponent extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@aria-label, 'arrow-down')]")
     protected WebElement arrowDown;
 
-    @FindBy(xpath = ".//label[contains(@class, 'ant-radio-button-wrapper')]")
-    protected List<WebElement> wrappers;
+    @FindBy(xpath = ".//label[contains(@class, 'ant-radio-button-wrapper')][1]")
+    protected WebElement wrapperList;
+
+    @FindBy(xpath = ".//label[contains(@class, 'ant-radio-button-wrapper')][2]")
+    protected WebElement wrapperBlock;
 
     public ClubListControlComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public ClubsPage clickSortAlphabet(){
-        for(WebElement e : getSortOptions()){
-            if(e.getText().equals("за алфавітом")){
-                e.click();
-            }
-        }
+    public ClubsPage clickSortByAlphabet(){
+        getSortByAlphabet().click();
         return new ClubsPage(driver);
     }
 
-    public ClubsPage clickSortRating(){
-        for(WebElement e : getSortOptions()){
-            if(e.getText().equals("за рейтингом")){
-                e.click();
-            }
-        }
+    public ClubsPage clickSortByRating(){
+        getSortByRating().click();
         return new ClubsPage(driver);
     }
 
@@ -60,24 +59,12 @@ public class ClubListControlComponent extends BaseComponent{
     }
 
     public ClubsPage clickWrapperList(){
-        for(WebElement e : getWrappers()) {
-            WebElement input = e.findElement(By.xpath(
-                    ".//input[@class='ant-radio-button-input']"));
-            if(input.getDomAttribute("value").equals("LIST")){
-                e.click();
-            }
-        }
+        getWrapperList().click();
         return new ClubsPage(driver);
     }
 
     public ClubsPage clickWrapperBlock(){
-        for(WebElement e : getWrappers()) {
-            WebElement input = e.findElement(By.xpath(
-                    ".//input[@class='ant-radio-button-input']"));
-            if(input.getDomAttribute("value").equals("BLOCK")){
-                e.click();
-            }
-        }
+        getWrapperBlock().click();
         return new ClubsPage(driver);
     }
 

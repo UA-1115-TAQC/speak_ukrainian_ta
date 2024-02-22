@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+
 @Getter
 public class LocationSearchSiderElement extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@class,'ant-select-clear')]")
@@ -17,7 +18,7 @@ public class LocationSearchSiderElement extends BaseComponent{
     protected WebElement inputContent;
 
     @FindBy(xpath = ".//input[@type='search']")
-    @Getter(AccessLevel.NONE)private WebElement inputBar;
+    @Getter(AccessLevel.NONE)private WebElement inputBox;
 
     protected LocationSearchDropDownElement dropDownElement;
 
@@ -27,7 +28,7 @@ public class LocationSearchSiderElement extends BaseComponent{
 
     public LocationSearchDropDownElement getDropDownElement(){
         if(dropDownElement == null){
-            String listId = inputBar.getAttribute("aria-owns");
+            String listId = inputBox.getAttribute("aria-owns");
             WebElement dropDownRoot = driver.findElement(By.xpath(
                     "//div[@id='" + listId + "']/following-sibling::div"));
             dropDownElement = new LocationSearchDropDownElement(driver, dropDownRoot);
@@ -45,22 +46,8 @@ public class LocationSearchSiderElement extends BaseComponent{
         return this;
     }
 
-    public WebElement getScrollbar(){
-        return getDropDownElement().getScrollbar();
-    }
-
-    public LocationSearchSiderElement scrollDown(){
-        getDropDownElement().scrollDown();
-        return this;
-    }
-
-    public LocationSearchSiderElement scrollUp(){
-        getDropDownElement().scrollUp();
-        return this;
-    }
-
-    public LocationSearchSiderElement selectItem(){
-        getDropDownElement().selectItem();
+    public LocationSearchSiderElement selectItem(String itemName){
+        getDropDownElement().selectItem(itemName);
         return this;
     }
 

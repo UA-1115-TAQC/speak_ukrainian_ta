@@ -4,10 +4,8 @@ import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubsPage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -37,7 +35,7 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     @FindBy(xpath = ".//div[@id='basic_isOnline']")
     protected WebElement onlineCheckBox;
     @FindBy(xpath = ".//div[@id='basic_categoriesName']//label[contains(@class,'ant-checkbox-wrapper')]")
-    protected List<WebElement> directionCheckBox;
+    protected List<WebElement> directionsCheckBox;
     @FindBy(xpath = ".//span[@id='basic_age']//input[contains(@class,'ant-input-number-input')]")
     protected WebElement ageInput;
     @FindBy(xpath = ".//div[contains(@class,'mobile-clear-button')]")
@@ -100,8 +98,8 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         return new ClubsPage(driver);
     }
 
-    public ClubsPage selectItemCityDropDown(){
-        getSearchCityElement().selectItem();
+    public ClubsPage selectItemCity(String itemName){
+        getSearchCityElement().selectItem(itemName);
         return new ClubsPage(driver);
     }
 
@@ -115,8 +113,8 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         return new ClubsPage(driver);
     }
 
-    public ClubsPage selectItemDistrictDropDown(){
-        getSearchDistrictElement().selectItem();
+    public ClubsPage selectItemDistrict(String itemName){
+        getSearchDistrictElement().selectItem(itemName);
         return new ClubsPage(driver);
     }
 
@@ -130,8 +128,8 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         return new ClubsPage(driver);
     }
 
-    public ClubsPage selectItemMetroDropDown(){
-        getSearchMetroElement().selectItem();
+    public ClubsPage selectItemMetro(String itemName){
+        getSearchMetroElement().selectItem(itemName);
         return new ClubsPage(driver);
     }
 
@@ -140,8 +138,8 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         return new ClubsPage(driver);
     }
 
-    public ClubsPage checkDirection(String direction){
-        for(WebElement e : getDirectionCheckBox()){
+    public ClubsPage checkDirectionCheckBox(String direction){
+        for(WebElement e : getDirectionsCheckBox()){
             String text = e.getText();
             if(text.equals(direction)){
                 e.click();
@@ -154,39 +152,5 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         getAgeInput().sendKeys(age);
         return new ClubsPage(driver);
     }
-
-
-//    TODO delete
-    public static void main(String[] args){
-        ChromeDriver driver = new ChromeDriver();
-        driver.get("http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/clubs");
-        driver.findElement(By.xpath(
-                "//*[@id=\"root\"]/div/div[2]/main/div/div[1]/div[2]/div/div[2]/span[2]"))
-                .click();
-
-        WebElement root = driver.findElement(By.xpath(
-                "//div[@class='ant-layout-sider-children']"));
-        AdvancedSearchSiderComponent as = new AdvancedSearchSiderComponent(driver, root);
-
-
-        LocationSearchSiderElement s = as.getSearchCityElement();
-//        s.clickDropDown();
-//        s.getDropDown();
-//        System.out.println(s.getScrollbar().getAttribute("style"));
-//        System.out.println("***********");
-
-//        s = as.getSearchDistrictDropDown();
-//        s.clickDropDown();
-//        System.out.println(s.getDropDownList().getAttribute("class"));
-//        System.out.println("***********");
-
-        s = as.getSearchMetroElement();
-        s.clickDropDown();
-//        s.getDropDownList();
-        System.out.println(s.getScrollbar().getAttribute("style"));
-        System.out.println("***********");
-
-    }
-
 
 }

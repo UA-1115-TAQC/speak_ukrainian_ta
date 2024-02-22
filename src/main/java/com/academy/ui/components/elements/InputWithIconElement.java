@@ -1,9 +1,11 @@
 package com.academy.ui.components.elements;
 
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Getter
 public class InputWithIconElement extends BaseInputElement {
     @FindBy(xpath = "./descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
     private WebElement validationCircleIcon;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.academy.ui.pages.DirectionTagComponent;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,7 +46,13 @@ public class ClubInfoPopUp extends BasePopUp {
     @FindBy(xpath = ".//button[contains(@class,'download-button')]")
     protected WebElement downloadButton;
 
-    protected List<DirectionTagComponent> directionTags;
+    @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
+    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+
+    @FindBy(xpath = ".//div[contains(@class,'contact')]")
+    @Getter(AccessLevel.NONE)private List<WebElement> contactTags;
+
+    protected List<DirectionTagComponent> directions;
     protected List<ContactElement> socialMedia;
 
     public ClubInfoPopUp(WebDriver driver, WebElement rootElement) {
@@ -53,23 +60,19 @@ public class ClubInfoPopUp extends BasePopUp {
     }
 
     public List<DirectionTagComponent> getDirectionTags() {
-        if (directionTags == null) {
-            directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(
-                    ".//span[contains(@class,'ant-tag')]"));
-            for (WebElement tag : tags) {
-                directionTags.add(new DirectionTagComponent(driver, tag));
+        if (directions == null) {
+            directions = new ArrayList<>();
+            for (WebElement tag : directionTags) {
+                directions.add(new DirectionTagComponent(driver, tag));
             }
         }
-        return directionTags;
+        return directions;
     }
 
     public List<ContactElement> getSocialMedia() {
         if (socialMedia == null) {
             socialMedia = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(
-                    ".//div[contains(@class,'contact')]"));
-            for (WebElement tag : tags) {
+            for (WebElement tag : contactTags) {
                 socialMedia.add(new ContactElement(driver, tag));
             }
         }

@@ -45,17 +45,11 @@ public class SwitchPaginationComponent extends BaseComponent {
     }
 
     public void clickPrevious() {
-        WebElement previousButton = previousItem.findElement(By.xpath(".//button"));
-        if (previousButton.isEnabled()) {
-            previousButton.click();
-        }
+        previousItem.click();
     }
 
     public void clickNext() {
-        WebElement nextButton = nextItem.findElement(By.xpath(".//button"));
-        if (nextButton.isEnabled()) {
-            nextButton.click();
-        }
+        nextItem.click();
     }
 
     public void clickPagItemByNum(String pageNum) {

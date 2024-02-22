@@ -1,15 +1,10 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.FooterComponent;
-import com.academy.ui.pages.header.HeaderComponent;
+import com.academy.ui.components.header.HeaderComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WindowType;
-
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
 
 public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
     public HeaderComponent header;

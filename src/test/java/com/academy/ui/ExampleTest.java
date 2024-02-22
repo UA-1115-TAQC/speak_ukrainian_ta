@@ -1,9 +1,11 @@
 package com.academy.ui;
 
+import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.BaseTestRunner;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ExampleTest extends BaseTestRunner {
@@ -15,5 +17,20 @@ public class ExampleTest extends BaseTestRunner {
         ClubCardComponent card = page.getClubCards().get(1);
         String s = card.getTitle().getText();
         System.out.println("test");
+    }
+    @Test
+    public void open_menu_test2() {
+        LoginPopupComponent loginForm = homePage
+                .header
+                .openGuestMenu()
+                .openLoginForm();
+        loginForm.getEmailInputElement().setValue(configProperties.getAdminEmail());
+        loginForm.getPasswordInputElement().setValue(configProperties.getAdminPassword());
+
+        loginForm.clickSubmitButton();
+
+        HomePage homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.header.getIsLoggedIn().isDisplayed());
+
     }
 }

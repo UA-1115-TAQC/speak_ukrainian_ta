@@ -1,6 +1,7 @@
 package com.academy.ui.components.RegistrationPopup;
 
 
+import com.academy.ui.components.AddClubPopUpComponent.InputElement;
 import com.academy.ui.components.BasePopUp;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -36,30 +37,18 @@ public class RegistrationPopupComponent extends BasePopUp {
     @FindBy(xpath="//label[@for='confirm' and @class='ant-form-item-required']")
     protected WebElement passwordConfirmationHeader;
     @FindBy(xpath="//input[@id='lastName' and @class='ant-input']")
-    protected WebElement lastNameInput;
+    protected InputElement lastNameInput;
     @FindBy(xpath="//input[@id='firstName' and @class='ant-input']")
-    protected WebElement firstNameInput;
+    protected InputElement firstNameInput;
     @FindBy(xpath="//input[@id='phone' and @class='ant-input']")
-    protected WebElement phoneInput;
+    protected InputElement phoneInput;
     @FindBy(xpath="//input[@id='email' and @class='ant-input']")
-    protected WebElement emailInput;
+    protected InputElement emailInput;
     @FindBy(xpath="//input[@id='password' and @class='ant-input']")
-    protected WebElement passwordInput;
+    protected InputElement passwordInput;
     @FindBy(xpath="//input[@id='confirm' and @class='ant-input']")
-    protected WebElement passwordConfirmationInput;
+    protected InputElement passwordConfirmationInput;
 
-    @FindBy(xpath="//div[@id='lastName_help']/div[@class='ant-form-item-explain-error']")
-    protected WebElement lastNameInputError;
-    @FindBy(xpath="//div[@id='firstName_help']/div[@class='ant-form-item-explain-error']")
-    protected WebElement firstNameInputError;
-    @FindBy(xpath="//div[@id='phone_help']/div[@class='ant-form-item-explain-error']")
-    protected List<WebElement> phoneInputError;
-    @FindBy(xpath="//div[@id='email_help']/div[@class='ant-form-item-explain-error']")
-    protected WebElement emailInputError;
-    @FindBy(xpath="//div[@id='password_help']/div[@class='ant-form-item-explain-error']")
-    protected List<WebElement> passwordInputError;
-    @FindBy(xpath="//div[@id='confirm_help']/div[@class='ant-form-item-explain-error']")
-    protected WebElement passwordConfirmationInputError;
     @FindBy(xpath="//button[contains(@class, 'registration-button')]\n")
     protected WebElement registrationButton;
 
@@ -69,46 +58,7 @@ public class RegistrationPopupComponent extends BasePopUp {
     public String getRegistrationHeaderText() {
         return registrationHeader.getAttribute("innerText");
     }
-    public RegistrationPopupComponent setLastNameInput(String lastName) {
-        lastNameInput.sendKeys(lastName);
-        return this;
-    }
-    public RegistrationPopupComponent setFirstNameInput(String firstName) {
-        firstNameInput.sendKeys(firstName);
-        return this;
-    }
-    public RegistrationPopupComponent setEmailInput(String email) { emailInput.sendKeys(email); return this;}
-    public RegistrationPopupComponent setPhoneInput(String phone) { phoneInput.sendKeys(phone); return this;}
-    public RegistrationPopupComponent setPasswordInput(String password) { passwordInput.sendKeys(password); return this;}
-    public RegistrationPopupComponent setPasswordConfirmationInput(String phoneConfirmation) { passwordConfirmationInput.sendKeys(phoneConfirmation); return this;}
 
-    public String getLastNameErrorText() {
-        return lastNameInputError != null ? lastNameInputError.getAttribute("innerText") : null;
-    }
-
-    public String getFirstNameErrorText() {
-        return firstNameInputError != null ? firstNameInputError.getAttribute("innerText") : null;
-    }
-
-    public List<String> getPhoneErrorText() {
-        List<String> errors = new ArrayList<>();
-        if (phoneInputError != null) {
-            phoneInputError.forEach(error -> errors.add(error.getAttribute("innerText")));
-        }
-        return errors;
-    }
-
-    public String getEmailErrorText() {
-        return emailInputError != null ? emailInputError.getAttribute("innerText") : null;
-    }
-
-    public List<String> getPasswordErrorText() {
-        List<String> errors = new ArrayList<>();
-        if (passwordInputError != null) {
-            passwordInputError.forEach(error -> errors.add(error.getAttribute("innerText")));
-        }
-        return errors;
-    }
 
     public void selectUserType(String userType) {
         if (userType.equalsIgnoreCase("ROLE_USER")) {

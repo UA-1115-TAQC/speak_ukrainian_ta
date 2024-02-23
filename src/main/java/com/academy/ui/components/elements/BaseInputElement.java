@@ -7,14 +7,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Getter
-public class BaseInputElement  extends BaseComponent {
+public class BaseInputElement extends BaseComponent {
     @FindBy(xpath = ".//input")
     protected WebElement input;
+
     public BaseInputElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
+
     public BaseInputElement setValue(String value) {
         input.sendKeys(value);
         return this;
     }
+
+    public BaseInputElement clearInput() {
+        input.clear();
+        return this;
+    }
+
 }

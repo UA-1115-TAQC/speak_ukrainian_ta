@@ -29,7 +29,7 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
         return addClubPopUp.getStepThreeContainer();
     }
 
-
+    //https://jira.softserve.academy/browse/TUA-177
     @Test
     public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols(){
 
@@ -46,7 +46,7 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 1500 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no with 50 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1501_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE), "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
@@ -54,6 +54,6 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1550_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE), "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
 
+        softAssert.assertAll();
     }
-
 }

@@ -14,7 +14,7 @@ public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
     public HeaderComponent header;
     public FooterComponent footer;
     @FindBy(xpath = "//div[@class='ant-message-notice-wrapper']/descendant::div[contains(@class, 'ant-message-error') or contains(@class, 'ant-message-success')]")
-    private WebElement loginNotice;
+    private WebElement topNoticeMessage;
 
     public BasePage(WebDriver driver) {
         super(driver);

@@ -1,14 +1,13 @@
 package com.academy.ui.runners;
 
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
-import com.academy.ui.pages.HomePage;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 public class LoginWithAdminTestRunner extends BaseTestRunner{
 
-    @BeforeClass
+    @BeforeMethod
     public void loginPrecondition() {
-        LoginPopupComponent loginForm = new HomePage(driver)
+        LoginPopupComponent loginForm = homePage
                 .header
                 .openGuestMenu()
                 .openLoginForm();
@@ -16,7 +15,5 @@ public class LoginWithAdminTestRunner extends BaseTestRunner{
         loginForm.getPasswordInputElement().setValue(configProperties.getAdminPassword());
 
         loginForm.clickSubmitButton();
-
-        homePage = new HomePage(driver);
     }
 }

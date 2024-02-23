@@ -1,6 +1,7 @@
 package com.academy.ui.components.loginPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
+import com.academy.ui.components.elements.BaseInputElement;
 import com.academy.ui.components.elements.InputWithIconElement;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -64,5 +65,13 @@ public class LoginPopupComponent extends BasePopUp {
     public RestorationPasswordComponent clickRestorePasswordButton() {
         restorePasswordButton.click();
         return getRestorationPasswordComponent();
+    }
+
+    public BaseInputElement enterEmail(String email) {
+        return emailInputElement.setValue(email);
+    }
+
+    public BaseInputElement enterPassword(String password) {
+        return passwordInputElement.setValue(password);
     }
 }

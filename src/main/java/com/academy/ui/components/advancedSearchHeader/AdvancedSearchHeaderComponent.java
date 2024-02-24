@@ -1,83 +1,74 @@
 package com.academy.ui.components.advancedSearchHeader;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.pages.ClubsPage;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+@Getter
 public class AdvancedSearchHeaderComponent extends BaseComponent {
+    @FindBy(xpath = "//h2[@class='city-name']")
     protected WebElement advancedSearchTextHeading;
+    @FindBy(xpath = "//div[contains(@class, \"search\")]//input[@type=\"search\"]")
     protected WebElement selectionSearchInputField;
+    @FindBy(xpath = "//span[@class='ant-select-selection-placeholder']")
     protected WebElement selectionSearchInputFieldPlaceholder;
+    @FindBy(xpath = "//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]")
     protected WebElement searchIcon;
+    @FindBy(xpath = "//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"control\"]")
     protected WebElement advancedSearchIcon;
-    protected AdvancedSearchTooltip advancedSearchTooltip;
+    @FindBy(xpath = "//span[@aria-label=\"close-circle\"]")
+    protected WebElement searchInputCloseButton;
+    @FindBy(xpath = "//div[contains(@class, \"rc-virtual-list-holder-inner\")]")
+    protected WebElement advancedSearchTooltipNode;
+    @FindBy(xpath = "//span[@aria-label=\"close-circle\"]")
+    protected WebElement selectionSearchCloseButton;
+
 
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-    }
-
-    public WebElement getAdvancedSearchTextHeading() {
-        if (advancedSearchTextHeading == null) {
-            advancedSearchTextHeading = rootElement.findElement(By.xpath("//h2[@class='city-name']"));
-        }
-        return advancedSearchTextHeading;
-    }
-
-    public WebElement getSelectionSearchInputField() {
-        if (selectionSearchInputField == null) {
-            selectionSearchInputField = rootElement.findElement(By.xpath("//div[contains(@class, \"search\")]//input[@type=\"search\"]"));
-        }
-        return selectionSearchInputField;
-    }
-
-    public WebElement getSelectionSearchInputFieldPlaceholder() {
-        if (selectionSearchInputFieldPlaceholder == null) {
-            selectionSearchInputFieldPlaceholder = rootElement.findElement(By.xpath("//span[@class='ant-select-selection-placeholder']"));
-        }
-        return selectionSearchInputFieldPlaceholder;
-    }
-
-    public void setTextSelectionSearchInputField(String text) {
-        this.getSelectionSearchInputField().sendKeys(text);
     }
 
     public String getTextSelectionSearchInputField() {
         return this.getSelectionSearchInputField().getAttribute("value");
     }
 
-    public WebElement getSearchIcon() {
-        if (searchIcon == null) {
-            searchIcon = rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"search\"]"));
-        }
-        return searchIcon;
+    public AdvancedSearchHeaderComponent setTextSelectionSearchInputField(String text) {
+        this.selectionSearchInputField.sendKeys(text);
+        return this;
     }
 
-    public WebElement getAdvancedSearchIcon() {
-        if (advancedSearchIcon == null) {
-            advancedSearchIcon = rootElement.findElement(By.xpath("//div[contains(@class, \"search-icon-group\")]/span[@aria-label=\"control\"]"));
-        }
-        return advancedSearchIcon;
-    }
-
-    public void clickSelectionSearchInputField() {
+    public AdvancedSearchTooltip clickSelectionSearchInputField() {
         this.getSelectionSearchInputField().click();
-        if (advancedSearchTooltip == null) {
-            WebElement node = driver.findElement(By.xpath("//div[contains(@class, \"rc-virtual-list-holder-inner\")]"));
-            advancedSearchTooltip = new AdvancedSearchTooltip(driver, node);
-        }
+        return new AdvancedSearchTooltip(driver, getAdvancedSearchTooltipNode());
     }
 
-    public AdvancedSearchTooltip getAdvancedSearchTooltip() {
-        return advancedSearchTooltip;
+    //there is a bug - when you click on this icon after entering some text, nothing happens
+    public AdvancedSearchHeaderComponent clickSearchIcon() {
+        this.searchIcon.click();
+        return this;
     }
 
-    public void clickSearchIcon() {
-        this.getSearchIcon().click();
-    }
-
-    public void clickAdvancedSearchIcon() {
+    public ClubsPage clickAdvancedSearchIcon() {
         this.getAdvancedSearchIcon().click();
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
+    public AdvancedSearchHeaderComponent clickSelectionSearchCloseButton() {
+            if (getTextSelectionSearchInputField() != null) {
+                getSelectionSearchCloseButton().click();
+                return this;
+            }
+            throw new Error("You haven't entered any text");
+    }
 }

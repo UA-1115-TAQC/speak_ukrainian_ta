@@ -1,8 +1,8 @@
 package com.academy.ui.components.RegistrationPopup;
 
 
-import com.academy.ui.components.AddClubPopUpComponent.InputElement;
 import com.academy.ui.components.BasePopUp;
+import com.academy.ui.components.elements.InputElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

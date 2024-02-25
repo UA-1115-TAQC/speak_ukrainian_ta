@@ -13,7 +13,7 @@ public class NewsCardComponent extends BaseComponent {
     private WebElement newsCardDate;
 
     @FindBy(id = "newsTitle")
-    public WebElement newsCardTitle;
+    private WebElement newsCardTitle;
 
     @FindBy(xpath = ".//a[contains(@href, '/news/')]")
     private WebElement newsCardLink;

@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
@@ -52,13 +53,19 @@ public class HomePage extends BasePageWithAdvancedSearch {
                 carouselImgComponent = new CarouselImgComponent(driver, carouselImgComponentWebElement) :
                 carouselImgComponent;
     }
-    public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
+    public BaseChallengePage clickChallengeFindOutMoreButton() {
         this.getChallengeFindOutMoreButton().click();
-        return  new ChallengeTeachInUkrainian(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        BaseChallengePage baseChallengePage =new BaseChallengePage(driver);
+        wait.until(ExpectedConditions.visibilityOf(baseChallengePage.getChallengeImageText()));
+        return baseChallengePage;
     }
     public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.getSpeakingClubHeading().click();
-        return new ChallengeUkrainianClubSpeakPage(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        ChallengeUkrainianClubSpeakPage challengeUkrainianClubSpeakPage = new ChallengeUkrainianClubSpeakPage(driver);
+        wait.until(ExpectedConditions.visibilityOf(challengeUkrainianClubSpeakPage.getChallengeImageText()));
+        return challengeUkrainianClubSpeakPage;
     }
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
         int previousTabAmount = getTabHandles().size();
@@ -66,9 +73,8 @@ public class HomePage extends BasePageWithAdvancedSearch {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.numberOfWindowsToBe( previousTabAmount +1));
         switchToANewTabByItsIndex(previousTabAmount);
-        WebDriverWait waitNewPage = new WebDriverWait(driver, Duration.ofSeconds(30));
         LanguageSphereFacebookPage languageSphereFacebookPage =  new LanguageSphereFacebookPage(driver);
-        waitNewPage.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
+        wait.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
         return languageSphereFacebookPage;
     }
 }

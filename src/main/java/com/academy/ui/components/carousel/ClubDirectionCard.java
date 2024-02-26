@@ -7,6 +7,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 @Getter
 public class ClubDirectionCard extends BaseComponent {
@@ -25,10 +29,10 @@ public class ClubDirectionCard extends BaseComponent {
     }
     public ClubsPage clickClubCardButton() {
         this.getClubCardButton().click();
-        return new ClubsPage(driver);
+        return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
     public ClubsPage clickClubCardButtonPointer() {
         this.getClubCardButtonPointer().click();
-        return new ClubsPage(driver);
+        return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 }

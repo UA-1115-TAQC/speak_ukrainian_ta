@@ -1,19 +1,21 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.FooterComponent;
-import com.academy.ui.pages.header.HeaderComponent;
+import com.academy.ui.components.header.HeaderComponent;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
 
+@Getter
 public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
     public HeaderComponent header;
     public FooterComponent footer;
+    @FindBy(xpath = "//div[@class='ant-message-notice-wrapper']/descendant::div[contains(@class, 'ant-message-error') or contains(@class, 'ant-message-success')]")
+    private WebElement topNoticeMessage;
+
     public BasePage(WebDriver driver) {
         super(driver);
         this.header = getHeader();
@@ -31,7 +33,8 @@ public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
     public void openURL(String url) {
         driver.get(url);
     }
-    public FooterComponent getFooter(){
+
+    public FooterComponent getFooter() {
         if (footer == null) {
             WebElement node = driver.findElement(By.xpath(".//footer"));
             footer = new FooterComponent(driver, node);

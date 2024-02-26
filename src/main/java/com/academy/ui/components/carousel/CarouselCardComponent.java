@@ -3,6 +3,7 @@ package com.academy.ui.components.carousel;
 import com.academy.ui.pages.ClubsPage;
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,12 +13,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCardComponent> {
     public CarouselCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
-
     protected List<ClubDirectionCard> carouselCards;
     @FindBy(xpath = "//div[contains(@class,\"categories-header\")]/h2")
     protected WebElement carouselCardHeading;
@@ -27,7 +29,7 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
 
     public ClubsPage clickCarouselCardAllClubsButton() {
         this.getCarouselCardAllClubsButton().click();
-        return new ClubsPage(driver);
+        return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
 
     public List<ClubDirectionCard> getAllCarouselCards() {
@@ -47,18 +49,28 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         }
         throw new IllegalArgumentException("The index must be in the range between 0 and " + (getAllCarouselCards().size() - 1) + ", inclusive");
     }
-
     public boolean checkThatTheClubDirectionCardObtainedByIndexIsActive(int index) {
         return getClubDirectionCardByIndex(index).getClubCardHeading().isDisplayed();
     }
-    public List<ClubDirectionCard> getActiveCarouselCards(){
-        activeCarouselCards = new ArrayList<>();
-        for(ClubDirectionCard card: getAllCarouselCards()){
-            if(card.getClubCardHeading().isDisplayed()){
-                activeCarouselCards.add(card);
+    public List<ClubDirectionCard> getActiveCarouselCards() {
+        if (activeCarouselCards == null) {
+            activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
+        } else {
+            List<ClubDirectionCard> oldCards = new ArrayList<>(activeCarouselCards);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            try {
+                wait.until(ExpectedConditions.invisibilityOf(oldCards.get(oldCards.size() - 1).getClubCardHeading()));
+                activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
+            } catch (TimeoutException e) {
+                System.out.println("You are already at the beginning/end of the cards list");
             }
         }
         return activeCarouselCards;
+    }
+    private List<ClubDirectionCard> filterDisplayedCards(List<ClubDirectionCard> cards) {
+        return cards.stream()
+                .filter(card -> card.getClubCardHeading().isDisplayed())
+                .collect(Collectors.toList());
     }
     public ClubDirectionCard getActiveCarouselCardByIndex(int index){
         if (index >= 0 && index <= (getActiveCarouselCards().size() - 1)) {

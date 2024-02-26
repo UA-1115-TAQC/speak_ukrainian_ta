@@ -1,12 +1,15 @@
 package com.academy.ui.components;
 
 
+import com.academy.ui.pages.ClubsPage;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.util.List;
 
 @Getter
@@ -20,6 +23,8 @@ public class SwitchPaginationComponent extends BaseComponent {
 
     @FindBy(xpath = ".//li[contains(@class, 'ant-pagination-item') or contains(@class, 'ant-pagination-jump-')]")
     protected List<WebElement> paginationItems;
+
+    @Getter(AccessLevel.NONE)private int timeToWait = 5000000;
 
     public SwitchPaginationComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -44,18 +49,32 @@ public class SwitchPaginationComponent extends BaseComponent {
         return false;
     }
 
-    public void clickPrevious() {
-        WebElement previousButton = previousItem.findElement(By.xpath(".//button"));
-        if (previousButton.isEnabled()) {
-            previousButton.click();
+    public boolean isPreviousDisabled(){
+        String disabled = previousItem.getAttribute("aria-disabled");
+        if(disabled.equals("true")){
+            return true;
         }
+        return false;
     }
 
-    public void clickNext() {
-        WebElement nextButton = nextItem.findElement(By.xpath(".//button"));
-        if (nextButton.isEnabled()) {
-            nextButton.click();
+    public ClubsPage clickPrevious() {
+        previousItem.click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeToWait));
+        return new ClubsPage(driver);
+    }
+
+    public boolean isNextDisabled(){
+        String disabled = nextItem.getAttribute("aria-disabled");
+        if(disabled.equals("true")){
+            return true;
         }
+        return false;
+    }
+
+    public ClubsPage clickNext() {
+        nextItem.click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeToWait));
+        return new ClubsPage(driver);
     }
 
     public void clickPagItemByNum(String pageNum) {

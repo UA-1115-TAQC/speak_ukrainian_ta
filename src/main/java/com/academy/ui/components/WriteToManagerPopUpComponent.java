@@ -8,13 +8,13 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class WriteToManagerPopUpComponent extends BasePopUp{
 
-    @FindBy(xpath = "//textarea[contains(@class,'MessageToClubManager')]")
+    @FindBy(xpath = "./descendant::textarea[contains(@class,'MessageToClubManager')]")
     private WebElement messageToClubManager;
 
-    @FindBy(xpath = "//button[contains(@class,'Button')]")
+    @FindBy(xpath = "/descendant::button[contains(@class,'Button')]")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//div[@class='ant-form-item-explain-error']")
+    @FindBy(xpath = "./descendant::div[@class='ant-form-item-explain-error']")
     private WebElement hintMessage;
 
 

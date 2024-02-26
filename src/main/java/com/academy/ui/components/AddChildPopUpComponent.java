@@ -23,23 +23,21 @@ public class AddChildPopUpComponent extends BasePopUp {
     @FindBy(xpath = "./descendant::input[@value='FEMALE']")
     private WebElement genderFemale;
 
-    @FindBy(xpath = ".//button[contains(@class,'submit-button')]")
+    @FindBy(xpath = "./descendant::button[contains(@class,'submit-button')]")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//div[@id='add-child_firstName_help']")
+    @FindBy(xpath = "./descendant::div[@id='add-child_firstName_help']")
     private WebElement hintMessageForName;
 
-    @FindBy(xpath = "//div[@id='add-child_lastName_help']")
+    @FindBy(xpath = "./descendant::div[@id='add-child_lastName_help']")
     private WebElement hintMessageForLastName;
 
-    @FindBy(xpath = "//div[@id='add-child_age_help']")
+    @FindBy(xpath = "./descendant::div[@id='add-child_age_help']")
     private WebElement hintMessageForAge;
 
-    @FindBy(xpath = "//div[@id='add-child_gender_help']")
+    @FindBy(xpath = "./descendant::div[@id='add-child_gender_help']")
     private WebElement hintMessageForGender;
 
-    @FindBy(xpath = "//div[@id='add-child_age_help']//div[@class='ant-form-item-explain-error']")
-    private WebElement hintMessageAcceptableChildAge;
 
 
     public AddChildPopUpComponent addChildName(String name) {

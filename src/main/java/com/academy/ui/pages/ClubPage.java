@@ -28,53 +28,44 @@ public class ClubPage extends BasePage {
     @Getter(AccessLevel.NONE)
     private List<WebElement> ratingComponentWebElement;
 
-    @FindBy(xpath = "//span[text()='Записатись на гурток']")
-    private WebElement signUpForTheGroupButton;
+    @FindBy(xpath = "./descendant::span[text()='Записатись на гурток']")
+    private WebElement signUpToClubButton;
 
-    @FindBy(xpath = "//span[text()='Написати менеджеру']")
+    @FindBy(xpath = "./descendant::span[text()='Написати менеджеру']")
     private WebElement writeToTheManagerButton;
 
-    @FindBy(xpath = "//div[@class='content']")
+    @FindBy(xpath = "./descendant::div[@class='content']")
     private WebElement clubDescription;
 
-    @FindBy(xpath = "//span[@class='club-name']")
+    @FindBy(xpath = "./descendant::span[@class='club-name']")
     private WebElement clubName;
 
-    @FindBy(xpath = "//div[@class='tags ']//span[@class='name']")
+    @FindBy(xpath = "./descendant::div[@class='tags ']//span[@class='name']")
     private WebElement categoryClubName;
 
-    @FindBy(xpath = "//span[@class='text']")
+    @FindBy(xpath = "./descendant::span[@class='text']")
     private WebElement addressClub;
 
-    @FindBy(xpath = "//div[@class='age']")
+    @FindBy(xpath = "./descendant::div[@class='age']")
     private WebElement ageOfTheAudienceClub;
 
-    @FindBy(xpath = "//a[contains(@href,'com.ua/')]")
+    @FindBy(xpath = ".//a[contains(@href,'com.ua/')]")
     private WebElement siteOfTheClub;
 
-    @FindBy(xpath = "//span[contains(text(),'380')]")
+    @FindBy(xpath = ".//span[contains(text(),'380')]")
     private WebElement contactNumber;
 
-    @FindBy(xpath = "//div[contains(@class,'ant-tooltip-placement-top')]")
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-tooltip-placement-top')]")
     private WebElement tooltipMessage;
 
-    @FindBy(xpath = "//div[@class='ant-modal-content']")
+    @FindBy(xpath = ".//div[@class='ant-modal-content']")
     private WebElement popUpMessage;
 
-    @FindBy(xpath = "//button[contains(@class,'comment-button')]")
+    @FindBy(xpath = "./descendant::button[contains(@class,'comment-button')]")
     private WebElement leaveCommentButton;
 
-    @FindBy(xpath = "//span[text()='Написати менеджеру']")
-    @Getter(AccessLevel.NONE)
-    private WebElement writeToTheManagerWebElement;
-
-    @FindBy(xpath = "//div[@class='ant-modal-content']")
-    @Getter(AccessLevel.NONE)
-    private WebElement signUpToTheClubWebElement;
-
-    @FindBy(xpath = "//div[contains(@class,'comment-modal')]")
-    @Getter(AccessLevel.NONE)
-    private WebElement leaveCommentWebElement;
+    @FindBy(xpath = "./descendant::p[@class='show-more-p']")
+    private WebElement showMoreCommentsButton;
 
 
     private List<CommentsClubComponent> commentsClub;
@@ -88,7 +79,7 @@ public class ClubPage extends BasePage {
 
     public ClubPage hoverOverButtonSignUpForTheGroup() {
         Actions actions = new Actions(driver);
-        actions.moveToElement(signUpForTheGroupButton).perform();
+        actions.moveToElement(signUpToClubButton).perform();
         return this;
 
     }
@@ -101,6 +92,11 @@ public class ClubPage extends BasePage {
     public boolean checkIfHintMessageDisplayed() {
         tooltipMessage.isDisplayed();
         return true;
+    }
+
+    public ClubPage clickOnShowMoreComments() {
+        showMoreCommentsButton.click();
+        return this;
     }
 
     public List<CommentsClubComponent> initCommentsClubComponents() {
@@ -119,17 +115,17 @@ public class ClubPage extends BasePage {
 
     public WriteToManagerPopUpComponent openWriteToManagePopUp() {
         writeToTheManagerButton.click();
-        return new WriteToManagerPopUpComponent(driver, writeToTheManagerWebElement);
+        return new WriteToManagerPopUpComponent(driver, writeToTheManagerButton);
     }
 
     public SignUpToClubPopUpComponent openSignUpToClubPopUp() {
-        signUpForTheGroupButton.click();
-        return new SignUpToClubPopUpComponent(driver, signUpToTheClubWebElement);
+        signUpToClubButton.click();
+        return new SignUpToClubPopUpComponent(driver, signUpToClubButton);
     }
 
     public LeaveCommentPopUpComponent openLeaveCommentPopUpComponent() {
         leaveCommentButton.click();
-        return new LeaveCommentPopUpComponent(driver, leaveCommentWebElement);
+        return new LeaveCommentPopUpComponent(driver, leaveCommentButton);
     }
 
 

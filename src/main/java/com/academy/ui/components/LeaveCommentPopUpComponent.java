@@ -9,19 +9,19 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class LeaveCommentPopUpComponent extends BasePopUp {
 
-    @FindBy(xpath = "//textarea[@id='comment-edit_commentText']")
-    private WebElement addComment;
+    @FindBy(xpath = "./descendant::textarea[@id='comment-edit_commentText']")
+    private WebElement addCommentText;
 
-    @FindBy(xpath = "//button[contains(@class,' do-comment-button')]")
+    @FindBy(xpath = "./descendant::button[contains(@class,' do-comment-button')]")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//div[@id='rc-tabs-0-tab-2']")
+    @FindBy(xpath = "./descendant::div[@id='rc-tabs-0-tab-2']")
     private WebElement complaintTab;
 
-    @FindBy(xpath = "//div[@id='rc-tabs-0-tab-1']")
+    @FindBy(xpath = "./descendant::div[@id='rc-tabs-0-tab-1']")
     private WebElement commentTab;
 
-    @FindBy(xpath = "//div[@class='ant-tooltip-inner']")
+    @FindBy(xpath = "./descendant::div[@class='ant-tooltip-inner']")
     private WebElement tooltipMassage;
 
 
@@ -32,7 +32,7 @@ public class LeaveCommentPopUpComponent extends BasePopUp {
     }
 
     public LeaveCommentPopUpComponent addComment(String comment) {
-        addComment.sendKeys(comment);
+        addCommentText.sendKeys(comment);
         return this;
     }
 

@@ -11,10 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 public class CommentsClubComponent extends BaseComponent {
 
-    @FindBy(xpath = "//p[@class='show-more-p']")
-    private WebElement showMoreCommentsButton;
-
-    @FindBy(xpath = "//div[@class='ant-comment-content-detail']")
+    @FindBy(xpath = ".//div[@class='ant-comment-content-detail']")
     private List<WebElement> comments;
 
     @FindBy(xpath = ".//button[contains(@class,'answer-comment')]")
@@ -24,11 +21,6 @@ public class CommentsClubComponent extends BaseComponent {
     public List<String> getAllComments() {
         return comments.stream().map(WebElement::getText).collect(Collectors.toList());
 
-    }
-
-    public CommentsClubComponent clickOnShowMoreComments() {
-        showMoreCommentsButton.click();
-        return this;
     }
 
     public CommentsClubComponent clickOnAnswerToComment() {

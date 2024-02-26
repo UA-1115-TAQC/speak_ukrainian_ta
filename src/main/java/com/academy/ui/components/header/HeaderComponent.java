@@ -4,6 +4,7 @@ package com.academy.ui.components.header;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
+import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AllNewsPage;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = "//div[contains(@class,'modal-add-club')]")
+    protected WebElement addClubModalForm;
+
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -62,11 +66,16 @@ public class HeaderComponent extends BaseComponent {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(e -> isLoggedIn.isDisplayed());
         addClubButton.click();
-        return new AddClubPopUpComponent(driver);
+        return new AddClubPopUpComponent(driver, addClubModalForm);
     }
 
     public GuestMenuComponent openGuestMenu() {
         profileMenuButton.click();
         return new GuestMenuComponent(driver, profileMenuNode);
+    }
+
+    public UserMenuComponent openUserMenu() {
+        profileMenuButton.click();
+        return new UserMenuComponent(driver, profileMenuNode);
     }
 }

@@ -8,11 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class CommentsClubComponent extends BaseComponent {
 
-    @Getter
-    @FindBy(xpath = "//button[contains(@class,'comment-button')]")
-    private WebElement leaveCommentButton;
 
     @FindBy(xpath = "//p[@class='show-more-p']")
     private WebElement showMoreCommentsButton;

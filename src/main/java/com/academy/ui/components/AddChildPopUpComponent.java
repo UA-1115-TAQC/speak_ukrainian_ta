@@ -8,22 +8,22 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class AddChildPopUpComponent extends BasePopUp {
 
-    @FindBy(xpath = "//input[@id='add-child_firstName']")
+    @FindBy(xpath = "./descendant::input[@id='add-child_firstName']")
     private WebElement addFirstName;
 
-    @FindBy(xpath = "//input[@id='add-child_lastName']")
+    @FindBy(xpath = "./descendant::input[@id='add-child_lastName']")
     private WebElement addLastName;
 
-    @FindBy(xpath = "add-child_age")
+    @FindBy(xpath = "./descendant::input[@id='add-child_age']")
     private WebElement addAge;
 
-    @FindBy(xpath = "//input[@value='MALE']")
+    @FindBy(xpath = "./descendant::input[@value='MALE']")
     private WebElement genderMale;
 
-    @FindBy(xpath = "//input[@value='FEMALE']")
+    @FindBy(xpath = "./descendant::input[@value='FEMALE']")
     private WebElement genderFemale;
 
-    @FindBy(xpath = "//button[contains(@class,'submit-button')]")
+    @FindBy(xpath = ".//button[contains(@class,'submit-button')]")
     private WebElement submitButton;
 
     @FindBy(xpath = "//div[@id='add-child_firstName_help']")

@@ -20,7 +20,7 @@ public class ClubsPage extends BasePage {
     private final String CLUB_CARD_LIST_XPATH = "//div[contains(@class,'content-clubs-list')]/child::div";
 
     private final AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    private final SwitchPaginationComponent switchPagination;
+//    private final SwitchPaginationComponent switchPagination;
     private final List<ClubCardComponent> clubCards;
 
     public ClubsPage(WebDriver driver) {
@@ -28,8 +28,8 @@ public class ClubsPage extends BasePage {
         WebElement clubSearchHeaderRootElement = this.driver.findElement(By.xpath(SEARCH_CLUB_HEADER_ROOT_XPATH));
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, clubSearchHeaderRootElement);
 
-        WebElement switchPaginationRootElement = this.driver.findElement(By.xpath(SWITCH_PAGINATION_ROOT_XPATH));
-        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationRootElement);
+//        WebElement switchPaginationRootElement = this.driver.findElement(By.xpath(SWITCH_PAGINATION_ROOT_XPATH));
+//        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationRootElement);
 
         clubCards = createClubComponents();
     }

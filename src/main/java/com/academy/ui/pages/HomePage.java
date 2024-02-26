@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
@@ -52,17 +53,19 @@ public class HomePage extends BasePageWithAdvancedSearch {
                 carouselImgComponent = new CarouselImgComponent(driver, carouselImgComponentWebElement) :
                 carouselImgComponent;
     }
-    public ChallengeTeachInUkrainian clickChallengeFindOutMoreButton() {
+    public BaseChallengePage clickChallengeFindOutMoreButton() {
         this.getChallengeFindOutMoreButton().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        //add wait condition - wait until the page is loaded
-        return new ChallengeTeachInUkrainian(driver);
+        BaseChallengePage baseChallengePage =new BaseChallengePage(driver);
+        wait.until(ExpectedConditions.visibilityOf(baseChallengePage.getChallengeImageText()));
+        return baseChallengePage;
     }
     public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.getSpeakingClubHeading().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        //add wait condition - wait until the page is loaded
-        return new ChallengeUkrainianClubSpeakPage(driver);
+        ChallengeUkrainianClubSpeakPage challengeUkrainianClubSpeakPage = new ChallengeUkrainianClubSpeakPage(driver);
+        wait.until(ExpectedConditions.visibilityOf(challengeUkrainianClubSpeakPage.getChallengeImageText()));
+        return challengeUkrainianClubSpeakPage;
     }
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
         int previousTabAmount = getTabHandles().size();

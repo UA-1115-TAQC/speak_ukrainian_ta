@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,22 +28,23 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
-    protected List<DirectionTagComponent> directionTags;
+    @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
+    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+
+    protected List<DirectionTagComponent> directions;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
     public List<DirectionTagComponent> getDirections() {
-        if (directionTags == null) {
-            directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(
-                    ".//span[contains(@class,'ant-tag')]"));
-            for (WebElement tag : tags) {
-                directionTags.add(new DirectionTagComponent(driver, tag));
+        if (directions == null) {
+            directions = new ArrayList<>();
+            for (WebElement tag : directionTags) {
+                directions.add(new DirectionTagComponent(driver, tag));
             }
         }
-        return directionTags;
+        return directions;
     }
 
     public void clickTitle() {

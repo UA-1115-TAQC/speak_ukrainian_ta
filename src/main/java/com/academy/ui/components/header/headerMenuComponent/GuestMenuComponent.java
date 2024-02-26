@@ -5,6 +5,10 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class GuestMenuComponent extends BaseComponent {
 
@@ -22,7 +26,8 @@ public class GuestMenuComponent extends BaseComponent {
     }
 
     public LoginPopupComponent openLoginForm() {
-        login.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(login)).click();
         return new LoginPopupComponent(driver, loginModalForm);
     }
 

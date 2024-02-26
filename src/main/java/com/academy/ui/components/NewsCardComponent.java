@@ -34,4 +34,8 @@ public class NewsCardComponent extends BaseComponent {
     public String getNewsTitle() {
         return newsCardTitle.getText();
     }
+
+    public boolean newsTitleVisible() {
+        return newsCardTitle.isDisplayed();
+    }
 }

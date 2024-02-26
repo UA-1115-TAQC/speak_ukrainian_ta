@@ -24,7 +24,7 @@ public class SwitchPaginationComponent extends BaseComponent {
     @FindBy(xpath = ".//li[contains(@class, 'ant-pagination-item') or contains(@class, 'ant-pagination-jump-')]")
     protected List<WebElement> paginationItems;
 
-    @Getter(AccessLevel.NONE)private int timeToWait = 5000000;
+    @Getter(AccessLevel.NONE)private int timeToWait = 600000;
 
     public SwitchPaginationComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

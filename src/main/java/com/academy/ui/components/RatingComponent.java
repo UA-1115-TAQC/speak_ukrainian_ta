@@ -9,7 +9,16 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 @Getter
-public class RatingComponent extends BaseComponent {
+public class RatingComponent extends BasePopUp {
+
+    @FindBy(xpath = ".//li[@class='ant-rate-star ant-rate-star-full']")
+    private WebElement fullStarRate;
+
+    @FindBy(xpath = ".//li[@class='ant-rate-star ant-rate-star-half']")
+    private WebElement halfStarRate;
+
+    @FindBy(xpath = ".//li[@class='ant-rate-star ant-rate-star-zero']")
+    private WebElement zeroStarRate;
 
     @FindBy(xpath = "//ul[@role='radiogroup']")
     private List<WebElement> radioGroupRating;
@@ -31,5 +40,4 @@ public class RatingComponent extends BaseComponent {
         }
         return -1;
     }
-
 }

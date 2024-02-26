@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 @Getter
 public class CommentsClubComponent extends BaseComponent {
 
-    @FindBy(xpath = "//button[contains(@class,'comment-button')]")
-    private WebElement leaveCommentButton;
-
     @FindBy(xpath = "//p[@class='show-more-p']")
     private WebElement showMoreCommentsButton;
 
@@ -36,10 +33,6 @@ public class CommentsClubComponent extends BaseComponent {
 
     public CommentsClubComponent clickOnAnswerToComment() {
         answerToTheCommentButton.click();
-        return this;
-    }
-    public CommentsClubComponent clickOnLeaveComment(){
-        leaveCommentButton.click();
         return this;
     }
 

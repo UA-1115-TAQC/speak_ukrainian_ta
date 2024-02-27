@@ -15,44 +15,44 @@ public class MessagePage extends ProfilePage{
         super(driver);
     }
 
-    @FindBy(xpath = "//input[contains(@class, 'input') and @placeholder='Пошук...']")
+    @FindBy(xpath = ".//input[contains(@class, 'input') and @placeholder='Пошук...']")
     private WebElement searchInput;
 
     @Getter
-    @FindBy(xpath = "//span[contains(@class, 'selection-item')]")
+    @FindBy(xpath = ".//span[contains(@class, 'selection-item')]")
     private WebElement selectedItemDropDown;
 
     @Getter
-    @FindBy(xpath="//div[contains(@class, 'select-selector')]")
+    @FindBy(xpath=".//div[contains(@class, 'select-selector')]")
     private WebElement dropDown;
 
     @Getter
-    @FindBy(xpath = "//div[contains(@class, 'select-item') and contains(text(), 'нові')]")
+    @FindBy(xpath = ".//div[contains(@class, 'select-item') and contains(text(), 'нові')]")
     private WebElement newFirstItemDropDown;
 
     @Getter
-    @FindBy(xpath = "//div[contains(@class, 'select-item') and contains(text(), 'старі')]")
+    @FindBy(xpath = ".//div[contains(@class, 'select-item') and contains(text(), 'старі')]")
     private WebElement oldFirstItemDropDown;
 
     @Getter
-    @FindBy(xpath = "//span[text()='Показати тільки непрочитані повідомлення: ']")
+    @FindBy(xpath = ".//span[text()='Показати тільки непрочитані повідомлення: ']")
     private WebElement showUnreadMessageTitle;
 
     @Getter
-    @FindBy(xpath = "//span[text()='Повідомлення без відповіді: ']")
+    @FindBy(xpath = ".//span[text()='Повідомлення без відповіді: ']")
     private WebElement showUnansweredMessageTitle;
 
-    @FindBy(xpath = "//span[text()='Показати тільки непрочитані повідомлення: ']/following-sibling::button//span[@class='ant-switch-inner']")
+    @FindBy(xpath = ".//span[text()='Показати тільки непрочитані повідомлення: ']/following-sibling::button//span[@class='ant-switch-inner']")
     private WebElement unreadMessagesSwitch;
 
-    @FindBy(xpath = "//span[text()='Повідомлення без відповіді: ']/following-sibling::button//span[@class='ant-switch-inner']")
+    @FindBy(xpath = ".//span[text()='Повідомлення без відповіді: ']/following-sibling::button//span[@class='ant-switch-inner']")
     private WebElement unansweredMessagesSwitch;
 
     @Getter
-    @FindBy(xpath = "//div[contains(@class, 'noMessages')]")
+    @FindBy(xpath = ".//div[contains(@class, 'noMessages')]")
     private WebElement noMessagesTitle;
 
-    @FindBy(xpath = "//ul[contains(@class, 'ant-list-items')]//div[contains(@class, 'collapse ')]")
+    @FindBy(xpath = ".//ul[contains(@class, 'ant-list-items')]//div[contains(@class, 'collapse ')]")
     private List<WebElement> messageElements;
 
     public List<MessageComponent> getMessageElements(){

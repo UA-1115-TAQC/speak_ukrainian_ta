@@ -12,39 +12,39 @@ public class ComplaintPage extends ProfilePage{
     }
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'contentTitle')]")
+    @FindBy(xpath = ".//div[contains(@class, 'contentTitle')]")
     private WebElement title;
 
     @Getter
-    @FindBy(xpath = "./span[contains(text(), 'непрочитані')]")
+    @FindBy(xpath = ".//span[contains(text(), 'непрочитані')]")
     private WebElement unreadTitle;
 
     @Getter
-    @FindBy(xpath = "./span[contains(., 'непрочитані')]/preceding-sibling::span[contains(@class, 'checkbox')]")
+    @FindBy(xpath = ".//span[contains(., 'непрочитані')]/preceding-sibling::span[contains(@class, 'checkbox')]")
     private WebElement unreadCheckBox;
 
     @Getter
-    @FindBy(xpath = "./span[contains(text(), 'без відповіді')]")
+    @FindBy(xpath = ".//span[contains(text(), 'без відповіді')]")
     private WebElement unansweredTitle;
 
     @Getter
-    @FindBy(xpath = "./span[contains(., 'без відповіді')]/preceding-sibling::span[contains(@class, 'checkbox')]")
+    @FindBy(xpath = ".//span[contains(., 'без відповіді')]/preceding-sibling::span[contains(@class, 'checkbox')]")
     private WebElement unansweredCheckBox;
 
     @Getter
-    @FindBy(xpath = "./span[contains(@class, 'anticon-search')]")
+    @FindBy(xpath = ".//span[contains(@class, 'anticon-search')]")
     private WebElement searchIcon;
 
     @Getter
-    @FindBy(xpath = "./span[contains(@class, 'searchInput')]//input")
+    @FindBy(xpath = ".//span[contains(@class, 'searchInput')]//input")
     private WebElement searchInput;
 
     @Getter
-    @FindBy(xpath = "./button[contains(@class, 'search-button')]")
+    @FindBy(xpath = ".//button[contains(@class, 'search-button')]")
     private WebElement searchButton;
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'noMessages')]")
+    @FindBy(xpath = ".//div[contains(@class, 'noMessages')]")
     private WebElement noComplaintTitle;
 
     public void unreadCheckBoxClick(){ unreadCheckBox.click(); }

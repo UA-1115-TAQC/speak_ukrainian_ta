@@ -19,19 +19,19 @@ public class ApplicationPage extends ProfilePage{
     private WebElement searchInput;
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'filterSelectStatuses')]//span[contains(., 'статуси')]/..")
+    @FindBy(xpath = ".//div[contains(@class, 'filterSelectStatuses')]//span[contains(., 'статуси')]/..")
     private WebElement statusesDropDown;
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'filterSelectStatuses')]//span[contains(., 'заявки')]/..")
+    @FindBy(xpath = ".//div[contains(@class, 'filterSelectStatuses')]//span[contains(., 'заявки')]/..")
     private WebElement applicationsDropDown;
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'filterSelectRight')]")
+    @FindBy(xpath = ".//div[contains(@class, 'filterSelectRight')]")
     private WebElement childrenDropDown;
 
     @Getter
-    @FindBy(xpath = "./div[contains(@class, 'noRegistrations')]")
+    @FindBy(xpath = ".//div[contains(@class, 'noRegistrations')]")
     private WebElement noApplicationsTitle;
 
     public void searchInputSendKey(String searchText){

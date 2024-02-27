@@ -1,4 +1,4 @@
-package com.academy.ui;
+package com.academy.ui.components;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 
@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 public class TestAddClubPopUp extends LoginWithAdminTestRunner {
-
 
     private AddClubPopUpStepThree preconditionsWithValidDataOnFirstAndSecondSteps() {
         final String CLUB_NAME = "Add club name";
@@ -29,8 +28,8 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
         return addClubPopUp.getStepThreeContainer();
     }
 
-    //https://jira.softserve.academy/browse/TUA-177
-    @Test
+
+    @Test(description = "TUA-177")
     public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols(){
 
         final String TEXT_1500_SYMBOLS = "Abcd ".repeat(300);

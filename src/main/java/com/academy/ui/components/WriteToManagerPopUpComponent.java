@@ -8,13 +8,13 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public class WriteToManagerPopUpComponent extends BasePopUp{
 
-    @FindBy(xpath = "./descendant::textarea[contains(@class,'MessageToClubManager')]")
+    @FindBy(xpath = "//textarea[contains(@class,'MessageToClubManager')]")
     private WebElement messageToClubManager;
 
     @FindBy(xpath = "/descendant::button[contains(@class,'Button')]")
     private WebElement submitButton;
 
-    @FindBy(xpath = "./descendant::div[@class='ant-form-item-explain-error']")
+    @FindBy(xpath = "//div[@class='ant-form-item-explain-error']")
     private WebElement hintMessage;
 
 
@@ -30,6 +30,11 @@ public class WriteToManagerPopUpComponent extends BasePopUp{
     public WriteToManagerPopUpComponent addTextToManager(String text) {
         messageToClubManager.sendKeys(text);
         return this;
+    }
+
+    public boolean hintMessageIsDisplayed(){
+        hintMessage.isDisplayed();
+        return true;
     }
 
 }

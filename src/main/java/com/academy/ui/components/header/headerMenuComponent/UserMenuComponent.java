@@ -29,7 +29,7 @@ public class UserMenuComponent extends BaseComponent {
 
     public AddClubPopUpComponent openAddClubForm() {
         addClub.click();
-        return new AddClubPopUpComponent(driver, addClubModalForm);
+        return new AddClubPopUpComponent(driver);
     }
 
     public UserMenuComponent clickLogout() {

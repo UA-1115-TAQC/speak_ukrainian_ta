@@ -31,8 +31,8 @@ public class AddClubPopUpComponent extends BasePopUp {
     @Getter(AccessLevel.NONE)
     private AddClubPopUpStepThree stepThreeContainer;
 
-    public AddClubPopUpComponent(WebDriver driver, WebElement rootElement) {
-        super(driver, rootElement);
+    public AddClubPopUpComponent(WebDriver driver) {
+        super(driver, driver.findElement(By.xpath("//div[contains(@class,'modal-add-club')]")));
         this.sider = new AddClubPopUpSider(driver, siderElement);
     }
 

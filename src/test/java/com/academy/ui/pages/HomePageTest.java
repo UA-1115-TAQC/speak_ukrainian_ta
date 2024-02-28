@@ -36,7 +36,7 @@ public class HomePageTest extends BaseTestRunner {
         clubsPage.waitUntilClubsPageIsLoaded(10);
 
         String actual = driver.getCurrentUrl();
-        String expected = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
+        String expected = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/clubs";
 
         softAssert.assertEquals(expected, actual);
         softAssert.assertAll();

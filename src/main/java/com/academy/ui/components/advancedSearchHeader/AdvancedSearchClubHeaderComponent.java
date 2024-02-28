@@ -1,4 +1,4 @@
-package com.academy.ui.components.AdvancedSearchComponent;
+package com.academy.ui.components.advancedSearchHeader;
 
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;

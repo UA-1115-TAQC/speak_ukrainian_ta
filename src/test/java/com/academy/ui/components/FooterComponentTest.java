@@ -1,12 +1,26 @@
 package com.academy.ui.components;
 
-import com.academy.ui.pages.challenges.BaseChallengePage;
+import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import org.testng.annotations.BeforeMethod;
+import static org.testng.Assert.assertEquals;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 public class FooterComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
+    private static final int FACEBOOK_URL = 0;
+    private static final int YOUTUBE_URL = 1;
+    private static final int INSTAGRAM_URL = 2;
+    private BasePageWithoutHeaderAndFooter basePageWithoutHeaderAndFooter;
+    private FooterComponent footerComponent;
+  
+    @BeforeMethod
+    public void footerPrecondition() {
+        footerComponent = homePage.getFooter();
+        basePageWithoutHeaderAndFooter = new BasePageWithoutHeaderAndFooter(driver);
+    }
 
     @BeforeTest
     public void createAssert() {
@@ -76,4 +90,15 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+  
+    @Test(description = "TUA-945")
+    public void click_on_youTube_icon_ok() {
+        String expected = footerComponent.getFooterSocialLinks().get(YOUTUBE_URL);
+        footerComponent.getYouTubeLink().click();
+        basePageWithoutHeaderAndFooter.getTabHandles();
+        basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(YOUTUBE_URL);
+        String actual = driver.getCurrentUrl();
+        assertEquals(expected, actual);
+    }
+
 }

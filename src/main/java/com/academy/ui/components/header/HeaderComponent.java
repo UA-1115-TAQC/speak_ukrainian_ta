@@ -8,6 +8,7 @@ import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.ClubsPage;
+import com.academy.ui.pages.ProfilePage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -51,6 +52,9 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
+    private WebElement profilePageButton;
+
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -88,5 +92,11 @@ public class HeaderComponent extends BaseComponent {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
 
+    }
+
+    public ProfilePage openProfilePage(){
+        openUserMenu();
+        profilePageButton.click();
+        return new ProfilePage (driver);
     }
 }

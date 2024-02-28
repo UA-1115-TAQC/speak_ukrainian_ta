@@ -25,14 +25,10 @@ public class HomePageTest extends BaseTestRunner {
         carouselCardComponent = homePage.getCarouselCardComponent();
         WebElement carouselCardComponentWebElement = homePage.getCarouselCardComponentWebElement();
 
-        Actions action = new Actions(driver);
-        action.moveToElement(carouselCardComponentWebElement).perform();
-        action.sendKeys(Keys.PAGE_DOWN).perform();
-
+        homePage.scrollToCarouselCardComponentWebElement();
         softAssert.assertTrue(carouselCardComponent.isElementPresent(carouselCardComponentWebElement));
 
-        ClubsPage clubsPage = new ClubsPage(driver);
-        carouselCardComponent.getCarouselCardAllClubsButton().click();
+        ClubsPage clubsPage = carouselCardComponent.clickCarouselCardAllClubsButton();
         clubsPage.waitUntilClubsPageIsLoaded(10);
 
         String actual = driver.getCurrentUrl();

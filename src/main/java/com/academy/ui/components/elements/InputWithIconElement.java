@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public class InputWithIconElement extends BaseInputElement {
     @FindBy(xpath = "./descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
@@ -17,6 +20,8 @@ public class InputWithIconElement extends BaseInputElement {
     private WebElement emailTittle;
     @FindBy(xpath = "./descendant::label[@title='Пароль']")
     private WebElement passwordTittle;
+    @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
+    private List<WebElement> errorMessages;
 
     public InputWithIconElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -33,5 +38,9 @@ public class InputWithIconElement extends BaseInputElement {
 
     public String getPasswordText() {
         return passwordTittle.getText();
+    }
+
+    public List<String> getErrorMessagesTextList() {
+        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 }

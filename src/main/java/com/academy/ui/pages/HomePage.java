@@ -7,6 +7,7 @@ import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
 import lombok.Getter;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -77,4 +78,11 @@ public class HomePage extends BasePageWithAdvancedSearch {
         wait.until(ExpectedConditions.visibilityOf(languageSphereFacebookPage.getFacebookLogo()));
         return languageSphereFacebookPage;
     }
+
+    public HomePage scrollToFooter() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+        return this;
+    }
+
 }

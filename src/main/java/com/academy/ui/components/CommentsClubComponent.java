@@ -8,26 +8,14 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class CommentsClubComponent extends BaseComponent {
 
-    @Getter
-    @FindBy(xpath = "//button[contains(@class,'comment-button')]")
-    private WebElement leaveCommentButton;
-
-    @FindBy(xpath = "//p[@class='show-more-p']")
-    private WebElement showMoreCommentsButton;
-
-    @FindBy(xpath = "//div[@class='ant-comment-content-detail']")
+    @FindBy(xpath = ".//div[@class='ant-comment-content-detail']")
     private List<WebElement> comments;
 
     @FindBy(xpath = ".//button[contains(@class,'answer-comment')]")
     private WebElement answerToTheCommentButton;
-
-    @FindBy(xpath = "//ul[@class='ant-rate rating css-13m256z ant-rate-disabled']")
-    private WebElement rating;
-
-    @FindBy(xpath = ".//li[contains(@class,'ant-rate-star')]")
-    private List<WebElement> ratingStars;
 
 
     public List<String> getAllComments() {
@@ -35,8 +23,14 @@ public class CommentsClubComponent extends BaseComponent {
 
     }
 
+    public CommentsClubComponent clickOnAnswerToComment() {
+        answerToTheCommentButton.click();
+        return this;
+    }
+
     public CommentsClubComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+
     }
 
 }

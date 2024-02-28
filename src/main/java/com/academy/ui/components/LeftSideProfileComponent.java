@@ -46,11 +46,4 @@ public class LeftSideProfileComponent extends BaseComponent{
     public void clickButtonCertificates(){
         buttonCertificates.click();
     }
-    public WebElement getTitleLeftSide() { return textTitle; }
-    public WebElement getIconButtonProfile(){ return iconButtonProfile; }
-    public WebElement getIconButtonMessages(){ return iconButtonMessages; }
-    public WebElement getIconButtonComplaints(){ return iconButtonComplaints; }
-    public WebElement getIconButtonApplications(){ return iconButtonApplications; }
-    public WebElement getIconButtonCertificates(){ return iconButtonCertificates; }
-
 }

@@ -7,6 +7,7 @@ import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AllNewsPage;
+import com.academy.ui.pages.ClubsPage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,13 +20,20 @@ import java.time.Duration;
 @Getter
 public class HeaderComponent extends BaseComponent {
     public LoginPopupComponent loginPopupComponent;
+
     @FindBy(xpath = ".//div[contains(@class, 'user-profile')]")
     protected WebElement profileMenuButton;
+
     @FindBy(xpath = "//*[@id=\"root\"]/div/header/div[2]/ul/li[1]")
     protected WebElement groupButton;
-    @FindBy(xpath = "//a[@href='/news']")
+
+    @FindBy(xpath = ".//a[@href='/dev/news']")
     protected WebElement newsButton;
-    @FindBy(xpath = "//button[contains(@class,'add-club-button')]")
+
+    @FindBy(xpath = ".//a[@href='/dev/clubs']")
+    protected WebElement clubsButton;
+
+    @FindBy(xpath = ".//button[contains(@class,'add-club-button')]")
     protected WebElement addClubButton;
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'login')]")
@@ -71,8 +79,13 @@ public class HeaderComponent extends BaseComponent {
         return new GuestMenuComponent(driver, profileMenuNode);
     }
 
+    public ClubsPage clickClubsPageButton() {
+        clubsButton.click();
+        return new ClubsPage(driver);
+
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
+
     }
 }

@@ -2,19 +2,15 @@ package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 @Getter
-public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends BaseComponent  {
-    public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {
-        super(driver, rootElement);
-    }
+public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends BaseComponent {
     @FindBy(xpath = ".//span[contains(@aria-label, 'arrow-left')]")
     protected WebElement leftArrowButton;
     @FindBy(xpath = ".//span[contains(@aria-label, 'arrow-right')]")
@@ -23,14 +19,20 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     protected List<WebElement> slickDots;
     @FindBy(xpath = ".//div[contains(@class,\"slick-slider\")]")
     protected WebElement sliderContainer;
-   public T clickLeftArrowButton() {
-      this.getLeftArrowButton().click();
-      return (T) this;
-  }
-   public T clickRightArrowButton() {
-    this.getRightArrowButton().click();
-    return (T) this;
-   }
+    public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
+    }
+
+    public T clickLeftArrowButton() {
+        this.getLeftArrowButton().click();
+        return (T) this;
+    }
+
+    public T clickRightArrowButton() {
+        this.getRightArrowButton().click();
+        return (T) this;
+    }
+
     public WebElement getSlickDotByIndex(int index) {
         if (index >= 0 && index < this.getSlickDots().size()) {
             return this.getSlickDots().get(index);

@@ -1,11 +1,17 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import lombok.Getter;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Getter
 public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
@@ -67,5 +73,24 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     public void clickCompleteButton(){
         getNextStepButton().click();
+    }
+
+    public AddClubPopUpStepThree setDescriptionValue(String value) {
+        clubDescriptionTextarea.sendKeys(value);
+        return this;
+    }
+
+    public List<String> getErrorMessagesTextList() {
+        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+    }
+
+    public AddClubPopUpStepThree clearDescriptionTextarea(){
+        Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
+        if (currentPlatform.is(Platform.MAC)) {
+            clubDescriptionTextarea.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
+        } else {
+            clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+        }
+        return this;
     }
 }

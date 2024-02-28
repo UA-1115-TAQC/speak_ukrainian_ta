@@ -1,10 +1,13 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.AdvancedSearchSiderComponent;
+import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,30 +29,51 @@ public class ClubsPage extends BasePage {
     @FindBy(xpath="//div[contains(@class, 'club-list-control')]")
     @Getter(AccessLevel.NONE) private WebElement listControlWebElement;
 
+    @FindBy(xpath="//div[contains(@class, '')]")
+    @Getter(AccessLevel.NONE) private WebElement searchSiderWebElement;
+
     @FindBy(xpath="//div[contains(@class,'content-clubs-list')]/child::div")
     @Getter(AccessLevel.NONE) private List<WebElement> clubCardsWebElement;
+
+    @FindBy(xpath="//div[contains(@class,'content-center-list')]/child::div")
+    @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
     protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
+    protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
+    protected List<CenterCardComponent> centerCards;
 
     public ClubsPage(WebDriver driver) {
         super(driver);
+        WebElement clubSearchHeaderRootElement = this.driver.findElement(By.xpath(SEARCH_CLUB_HEADER_ROOT_XPATH));
+        advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, clubSearchHeaderRootElement);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
         switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
+        searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
         clubCards = createClubComponents();
+        centerCards = createCenterComponents();
     }
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
-        for (WebElement element : clubCardsWebElement) {
+        List<WebElement> clubDivs = driver.findElements(By.xpath(CLUB_CARD_LIST_XPATH));
+        for (WebElement element : clubDivs) {
             clubs.add(new ClubCardComponent(driver, element));
         }
         return clubs;
+    }
+
+    private List<CenterCardComponent> createCenterComponents() {
+        List<CenterCardComponent> centers = new ArrayList<>();
+        for (WebElement element : clubCardsWebElement) {
+            centers.add(new CenterCardComponent(driver, element));
+        }
+        return centers;
     }
 
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds){

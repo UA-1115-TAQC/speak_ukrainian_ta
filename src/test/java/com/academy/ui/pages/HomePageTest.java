@@ -20,7 +20,7 @@ public class HomePageTest extends BaseTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-856")
+    @Test(description = "TUA-828")
     public void check_allClubsButton_openClubsPage_ok() {
         carouselCardComponent = homePage.getCarouselCardComponent();
         WebElement carouselCardComponentWebElement = homePage.getCarouselCardComponentWebElement();

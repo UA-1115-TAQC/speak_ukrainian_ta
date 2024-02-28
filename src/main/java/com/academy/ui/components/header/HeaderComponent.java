@@ -82,6 +82,7 @@ public class HeaderComponent extends BaseComponent {
     public ClubsPage clickClubsPageButton() {
         clubsButton.click();
         return new ClubsPage(driver);
+    }
 
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();

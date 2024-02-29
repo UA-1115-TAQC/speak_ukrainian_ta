@@ -1,6 +1,10 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.AddClubPopUpComponent.*;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
@@ -84,11 +88,8 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
 
     @Test(description = "TUA-237")
     public void validate_inputs_in_addLocationForm_ok() {
-        stepOne.getClubNameInputElement().setValue(CLUB_NAME);
-        stepOne.selectCategory(CATEGORY)
-                .setMinAgeInput(MIN_AGE)
-                .setMaxAgeInput(MAX_AGE)
-                .clickNextStepButton();
+
+        fillStepOneWithValidDataPreconditions();
 
         AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
         AddLocationPopUpComponent addLocationPopUpComponent = stepTwo.clickAddLocationButton();

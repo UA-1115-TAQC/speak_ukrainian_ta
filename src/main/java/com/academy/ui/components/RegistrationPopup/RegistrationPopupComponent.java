@@ -1,22 +1,22 @@
 package com.academy.ui.components.RegistrationPopup;
 
-
-
 import com.academy.ui.components.BasePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Getter
 public class RegistrationPopupComponent extends BasePopUp {
 
     protected static final String registrationPopupClassName = "modal-registration";
     @FindBy(xpath="//div[contains(@class,'registration-header')]")
     protected WebElement registrationHeader;
-    @FindBy(xpath="//label[@class='ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-13m256z']//input[@value='ROLE_USER']")
+    @FindBy(xpath="//input[@value='ROLE_USER']/../..")
     protected WebElement userTypeButton;
-    @FindBy(xpath="//label[@class='ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-13m256z']//input[@value='ROLE_MANAGER']")
+    @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
     protected WebElement managerTypeButton;
     @FindBy(xpath="//a[contains(@href, 'google')]")
     protected WebElement googleButton;
@@ -49,9 +49,9 @@ public class RegistrationPopupComponent extends BasePopUp {
     @FindBy(xpath="//button[contains(@class, 'registration-button')]\n")
     protected WebElement registrationButton;
 
-    public RegistrationPopupComponent(WebDriver driver) {
-        super(driver, driver.findElement(By.xpath("//div[contains(@class, 'ant-modal-content') and contains(., 'Реєстрація')]")));
-        lastNameInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='lastName' and @class='ant-input']")));
+    public RegistrationPopupComponent(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
+        lastNameInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath(".//div[contains(@class, 'ant-form-item registration-input')][1]")));
         firstNameInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='firstName' and @class='ant-input']")));
         phoneInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='phone' and @class='ant-input']")));
         emailInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='email' and @class='ant-input']")));
@@ -87,5 +87,4 @@ public class RegistrationPopupComponent extends BasePopUp {
         registrationButton.click();
         return this;
     }
-
 }

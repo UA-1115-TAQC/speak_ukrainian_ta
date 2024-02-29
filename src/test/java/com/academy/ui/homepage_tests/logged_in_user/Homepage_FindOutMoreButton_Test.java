@@ -41,5 +41,6 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
         softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));
         softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertAll();
     }
 }

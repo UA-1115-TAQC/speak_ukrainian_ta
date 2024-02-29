@@ -11,6 +11,7 @@ public class Homepage_Buttons_OnTheBody_OutsideComponents_Test extends HomePageT
        WebElement challengeImageText = home.clickChallengeFindOutMoreButton().getChallengeImageText();
        Assert.assertTrue(driver.getCurrentUrl().contains("challenge"));
        Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+
     }
     @Test
     public void checkClubHeadingButton(){

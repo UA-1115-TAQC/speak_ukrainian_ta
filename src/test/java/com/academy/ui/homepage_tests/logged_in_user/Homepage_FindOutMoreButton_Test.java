@@ -1,26 +1,32 @@
 package com.academy.ui.homepage_tests.logged_in_user;
 
-import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
-import com.academy.ui.homepage_tests.Homepage_Buttons_OnTheBody_OutsideComponents_TestBase;
 import com.academy.ui.runners.LogInWithUserTestRunner;
-import com.academy.ui.runners.homepage_runners.BaseHomePageTestRunner;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
-public class Homepage_FindOutMoreButton_Test extends BaseHomePageTestRunner{
+import java.time.Duration;
+
+public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
+    WebDriverWait wait;
+    SoftAssert softAssert;
+    Actions actions;
+    JavascriptExecutor jsExecutor;
+
     @BeforeMethod
-    public void i(){
-        LoginPopupComponent loginForm = home
-                .header
-                .openGuestMenu()
-                .openLoginForm();
-        loginForm.enterEmail(configProperties.getUserEmail());
-        loginForm.enterPassword(configProperties.getUserPassword());
-        loginForm.clickSubmitButton();
+    public void init(){
+        wait=new WebDriverWait(driver, Duration.ofSeconds(60));
+        softAssert = new SoftAssert();
+        actions = new Actions(driver);
     }
     @Test
     public void check_hover_effects(){
+        jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", homePage.getChallengeFindOutMoreButton());
         wait.until(ExpectedConditions.visibilityOf(homePage.getChallengeFindOutMoreButton()));
         softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"));
@@ -32,10 +38,8 @@ public class Homepage_FindOutMoreButton_Test extends BaseHomePageTestRunner{
 
     @Test
     public void check_find_out_more_button_on_the_body(){
-      /*  WebElement challengeImageText = home.clickChallengeFindOutMoreButton().getChallengeImageText();
-        Assert.assertTrue(driver.getCurrentUrl().contains("challenge"));
-        Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));*/
-        new Homepage_Buttons_OnTheBody_OutsideComponents_TestBase().check_find_out_more_button_on_the_body();
-    ///?????
+       WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
+        softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));
+        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
     }
 }

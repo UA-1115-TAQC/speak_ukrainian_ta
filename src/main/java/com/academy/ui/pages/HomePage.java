@@ -84,4 +84,11 @@ public class HomePage extends BasePageWithAdvancedSearch {
         js.executeScript("arguments[0].scrollIntoView();", carouselCardComponent.getCarouselCardAllClubsButton());
         return this;
     }
+
+    public HomePage scrollToFooter() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+        return this;
+    }
+
 }

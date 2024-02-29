@@ -1,4 +1,4 @@
-package com.academy.ui.homepage_tests;
+package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.CarouselImgCard;
 import com.academy.ui.pages.ClubsPage;

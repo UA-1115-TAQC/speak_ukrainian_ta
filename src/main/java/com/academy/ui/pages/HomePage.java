@@ -79,6 +79,12 @@ public class HomePage extends BasePageWithAdvancedSearch {
         return languageSphereFacebookPage;
     }
 
+    public HomePage scrollToAllClubsButton() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", carouselCardComponent.getCarouselCardAllClubsButton());
+        return this;
+    }
+
     public HomePage scrollToFooter() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,document.body.scrollHeight)");

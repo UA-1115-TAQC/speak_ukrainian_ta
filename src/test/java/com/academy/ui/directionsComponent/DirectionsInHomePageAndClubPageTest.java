@@ -6,15 +6,10 @@ import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.BaseTestRunner;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-import static org.bouncycastle.oer.its.ieee1609dot2.basetypes.Duration.seconds;
-
 public class DirectionsInHomePageAndClubPageTest extends BaseTestRunner {
-
     @Test(description = "TUA-827")
     public void directionsCardsDisplayedProperlyInHomeAndClubsPages() {
         ClubsPage clubsPage = new ClubsPage(driver);

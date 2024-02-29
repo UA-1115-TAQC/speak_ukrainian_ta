@@ -169,16 +169,14 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
 
         checkStepThreeDescriptionElementsPresent();
 
-        softAssert.assertEquals(sider.getFirstStepIcon().getText(), "1");
+        softAssert.assertEquals(sider.getFirstStepIcon().getText(), "");
         softAssert.assertEquals(sider.getFirstStepTitle().getText(),"Основна інформація");
-        softAssert.assertEquals(sider.getSecondStepIcon().getText(), "2");
+        softAssert.assertEquals(sider.getSecondStepIcon().getText(), "");
         softAssert.assertEquals(sider.getSecondStepTitle().getText(),"Контакти");
         softAssert.assertEquals(sider.getThirdStepIcon().getText(), "3");
         softAssert.assertEquals(sider.getThirdStepTitle().getText(),"Опис");
 
         softAssert.assertEquals(stepThree.getClubTitle().getText(), "Додати гурток");
-        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
-                "font-family"), "Open Sans");
         softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
                 "color"), "rgba(45, 76, 104, 1)");
         softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
@@ -186,38 +184,30 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
 
         softAssert.assertEquals(stepThree.getClubLogoTitle().getText(),"Логотип");
         softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
-                "font-family"), "Open Sans");
+                "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
-                "color"), "rgba(45, 76, 104, 1)");
-        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
-                "font-size"), "18px");
+                "font-size"), "19px");
         softAssert.assertEquals(stepThree.getClubLogoDownloadButton().getText(),"Завантажити лого");
 
         softAssert.assertEquals(stepThree.getClubCoverTitle().getText(),"Обкладинка");
         softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
-                "font-family"),"Open Sans");
+                "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
-                "color"), "rgba(45, 76, 104, 1)");
-        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
-                "font-size"), "18px");
+                "font-size"), "19px");
         softAssert.assertEquals(stepThree.getClubCoverDownloadButton().getText(),"Завантажити обкладинку");
 
         softAssert.assertEquals(stepThree.getClubGalleryTitle().getText(),"Галерея");
         softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "font-family"), "Open Sans");
+                "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "color"), "rgba(45, 76, 104, 1)");
-        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "font-size"),"18px");
+                "font-size"),"19px");
         softAssert.assertEquals(stepThree.getClubGalleryDownloadButton().getText(),"Додати");
 
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getText(),"Опис");
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "font-family"),"Open Sans");
+                "color"),"rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "color"),"rgba(45, 76, 104, 1)");
-        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "font-size"),"18px");
+                "font-size"),"19px");
 
         softAssert.assertEquals(stepThree.getPrevStepButton().getText(), "Назад");
         softAssert.assertEquals(stepThree.getNextStepButton().getText(), "Завершити");

@@ -1,5 +1,6 @@
-package com.academy.ui.components;
+package com.academy.ui.footer;
 
+import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
 import org.testng.annotations.BeforeMethod;

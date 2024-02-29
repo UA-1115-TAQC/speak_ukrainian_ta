@@ -1,4 +1,4 @@
-package com.academy.ui.homepage_tests;
+package com.academy.ui.homePage;
 
 import com.academy.ui.runners.LoginWithUserTestRunner;
 import org.testng.Assert;

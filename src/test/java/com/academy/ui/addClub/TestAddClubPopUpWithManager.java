@@ -1,4 +1,4 @@
-package com.academy.ui.components;
+package com.academy.ui.addClub;
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class TestAddClubPopUp extends LoginWithAdminTestRunner {
+public class TestAddClubPopUpWithManager extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
     private static final String CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";

@@ -4,10 +4,10 @@ import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -33,6 +33,9 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
     @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+
+    @FindBy(xpath = "//div[@class='ant-modal-root css-1kvr9ql']")
+    @Getter(AccessLevel.NONE)private WebElement popUpWebElement;
 
     protected List<DirectionTagComponent> directions;
 
@@ -68,13 +71,15 @@ public class ClubCardComponent extends BaseComponent {
         return getClubName().toLowerCase().contains(text.toLowerCase());
     }
 
+    public boolean descriptionContains(String text){
+        return getDescription().getText().toLowerCase().contains(text.toLowerCase());
+    }
+
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
-
-        WebElement popupRoot = driver.findElement(By.xpath(
-                "//div(contains[@class, 'ant-modal-root'] and contains[@class, 'css-1kvr9ql'])"));
-        ClubInfoPopUp popup = new ClubInfoPopUp(driver,popupRoot);
-        return popup;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        return new ClubInfoPopUp(driver, root);
     }
 
     public void clickAddress() {

@@ -2,13 +2,11 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.*;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
-import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -81,9 +79,9 @@ public class ClubsPage extends BasePage {
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
 
-    public ClubsPage setTextHeaderSearchField(String input) {
+    public ClubsPage setTextHeaderSearch(String input) {
         advancedSearchClubHeader.setTextSelectionSearchInputField(input);
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1500000));
         sleep(1000);
         clubCards = createClubComponents();
         return this;

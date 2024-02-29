@@ -9,7 +9,6 @@ import java.util.List;
 import com.academy.ui.pages.DirectionTagComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,7 +34,7 @@ public class ClubInfoPopUp extends BasePopUp {
     private WebElement aboutClubTitle;
 
     @FindBy(xpath = ".//div[contains(@class, 'about')]//div[@class = 'description']")
-    private WebElement aboutClubDescription;
+    private WebElement description;
 
     @FindBy(xpath = ".//ul[contains(@class,'ant-rate')]")
     protected WebElement rating;
@@ -77,6 +76,10 @@ public class ClubInfoPopUp extends BasePopUp {
             }
         }
         return false;
+    }
+
+    public boolean descriptionContains(String text){
+        return getDescription().getText().toLowerCase().contains(text.toLowerCase());
     }
 
     public List<ContactElement> getSocialMedia() {

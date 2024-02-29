@@ -35,7 +35,7 @@ public class ClubsPage extends BasePage {
     @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected SwitchPaginationComponent switchPagination;
+    protected ClubsPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;

@@ -47,8 +47,6 @@ public class ClubsPage extends BasePage {
 
     public ClubsPage(WebDriver driver) {
         super(driver);
-        WebElement clubSearchHeaderRootElement = this.driver.findElement(By.xpath(SEARCH_CLUB_HEADER_ROOT_XPATH));
-        advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, clubSearchHeaderRootElement);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
         switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
@@ -61,8 +59,7 @@ public class ClubsPage extends BasePage {
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
-        List<WebElement> clubDivs = driver.findElements(By.xpath(CLUB_CARD_LIST_XPATH));
-        for (WebElement element : clubDivs) {
+        for (WebElement element : clubCardsWebElement) {
             clubs.add(new ClubCardComponent(driver, element));
         }
         return clubs;

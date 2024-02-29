@@ -23,7 +23,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][3]")
     private WebElement clubGalleryTitle;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
+    @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][4]")
     private WebElement clubDescriptionTitle;
 
     @FindBy(xpath = "./descendant::input[@id='basic_urlLogo']")

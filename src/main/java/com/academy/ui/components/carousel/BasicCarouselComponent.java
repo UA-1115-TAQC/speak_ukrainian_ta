@@ -2,10 +2,15 @@ package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +47,9 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
 
     public T clickSlickDotByIndex(int index) {
         this.getSlickDotByIndex(index).click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.attributeContains(By.cssSelector(".about-carousel .slick-dots li.slick-active"),
+                        "background-color", "250, 140, 22"));
         return (T) this;
     }
 
@@ -59,5 +67,11 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
         this.getActiveSlickDot().click();
         return (T) this;
     }
+
+    public String getSlickDotColor(WebElement slickDot) {
+        return Color.fromString(slickDot.getCssValue("background-color")).asHex();
+    }
+
+
 }
 

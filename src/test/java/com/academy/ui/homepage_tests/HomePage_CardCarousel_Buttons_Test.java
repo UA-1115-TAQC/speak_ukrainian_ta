@@ -9,18 +9,18 @@ import java.util.List;
 
 public class HomePage_CardCarousel_Buttons_Test extends HomePageTestRunner {
     @Test
-    public void check_all_clubs_button(){
+    public void checkAllClubsButton(){
         home.carouselCardComponent.clickCarouselCardAllClubsButton().waitUntilClubsPageIsLoaded(15);
         Assert.assertTrue(driver.getCurrentUrl().contains("clubs"));
     }
 
     @Test
-    public void check_view_more_button_on_cards(){
+    public void checkViewMoreButtonOnCards(){
        home.carouselCardComponent.getActiveCarouselCardByIndex(0).clickClubCardButton().waitUntilClubsPageIsLoaded(15);
        Assert.assertTrue(driver.getCurrentUrl().contains("clubs"));
        }
    @Test
-   public  void check_arrow_buttons(){
+   public  void checkArrowButtons(){
        List<ClubDirectionCard> initialActiveCards = home.carouselCardComponent.getActiveCarouselCards();
        List<ClubDirectionCard> newActiveCards= home.carouselCardComponent.clickRightArrowButton().getActiveCarouselCards();
        Assert.assertNotEquals(newActiveCards, initialActiveCards);
@@ -28,7 +28,7 @@ public class HomePage_CardCarousel_Buttons_Test extends HomePageTestRunner {
        Assert.assertEquals(initialActiveCards, newActiveCards);
    }
    @Test
-    public void check_navigation_by_slickdots(){
+    public void checkNavigationBySlickdots(){
        List<ClubDirectionCard> initialActiveCards = home.carouselCardComponent.getActiveCarouselCards();
        List<ClubDirectionCard> newActiveCards= home.carouselCardComponent.clickSlickDotByIndex(1).getActiveCarouselCards();
        Assert.assertNotEquals(newActiveCards, initialActiveCards);

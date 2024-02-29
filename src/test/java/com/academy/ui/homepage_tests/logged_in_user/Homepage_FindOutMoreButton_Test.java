@@ -25,7 +25,7 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
         actions = new Actions(driver);
     }
     @Test
-    public void check_hover_effects(){
+    public void checkHoverEffects(){
         jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", homePage.getChallengeFindOutMoreButton());
         wait.until(ExpectedConditions.visibilityOf(homePage.getChallengeFindOutMoreButton()));
@@ -37,7 +37,7 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
     }
 
     @Test
-    public void check_find_out_more_button_on_the_body(){
+    public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
         softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));
         softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));

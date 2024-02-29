@@ -26,7 +26,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     }
 
     @Test
-    public void verify_imgcarousel_button1() {
+    public void verifyImgcarouselButton1() {
         ChallengeUnited challengeUnited = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/challenges/5", () -> new ChallengeUnited(driver),0);
         WebElement challengeImageText = challengeUnited.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
@@ -34,20 +34,20 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     }
 
     @Test
-    public void verify_imgcarousel_button2() {
+    public void verifyImgcarouselButton2() {
         ClubsPage clubsPage = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/clubs", () -> new ClubsPage(driver),1)
                 .waitUntilClubsPageIsLoaded(15);
         Assert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
     }
     @Test
-    public void verify_imgcarousel_button3() {
+    public void verifyImgcarouselButton3() {
         ChallengeTeachInUkrainian challengeTeachInUkrainian = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/about", () -> new ChallengeTeachInUkrainian(driver),2);
         WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
         Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
     }
    @Test
-   public void check_arrow_buttons() {
+   public void checkArrowButtons() {
        CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
        CarouselImgCard newActiveCard = home.carouselImgComponent.clickRightArrowButton().getActiveCarouselImgCard();
        assertCardChanged(initialActiveCard, newActiveCard);
@@ -56,7 +56,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
    }
 
     @Test
-    public void check_navigation_by_slickdots() {
+    public void checkNavigationBySlickdots() {
         CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
         CarouselImgCard newActiveCard = home.carouselImgComponent.clickSlickDotByIndex(2).getActiveCarouselImgCard();
         assertCardChanged(initialActiveCard, newActiveCard);

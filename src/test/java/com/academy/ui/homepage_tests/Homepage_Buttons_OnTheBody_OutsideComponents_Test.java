@@ -7,19 +7,19 @@ import org.testng.annotations.Test;
 
 public class Homepage_Buttons_OnTheBody_OutsideComponents_Test extends HomePageTestRunner {
     @Test
-    public void check_find_out_more_button_on_the_body(){
+    public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = home.clickChallengeFindOutMoreButton().getChallengeImageText();
        Assert.assertTrue(driver.getCurrentUrl().contains("challenge"));
        Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
     }
     @Test
-    public void check_club_heading_button(){
+    public void checkClubHeadingButton(){
         WebElement challengeImageText = home.clickSpeakingClubHeading().getChallengeImageText();
         Assert.assertTrue(driver.getCurrentUrl().contains("speakingclub"));
         Assert.assertTrue(challengeImageText.getText().contains("Клуб української мови \"Розмовляй\""));
     }
     @Test
-    public void check_image_facebook_link(){
+    public void checkImageFacebookLink(){
         Assert.assertTrue(home.clickSpeakingClubImage().getFacebookLogo().isDisplayed());
     }
 }

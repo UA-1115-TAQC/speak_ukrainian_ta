@@ -59,7 +59,7 @@ public class ClubInfoPopUp extends BasePopUp {
         super(driver, rootElement);
     }
 
-    public List<DirectionTagComponent> getDirectionTags() {
+    public List<DirectionTagComponent> getDirections() {
         if (directions == null) {
             directions = new ArrayList<>();
             for (WebElement tag : directionTags) {
@@ -67,6 +67,16 @@ public class ClubInfoPopUp extends BasePopUp {
             }
         }
         return directions;
+    }
+
+    public boolean directionsContains(String text){
+        getDirections();
+        for (DirectionTagComponent direction : directions) {
+            if(direction.getNameText().toLowerCase().contains(text.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<ContactElement> getSocialMedia() {

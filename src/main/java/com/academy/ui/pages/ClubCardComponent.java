@@ -1,13 +1,16 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +50,31 @@ public class ClubCardComponent extends BaseComponent {
         return directions;
     }
 
-    public void clickTitle() {
+    public boolean directionsContains(String text){
+        getDirections();
+        for (DirectionTagComponent direction : directions) {
+            if(direction.getNameText().toLowerCase().contains(text.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getClubName(){
+        return getTitle().getText();
+    }
+
+    public boolean clubNameContains(String text){
+        return getClubName().toLowerCase().contains(text.toLowerCase());
+    }
+
+    public ClubInfoPopUp clickTitle() {
         getTitle().click();
+
+        WebElement popupRoot = driver.findElement(By.xpath(
+                "//div(contains[@class, 'ant-modal-root'] and contains[@class, 'css-1kvr9ql'])"));
+        ClubInfoPopUp popup = new ClubInfoPopUp(driver,popupRoot);
+        return popup;
     }
 
     public void clickAddress() {

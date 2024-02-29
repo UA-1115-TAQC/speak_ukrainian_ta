@@ -3,12 +3,16 @@ package com.academy.ui.components.header;
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.header.headerMenuComponent.AdminMenuComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
+import com.academy.ui.pages.AboutUsPage;
 import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.ProfilePage;
+import com.academy.ui.pages.ServicePage;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +22,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static com.academy.ui.components.header.HeaderUtil.clickElement;
+
 @Getter
 public class HeaderComponent extends BaseComponent {
     public LoginPopupComponent loginPopupComponent;
@@ -25,14 +31,17 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class, 'user-profile')]")
     protected WebElement profileMenuButton;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/header/div[2]/ul/li[1]")
-    protected WebElement groupButton;
-
     @FindBy(xpath = ".//a[@href='/dev/news']")
     protected WebElement newsButton;
 
     @FindBy(xpath = ".//a[@href='/dev/clubs']")
     protected WebElement clubsButton;
+
+    @FindBy(xpath = ".//a[@href='/dev/about']")
+    protected WebElement aboutUsButton;
+
+    @FindBy(xpath = ".//a[@href='/dev/service']")
+    protected WebElement serviceButton;
 
     @FindBy(xpath = ".//button[contains(@class,'add-club-button')]")
     protected WebElement addClubButton;
@@ -71,6 +80,27 @@ public class HeaderComponent extends BaseComponent {
         return new AllNewsPage(driver);
     }
 
+    public BaseChallengePage challengesClick() {
+        challengeButton.click();
+        clickElement(driver, headerChallengeDropdownNode);
+        return new BaseChallengePage(driver);
+    }
+
+    public ClubsPage clickClubsPageButton() {
+        clubsButton.click();
+        return new ClubsPage(driver);
+    }
+
+    public AboutUsPage clickAboutUsButton() {
+        aboutUsButton.click();
+        return new AboutUsPage(driver);
+    }
+
+    public ServicePage clickServiceButton() {
+        serviceButton.click();
+        return new ServicePage(driver);
+    }
+
     public AddClubPopUpComponent addClubButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(e -> isLoggedIn.isDisplayed());
@@ -83,15 +113,14 @@ public class HeaderComponent extends BaseComponent {
         return new GuestMenuComponent(driver, profileMenuNode);
     }
 
-    public ClubsPage clickClubsPageButton() {
-        clubsButton.click();
-        return new ClubsPage(driver);
+    public AdminMenuComponent openAdminMenu() {
+        profileMenuButton.click();
+        return new AdminMenuComponent(driver, profileMenuNode);
     }
 
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
-
     }
 
     public ProfilePage openProfilePage(){

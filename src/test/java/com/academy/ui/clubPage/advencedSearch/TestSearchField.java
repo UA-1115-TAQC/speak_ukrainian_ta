@@ -1,4 +1,4 @@
-package com.academy.ui.components;
+package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.Keys;

@@ -36,4 +36,7 @@ public class ConfigProperties {
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
+    public String getUserFirstname(){return properties.getProperty("user.firstname");}
+    public String getUserLastname(){return properties.getProperty("user.lastname");}
+    public String getUserPhone(){return properties.getProperty("user.phone");}
 }

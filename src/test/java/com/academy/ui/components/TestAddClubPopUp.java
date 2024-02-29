@@ -1,12 +1,12 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -22,6 +22,7 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
     private AddClubPopUpComponent addClubPopUpComponent;
+    private AddClubPopUpSider sider;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
@@ -63,16 +64,20 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
         stepThree = addClubPopUpComponent.getStepThreeContainer();
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 1500 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(),
+                "Should be no errors with 1500 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(),
+                "Should be no errors with 50 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1501_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE), "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
+                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1550_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE), "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
+                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
 
         softAssert.assertAll();
     }
@@ -148,5 +153,143 @@ public class TestAddClubPopUp extends LoginWithAdminTestRunner {
 
         addClubPopUpComponent.getCloseButton().click();
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-119")
+    public void checkStepTreeDescriptionUI (){
+        int WINDOW_WIDTH = 400;
+        int WINDOW_HEIGHT = 600;
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        sider = addClubPopUpComponent.getSider();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        checkStepThreeDescriptionElementsPresent();
+
+        softAssert.assertEquals(sider.getFirstStepIcon().getText(), "1");
+        softAssert.assertEquals(sider.getFirstStepTitle().getText(),"Основна інформація");
+        softAssert.assertEquals(sider.getSecondStepIcon().getText(), "2");
+        softAssert.assertEquals(sider.getSecondStepTitle().getText(),"Контакти");
+        softAssert.assertEquals(sider.getThirdStepIcon().getText(), "3");
+        softAssert.assertEquals(sider.getThirdStepTitle().getText(),"Опис");
+
+        softAssert.assertEquals(stepThree.getClubTitle().getText(), "Додати гурток");
+        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
+                "font-family"), "Open Sans");
+        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
+                "color"), "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
+                "font-size"), "24px");
+
+        softAssert.assertEquals(stepThree.getClubLogoTitle().getText(),"Логотип");
+        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
+                "font-family"), "Open Sans");
+        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
+                "color"), "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
+                "font-size"), "18px");
+        softAssert.assertEquals(stepThree.getClubLogoDownloadButton().getText(),"Завантажити лого");
+
+        softAssert.assertEquals(stepThree.getClubCoverTitle().getText(),"Обкладинка");
+        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
+                "font-family"),"Open Sans");
+        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
+                "color"), "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
+                "font-size"), "18px");
+        softAssert.assertEquals(stepThree.getClubCoverDownloadButton().getText(),"Завантажити обкладинку");
+
+        softAssert.assertEquals(stepThree.getClubGalleryTitle().getText(),"Галерея");
+        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
+                "font-family"), "Open Sans");
+        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
+                "color"), "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
+                "font-size"),"18px");
+        softAssert.assertEquals(stepThree.getClubGalleryDownloadButton().getText(),"Додати");
+
+        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getText(),"Опис");
+        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
+                "font-family"),"Open Sans");
+        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
+                "color"),"rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
+                "font-size"),"18px");
+
+        softAssert.assertEquals(stepThree.getPrevStepButton().getText(), "Назад");
+        softAssert.assertEquals(stepThree.getNextStepButton().getText(), "Завершити");
+        softAssert.assertFalse(stepThree.getNextStepButton().isEnabled(), "Button should be not active");
+
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getClubLogoDownloadButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on Logo Download Button");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getClubCoverDownloadButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on Cover Download Button");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getClubGalleryDownloadButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on Gallery Download Button");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getClubDescriptionTextarea().equals(driver.switchTo().activeElement()),
+                "Focus should be on Description Textarea");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getPrevStepButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on Previous Step Button");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(stepThree.getNextStepButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on Submit Button");
+
+        Dimension dimension = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
+        driver.manage().window().setSize(dimension);
+
+        checkStepThreeDescriptionElementsPresent();
+
+        softAssert.assertAll();
+    }
+
+    private void checkStepThreeDescriptionElementsPresent(){
+        softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
+                "Step One icon should be displayed");
+        softAssert.assertTrue(sider.getFirstStepTitle().isDisplayed(),
+                "Step One title should be displayed");
+
+        softAssert.assertTrue(sider.getSecondStepIcon().isDisplayed(),
+                "Step Two icon should be displayed");
+        softAssert.assertTrue(sider.getSecondStepTitle().isDisplayed(),
+                "Step Two title should be displayed");
+
+        softAssert.assertTrue(sider.getThirdStepIcon().isDisplayed(),
+                "Step Three icon should be displayed");
+        softAssert.assertTrue(sider.getThirdStepTitle().isDisplayed(),
+                "Step Three title should be displayed");
+
+        softAssert.assertTrue(stepThree.getClubTitle().isDisplayed(),
+                "Step Club title should be displayed");
+
+        softAssert.assertTrue(stepThree.getClubLogoTitle().isDisplayed(),
+                "Step Logo title should be displayed");
+        softAssert.assertTrue(stepThree.getClubLogoDownloadButton().isDisplayed(),
+                "Step Logo Download Button should be displayed");
+
+        softAssert.assertTrue(stepThree.getClubCoverTitle().isDisplayed(),
+                "Step Cover title should be displayed");
+        softAssert.assertTrue(stepThree.getClubCoverDownloadButton().isDisplayed(),
+                "Step Cover Download Button should be displayed");
+
+        softAssert.assertTrue(stepThree.getClubGalleryTitle().isDisplayed(),
+                "Step Gallery title should be displayed");
+        softAssert.assertTrue(stepThree.getClubGalleryDownloadButton().isDisplayed(),
+                "Step Gallery Download Button should be displayed");
+
+        softAssert.assertTrue(stepThree.getClubDescriptionTitle().isDisplayed(),
+                "Step Description title should be displayed");
+
+        softAssert.assertTrue(stepThree.getPrevStepButton().isDisplayed(),
+                "Step Previous Step Button should be displayed");
+        softAssert.assertTrue(stepThree.getNextStepButton().isDisplayed(),
+                "Step Submit Button should be displayed");
     }
 }

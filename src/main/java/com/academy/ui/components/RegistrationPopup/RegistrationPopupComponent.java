@@ -14,9 +14,9 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected static final String registrationPopupClassName = "modal-registration";
     @FindBy(xpath="//div[contains(@class,'registration-header')]")
     protected WebElement registrationHeader;
-    @FindBy(xpath="//label[@class='ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-13m256z']//input[@value='ROLE_USER']")
+    @FindBy(xpath="//input[@value='ROLE_USER']/../..")
     protected WebElement userTypeButton;
-    @FindBy(xpath="//label[@class='ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-13m256z']//input[@value='ROLE_MANAGER']")
+    @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
     protected WebElement managerTypeButton;
     @FindBy(xpath="//a[contains(@href, 'google')]")
     protected WebElement googleButton;

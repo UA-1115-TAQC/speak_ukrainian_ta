@@ -9,18 +9,20 @@ public class Homepage_Buttons_OnTheBody_OutsideComponents_Test extends HomePageT
     @Test
     public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = home.clickChallengeFindOutMoreButton().getChallengeImageText();
-       Assert.assertTrue(driver.getCurrentUrl().contains("challenge"));
-       Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
-
+       softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));
+       softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertAll();
     }
     @Test
     public void checkClubHeadingButton(){
         WebElement challengeImageText = home.clickSpeakingClubHeading().getChallengeImageText();
-        Assert.assertTrue(driver.getCurrentUrl().contains("speakingclub"));
-        Assert.assertTrue(challengeImageText.getText().contains("Клуб української мови \"Розмовляй\""));
+        softAssert.assertTrue(driver.getCurrentUrl().contains("speakingclub"));
+        softAssert.assertTrue(challengeImageText.getText().contains("Клуб української мови \"Розмовляй\""));
+        softAssert.assertAll();
     }
     @Test
     public void checkImageFacebookLink(){
-        Assert.assertTrue(home.clickSpeakingClubImage().getFacebookLogo().isDisplayed());
+        softAssert.assertTrue(home.clickSpeakingClubImage().getFacebookLogo().isDisplayed());
+        softAssert.assertAll();
     }
 }

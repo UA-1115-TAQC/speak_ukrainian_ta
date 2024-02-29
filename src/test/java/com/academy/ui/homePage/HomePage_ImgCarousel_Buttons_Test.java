@@ -21,7 +21,8 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         }
         home.carouselImgComponent.getActiveCarouselImgCard().clickCardButton();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(initialUrl)));
-        Assert.assertTrue(driver.getCurrentUrl().contains(urlContains));
+        softAssert.assertTrue(driver.getCurrentUrl().contains(urlContains));
+        softAssert.assertAll();
         return pageObjectSupplier.get();
     }
 
@@ -30,21 +31,24 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         ChallengeUnited challengeUnited = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/challenges/5", () -> new ChallengeUnited(driver),0);
         WebElement challengeImageText = challengeUnited.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        Assert.assertEquals(challengeImageText.getText(), "\"Єдині\" - це 28 днів підтримки у переході на українську");
+        softAssert.assertEquals(challengeImageText.getText(), "\"Єдині\" - це 28 днів підтримки у переході на українську");
+        softAssert.assertAll();
     }
 
     @Test
     public void verifyImgcarouselButton2() {
         ClubsPage clubsPage = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/clubs", () -> new ClubsPage(driver),1)
                 .waitUntilClubsPageIsLoaded(15);
-        Assert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
+        softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
+        softAssert.assertAll();
     }
     @Test
     public void verifyImgcarouselButton3() {
         ChallengeTeachInUkrainian challengeTeachInUkrainian = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/about", () -> new ChallengeTeachInUkrainian(driver),2);
         WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertAll();
     }
    @Test
    public void checkArrowButtons() {
@@ -65,10 +69,12 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     }
 
     private void assertCardChanged(CarouselImgCard initialCard, CarouselImgCard newCard) {
-        Assert.assertNotEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
+        softAssert.assertNotEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
+        softAssert.assertAll();
     }
 
     private void assertCardUnchanged(CarouselImgCard initialCard, CarouselImgCard newCard) {
-        Assert.assertEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
+        softAssert.assertEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
+        softAssert.assertAll();
     }
 }

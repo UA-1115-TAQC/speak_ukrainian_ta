@@ -8,20 +8,20 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class HomePage_CardCarousel_Buttons_Test extends HomePageTestRunner {
-    @Test
+    @Test(description = "TUA-21")
     public void checkAllClubsButton(){
         home.carouselCardComponent.clickCarouselCardAllClubsButton().waitUntilClubsPageIsLoaded(15);
         softAssert.assertTrue(driver.getCurrentUrl().contains("clubs"));
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "TUA-21")
     public void checkViewMoreButtonOnCards(){
        home.carouselCardComponent.getActiveCarouselCardByIndex(0).clickClubCardButton().waitUntilClubsPageIsLoaded(15);
        softAssert.assertTrue(driver.getCurrentUrl().contains("clubs"));
        softAssert.assertAll();
        }
-   @Test
+   @Test(description = "TUA-21")
    public  void checkArrowButtons(){
        List<ClubDirectionCard> initialActiveCards = home.carouselCardComponent.getActiveCarouselCards();
        List<ClubDirectionCard> newActiveCards= home.carouselCardComponent.clickRightArrowButton().getActiveCarouselCards();
@@ -30,7 +30,7 @@ public class HomePage_CardCarousel_Buttons_Test extends HomePageTestRunner {
        softAssert.assertEquals(initialActiveCards, newActiveCards);
        softAssert.assertAll();
    }
-   @Test
+   @Test(description = "TUA-21")
     public void checkNavigationBySlickdots(){
        List<ClubDirectionCard> initialActiveCards = home.carouselCardComponent.getActiveCarouselCards();
        List<ClubDirectionCard> newActiveCards= home.carouselCardComponent.clickSlickDotByIndex(1).getActiveCarouselCards();

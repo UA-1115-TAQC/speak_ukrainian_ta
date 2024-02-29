@@ -24,7 +24,7 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
         softAssert = new SoftAssert();
         actions = new Actions(driver);
     }
-    @Test
+    @Test(description = "TUA-860")
     public void checkHoverEffects(){
         jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", homePage.getChallengeFindOutMoreButton());
@@ -36,7 +36,7 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "TUA-860")
     public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
         softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));

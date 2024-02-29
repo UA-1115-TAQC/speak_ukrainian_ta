@@ -26,7 +26,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         return pageObjectSupplier.get();
     }
 
-    @Test
+    @Test(description = "TUA-21")
     public void verifyImgcarouselButton1() {
         ChallengeUnited challengeUnited = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/challenges/5", () -> new ChallengeUnited(driver),0);
         WebElement challengeImageText = challengeUnited.getChallengeImageText();
@@ -35,14 +35,14 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "TUA-21")
     public void verifyImgcarouselButton2() {
         ClubsPage clubsPage = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/clubs", () -> new ClubsPage(driver),1)
                 .waitUntilClubsPageIsLoaded(15);
         softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
         softAssert.assertAll();
     }
-    @Test
+    @Test(description = "TUA-21")
     public void verifyImgcarouselButton3() {
         ChallengeTeachInUkrainian challengeTeachInUkrainian = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/about", () -> new ChallengeTeachInUkrainian(driver),2);
         WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
@@ -50,7 +50,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
         softAssert.assertAll();
     }
-   @Test
+   @Test(description = "TUA-21")
    public void checkArrowButtons() {
        CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
        CarouselImgCard newActiveCard = home.carouselImgComponent.clickRightArrowButton().getActiveCarouselImgCard();
@@ -59,7 +59,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
        assertCardUnchanged(initialActiveCard, newActiveCard);
    }
 
-    @Test
+    @Test(description = "TUA-21")
     public void checkNavigationBySlickdots() {
         CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
         CarouselImgCard newActiveCard = home.carouselImgComponent.clickSlickDotByIndex(2).getActiveCarouselImgCard();

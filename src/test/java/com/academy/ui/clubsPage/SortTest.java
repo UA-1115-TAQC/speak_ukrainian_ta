@@ -1,4 +1,4 @@
-package com.academy.ui.clubspage_test;
+package com.academy.ui.clubsPage;
 
 import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.pages.ClubCardComponent;
@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -43,9 +42,7 @@ public class SortTest extends BaseTestRunner {
         while(true){
             cards = clubsPage.getClubCards();
             for(ClubCardComponent c : cards){
-                String name = c.getClubName();
-//                System.out.println(name);
-                clubNames.add(name);
+                clubNames.add(c.getClubName());
             }
 
             SwitchPaginationComponent pagination = clubsPage.getSwitchPagination();
@@ -56,4 +53,5 @@ public class SortTest extends BaseTestRunner {
         }
         return clubNames;
     }
+    
 }

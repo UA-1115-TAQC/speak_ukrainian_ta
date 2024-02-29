@@ -1,13 +1,9 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.AdvancedSearchSiderComponent;
-import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.*;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
-import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.SwitchPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,7 +45,7 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
@@ -81,10 +77,6 @@ public class ClubsPage extends BasePage {
             return this;
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");
-    }
-
-    public void clickNext(){
-
     }
 
 }

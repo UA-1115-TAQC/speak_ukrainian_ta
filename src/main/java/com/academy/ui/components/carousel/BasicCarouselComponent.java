@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +18,8 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     protected WebElement rightArrowButton;
     @FindBy(xpath = ".//ul[contains(@class,\"slick-dots\")]/li")
     protected List<WebElement> slickDots;
+    @FindBy(xpath = ".//ul[contains(@class,\"slick-dots\")]")
+    protected WebElement slickDotsContainer;
     @FindBy(xpath = ".//div[contains(@class,\"slick-slider\")]")
     protected WebElement sliderContainer;
     public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {

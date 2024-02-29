@@ -1,81 +1,63 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class ClubCardComponent extends BaseComponent {
+    @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
-    protected List<DirectionTagComponent> directionTags;
+
+    @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;
+
+    @FindBy(xpath = ".//ul[contains(@class,'rating')]")
     protected WebElement rating;
+
+    @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
+
+    @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;
+
+    @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
+    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+
+    protected List<DirectionTagComponent> directions;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public WebElement getTitle() {
-        if (title == null) {
-            title = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'title')]"));
+    public List<DirectionTagComponent> getDirections() {
+        if (directions == null) {
+            directions = new ArrayList<>();
+            for (WebElement tag : directionTags) {
+                directions.add(new DirectionTagComponent(driver, tag));
+            }
         }
-        return title;
+        return directions;
     }
 
     public void clickTitle() {
         getTitle().click();
     }
 
-    public List<DirectionTagComponent> getDirections() {
-        if (directionTags == null) {
-            directionTags = new ArrayList<>();
-            List<WebElement> tags = rootElement.findElements(By.xpath(".//descendant::span[contains(@class,'ant-tag')]"));
-            for (WebElement tag : tags) {
-                directionTags.add(new DirectionTagComponent(driver, tag));
-            }
-        }
-        return directionTags;
-    }
-
-    public WebElement getDescription() {
-        if (description == null) {
-            description = rootElement.findElement(By.xpath(".//descendant::p[contains(@class,'description')]"));
-        }
-        return description;
-    }
-
-    public WebElement getRating() {
-        if (rating == null) {
-            rating = rootElement.findElement(By.xpath(".//descendant::ul[contains(@class,'rating')]"));
-        }
-        return rating;
-    }
-
-    public WebElement getAddress() {
-        if (address == null) {
-            address = rootElement.findElement(By.xpath(".//descendant::div[contains(@class,'address')]"));
-        }
-        return address;
-    }
-
     public void clickAddress() {
         getAddress().click();
     }
 
-    public WebElement getDetailsButton() {
-        if (detailsButton == null) {
-            detailsButton = rootElement.findElement(By.xpath(".//descendant::a[contains(@class,'details-button')]"));
-        }
-        return detailsButton;
-    }
-
-    public void clickDetailsButton() {
+    public ClubPage clickDetailsButton() {
         getDetailsButton().click();
+        return new ClubPage(driver);
     }
 
 }

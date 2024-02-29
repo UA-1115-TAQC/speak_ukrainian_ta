@@ -1,5 +1,6 @@
 package com.academy.ui.runners;
 
+import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +16,8 @@ public abstract class BaseTestRunner {
     protected static ConfigProperties configProperties;
     private final long implicitlyWaitDuration = 10;
 
+    protected HomePage homePage;
+
     @BeforeSuite(alwaysRun = true)
     public void setUpWebDriver() {
         WebDriverManager.chromedriver().setup();
@@ -27,6 +30,7 @@ public abstract class BaseTestRunner {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWaitDuration));
         driver.get(configProperties.getBaseUrl());
+        homePage = new HomePage(driver);
     }
 
     @AfterMethod

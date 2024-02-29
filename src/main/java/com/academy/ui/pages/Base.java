@@ -1,6 +1,8 @@
 package com.academy.ui.pages;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 
 public abstract class Base {
@@ -12,11 +14,19 @@ public abstract class Base {
     }
 
 
-    public void sleep(long seconds) {
+    public void sleep(long millisSeconds) {
         try {
-            Thread.sleep(seconds);
+            Thread.sleep(millisSeconds);
         } catch (InterruptedException e) {
 
+        }
+    }
+
+    public boolean isElementPresent(WebElement element){
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
         }
     }
 }

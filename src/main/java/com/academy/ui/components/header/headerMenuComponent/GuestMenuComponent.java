@@ -1,6 +1,7 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,9 @@ public class GuestMenuComponent extends BaseComponent {
     @FindBy(xpath = "//descendant::div[contains(@class, 'modal-login')][1]")
     private WebElement loginModalForm;
 
+    @FindBy(xpath = "//div[contains(@class, 'ant-modal-content') and contains(., 'Реєстрація')]")
+    private WebElement registrationForm;
+
     public GuestMenuComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -31,5 +35,9 @@ public class GuestMenuComponent extends BaseComponent {
         return new LoginPopupComponent(driver, loginModalForm);
     }
 
-
+    public RegistrationPopupComponent openRegistrationForm() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(registration)).click();
+        return new RegistrationPopupComponent(driver, registrationForm);
+    }
 }

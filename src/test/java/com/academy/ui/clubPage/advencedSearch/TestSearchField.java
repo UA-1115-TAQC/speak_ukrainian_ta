@@ -1,6 +1,7 @@
 package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.components.ClubInfoPopUp;
+import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
@@ -42,23 +43,18 @@ public class TestSearchField extends BaseTestRunner {
         ClubsPage clubsPage = homePage.getHeader().clickClubsPageButton();
         for(String str : strs){
             clubsPage = clubsPage.setTextHeaderSearchField(str);
-            List<ClubCardComponent> clubs = clubsPage.getClubCards();
-
-//            TODO delete
-//            String input = clubsPage.getAdvancedSearchClubHeader()
-//                    .getTextSelectionSearchInputField();
-//            System.out.println("input: " + input);
-
-//            for(ClubCardComponent c : clubs){
-//                System.out.println(c.getClubName());
-//
-//            }
-//            System.out.println("********");
-
-            assertTrue(containsInput(clubsPage));
+            while(true) {
+                List<ClubCardComponent> clubs = clubsPage.getClubCards();
+                assertTrue(containsInput(clubsPage));
 
 //            TODO pagination
+                ClubsPaginationComponent pagination = clubsPage.getSwitchPagination();
+                if(pagination.isNextDisabled()){
+                    break;
+                }
+                clubsPage = pagination.clickNext();
 
+            }
         }
     }
 

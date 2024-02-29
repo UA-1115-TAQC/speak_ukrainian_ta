@@ -1,4 +1,4 @@
-package com.academy.ui.homepage_tests;
+package com.academy.ui.homePage;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.components.header.HeaderComponent;

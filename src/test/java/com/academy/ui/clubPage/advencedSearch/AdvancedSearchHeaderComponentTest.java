@@ -1,5 +1,7 @@
-package com.academy.ui.components.advancedSearchHeader;
+package com.academy.ui.clubPage.advencedSearch;
 
+import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
+import com.academy.ui.components.advancedSearchHeader.AdvancedSearchTooltip;
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;

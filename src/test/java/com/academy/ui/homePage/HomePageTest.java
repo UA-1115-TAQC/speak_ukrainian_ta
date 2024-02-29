@@ -1,6 +1,7 @@
-package com.academy.ui.pages;
+package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
+import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;

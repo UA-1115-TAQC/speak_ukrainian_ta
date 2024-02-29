@@ -1,158 +1,109 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.elements.BaseInputElement;
-import com.academy.ui.components.elements.InputElement;
-import com.academy.ui.components.elements.InputWithIconElement;
+import com.academy.ui.components.editProfileElement.EditProfileInputElement;
+import com.academy.ui.pages.ProfilePage;
+import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-
 
 @Getter
 public class EditProfilePopUpComponent extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")
-    private WebElement editUserModalForm;
+    @FindBy(xpath = "//div[@class=\"ant-modal-content\"]/button[@class=\"ant-modal-close\"]")
+    private WebElement closeButton; //Don't work
 
-    // Додати це в Profile zakotiuk ProfilePage
-    //
-    // public LoginPopupComponent openEditUserModalForm() {
-    //        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    //        wait.until(ExpectedConditions.elementToBeClickable(КНОПКА_РЕДАГУВАТИ_ПРОФІЛЬ)).click();
-    //        return new EditProfilePopUpComponent(driver, editUserModalForm);
-    //    }
+    // need to add FindBy with successful message about changes
 
-    private final InputElement editLastNameElement;
-    private final InputElement editFirstNameElement;
-    private final InputElement editPhoneElement;
+    @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
+    @Getter(AccessLevel.NONE)
+    protected WebElement managerTypeButton;
 
-    private final InputWithIconElement currentPasswordInputElement;
-    private final InputWithIconElement enterNewPasswordInputElement;
-    private final InputWithIconElement confirmPasswordInputElement;
+    @FindBy(xpath="//input[@value='ROLE_USER']/../..")
+    @Getter(AccessLevel.NONE)
+    protected WebElement userTypeButton;
 
-    @FindBy(xpath = "./descendant::label[@for=\"edit_lastName\"]")
-    private WebElement lastNameTitle;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][1]")
+    @Getter(AccessLevel.NONE)
+    private WebElement lastName;
 
-    @FindBy(xpath = "./descendant::label[@for=\"edit_firstName\"]")
-    private WebElement firstNameTitle;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][2]")
+    @Getter(AccessLevel.NONE)
+    private WebElement firstName;
 
-    @FindBy(xpath = "./descendant::label[@for=\"edit_phone\"]")
-    private WebElement phoneTitle;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][3]")
+    @Getter(AccessLevel.NONE)
+    private WebElement phone;
 
-    @FindBy(xpath = "./descendant::label[@for=\"edit_email\"]")
-    private WebElement emailTitle;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][4]")
+    @Getter(AccessLevel.NONE)
+    private WebElement email;
 
-    @FindBy(xpath = "./descendant::label[@for=\"edit_urlLogo\"]")
-    private WebElement photoTitle;
+    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-label')]/label[contains(@for, \"Logo\")]")
+    @Getter(AccessLevel.NONE)
+    private WebElement photo;
 
-    @FindBy(xpath = "./descendant::div[@class=\"ant-tooltip-inner\"]")
-    private WebElement photoToolTipText;
+    @FindBy(xpath = "./descendant::div[@class=\"ant-form-item-control-input-content\"]/span[contains(@class, \"ant-upload-wrapper\")]")
+    @Getter(AccessLevel.NONE)
+    private WebElement uploadPhoto;
 
-    @FindBy(xpath = "./descendant::input[@id=\"edit_lastName\"]")
-    private WebElement editLastNameInput;
-
-    @FindBy(xpath = "./descendant::input[@id=\"edit_firstName\"]")
-    private WebElement editFirstNameInput;
-
-    @FindBy(xpath = "./descendant::input[@id=\"edit_phone\"]")
-    private WebElement editPhoneInput;
-
-    @FindBy(xpath = "./descendant::span[@class='ant-input-group-addon']")
-    private  WebElement countryCode;
-
-    @FindBy(xpath = "./descendant::div[@class=\"align-checkbox\"]")
+    @FindBy(xpath = "./descendant::div[@class=\"align-checkbox\"]//text")
     private WebElement changePasswordTitle;
 
     @FindBy(xpath = "./descendant::input[@name=\"checkbox\"]")
     private WebElement checkboxChangePassword;
 
-    @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][1]")
-    private WebElement currentPasswordInput;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][6]")
+    @Getter(AccessLevel.NONE)
+    private WebElement currentPassword;
 
-    @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][2]")
-    private WebElement enterNewPasswordInput;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][7]")
+    @Getter(AccessLevel.NONE)
+    private WebElement newPassword;
 
-    @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][3]")
-    private WebElement confirmPasswordInput;
-
-    //upload photo
-    @FindBy(xpath = "./descendant::span[@class=\"add-club-upload\"]")
-    private WebElement uploadUserPhoto;
-
-    @FindBy(xpath = "./descendant::span[@class=\"ant-upload-list-item-name\"]")
-    private WebElement uploadPhotoNameUserPhoto;
-
-    @FindBy(xpath = "./descendant::button[@class=\"ant-btn css-13m256z ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action\"]")
-    private WebElement removeUserPhoto;
-
-    @FindBy(xpath = "./descendant::div[@class=\"ant-upload-icon\"]")
-    private WebElement paperClipForUploadUserPhoto;
+    @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][8]")
+    @Getter(AccessLevel.NONE)
+    private WebElement confirmPassword;
 
     @FindBy(xpath = "./descendant::button[@class=\"ant-btn css-13m256z ant-btn-default submit-button\"]")
     private WebElement submitButton;
 
-    //USER скопіювати з реєстрації
-    @FindBy(xpath = "./descendant::label[@class=\"ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-13m256z\"]")
-    private WebElement managerType;
+    private EditProfileInputElement lastNameElement;
+    private EditProfileInputElement firstNameElement;
+    private EditProfileInputElement phoneElement;
+    private EditProfileInputElement currentPasswordElement;
+    private EditProfileInputElement newPasswordElement;
+    private EditProfileInputElement confirmPasswordElement;
+    private EditProfileInputElement photoWithTooltipElement;
+    private EditProfileInputElement uploadPhotoElement;
 
-    @FindBy(xpath = "./descendant::label[@class=\"ant-radio-button-wrapper ant-radio-button-wrapper-in-form-item css-13m256z\"]")
-    private WebElement userType;
 
     public EditProfilePopUpComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        editLastNameElement = new InputElement(driver, editLastNameInput);
-        editFirstNameElement = new InputElement(driver, editFirstNameInput);
-        editPhoneElement = new InputElement(driver, editPhoneInput);
-
-        currentPasswordInputElement = new InputWithIconElement(driver, currentPasswordInput);
-        enterNewPasswordInputElement = new InputWithIconElement(driver, enterNewPasswordInput);
-        confirmPasswordInputElement = new InputWithIconElement(driver, confirmPasswordInput);
-
+        lastNameElement = new EditProfileInputElement(driver, lastName);
+        firstNameElement = new EditProfileInputElement(driver, firstName);
+        phoneElement = new EditProfileInputElement(driver, phone);
+        currentPasswordElement = new EditProfileInputElement(driver, currentPassword);
+        newPasswordElement = new EditProfileInputElement(driver, newPassword);
+        confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
+        photoWithTooltipElement = new EditProfileInputElement(driver, photo);
+        uploadPhotoElement = new EditProfileInputElement(driver, uploadPhoto);
     }
 
-    public InputElement editLastName(String lastName) {
-        return editLastNameElement.setValue(lastName);
+    public void clickUserButton() {
+        userTypeButton.click();
     }
 
-    public InputElement editFirstName(String firstName) {
-        return editFirstNameElement.setValue(firstName);
+    public void clickManagerButton() {
+        managerTypeButton.click();
     }
 
-    public InputElement editPhone(String phone) {
-        return editPhoneElement.setValue(phone);
-    }
-
-    public BaseInputElement enterCurrentPassword(String password) {
-        return currentPasswordInputElement.setValue(password);
-    }
-
-    public BaseInputElement enterNewPassword(String password) {
-        return enterNewPasswordInputElement.setValue(password);
-    }
-
-    public BaseInputElement enterConfirmPassword(String password) {
-        return confirmPasswordInputElement.setValue(password);
-    }
-
-    public void checkBoxChangePasswordClick(){
+    public void clickCheckBox(){
         checkboxChangePassword.click();
     }
 
-    public void clickUploadPhoto() {
-        uploadUserPhoto.click();
-    }
-
-    public void clickSubmitButton() {
-        submitButton.click();
-    }
-
-    public void clickUserType() {
-        userType.click();
-    }
-
-    public void clickManagerType() {
-        managerType.click();
+    public void closeEditModalForm() {
+        closeButton.click();
     }
 
 }

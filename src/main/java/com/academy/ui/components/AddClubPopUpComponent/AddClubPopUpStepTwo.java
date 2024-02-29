@@ -72,7 +72,7 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @Getter(AccessLevel.NONE)
     private WebElement skypeInput;
 
-    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][1]")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-contacts')]/descendant::div[contains(@class,'add-club-contact')][6]")
     @Getter(AccessLevel.NONE)
     private WebElement siteInput;
 

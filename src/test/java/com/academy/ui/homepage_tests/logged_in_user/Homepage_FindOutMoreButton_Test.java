@@ -13,10 +13,10 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 
 public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
-    WebDriverWait wait;
-    SoftAssert softAssert;
-    Actions actions;
-    JavascriptExecutor jsExecutor;
+   private WebDriverWait wait;
+   private SoftAssert softAssert;
+   private Actions actions;
+   private JavascriptExecutor jsExecutor;
 
     @BeforeMethod
     public void init(){

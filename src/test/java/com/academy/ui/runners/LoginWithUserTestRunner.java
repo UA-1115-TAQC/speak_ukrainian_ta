@@ -12,7 +12,6 @@ public class LogInWithUserTestRunner extends BaseTestRunner {
                 .openLoginForm();
         loginForm.enterEmail(configProperties.getUserEmail());
         loginForm.enterPassword(configProperties.getUserPassword());
-
         loginForm.clickSubmitButton();
     }
 }

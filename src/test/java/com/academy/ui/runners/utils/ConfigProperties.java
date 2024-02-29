@@ -34,6 +34,6 @@ public class ConfigProperties {
     }
 
     public String getUserPassword() {
-        return properties.getProperty("user.password");
+        return properties.getProperty("user.pass");
     }
 }

@@ -16,8 +16,6 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
    private WebDriverWait wait;
    private SoftAssert softAssert;
    private Actions actions;
-   private JavascriptExecutor jsExecutor;
-
     @BeforeMethod
     public void init(){
         wait=new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -26,9 +24,6 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
     }
     @Test(description = "TUA-860")
     public void checkHoverEffects(){
-        jsExecutor = (JavascriptExecutor) driver;
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", homePage.getChallengeFindOutMoreButton());
-        wait.until(ExpectedConditions.visibilityOf(homePage.getChallengeFindOutMoreButton()));
         softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"));
         actions.moveToElement(homePage.getChallengeFindOutMoreButton()).build().perform();
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(homePage.getChallengeFindOutMoreButton(), "background","rgb(250, 140, 22)")));

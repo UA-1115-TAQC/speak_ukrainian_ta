@@ -12,7 +12,7 @@ public class HomePageTestRunner extends BaseTestRunner{
    protected HomePage home;
    protected WebDriverWait wait;
    protected String initialUrl;
-  protected SoftAssert softAssert;
+    protected SoftAssert softAssert;
     @BeforeMethod
     public void open_homepage(){
         home = new HomePage(driver);

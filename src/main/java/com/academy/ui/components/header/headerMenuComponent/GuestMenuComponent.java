@@ -30,6 +30,4 @@ public class GuestMenuComponent extends BaseComponent {
         wait.until(ExpectedConditions.elementToBeClickable(login)).click();
         return new LoginPopupComponent(driver, loginModalForm);
     }
-
-
 }

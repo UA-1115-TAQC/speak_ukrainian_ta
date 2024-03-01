@@ -7,6 +7,10 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static com.academy.ui.components.header.HeaderUtil.clickElement;
 
@@ -48,7 +52,8 @@ public class UserMenuComponent extends BaseComponent {
     }
 
     public UserMenuComponent clickLogout() {
-        logout.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(logout)).click();
         return this;
     }
 }

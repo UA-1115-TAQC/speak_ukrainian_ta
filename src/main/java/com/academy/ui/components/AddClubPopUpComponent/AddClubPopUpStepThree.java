@@ -53,6 +53,15 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;
 
+    @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
+    private List<WebElement> clubGalleryUploadedImgs;
+
+    @FindBy(xpath = ".//span[@class='ant-upload-list-item-name'][1]")
+    private WebElement clubLogoUploadedImg;
+
+    @FindBy(xpath = ".//span[@class='ant-upload-list-item-name'][2]")
+    private WebElement clubCoverUploadedImg;
+
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

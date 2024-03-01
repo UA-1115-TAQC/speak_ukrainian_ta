@@ -1,6 +1,7 @@
 package com.academy.ui.homePage;
 
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -17,10 +18,9 @@ public class VerifyKyivIsShownByDefaultCity extends BaseTestRunner {
 
     @Test(description = "TUA-23")
     public void testVerifyKyivIsShownByDefaultCity() {
-        softAssert.assertTrue(homePage.header.getCityButton().isDisplayed());
+        softAssert.assertTrue(homePage.header.getLocationIcon().isDisplayed());
 
-        String defCity = homePage.header.getCityMenuElements().get(0).getText();
-        softAssert.assertEquals(defCity, DEFAULT_CITY, "Київ must be shown as the default");
+        softAssert.assertEquals(homePage.header.getCityButton().getText(), DEFAULT_CITY, "Київ must be shown as the default");
 
         softAssert.assertAll();
     }

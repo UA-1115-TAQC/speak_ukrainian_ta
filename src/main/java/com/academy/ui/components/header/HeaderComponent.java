@@ -59,6 +59,9 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//div[contains(@class, 'city')]")
     protected WebElement cityButton;
 
+    @FindBy(xpath = "//div[contains(@class, 'city')]/span[1]")
+    protected WebElement locationIcon;
+
     @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu-light')]")
     protected WebElement cityMenuNode;
 

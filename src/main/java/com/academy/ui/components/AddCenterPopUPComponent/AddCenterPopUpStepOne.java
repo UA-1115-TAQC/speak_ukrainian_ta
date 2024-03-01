@@ -9,7 +9,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 @Getter
@@ -51,6 +54,8 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @FindBy(xpath = ".//div[(@id='basic_locations')]/descendant::label[contains(@class,'ant-checkbox-wrapper-checked')]")
     private List<WebElement> checkedLocationsList;
 
+    @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')]")
+    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
 
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
@@ -60,8 +65,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     }
 
     public AddLocationPopUpComponent clickAddLocationButton() {
-        addLocationButton.click();
-        addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
+        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addLocationButton)).click();
+        addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 

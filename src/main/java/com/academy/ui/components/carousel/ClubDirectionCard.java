@@ -35,4 +35,9 @@ public class ClubDirectionCard extends BaseComponent {
         this.getClubCardButtonPointer().click();
         return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
+
+    public ClubsPage clickCard(){
+        rootElement.click();
+        return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
+    }
 }

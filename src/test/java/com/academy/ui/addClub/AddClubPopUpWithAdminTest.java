@@ -1,10 +1,6 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
@@ -14,6 +10,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
@@ -157,7 +155,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     }
 
     @Test(description = "TUA-119")
-    public void checkStepTreeDescriptionUI (){
+    public void checkStepTreeDescriptionUI() {
         int WINDOW_WIDTH = 400;
         int WINDOW_HEIGHT = 600;
 
@@ -170,11 +168,11 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         checkStepThreeDescriptionElementsPresent();
 
         softAssert.assertEquals(sider.getFirstStepIcon().getText(), "");
-        softAssert.assertEquals(sider.getFirstStepTitle().getText(),"Основна інформація");
+        softAssert.assertEquals(sider.getFirstStepTitle().getText(), "Основна інформація");
         softAssert.assertEquals(sider.getSecondStepIcon().getText(), "");
-        softAssert.assertEquals(sider.getSecondStepTitle().getText(),"Контакти");
+        softAssert.assertEquals(sider.getSecondStepTitle().getText(), "Контакти");
         softAssert.assertEquals(sider.getThirdStepIcon().getText(), "3");
-        softAssert.assertEquals(sider.getThirdStepTitle().getText(),"Опис");
+        softAssert.assertEquals(sider.getThirdStepTitle().getText(), "Опис");
 
         softAssert.assertEquals(stepThree.getClubTitle().getText(), "Додати гурток");
         softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
@@ -182,32 +180,32 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
                 "font-size"), "24px");
 
-        softAssert.assertEquals(stepThree.getClubLogoTitle().getText(),"Логотип");
+        softAssert.assertEquals(stepThree.getClubLogoTitle().getText(), "Логотип");
         softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
                 "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
                 "font-size"), "19px");
-        softAssert.assertEquals(stepThree.getClubLogoDownloadButton().getText(),"Завантажити лого");
+        softAssert.assertEquals(stepThree.getClubLogoDownloadButton().getText(), "Завантажити лого");
 
-        softAssert.assertEquals(stepThree.getClubCoverTitle().getText(),"Обкладинка");
+        softAssert.assertEquals(stepThree.getClubCoverTitle().getText(), "Обкладинка");
         softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
                 "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
                 "font-size"), "19px");
-        softAssert.assertEquals(stepThree.getClubCoverDownloadButton().getText(),"Завантажити обкладинку");
+        softAssert.assertEquals(stepThree.getClubCoverDownloadButton().getText(), "Завантажити обкладинку");
 
-        softAssert.assertEquals(stepThree.getClubGalleryTitle().getText(),"Галерея");
+        softAssert.assertEquals(stepThree.getClubGalleryTitle().getText(), "Галерея");
         softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
                 "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "font-size"),"19px");
-        softAssert.assertEquals(stepThree.getClubGalleryDownloadButton().getText(),"Додати");
+                "font-size"), "19px");
+        softAssert.assertEquals(stepThree.getClubGalleryDownloadButton().getText(), "Додати");
 
-        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getText(),"Опис");
+        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getText(), "Опис");
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "color"),"rgba(128, 128, 128, 1)");
+                "color"), "rgba(128, 128, 128, 1)");
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "font-size"),"19px");
+                "font-size"), "19px");
 
         softAssert.assertEquals(stepThree.getPrevStepButton().getText(), "Назад");
         softAssert.assertEquals(stepThree.getNextStepButton().getText(), "Завершити");
@@ -241,7 +239,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    private void checkStepThreeDescriptionElementsPresent(){
+    private void checkStepThreeDescriptionElementsPresent() {
         softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
                 "Step One icon should be displayed");
         softAssert.assertTrue(sider.getFirstStepTitle().isDisplayed(),
@@ -282,5 +280,27 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 "Step Previous Step Button should be displayed");
         softAssert.assertTrue(stepThree.getNextStepButton().isDisplayed(),
                 "Step Submit Button should be displayed");
+    }
+
+    @Test(description = "LVTEACH-23")
+    public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
+        final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
+                "123Qw*&#єЇ".repeat(10) + "o");
+        final var expectedErrorMessage = """
+                Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи""";
+
+        var clubNameInputElement = stepOne.getClubNameInputElement();
+        testData.forEach(data -> {
+            clubNameInputElement.setValue(data);
+
+            softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0), expectedErrorMessage,
+                    "Incorrect error message: ");
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+
+            clubNameInputElement.clearInput();
+
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+        });
+        softAssert.assertAll();
     }
 }

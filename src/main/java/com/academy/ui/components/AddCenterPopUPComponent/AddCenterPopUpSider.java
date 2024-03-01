@@ -1,7 +1,6 @@
 package com.academy.ui.components.AddCenterPopUPComponent;
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.BaseComponent;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

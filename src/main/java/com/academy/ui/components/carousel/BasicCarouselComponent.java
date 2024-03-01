@@ -71,7 +71,5 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     public String getSlickDotColor(WebElement slickDot) {
         return Color.fromString(slickDot.getCssValue("background-color")).asHex();
     }
-
-
 }
 

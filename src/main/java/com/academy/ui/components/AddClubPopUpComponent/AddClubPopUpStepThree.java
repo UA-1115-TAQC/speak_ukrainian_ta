@@ -48,10 +48,10 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
-    private WebElement validationCircleIcon;
+    private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
-    private List<WebElement> errorMessages;
+    private List<WebElement> errorMessagesTextarea;
 
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -81,7 +81,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     }
 
     public List<String> getErrorMessagesTextList() {
-        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+        return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
     public AddClubPopUpStepThree clearDescriptionTextarea(){

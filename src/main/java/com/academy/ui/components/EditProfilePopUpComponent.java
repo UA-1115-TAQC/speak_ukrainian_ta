@@ -13,7 +13,8 @@ public class EditProfilePopUpComponent extends BaseComponent {
     @FindBy(xpath = "//div[@class=\"ant-modal-content\"]/button[@class=\"ant-modal-close\"]")
     private WebElement closeButton; //Don't work
 
-    // need to add FindBy with successful message about changes
+    @FindBy(xpath = "//div[@class='ant-message-notice-wrapper']/descendant::div[contains(@class, 'ant-message-error') or contains(@class, 'ant-message-success')]")
+    private WebElement topNoticeMessage;
 
     @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
     @Getter(AccessLevel.NONE)

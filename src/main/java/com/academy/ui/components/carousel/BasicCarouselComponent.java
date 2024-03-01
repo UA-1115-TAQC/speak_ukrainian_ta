@@ -2,14 +2,10 @@ package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,18 +29,7 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     }
 
     public T clickRightArrowButton() {
-//        WebElement activeDot = getActiveSlickDot();
         this.getRightArrowButton().click();
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-//        wait.until(new ExpectedCondition<Boolean>() {
-//            public Boolean apply(WebDriver driver) {
-//                String isActive = activeDot.getAttribute("class");
-//
-//                System.out.println("*"+isActive);
-//
-//                return isActive.equals("");
-//            }
-//        });
         return (T) this;
     }
 

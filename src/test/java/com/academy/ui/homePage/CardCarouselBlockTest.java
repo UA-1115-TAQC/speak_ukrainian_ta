@@ -2,14 +2,15 @@ package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.ClubDirectionCard;
+import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.BaseTestRunner;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
 import java.util.List;
 
 public class CardCarouselBlockTest extends BaseTestRunner {
@@ -17,13 +18,21 @@ public class CardCarouselBlockTest extends BaseTestRunner {
     private SoftAssert softAssert;
 
     @BeforeTest
-    public void initializeSoftAssert(){
+    private void initializeSoftAssert(){
         softAssert = new SoftAssert();
     }
 
+    @BeforeMethod
+    private void login(){
+        LoginPopupComponent loginForm = homePage.getHeader().openGuestMenu().openLoginForm();
+        loginForm.enterEmail(configProperties.getUserEmail());
+        loginForm.enterPassword(configProperties.getUserPassword());
+        loginForm.clickSubmitButton();
+        homePage.waitUntilHomePageIsVisible();
+    }
+
     @Test(description = "TUA-863")
-    public void checkLoggedinClickableBlockAndButton(){
-//        TODO login
+    public void checkLoggedInClickableBlockAndButton(){
         List<ClubDirectionCard> directionCards = homePage.getCarouselCardComponent().getAllCarouselCards();
         ClubDirectionCard directionCard;
         ClubsPage clubsPage;
@@ -31,24 +40,13 @@ public class CardCarouselBlockTest extends BaseTestRunner {
         for(int i = 0; i < directionCards.size(); i++){
             directionCard = getDirectionCard(i);
             String directionName = directionCard.getClubCardHeading().getText();
-
-            System.out.println("directionName1 "+directionName);
-
             clubsPage = directionCard.clickCard();
-
-//            softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
-
+            softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
             homePage = backToHomePage();
 
             directionCard = getDirectionCard(i);
-
-            directionName = directionCard.getClubCardHeading().getText();
-            System.out.println("directionName2 "+directionName);
-
             clubsPage = directionCard.clickClubCardButton();
-
-//            softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
-
+            softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
             homePage = backToHomePage();
         }
     }
@@ -62,10 +60,7 @@ public class CardCarouselBlockTest extends BaseTestRunner {
     private ClubDirectionCard getDirectionCard(int index){
         CarouselCardComponent carousel = homePage.getCarouselCardComponent();
         while(!carousel.checkThatTheClubDirectionCardObtainedByIndexIsActive(index)){
-
-//            System.out.println("***************");
-
-            carousel = carousel.clickRightArrowButton();
+            carousel = homePage.clickClubCarouselRightArrow();
         }
         return homePage.getCarouselCardComponent().getClubDirectionCardByIndex(index);
     }

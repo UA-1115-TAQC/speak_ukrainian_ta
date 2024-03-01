@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
@@ -109,11 +110,15 @@ public class HomePage extends BasePageWithAdvancedSearch {
         wait.until((ExpectedCondition<Boolean>) driver -> firstPageURL.equals(driver.getCurrentUrl()));
     }
 
-    public CarouselCardComponent clickClubCaruselRightArrow(){
-        carouselCardComponent.clickRightArrowButton();
+    public void waitUntilHomePageIsVisible(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        String firstPageURL = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
-        wait.until((ExpectedCondition<Boolean>) driver -> firstPageURL.equals(driver.getCurrentUrl()));
+        wait.until(ExpectedConditions.visibilityOf(carouselCardComponentWebElement));
+    }
+
+    public CarouselCardComponent clickClubCarouselRightArrow(){
+        carouselCardComponent.clickRightArrowButton();
+        waitUntilHomePageIsVisible();
+        return getCarouselCardComponent();
     }
 
 }

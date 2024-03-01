@@ -76,20 +76,17 @@ public class ClubsPage extends BasePage {
         if(seconds > 0 ) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
             wait.until(ExpectedConditions.urlContains("clubs"));
-            wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+            wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
             return this;
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
 
     public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
-        if(seconds > 0 ) {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-            wait.until(ExpectedConditions.urlContains("clubs"));
-            wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
-            return this;
-        }
-        throw new Error("The number of seconds must be greater than 0 and an integer number");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.urlContains("clubs"));
+        wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+        return this;
     }
 
 }

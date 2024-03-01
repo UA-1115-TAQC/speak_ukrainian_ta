@@ -3,8 +3,11 @@ package com.academy.ui.components.AddCenterPopUPComponent;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -66,6 +69,21 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         locationsElementsList.stream()
                 .filter(location -> (location.getAttribute("innerText").equals(name)))
                 .forEach(WebElement::click);
+        return this;
+    }
+
+    public AddCenterPopUpStepOne setCenterName(String value){
+        centerNameInput.sendKeys(value);
+        return this;
+    }
+
+    public AddCenterPopUpStepOne clearNameInput() {
+        Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
+        if (currentPlatform.is(Platform.MAC)) {
+            centerNameInput.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
+        } else {
+            centerNameInput.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+        }
         return this;
     }
 

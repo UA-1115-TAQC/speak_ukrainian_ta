@@ -9,9 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -78,7 +76,17 @@ public class ClubsPage extends BasePage {
         if(seconds > 0 ) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
             wait.until(ExpectedConditions.urlContains("clubs"));
-            wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
+            wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+            return this;
+        }
+        throw new Error("The number of seconds must be greater than 0 and an integer number");
+    }
+
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+        if(seconds > 0 ) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+            wait.until(ExpectedConditions.urlContains("clubs"));
+            wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
             return this;
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");

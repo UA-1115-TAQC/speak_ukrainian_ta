@@ -103,12 +103,17 @@ public class HomePage extends BasePageWithAdvancedSearch {
         return this;
     }
 
-    public HomePage waitUntilHomePageIsLoaded(){
+    public void waitUntilHomePageIsLoaded(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         String firstPageURL = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
         wait.until((ExpectedCondition<Boolean>) driver -> firstPageURL.equals(driver.getCurrentUrl()));
-//        wait.until(ExpectedConditions.visibilityOf(this.getCarouselCardComponent().getCarouselCardHeading()));
-        return this;
+    }
+
+    public CarouselCardComponent clickClubCaruselRightArrow(){
+        carouselCardComponent.clickRightArrowButton();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        String firstPageURL = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
+        wait.until((ExpectedCondition<Boolean>) driver -> firstPageURL.equals(driver.getCurrentUrl()));
     }
 
 }

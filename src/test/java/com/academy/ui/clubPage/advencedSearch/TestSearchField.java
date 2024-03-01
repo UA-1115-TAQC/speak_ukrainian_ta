@@ -37,12 +37,18 @@ public class TestSearchField extends BaseTestRunner {
     @Test
     public void verifySearchResultChangeWithEnteredCharacter() {
         String[] strings = new String[] {"С", "п", "о", "р", "т"};
+        assertTrue(entereCharacters(strings));
+    }
+
+    private boolean entereCharacters(String[] strings) {
         ClubsPage clubsPage = homePage.getHeader().clickClubsPageButton();
         for(String str : strings){
             clubsPage = clubsPage.setTextHeaderSearch(str);
 //            while(true) {
 
-            assertTrue(containsInput(clubsPage));
+            if(!containsInput(clubsPage)){
+                return false;
+            }
 
 //        pagination functionality is not implemented on the page
 
@@ -57,6 +63,7 @@ public class TestSearchField extends BaseTestRunner {
 //                clubsPage = pagination.clickNext();
 //            }
         }
+        return true;
     }
 
     private boolean containsInput(ClubsPage clubsPage){

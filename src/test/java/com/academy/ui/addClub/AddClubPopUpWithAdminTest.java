@@ -486,4 +486,32 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-954")
+    public void checkStepTwoTelephoneInvalidData() {
+        String telephoneErrorMessage = "Телефон не відповідає вказаному формату";
+
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+
+        stepTwo.getTelephoneInputElement().setValue("fgtskana");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                "The error message is displayed : Телефон не може містити літери");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepTwo.getTelephoneInputElement().clearInput().setValue("/*-+()");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                "The error message is displayed : Телефон не може містити спеціальні символи");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepTwo.getTelephoneInputElement().clearInput().setValue("06725841");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage));
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+    }
 }

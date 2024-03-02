@@ -31,7 +31,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         ChallengeUnited challengeUnited = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/challenges/5", () -> new ChallengeUnited(driver),0);
         WebElement challengeImageText = challengeUnited.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        softAssert.assertEquals(challengeImageText.getText(), "\"Єдині\" - це 28 днів підтримки у переході на українську");
+        softAssert.assertEquals(challengeImageText.getText(), "\"Єдині\" - це 28 днів підтримки у переході на українську","The united page isn't opened");
         softAssert.assertAll();
     }
 
@@ -39,7 +39,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     public void verifyImgcarouselButton2() {
         ClubsPage clubsPage = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/clubs", () -> new ClubsPage(driver),1)
                 .waitUntilClubsPageIsLoaded(15);
-        softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
+        softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "),"The Tclubs page isn't opened");
         softAssert.assertAll();
     }
     @Test(description = "TUA-21")
@@ -47,7 +47,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         ChallengeTeachInUkrainian challengeTeachInUkrainian = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/about", () -> new ChallengeTeachInUkrainian(driver),2);
         WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
         wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"),"The TeachInUkrainian page isn't opened");
         softAssert.assertAll();
     }
    @Test(description = "TUA-21")
@@ -57,6 +57,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
        assertCardChanged(initialActiveCard, newActiveCard);
        newActiveCard = home.carouselImgComponent.clickLeftArrowButton().getActiveCarouselImgCard();
        assertCardUnchanged(initialActiveCard, newActiveCard);
+       softAssert.assertAll();
    }
 
     @Test(description = "TUA-21")
@@ -66,15 +67,15 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         assertCardChanged(initialActiveCard, newActiveCard);
         newActiveCard = home.carouselImgComponent.clickSlickDotByIndex(0).getActiveCarouselImgCard();
         assertCardUnchanged(initialActiveCard, newActiveCard);
+        softAssert.assertAll();
     }
 
     private void assertCardChanged(CarouselImgCard initialCard, CarouselImgCard newCard) {
-        softAssert.assertNotEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
-        softAssert.assertAll();
+        softAssert.assertNotEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText(),
+                "The card should change");
     }
 
     private void assertCardUnchanged(CarouselImgCard initialCard, CarouselImgCard newCard) {
-        softAssert.assertEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText());
-        softAssert.assertAll();
+        softAssert.assertEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText(),"The card should remain unchanged");
     }
 }

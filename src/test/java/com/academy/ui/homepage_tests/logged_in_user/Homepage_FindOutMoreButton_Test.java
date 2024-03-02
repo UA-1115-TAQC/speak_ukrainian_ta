@@ -24,18 +24,21 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
     }
     @Test(description = "TUA-860")
     public void checkHoverEffects(){
-        softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"));
+        softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"),
+                "The button color isn't up to a mockup");
         actions.moveToElement(homePage.getChallengeFindOutMoreButton()).build().perform();
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(homePage.getChallengeFindOutMoreButton(), "background","rgb(250, 140, 22)")));
-        softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(255, 169, 64)"));
+        softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(255, 169, 64)"),
+                "The button color isn't changed after a mouse hover");
         softAssert.assertAll();
     }
 
     @Test(description = "TUA-860")
     public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
-        softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"));
-        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"),
+                "The challenge page isn't opened, therefore the link hasn't been changed");
+        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"),"The challenge page isn't opened");
         softAssert.assertAll();
     }
 }

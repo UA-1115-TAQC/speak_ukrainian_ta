@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -91,6 +92,12 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
             centerNameInput.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+
+    public List<String> getLocationsNameList(){
+        List<String> list = new ArrayList<>();
+        locationsElementsList.forEach(location -> list.add(location.getText()));
+        return list;
     }
 
 }

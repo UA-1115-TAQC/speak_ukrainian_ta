@@ -10,6 +10,7 @@ import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpCompo
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import com.academy.ui.runners.LoginWithUserTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -17,7 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
+public class AddClubPopUpWithAdminTest extends LoginWithUserTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
     private static final String VALID_CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";
@@ -413,5 +414,78 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
 
+    }
+
+    @Test(description = "TUA-930")
+    public void checkStepOneClubNameWithInvalidData() {
+        String incorrectClubNameErrorMessage = "Некоректна назва гуртка";
+        String enterNameClubErrorMessage = "Введіть назву гуртка";
+        String invalidClubName = "123Qw*&#єЇ".repeat(11);
+
+        stepOne = addClubPopUpComponent.getStepOneContainer();
+
+        stepOne.getClubNameInputElement().setValue(" ÄыЁЪùייראפ");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("ƻ®©¥¼µ€");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appear : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("       ");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("@fЙ8");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : Назва гуртка закоротка");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue(invalidClubName);
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : Назва гуртка задовга");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
     }
 }

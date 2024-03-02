@@ -1,7 +1,7 @@
 package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUpComponent;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -11,10 +11,10 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class PasswordFieldTestWithLoggedInUser extends LoginWithUserTestRunner {
+public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     private EditProfilePopUpComponent editProfilePopUpComponent;
     private final String TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR ="Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
-    private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Новий пароль не може бути таким самим як попередній' is showed";
+    private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Новий пароль не може бути таким самим як попередній";
     SoftAssert softAssert;
     @BeforeMethod (description = "TUA-154")
     public void setup(){

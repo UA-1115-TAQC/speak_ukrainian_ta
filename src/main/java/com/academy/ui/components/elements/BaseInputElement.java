@@ -27,6 +27,7 @@ public class BaseInputElement extends BaseComponent {
     public BaseInputElement clearInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
+            //obsolete mac os version
             input.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
         } else {
             input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);

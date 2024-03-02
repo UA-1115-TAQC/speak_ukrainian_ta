@@ -36,4 +36,12 @@ public class ConfigProperties {
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
+
+    public String getManagerEmail() {
+        return properties.getProperty("manager.email");
+    }
+
+    public String getManagerPassword() {
+        return properties.getProperty("manager.pass");
+    }
 }

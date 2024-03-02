@@ -7,11 +7,9 @@ import com.academy.ui.components.header.headerMenuComponent.AdminMenuComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
-import com.academy.ui.pages.AboutUsPage;
-import com.academy.ui.pages.AllNewsPage;
-import com.academy.ui.pages.ClubsPage;
-import com.academy.ui.pages.ServicePage;
+import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
+import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,9 +33,12 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = ".//a[@href='/dev/clubs']")
     protected WebElement clubsButton;
-
+    //@FindBy(xpath = ".//a[@href='/about']") - for a test to pass on the production level site
     @FindBy(xpath = ".//a[@href='/dev/about']")
     protected WebElement aboutUsButton;
+
+    @FindBy(xpath = "//li[contains(@data-menu-id,'about')]")
+    protected WebElement aboutUsButtonContainer;
 
     @FindBy(xpath = ".//a[@href='/dev/service']")
     protected WebElement serviceButton;
@@ -59,11 +60,16 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
-
+    @FindBy(xpath = "//div[contains(@class,\"logo\")]")
+    protected WebElement teachInUkrainianLogo;
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
+    public HomePage clickTeachInUkrainianLogo(){
+        this.getTeachInUkrainianLogo().click();
+        return new HomePage(driver);
+    }
     public HeaderChallengesDropdown clickChallengeButton() {
         this.getChallengeButton().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

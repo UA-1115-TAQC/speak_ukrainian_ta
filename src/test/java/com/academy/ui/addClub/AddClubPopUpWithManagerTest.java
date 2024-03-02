@@ -5,7 +5,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,7 +13,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
+public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
     private static final String CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";

@@ -16,7 +16,7 @@ public class PasswordFieldTestWithLoggedInUser extends LoginWithUserTestRunner {
     private final String TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR ="Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
     private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Новий пароль не може бути таким самим як попередній' is showed";
     SoftAssert softAssert;
-    @BeforeMethod (description = "TUA-154")
+    @BeforeMethod
     public void setup(){
         softAssert= new SoftAssert();
         homePage.header.openUserMenu().clickProfile().editButtonClick();
@@ -25,7 +25,7 @@ public class PasswordFieldTestWithLoggedInUser extends LoginWithUserTestRunner {
         editProfilePopUpComponent.clickUserType();
         editProfilePopUpComponent.checkBoxChangePasswordClick();
     }
-    @Test
+    @Test (description = "TUA-154")
     public void test(){
         checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration();
         WebElement inputField = driver.findElement(By.xpath("//input[@id=\"edit_password\"]"));

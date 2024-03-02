@@ -3,6 +3,7 @@ package com.academy.ui.components.header.headerMenuComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ProfilePage;
+import com.academy.ui.pages.SearchCertificatePage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,8 +39,9 @@ public class UserMenuComponent extends BaseComponent {
 //        return new AddCentreFormComponent(driver, addCentre); // todo
     }
 
-    public void clickSearchCertificate() {
-        clickElement(driver, searchCertificates); // todo
+    public SearchCertificatePage clickSearchCertificate() {
+        clickElement(driver, searchCertificates);
+        return new SearchCertificatePage(driver);
     }
 
     public ProfilePage clickProfile() {

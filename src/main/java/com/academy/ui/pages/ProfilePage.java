@@ -6,6 +6,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfilePage extends BasePage{
     public LeftSideProfileComponent leftSideProfileComponent;
@@ -50,6 +56,8 @@ public class ProfilePage extends BasePage{
     private WebElement myCentersDropDown;
     @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
     private WebElement addButton;
+    protected WebElement addButtonAddClubOption;
+    protected WebElement addButtonAddCenterOption;
 
     public void dropDownClick(){
         myLessonsOrCentersDropDown.click();
@@ -61,10 +69,18 @@ public class ProfilePage extends BasePage{
     public void centersDropDownClick(){
         myCentersDropDown.click();
     }
-    public void addButtonClick(){
+    public List<WebElement> addButtonClick(){
         addButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
+        List<WebElement> addButtonDropdown = new ArrayList<>();
+        addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("club"))));
+        addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("center"))));
+        return addButtonDropdown;
     }
-
+    private String getAddButtonOptionStringPath(String name){
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+    }
 
     public LeftSideProfileComponent getLeftSideProfileComponent(){
         if(leftSideProfileComponent == null) {

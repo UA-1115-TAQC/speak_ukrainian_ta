@@ -101,19 +101,23 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree.getClubGalleryDownloadButton().click();
         stepThree.getClubGalleryDownloadInput().sendKeys(imgPath);
-        softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
+        List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
+        softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
+        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+        softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
         stepThree.getClubLogoDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubLogoUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.getClubCoverDownloadButton().click();
         stepThree.getClubCoverDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubCoverUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
 
+        stepThree.clickCompleteButton();
         softAssert.assertAll();
     }
 }

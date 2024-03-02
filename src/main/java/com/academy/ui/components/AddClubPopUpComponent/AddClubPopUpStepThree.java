@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
@@ -56,14 +57,26 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
 
-    @FindBy(xpath = ".//span[@class='ant-upload-list-item-name'][1]")
-    private WebElement clubLogoUploadedImg;
+    @FindBy(xpath = "./descendant::a[@title='Preview file']")
+    private WebElement previewFile;
 
-    @FindBy(xpath = ".//span[@class='ant-upload-list-item-name'][2]")
-    private WebElement clubCoverUploadedImg;
+    @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
+    private WebElement previewIcon;
+
+    @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
+    @Getter(AccessLevel.NONE)
+    private WebElement uploadedLogoImgContainer;
+    @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
+    @Getter(AccessLevel.NONE)
+    private WebElement uploadedCoverImgContainer;
+
+    private final UploadedImgComponent uploadedLogoImg;
+    private final UploadedImgComponent uploadedCoverImg;
 
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        uploadedCoverImg = new UploadedImgComponent(driver, uploadedCoverImgContainer);
+        uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
     public AddClubPopUpStepThree clickClubLogoDownloadButton(){
@@ -101,5 +114,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+
+    public UploadedImgComponent getUploadedGalleryImg(int index) {
+        if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
+            return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));
+        } else {
+            throw new RuntimeException("GalleryImg not found by index: " + index);
+        }
     }
 }

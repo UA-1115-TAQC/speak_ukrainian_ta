@@ -49,9 +49,12 @@ public class PasswordFieldTestWithLoggedInUser extends LoginWithUserTestRunner {
         inputField.sendKeys(Keys.DELETE);
     }
     private void checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration(){
-        softAssert.assertEquals(editProfilePopUpComponent.getEditLastNameInput().getAttribute("value"), configProperties.getUserLastname());
-        softAssert.assertEquals(editProfilePopUpComponent.getEditFirstNameInput().getAttribute("value"), configProperties.getUserFirstname());
-        softAssert.assertEquals(editProfilePopUpComponent.getEditPhoneInput().getAttribute("value"), configProperties.getUserPhone());
+        softAssert.assertEquals(editProfilePopUpComponent.getEditLastNameInput().getAttribute("value"), configProperties.getUserLastname(),
+                "The shown last name doesn't match the last name, which was entered by a user during registration");
+        softAssert.assertEquals(editProfilePopUpComponent.getEditFirstNameInput().getAttribute("value"), configProperties.getUserFirstname(),
+                "The shown first name doesn't match the last name, which was entered by a user during registration");
+        softAssert.assertEquals(editProfilePopUpComponent.getEditPhoneInput().getAttribute("value"), configProperties.getUserPhone(),
+                "The shown phone doesn't match the last name, which was entered by a user during registration");
 
         //assert email !!! - now unaccessible
        // softAssert.assertEquals(editProfilePopUpComponent.getEmailTitle().getAttribute("value"), configProperties.getUserEmail());
@@ -71,6 +74,6 @@ public class PasswordFieldTestWithLoggedInUser extends LoginWithUserTestRunner {
                 HasMessageFlag =true;
             }
         }
-        softAssert.assertTrue(HasMessageFlag);
+        softAssert.assertTrue(HasMessageFlag, "The corresponding error message " + errorMessage + "isn't displayed");
     }
 }

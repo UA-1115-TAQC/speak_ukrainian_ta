@@ -91,6 +91,15 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+    @Test(description = "TUA-974")
+    public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
+        checkFooterElements(footerComponent, "HomePage");
+        String initialTitle = driver.getTitle();
+        homePage.header.clickTeachInUkrainianLogo();
+        String newTitle = driver.getTitle();
+        softAssert.assertNotEquals(initialTitle, newTitle, "Page did not refresh after clicking the logo");
+        softAssert.assertAll();
+    }
   
     @Test(description = "TUA-945")
     public void click_on_youTube_icon_ok() {

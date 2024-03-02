@@ -23,7 +23,9 @@ public class ProfilePage extends BasePage{
     @Getter
     @FindBy(xpath = "//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
-
+    @Getter
+    @FindBy(xpath="//span[contains(@class, 'user-avatar')]/img")
+    protected WebElement userAvatarImage;
     @Getter
     @FindBy(xpath = "//div[@class='user-name']")
     private WebElement userName;

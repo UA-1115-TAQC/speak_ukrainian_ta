@@ -79,9 +79,11 @@ public class EditProfilePopUpComponent extends BaseComponent {
     //upload photo
     @FindBy(xpath = "./descendant::span[@class=\"add-club-upload\"]")
     private WebElement uploadUserPhoto;
+    @FindBy(xpath = "//input[@id=\"edit_urlLogo\"]")
+    protected WebElement uploadUserPhotoInput;
 
     @FindBy(xpath = "./descendant::span[@class=\"ant-upload-list-item-name\"]")
-    private WebElement uploadPhotoNameUserPhoto;
+    protected WebElement uploadPhotoNameUserPhoto;
 
     @FindBy(xpath = "./descendant::button[@class=\"ant-btn css-13m256z ant-btn-text ant-btn-sm ant-btn-icon-only ant-upload-list-item-action\"]")
     private WebElement removeUserPhoto;
@@ -110,7 +112,6 @@ public class EditProfilePopUpComponent extends BaseComponent {
         confirmPasswordInputElement = new InputWithIconElement(driver, confirmPasswordInput);
 
     }
-
     public InputElement editLastName(String lastName) {
         return editLastNameElement.setValue(lastName);
     }

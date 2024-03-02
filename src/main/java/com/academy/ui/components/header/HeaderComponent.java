@@ -12,6 +12,7 @@ import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.ServicePage;
 import com.academy.ui.pages.challenges.BaseChallengePage;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -60,10 +61,12 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = ".//span[contains(@class,'avatarIfLogin')]/img")
+    protected WebElement avatarImage;
+
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
-
     public HeaderChallengesDropdown clickChallengeButton() {
         this.getChallengeButton().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

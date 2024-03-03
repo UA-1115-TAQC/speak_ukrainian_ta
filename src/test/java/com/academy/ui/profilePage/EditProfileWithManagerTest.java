@@ -34,12 +34,12 @@ public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
     }
 
     @Test(description = "TUA-840")
-    public void checkErrorMessagesShowAndButtonDisablesWithInvalidData(){
+    public void checkErrorMessagesShowAndButtonDisablesWithInvalidData() {
         final String TELEPHONE_LESS_THAN_13 = "06895";
         final String TELEPHONE_MORE_THAN_13 = "6593859632586";
         final String TELEPHONE_WITH_LETTER = "jngeoлщшогнеп";
         final String TELEPHONE_WITH_SYMBOLS = "!@#$%^&*(_+.:";
-        final String TELEPHONE_ERROR= "Телефон не відповідає формату +38(___) ___ __ __";
+        final String TELEPHONE_ERROR = "Телефон не відповідає формату +38(___) ___ __ __";
 
         EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(5);
@@ -77,6 +77,36 @@ public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
                 "For empty Telephone error message list should contain message " + TELEPHONE_ERROR);
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "For empty Telephone Submit button should be disabled");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-904")
+    public void checkCloseButtonOnEditProfileDoesntStoreEnteredData() {
+        final String NAME = "Петро";
+        final String TELEPHONE = "0956874567";
+
+        EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+
+        editProfilePopUp.getFirstNameElement().clearInput().setValue(NAME);
+        softAssert.assertEquals(editProfilePopUp
+                        .getFirstNameElement()
+                        .getInput()
+                        .getAttribute("value"),
+                NAME);
+        editProfilePopUp.getPhoneElement().clearInput().setValue(TELEPHONE);
+
+        softAssert.assertEquals(editProfilePopUp
+                        .getPhoneElement()
+                        .getInput()
+                        .getAttribute("value"),
+                TELEPHONE);
+
+        editProfilePopUp.getCloseButton().click();
+
+        softAssert.assertNotEquals(profilePage.getUserName().getText(), NAME);
+        softAssert.assertNotEquals(profilePage.getPhoneUser().getText(), TELEPHONE);
 
         softAssert.assertAll();
     }

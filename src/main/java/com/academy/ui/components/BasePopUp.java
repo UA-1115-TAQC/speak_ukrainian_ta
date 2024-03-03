@@ -27,4 +27,8 @@ public abstract class BasePopUp extends BaseComponent {
         return rootElement.isDisplayed();
     }
 
+    public void close() {
+        getCloseButton().click();
+    }
+
 }

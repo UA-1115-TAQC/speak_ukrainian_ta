@@ -3,12 +3,12 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
+public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
     private static final String HIDDEN_PASSWORD = "eye-invisible";
@@ -171,5 +171,7 @@ public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
         softAssert.assertTrue(editProfilePopUp.getConfirmPasswordElement()
                         .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD),
                 "The password is invisible");
+
+        softAssert.assertAll();
     }
 }

@@ -5,16 +5,15 @@ import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 @Getter
-public class EditProfilePopUpComponent extends BaseComponent {
-
-    @FindBy(xpath = "//div[@class=\"ant-modal-content\"]/button[@class=\"ant-modal-close\"]")
-    private WebElement closeButton; //Don't work
-
-    @FindBy(xpath = "//div[@class='ant-message-notice-wrapper']/descendant::div[contains(@class, 'ant-message-error') or contains(@class, 'ant-message-success')]")
-    private WebElement topNoticeMessage;
+public class EditProfilePopUp extends BasePopUp {
 
     @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
     @Getter(AccessLevel.NONE)
@@ -40,14 +39,6 @@ public class EditProfilePopUpComponent extends BaseComponent {
     @Getter(AccessLevel.NONE)
     private WebElement email;
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-label')]/label[contains(@for, \"Logo\")]")
-    @Getter(AccessLevel.NONE)
-    private WebElement photo;
-
-    @FindBy(xpath = "./descendant::div[@class=\"ant-form-item-control-input-content\"]/span[contains(@class, \"ant-upload-wrapper\")]")
-    @Getter(AccessLevel.NONE)
-    private WebElement uploadPhoto;
-
     @FindBy(xpath = "./descendant::div[@class=\"align-checkbox\"]//text")
     private WebElement changePasswordTitle;
 
@@ -69,17 +60,35 @@ public class EditProfilePopUpComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::button[@class=\"ant-btn css-13m256z ant-btn-default submit-button\"]")
     private WebElement submitButton;
 
+    @FindBy(xpath = ".//span[@aria-label=\"question-circle\"]")
+    private WebElement questionCircleForPhoto;
+
+    @FindBy(xpath = "//label[@for=\"edit_urlLogo\"]")
+    private WebElement photoLink;
+
+    @FindBy(xpath = "//div[@class=\"ant-tooltip-inner\"]")
+    private WebElement photoToolTipForm;
+
+    @FindBy(xpath = "//span[@class=\"add-club-upload\"]")
+    private WebElement uploadPhotoLink;
+
+    @FindBy(xpath = ".//span[@class=\"ant-upload-list-item-name\"]")
+    private WebElement uploadPictureTitle;
+
+    @FindBy(xpath = ".//button[contains(@class, \"ant-upload-list-item-action\")]")
+    private WebElement removeUserPhoto;
+
+    @FindBy(xpath = ".//div[@class=\"ant-upload-icon\"]")
+    private WebElement paperClipForUploadUserPhoto;
+
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
     private EditProfileInputElement phoneElement;
     private EditProfileInputElement currentPasswordElement;
     private EditProfileInputElement newPasswordElement;
     private EditProfileInputElement confirmPasswordElement;
-    private EditProfileInputElement photoWithTooltipElement;
-    private EditProfileInputElement uploadPhotoElement;
 
-
-    public EditProfilePopUpComponent(WebDriver driver, WebElement rootElement) {
+    public EditProfilePopUp(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
         lastNameElement = new EditProfileInputElement(driver, lastName);
         firstNameElement = new EditProfileInputElement(driver, firstName);
@@ -87,24 +96,39 @@ public class EditProfilePopUpComponent extends BaseComponent {
         currentPasswordElement = new EditProfileInputElement(driver, currentPassword);
         newPasswordElement = new EditProfileInputElement(driver, newPassword);
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
-        photoWithTooltipElement = new EditProfileInputElement(driver, photo);
-        uploadPhotoElement = new EditProfileInputElement(driver, uploadPhoto);
     }
 
-    public void clickUserButton() {
+    public EditProfilePopUp clickUserButton() {
         userTypeButton.click();
+        return this;
     }
 
-    public void clickManagerButton() {
+    public EditProfilePopUp clickManagerButton() {
         managerTypeButton.click();
+        return this;
     }
 
-    public void clickCheckBox(){
+    public EditProfilePopUp clickCheckBox(){
         checkboxChangePassword.click();
+        return this;
     }
 
-    public void closeEditModalForm() {
-        closeButton.click();
+    public String getTooltipText() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(questionCircleForPhoto).perform();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebElement tooltip = wait.until(ExpectedConditions.visibilityOf(photoToolTipForm));
+        return tooltip.getText();
+    }
+
+    public EditProfilePopUp clickUploadPhoto() {
+        uploadPhotoLink.click();
+        return this;
+    }
+
+    public ProfilePage clickSubmitButton() {
+        submitButton.click();
+        return new ProfilePage(driver);
     }
 
 }

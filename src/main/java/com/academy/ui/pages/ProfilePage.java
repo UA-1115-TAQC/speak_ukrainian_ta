@@ -1,6 +1,6 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.EditProfilePopUpComponent;
+import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -73,8 +73,8 @@ public class ProfilePage extends BasePage{
         return leftSideProfileComponent;
     }
 
-    public EditProfilePopUpComponent openEditUserProfile() {
+    public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();
-        return new EditProfilePopUpComponent(driver, editUserModalForm);
+        return new EditProfilePopUp(driver, editUserModalForm);
     }
 }

@@ -115,7 +115,7 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "TUA-906")
     public void checkPasswordIsHiding() {
         EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(5);

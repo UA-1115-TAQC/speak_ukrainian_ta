@@ -1,5 +1,6 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Getter
 public class ProfilePage extends BasePage{
     public LeftSideProfileComponent leftSideProfileComponent;
     public ProfilePage(WebDriver driver) {
@@ -16,27 +18,21 @@ public class ProfilePage extends BasePage{
 
     //ЗАЛИШИЛОСЬ ЛИШЕ : карточка з гуртком і робота з нею
 
-    @Getter
     @FindBy(xpath = "//div[@class='content-title']")
     private WebElement myProfileTitle;
 
-    @Getter
     @FindBy(xpath = "//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
 
-    @Getter
     @FindBy(xpath = "//div[@class='user-name']")
     private WebElement userName;
 
-    @Getter
     @FindBy(xpath = "//div[@class='user-role']")
     private WebElement userRole;
 
-    @Getter
     @FindBy(xpath = "./descendant::div[@class='user-phone-data']")
     private WebElement phoneUser;
 
-    @Getter
     @FindBy(xpath = "./descendant::div[@class='user-email-data']")
     private WebElement emailUser;
 
@@ -50,6 +46,9 @@ public class ProfilePage extends BasePage{
     private WebElement myCentersDropDown;
     @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
     private WebElement addButton;
+
+    @FindBy(xpath = "./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")
+    private WebElement editUserModalForm;
 
     public void dropDownClick(){
         myLessonsOrCentersDropDown.click();
@@ -74,4 +73,8 @@ public class ProfilePage extends BasePage{
         return leftSideProfileComponent;
     }
 
+    public EditProfilePopUp openEditUserProfile() {
+        editProfileButton.click();
+        return new EditProfilePopUp(driver, editUserModalForm);
+    }
 }

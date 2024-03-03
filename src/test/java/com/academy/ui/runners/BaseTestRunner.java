@@ -3,6 +3,7 @@ package com.academy.ui.runners;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
@@ -30,6 +31,9 @@ public abstract class BaseTestRunner {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWaitDuration));
         driver.get(configProperties.getBaseUrl());
+        driver.findElement(By.xpath("//button[@id='details-button']")).click();
+        driver.findElement(By.xpath("//a[@class=\"small-link\"]")).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWaitDuration));
         homePage = new HomePage(driver);
     }
 

@@ -7,7 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,6 +102,14 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         } else {
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
+        return this;
+    }
+
+    public AddClubPopUpStepThree uploadImgToGallery(String pathToImage) {
+        int countImg = clubGalleryUploadedImgs.size();
+        clubGalleryDownloadInput.sendKeys(pathToImage);
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(d -> countImg < clubGalleryUploadedImgs.size());
         return this;
     }
 }

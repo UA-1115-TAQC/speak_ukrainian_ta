@@ -116,4 +116,22 @@ public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-925")
+    public void verify5PhotoCanBeAddedByManager() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree = stepThree.uploadImgToGallery(configProperties.getPathToImg());
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
+
+        stepThree = stepThree.uploadImgToGallery(configProperties.getPathToImg())
+                .uploadImgToGallery(configProperties.getPathToImg())
+                .uploadImgToGallery(configProperties.getPathToImg())
+                .uploadImgToGallery(configProperties.getPathToImg());
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
+        softAssert.assertAll();
+    }
 }

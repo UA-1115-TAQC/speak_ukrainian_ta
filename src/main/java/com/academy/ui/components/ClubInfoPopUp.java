@@ -5,14 +5,17 @@ import com.academy.ui.pages.ClubPage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.academy.ui.pages.DirectionTagComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import static org.openqa.selenium.By.xpath;
 
 @Getter
 public class ClubInfoPopUp extends BasePopUp {
@@ -47,16 +50,18 @@ public class ClubInfoPopUp extends BasePopUp {
     protected WebElement downloadButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> directionTags;
 
     @FindBy(xpath = ".//div[contains(@class,'contact')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> contactTags;
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> contactTags;
 
     protected List<DirectionTagComponent> directions;
     protected List<ContactElement> socialMedia;
 
-    public ClubInfoPopUp(WebDriver driver, WebElement rootElement) {
-        super(driver, rootElement);
+    public ClubInfoPopUp(WebDriver driver) {
+        super(driver, driver.findElement(xpath("//div[contains(@class,'clubInfo')]")));
     }
 
     public List<DirectionTagComponent> getDirectionTags() {
@@ -84,12 +89,23 @@ public class ClubInfoPopUp extends BasePopUp {
         return new ClubPage(driver);
     }
 
-    public void clickFeedback(){
+    public void clickFeedback() {
         getFeedback().click();
     }
 
-    public void clickDownloadButton(){
+    public void clickDownloadButton() {
         getDownloadButton().click();
+    }
+
+    public List<Integer> getClubsAgeList() {
+        List<Integer> years = new ArrayList<>();
+        Pattern pattern = Pattern.compile("від\\s+(\\d+)\\s+до\\s+(\\d+)\\s+років");
+        Matcher matcher = pattern.matcher(clubAgeYears.getAttribute("innerText"));
+        if (matcher.find()) {
+            years.add(Integer.parseInt(matcher.group(1)));
+            years.add(Integer.parseInt(matcher.group(2)));
+        }
+        return years;
     }
 
 }

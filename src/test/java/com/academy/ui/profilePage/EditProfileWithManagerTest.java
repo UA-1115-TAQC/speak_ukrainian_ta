@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class EditProfileWithManager extends LoginWithUserTestRunner {
+public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
     private SoftAssert softAssert;
 
     @BeforeMethod

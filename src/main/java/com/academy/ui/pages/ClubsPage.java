@@ -9,7 +9,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -42,8 +41,8 @@ public class ClubsPage extends BasePage {
     protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
-    protected List<ClubCardComponent> clubCards;
-    protected List<CenterCardComponent> centerCards;
+    @Getter(AccessLevel.NONE) protected List<ClubCardComponent> clubCards;
+    @Getter(AccessLevel.NONE) protected List<CenterCardComponent> centerCards;
 
     public ClubsPage(WebDriver driver) {
         super(driver);
@@ -53,24 +52,25 @@ public class ClubsPage extends BasePage {
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
-        clubCards = createClubComponents();
-        centerCards = createCenterComponents();
+        clubCards = getClubCards();
+        centerCards = getCenterCards();
     }
 
-    private List<ClubCardComponent> createClubComponents() {
-        List<ClubCardComponent> clubs = new ArrayList<>();
+    public List<ClubCardComponent> getClubCards() {
+        clubCards = new ArrayList<>();
+        sleep(1000);
         for (WebElement element : clubCardsWebElement) {
-            clubs.add(new ClubCardComponent(driver, element));
+            clubCards.add(new ClubCardComponent(driver, element));
         }
-        return clubs;
+        return clubCards;
     }
 
-    private List<CenterCardComponent> createCenterComponents() {
-        List<CenterCardComponent> centers = new ArrayList<>();
+    public List<CenterCardComponent> getCenterCards() {
+        centerCards = new ArrayList<>();
         for (WebElement element : clubCardsWebElement) {
-            centers.add(new CenterCardComponent(driver, element));
+            centerCards.add(new CenterCardComponent(driver, element));
         }
-        return centers;
+        return centerCards;
     }
 
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds){
@@ -82,5 +82,5 @@ public class ClubsPage extends BasePage {
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
-    
+
 }

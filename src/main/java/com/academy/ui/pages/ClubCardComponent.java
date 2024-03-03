@@ -1,9 +1,9 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,8 +29,15 @@ public class ClubCardComponent extends BaseComponent {
     protected WebElement detailsButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+    private List<WebElement> directionTags;
 
+    @FindBy(xpath = ".//span[@class='club-online-label']")
+    protected WebElement onlineLabel;
+
+    @FindBy(xpath = ".//div[@class='ant-card-body']/child::*")
+    protected List<WebElement> cardChildList;
+
+    @Getter(AccessLevel.NONE)
     protected List<DirectionTagComponent> directions;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
@@ -38,17 +45,16 @@ public class ClubCardComponent extends BaseComponent {
     }
 
     public List<DirectionTagComponent> getDirections() {
-        if (directions == null) {
-            directions = new ArrayList<>();
-            for (WebElement tag : directionTags) {
-                directions.add(new DirectionTagComponent(driver, tag));
-            }
+        directions = new ArrayList<>();
+        for (WebElement tag : directionTags) {
+            directions.add(new DirectionTagComponent(driver, tag));
         }
         return directions;
     }
 
-    public void clickTitle() {
+    public ClubInfoPopUp clickTitle() {
         getTitle().click();
+        return new ClubInfoPopUp(driver);
     }
 
     public void clickAddress() {
@@ -60,4 +66,9 @@ public class ClubCardComponent extends BaseComponent {
         return new ClubPage(driver);
     }
 
+    public List<String> getListOfDirectionsTitles() {
+        List<String> list = new ArrayList<>();
+        getDirections().forEach(direction -> list.add(direction.getName().getText()));
+        return list;
+    }
 }

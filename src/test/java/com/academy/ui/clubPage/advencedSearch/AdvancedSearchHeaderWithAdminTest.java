@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class AdvancedSearchHeaderWithAdmin extends LoginWithAdminTestRunner {
+public class AdvancedSearchHeaderWithAdminTest extends LoginWithAdminTestRunner {
 
     private SoftAssert softAssert;
 

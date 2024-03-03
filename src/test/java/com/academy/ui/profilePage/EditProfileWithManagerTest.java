@@ -9,6 +9,10 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
+    private static final String VALID_CIRCLE_ICON = "check-circle";
+    private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String HIDDEN_PASSWORD = "eye-invisible";
+    private static final String VISIBLE_PASSWORD = "eye";
     private SoftAssert softAssert;
     private ProfilePage profilePage;
 
@@ -111,4 +115,61 @@ public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
         softAssert.assertAll();
     }
 
+    @Test
+    public void checkPasswordIsHiding() {
+        EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+        editProfilePopUp.clickCheckBox();
+
+        editProfilePopUp.getCurrentPasswordElement().setValue("Test$1er");
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordElement()
+                .getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON),
+                "Field accepts the data");
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordElement()
+                .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD));
+
+        editProfilePopUp.getCurrentPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordElement()
+                .getPasswordVisibilityIcon().getAttribute("aria-label").contains(VISIBLE_PASSWORD),
+                "The password is visible and can be hidden again after clicking");
+
+        editProfilePopUp.getCurrentPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordElement()
+                .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD),
+                "The password is invisible");
+
+        editProfilePopUp.getNewPasswordElement().setValue("Test$1erQwerty");
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON),
+                "Field accepts the data");
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordElement()
+                .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD));
+
+        editProfilePopUp.getNewPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordElement()
+                        .getPasswordVisibilityIcon().getAttribute("aria-label").contains(VISIBLE_PASSWORD),
+                "The password is visible and can be hidden again after clicking");
+
+        editProfilePopUp.getNewPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordElement()
+                        .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD),
+                "The password is invisible");
+
+        editProfilePopUp.getConfirmPasswordElement().setValue("Test$1erQwerty");
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON),
+                "Field accepts the data");
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordElement()
+                .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD));
+
+        editProfilePopUp.getConfirmPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordElement()
+                        .getPasswordVisibilityIcon().getAttribute("aria-label").contains(VISIBLE_PASSWORD),
+                "The password is visible and can be hidden again after clicking");
+
+        editProfilePopUp.getConfirmPasswordElement().clickPasswordVisibilityIcon();
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordElement()
+                        .getPasswordVisibilityIcon().getAttribute("aria-label").contains(HIDDEN_PASSWORD),
+                "The password is invisible");
+    }
 }

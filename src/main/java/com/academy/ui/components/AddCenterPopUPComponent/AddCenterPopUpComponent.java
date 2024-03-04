@@ -34,30 +34,40 @@ public class AddCenterPopUpComponent extends BasePopUp {
     @Getter(AccessLevel.NONE)
     private AddCenterPopUpStepThree stepThreeContainer;
 
+    @Getter(AccessLevel.NONE)
+    private AddCenterPopUpStepFour stepFourContainer;
+
     public AddCenterPopUpComponent(WebDriver driver) {
         super(driver, driver.findElement(By.xpath("//div[contains(@class,'addCenter')]")));
         sider = new AddCenterPopUpSider(driver, siderElement);
     }
 
-    public AddCenterPopUpStepOne getStepOneContainer(){
+    public AddCenterPopUpStepOne getStepOneContainer() {
         if (activeStep.getAttribute("innerText").equals("1")) {
             stepOneContainer = new AddCenterPopUpStepOne(driver, stepContainerElement);
         }
         return stepOneContainer;
     }
 
-    public AddCenterPopUpStepTwo getStepTwoContainer(){
+    public AddCenterPopUpStepTwo getStepTwoContainer() {
         if (activeStep.getAttribute("innerText").equals("2")) {
             stepTwoContainer = new AddCenterPopUpStepTwo(driver, stepContainerElement);
         }
         return stepTwoContainer;
     }
 
-    public AddCenterPopUpStepThree getStepThreeContainer(){
+    public AddCenterPopUpStepThree getStepThreeContainer() {
         if (activeStep.getAttribute("innerText").equals("3")) {
             stepThreeContainer = new AddCenterPopUpStepThree(driver, stepContainerElement);
         }
         return stepThreeContainer;
+    }
+
+    public AddCenterPopUpStepFour getStepFourContainer() {
+        if (activeStep.getAttribute("innerText").equals("4")) {
+            stepFourContainer = new AddCenterPopUpStepFour(driver, stepContainerElement);
+        }
+        return stepFourContainer;
     }
 
 }

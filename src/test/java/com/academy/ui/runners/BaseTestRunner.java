@@ -3,7 +3,6 @@ package com.academy.ui.runners;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;

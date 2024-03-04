@@ -31,6 +31,9 @@ public class AddCenterPopUpComponent extends BasePopUp {
     @Getter(AccessLevel.NONE)
     private AddCenterPopUpStepTwo stepTwoContainer;
 
+    @Getter(AccessLevel.NONE)
+    private AddCenterPopUpStepThree stepThreeContainer;
+
     public AddCenterPopUpComponent(WebDriver driver) {
         super(driver, driver.findElement(By.xpath("//div[contains(@class,'addCenter')]")));
         sider = new AddCenterPopUpSider(driver, siderElement);
@@ -48,6 +51,13 @@ public class AddCenterPopUpComponent extends BasePopUp {
             stepTwoContainer = new AddCenterPopUpStepTwo(driver, stepContainerElement);
         }
         return stepTwoContainer;
+    }
+
+    public AddCenterPopUpStepThree getStepThreeContainer(){
+        if (activeStep.getAttribute("innerText").equals("3")) {
+            stepThreeContainer = new AddCenterPopUpStepThree(driver, stepContainerElement);
+        }
+        return stepThreeContainer;
     }
 
 }

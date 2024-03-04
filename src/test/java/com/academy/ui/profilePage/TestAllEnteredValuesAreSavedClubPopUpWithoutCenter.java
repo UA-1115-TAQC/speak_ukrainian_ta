@@ -3,10 +3,7 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
-import com.academy.ui.runners.LoginWithUserTestRunner;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -15,8 +12,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-//dont forget to change to login with manager test runner
-public class TestAllEnteredValuesAreSavedClubPopUpWithoutCenter extends LoginWithUserTestRunner {
+public class TestAllEnteredValuesAreSavedClubPopUpWithoutCenter extends LoginWithManagerTestRunner {
    protected SoftAssert softAssert;
     protected  ProfilePage profilePage;
    protected AddClubPopUpComponent addClubPopUpComponent;

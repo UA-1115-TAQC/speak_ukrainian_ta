@@ -22,7 +22,10 @@ public class TestAddClubPopUpWithManager extends LoginWithAdminTestRunner {
     private static final String MIN_AGE = "5";
     private static final String MAX_AGE = "8";
     private static final String TELEPHONE_NUMBER = "0987656453";
+    private static final String TEXT_40_SYMBOLS = "Abc ".repeat(10);
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
+    private static final String TEXT_1000_SYMBOLS = "Abcd ".repeat(200);
+    private static final String TEXT_1500_SYMBOLS = "Abcde ".repeat(250);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
     private AddClubPopUpComponent addClubPopUpComponent;
@@ -241,6 +244,23 @@ public class TestAddClubPopUpWithManager extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-172")
+    public void checkValidationIconWithValidDataForDescriptionField() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_40_SYMBOLS);
+        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+
+        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1000_SYMBOLS);
+        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+
+        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
+        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
+    }
     private void checkStepThreeDescriptionElementsPresent(){
         softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
                 "Step One icon should be displayed");

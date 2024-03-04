@@ -29,29 +29,48 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
     @Test(description = "TUA-245")
     public void verifyUserClubSearchCertainLocationByCityParameter() {
+
         final String DEFAULT_CITY = "Київ";
         final String SELECTED_CITY = "Харків";
+
         softAssert.assertTrue(advancedSearchSider.getWebElement().isDisplayed(),
                 "AdvancedSearchSider should be displayed");
         LocationSearchSiderElement dropdownCity = advancedSearchSider.getSearchCityElement();
         String cityName = dropdownCity.getInputContent().getText();
         softAssert.assertEquals(cityName, DEFAULT_CITY);
-        clubsPage.waitUntilClubsPageIsLoaded(5);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            softAssert.assertTrue(clubCard.getAddress().getText().contains(DEFAULT_CITY),
-                    "Address in the Card should contain selected city " + cityName);
+
+        int pagesShowed = clubsPage.getSwitchPagination().getPaginationItems().size();
+        String pageNumber = clubsPage.getSwitchPagination()
+                .getPaginationItems()
+                .get(pagesShowed - 1)
+                .getAttribute("title");
+        int currentPage = 1;
+        while (currentPage < Integer.parseInt(pageNumber)) {
+            getCardsFromCurrentPage(currentPage, DEFAULT_CITY);
+            currentPage++;
         }
+
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         softAssert.assertFalse(dropdownCity.clickDropDown().getDropDownElement().getItemsList().isEmpty(),
                 "City dropdown shouldn't be empty");
         dropdownCity.selectItem(SELECTED_CITY);
         String newCityName = dropdownCity.getInputContent().getText();
         softAssert.assertEquals(newCityName, SELECTED_CITY);
-        clubsPage = clubsPage.waitUntilClubsPageIsLoaded(5);
+
         for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
             softAssert.assertTrue(clubCard.getAddress().getText().contains(SELECTED_CITY),
-                    "Address in the Card should contain selected city " + newCityName);
+                    "Address in the Card should contain selected city " + SELECTED_CITY);
         }
         softAssert.assertAll();
+    }
+
+    private void getCardsFromCurrentPage(int page, String city) {
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
+        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
+            softAssert.assertTrue(clubCard.getAddress().getText().contains(city),
+                    "Address in the Card on page " + page + " should contain selected city " + city);
+        }
+        clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
     }
 
     @Test(description = "TUA-858")

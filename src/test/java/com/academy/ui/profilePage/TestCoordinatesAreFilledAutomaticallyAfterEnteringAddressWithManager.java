@@ -4,6 +4,7 @@ import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddCenterPopUpComponent.AddLocationPopUpCenterComponent;
 import com.academy.ui.pages.ProfilePage;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.LoginWithUserTestRunner;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,8 +14,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-//change to manager
-public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManager extends LoginWithUserTestRunner {
+public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManager extends LoginWithManagerTestRunner {
     protected SoftAssert softAssert;
     protected ProfilePage profilePage;
     WebDriverWait wait;

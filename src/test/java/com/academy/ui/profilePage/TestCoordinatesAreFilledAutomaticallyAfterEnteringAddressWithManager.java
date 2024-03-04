@@ -35,7 +35,7 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
         addClubPopUpStepOne = addCenterPopUpComponent.getStepOneContainer();
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterNameInput()));
     }
-    @Test(description = "TUA-264")
+    @Test(description = "TUA-164")
     public void testCoordinatesAreFilledAutomaticallyAfterEnteringAddress(){
         addLocationPopUpComponent = addClubPopUpStepOne.clickAddLocationButton();
         fillLocationComponent(testLocationName, cityDropdownValue, address);

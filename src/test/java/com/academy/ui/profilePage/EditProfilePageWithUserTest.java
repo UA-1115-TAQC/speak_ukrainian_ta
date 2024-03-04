@@ -67,4 +67,19 @@ public class EditProfilePageWithUserTest extends LoginWithUserTestRunner {
                 {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
         };
     }
+
+    @Test(description = "TUA-866")
+    public void checkVisibilityOfUploadPhotoLink() {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+
+        softAssert.assertTrue(editProfilePopUp.getPhotoLink().isDisplayed());
+        softAssert.assertTrue(editProfilePopUp.getPhotoLink().getText().equals("Фото"));
+        softAssert.assertEquals(editProfilePopUp.getTooltipText(),
+                "Приймас зображення формату JPG / PNG із мінімальною роздільною здатністю 200x200 пікселів"
+                        + " та максимальним розміром файлу 5МВ");
+        softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().isDisplayed());
+        softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().getText().equals("Завантажити фото"));
+        softAssert.assertAll();
+    }
 }

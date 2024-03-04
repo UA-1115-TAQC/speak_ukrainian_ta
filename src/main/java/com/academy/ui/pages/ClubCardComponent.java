@@ -28,7 +28,7 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
-    @FindBy(xpath = "./descendant::span[@class='ant-tag tag css-k8nnl9'][1]")
+    @FindBy(xpath = "./descendant::div[@class='tags club-tags']")
     protected WebElement categoryClub;
 
 
@@ -51,9 +51,9 @@ public class ClubCardComponent extends BaseComponent {
         return directions;
     }
 
-//    public void clickTitle() {
-//        getTitle().click();
-//    }
+    public void clickTitle() {
+        getTitle().click();
+    }
 
     public String getCategoryClub(){
         return categoryClub.getText();

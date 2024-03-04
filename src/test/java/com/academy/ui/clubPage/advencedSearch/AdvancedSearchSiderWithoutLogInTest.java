@@ -7,15 +7,12 @@ import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.DirectionTagComponent;
 import com.academy.ui.runners.BaseTestRunner;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
@@ -63,7 +60,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         final String DEFAULT_CITY = "Київ";
         final String CATEGORY = "Спортивні секції";
         final String AGE = "7";
-        final int ELEMENT_NUMBER_IN_CARD_WITH_ONLINE = 7;
+        final String ONLINE_CLUB_TEXT = "Гурток онлайн";
         softAssert.assertTrue(advancedSearchSider.getWebElement().isDisplayed(),
                 "AdvancedSearchSider should be displayed");
         LocationSearchSiderElement dropdownCity = advancedSearchSider.getSearchCityElement();
@@ -83,14 +80,14 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(5);
         for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
 
-            softAssert.assertTrue(clubCard.getCardChildList().size() == ELEMENT_NUMBER_IN_CARD_WITH_ONLINE,
+            softAssert.assertTrue(clubCard.getWebElement().getAttribute("innerText").contains(ONLINE_CLUB_TEXT),
                     "Club " + clubCard.getTitle().getText() + " should contain label \"Гурток онлайн\"");
         }
         clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(10);
 
         int countOnlineClubs = 0;
         for (ClubCardComponent card : clubsPage.getClubCards()) {
-            if (card.getCardChildList().size() == ELEMENT_NUMBER_IN_CARD_WITH_ONLINE) {
+            if (card.getWebElement().getAttribute("innerText").contains(ONLINE_CLUB_TEXT)) {
                 countOnlineClubs++;
             }
         }

@@ -41,8 +41,8 @@ public class ClubsPage extends BasePage {
     protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
-    @Getter(AccessLevel.NONE) protected List<ClubCardComponent> clubCards;
-    @Getter(AccessLevel.NONE) protected List<CenterCardComponent> centerCards;
+    protected List<ClubCardComponent> clubCards;
+    protected List<CenterCardComponent> centerCards;
 
     public ClubsPage(WebDriver driver) {
         super(driver);
@@ -52,25 +52,27 @@ public class ClubsPage extends BasePage {
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
-        clubCards = getClubCards();
-        centerCards = getCenterCards();
+        clubCards = createClubComponents();
+        centerCards = createCenterComponents();
     }
 
-    public List<ClubCardComponent> getClubCards() {
-        clubCards = new ArrayList<>();
+    private List<ClubCardComponent> createClubComponents() {
+        List<ClubCardComponent> clubs = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsWebElement));
         sleep(1000);
         for (WebElement element : clubCardsWebElement) {
-            clubCards.add(new ClubCardComponent(driver, element));
+            clubs.add(new ClubCardComponent(driver, element));
         }
-        return clubCards;
+        return clubs;
     }
 
-    public List<CenterCardComponent> getCenterCards() {
-        centerCards = new ArrayList<>();
+    private List<CenterCardComponent> createCenterComponents() {
+        List<CenterCardComponent> centers = new ArrayList<>();
         for (WebElement element : clubCardsWebElement) {
-            centerCards.add(new CenterCardComponent(driver, element));
+            centers.add(new CenterCardComponent(driver, element));
         }
-        return centerCards;
+        return centers;
     }
 
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds){

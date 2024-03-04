@@ -65,9 +65,7 @@ public class AddLocationPopUpCenterComponent extends BasePopUp {
     private AddLocationInputElement locationTelephoneInputElement;
 
     public AddLocationPopUpCenterComponent(WebDriver driver) {
-        //descendant::div[contains(@class,' modal-add-club')]
         super(driver, driver.findElement(By.xpath("//descendant::div[contains(@class,' modal-add-club')]")));
-        //super(driver, driver.findElement(By.xpath("//descendant::div[contains(@class,\"modal-add-club\")][3]")));
         this.locatioNameInputElement = new AddLocationInputElement(driver,locationNameInput);
         this.locatioCityDropdownElement = new DropdownElement(driver, locationCityDropdown);
         this.locationDistrictDropdownElement = new DropdownElement(driver, locationDistrictDropdown);

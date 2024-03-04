@@ -31,9 +31,6 @@ public abstract class BaseTestRunner {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWaitDuration));
         driver.get(configProperties.getBaseUrl());
-        driver.findElement(By.xpath("//button[@id='details-button']")).click();
-        driver.findElement(By.xpath("//a[@class=\"small-link\"]")).click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWaitDuration));
         homePage = new HomePage(driver);
     }
 

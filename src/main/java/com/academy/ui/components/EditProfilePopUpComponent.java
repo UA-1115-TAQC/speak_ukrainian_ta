@@ -69,15 +69,27 @@ public class EditProfilePopUpComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::input[@name=\"checkbox\"]")
     private WebElement checkboxChangePassword;
 
+
+//as a suggestion (//div[contains(@class,"item-control-input")]/span[contains(@class,"ant-input-password") and not (contains(@class,"login-box"))])[1]
     @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][1]")
     private WebElement currentPasswordInput;
 
+
+    //as a suggestion (//div[contains(@class,"item-control-input")]/span[contains(@class,"ant-input-password") and not (contains(@class,"login-box"))])[2]
     @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][2]")
     private WebElement enterNewPasswordInput;
-
+////as a suggestion (//div[contains(@class,"item-control-input")]/span[contains(@class,"ant-input-password") and not (contains(@class,"login-box"))])[3]
     @FindBy(xpath = "./descendant::span[@class=\"ant-input-affix-wrapper ant-input-password user-edit-box ant-input-affix-wrapper-has-feedback css-13m256z\"][3]")
     private WebElement confirmPasswordInput;
 
+    //delete 3 lines below when the selectors for the 3 find by above are fixed
+
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[1]")
+    protected WebElement currentPasswordInputNode;
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[2]")
+protected WebElement newPasswordInputNode;
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[3]")
+    protected WebElement confirmPasswordInputNode;
     //upload photo
     @FindBy(xpath = "./descendant::span[@class=\"add-club-upload\"]")
     private WebElement uploadUserPhoto;
@@ -112,7 +124,15 @@ public class EditProfilePopUpComponent extends BaseComponent {
         confirmPasswordInputElement = new InputWithIconElement(driver, confirmPasswordInput);
 
     }
-
+    public InputWithIconElement getCurrentPasswordInput(){
+        return new InputWithIconElement(driver, getCurrentPasswordInputNode());
+    }
+    public InputWithIconElement getNewPasswordInput(){
+        return new InputWithIconElement(driver, getNewPasswordInputNode());
+    }
+    public InputWithIconElement getConfirmPasswordInput(){
+        return new InputWithIconElement(driver, getConfirmPasswordInputNode());
+    }
     public InputElement editLastName(String lastName) {
         return editLastNameElement.setValue(lastName);
     }

@@ -52,6 +52,8 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;
+    @FindBy(xpath = "//span[contains(@class,\"ant-upload-list-item-name\")]")
+    private List<WebElement> uploadedElementsListNode;
 
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -92,5 +94,8 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+    public List<WebElement> getAllUploadedElements(){
+        return getUploadedElementsListNode();
     }
 }

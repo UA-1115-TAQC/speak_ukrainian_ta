@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static com.academy.ui.components.header.HeaderUtil.clickElement;
 
@@ -59,6 +60,15 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
+
+    @FindBy(xpath = "//span[@aria-label='environment']")
+    protected WebElement locationIcon;
+
+    @FindBy(xpath = "//div[@class='ant-dropdown-trigger city']")
+    protected WebElement clubsLocationButton;
+
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]/descendant::li[@role='menuitem']")
+    protected List<WebElement> citiesLocationOfClubs;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -117,5 +127,17 @@ public class HeaderComponent extends BaseComponent {
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
+    }
+
+    public HeaderComponent clickCityLocation() {
+        clubsLocationButton.click();
+        return this;
+    }
+
+    public ClubsPage selectClubsCityLocation(String city) {
+        citiesLocationOfClubs.stream()
+                .filter(currentCity -> currentCity.getText().equals(city))
+                .forEach(WebElement::click);
+        return new ClubsPage(driver);
     }
 }

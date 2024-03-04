@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.components.ClubListControlComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -24,6 +25,9 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
+
+    @FindBy(xpath = "./descendant::div[@class='club-online']")
+    protected WebElement clubOnline;
 
     @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;

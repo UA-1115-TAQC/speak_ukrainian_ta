@@ -37,6 +37,13 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-modal-root css-1kvr9ql']")
     @Getter(AccessLevel.NONE)private WebElement popUpWebElement;
 
+    @FindBy(xpath = ".//span[@class='club-online-label']")
+    protected WebElement onlineLabel;
+
+    @FindBy(xpath = ".//div[@class='ant-card-body']/child::*")
+    protected List<WebElement> cardChildList;
+
+    @Getter(AccessLevel.NONE)
     protected List<DirectionTagComponent> directions;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
@@ -44,11 +51,9 @@ public class ClubCardComponent extends BaseComponent {
     }
 
     public List<DirectionTagComponent> getDirections() {
-        if (directions == null) {
-            directions = new ArrayList<>();
-            for (WebElement tag : directionTags) {
-                directions.add(new DirectionTagComponent(driver, tag));
-            }
+        directions = new ArrayList<>();
+        for (WebElement tag : directionTags) {
+            directions.add(new DirectionTagComponent(driver, tag));
         }
         return directions;
     }
@@ -91,4 +96,9 @@ public class ClubCardComponent extends BaseComponent {
         return new ClubPage(driver);
     }
 
+    public List<String> getListOfDirectionsTitles() {
+        List<String> list = new ArrayList<>();
+        getDirections().forEach(direction -> list.add(direction.getName().getText()));
+        return list;
+    }
 }

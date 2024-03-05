@@ -4,7 +4,6 @@ import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.ClubsPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -38,7 +37,7 @@ public class ClubsPage extends BasePage {
     @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected ClubsPaginationComponent switchPagination;
+    protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
@@ -48,7 +47,7 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
@@ -58,6 +57,9 @@ public class ClubsPage extends BasePage {
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsWebElement));
+        sleep(1000);
         for (WebElement element : clubCardsWebElement) {
             clubs.add(new ClubCardComponent(driver, element));
         }

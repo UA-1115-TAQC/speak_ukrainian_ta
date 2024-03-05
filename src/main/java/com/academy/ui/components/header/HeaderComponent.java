@@ -14,6 +14,7 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.pages.ServicePage;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 import static com.academy.ui.components.header.HeaderUtil.clickElement;
 
@@ -55,8 +57,23 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//ul[contains(@id,\"challenge_ONE-popup\")]")
     protected WebElement headerChallengeDropdownNode;
 
+    @FindBy(xpath = "//div[contains(@class, 'city')]")
+    protected WebElement cityButton;
+
+    @FindBy(xpath = "//div[contains(@class, 'city')]/span[1]")
+    protected WebElement locationIcon;
+
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu-light')]")
+    protected WebElement cityMenuNode;
+
     @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]")
     protected WebElement profileMenuNode;
+
+    @FindBy(xpath = "//li[contains(@class, 'ant-dropdown-menu-item-only-child')]")
+    protected List<WebElement> cityMenuElements;
+
+    @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
+    private WebElement isLoggedIn;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
     private WebElement avatar;
@@ -64,6 +81,7 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
     private WebElement profilePageButton;
+
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -74,6 +92,11 @@ public class HeaderComponent extends BaseComponent {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOf(getHeaderChallengeDropdownNode()));
         return new HeaderChallengesDropdown(driver, getHeaderChallengeDropdownNode());
+    }
+
+    public WebElement openCityMenu() {
+        cityButton.click();
+        return cityMenuNode;
     }
 
     public AllNewsPage newsButtonClick() {
@@ -123,6 +146,11 @@ public class HeaderComponent extends BaseComponent {
         return new UserMenuComponent(driver, profileMenuNode);
     }
 
+    public List<WebElement> getCityMenuElements() {
+        if (cityMenuElements == null || cityMenuElements.isEmpty())
+            cityMenuElements = openCityMenu().findElements(By.xpath("//li[contains(@class, 'ant-dropdown-menu-item-only-child')]"));
+        return cityMenuElements;
+    }
 
     public boolean isLoggedIn(){
         return avatar.getAttribute("class").contains("avatarIfLogin");
@@ -137,5 +165,6 @@ public class HeaderComponent extends BaseComponent {
         openUserMenu();
         profilePageButton.click();
         return new ProfilePage (driver);
+
     }
 }

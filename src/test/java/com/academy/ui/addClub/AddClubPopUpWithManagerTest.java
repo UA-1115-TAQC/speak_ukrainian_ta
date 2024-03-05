@@ -135,6 +135,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickCompleteButton();
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
-        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 }

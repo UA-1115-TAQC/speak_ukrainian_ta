@@ -87,7 +87,6 @@ public class ProfilePage extends BasePage {
         return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
     }
 
-
     public void hoverAddButton() {
         Actions actions = new Actions(driver);
         actions.moveToElement(addButton).perform();

@@ -3,7 +3,6 @@ package com.academy.ui.components.RegistrationPopup;
 import com.academy.ui.components.BasePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,6 +33,25 @@ public class RegistrationPopupComponent extends BasePopUp {
     protected WebElement passwordHeader;
     @FindBy(xpath="//label[@for='confirm' and @class='ant-form-item-required']")
     protected WebElement passwordConfirmationHeader;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][1]")
+    protected WebElement lastNameWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][2]")
+    protected WebElement firstNameWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][3]")
+    protected WebElement phoneWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][4]")
+    protected WebElement emailWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][5]")
+    protected WebElement passwordWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-form-item registration-input')][6]")
+    protected WebElement passwordConfirmationWebElement;
+
     protected InputWithIconElement lastNameInput;
 
     protected InputWithIconElement firstNameInput;
@@ -46,17 +64,17 @@ public class RegistrationPopupComponent extends BasePopUp {
 
     protected InputWithIconElement passwordConfirmationInput;
 
-    @FindBy(xpath="//button[contains(@class, 'registration-button')]\n")
+    @FindBy(xpath=".//button[contains(@class, 'registration-button')]")
     protected WebElement registrationButton;
 
     public RegistrationPopupComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        lastNameInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath(".//div[contains(@class, 'ant-form-item registration-input')][1]")));
-        firstNameInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='firstName' and @class='ant-input']")));
-        phoneInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='phone' and @class='ant-input']")));
-        emailInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='email' and @class='ant-input']")));
-        passwordInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='password' and @class='ant-input']")));
-        passwordConfirmationInput = new InputWithIconElement(driver, rootElement.findElement(By.xpath("./descendant::input[@id='confirm' and @class='ant-input']")));
+        lastNameInput = new InputWithIconElement(driver, lastNameWebElement);
+        firstNameInput = new InputWithIconElement(driver, firstNameWebElement);
+        phoneInput = new InputWithIconElement(driver, phoneWebElement);
+        emailInput = new InputWithIconElement(driver, emailWebElement);
+        passwordInput = new InputWithIconElement(driver, passwordWebElement);
+        passwordConfirmationInput = new InputWithIconElement(driver, passwordConfirmationWebElement);
     }
     public String getRegistrationHeaderText() {
         return registrationHeader.getAttribute("innerText");

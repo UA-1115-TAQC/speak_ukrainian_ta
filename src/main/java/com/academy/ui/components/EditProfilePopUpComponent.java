@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 
 @Getter
 public class EditProfilePopUpComponent extends BaseComponent {
@@ -130,13 +132,16 @@ public class EditProfilePopUpComponent extends BaseComponent {
     public BaseInputElement enterNewPassword(String password) {
         return enterNewPasswordInputElement.setValue(password);
     }
+    public InputWithIconElement getEnterNewPasswordInput(){
+        return getEnterNewPasswordInputElement();
+    }
 
     public BaseInputElement enterConfirmPassword(String password) {
         return confirmPasswordInputElement.setValue(password);
     }
 
     public void checkBoxChangePasswordClick(){
-        checkboxChangePassword.click();
+        getCheckboxChangePassword().click();
     }
 
     public void clickUploadPhoto() {

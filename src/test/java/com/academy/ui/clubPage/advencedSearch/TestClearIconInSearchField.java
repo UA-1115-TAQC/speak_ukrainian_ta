@@ -1,19 +1,17 @@
 package com.academy.ui.clubPage.advencedSearch;
+
 import com.academy.ui.runners.HomePageTestRunner;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
+
 
 public class TestClearIconInSearchField extends HomePageTestRunner {
-
 
 
     private static final String SEARCH_TEXT_START = "A";
     private static final String CLUB_NAME = "Програмування, робототехніка, STEM";
 
     @Test(description = "TUA-317 Verify that clear icon appears when start typing text in search field and it does not overlap the long entered text")
-    public void checkIfClearIconAppearsAndDoesNotOverlapText(){
+    public void checkIfClearIconAppearsAndDoesNotOverlapText() {
         homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField(SEARCH_TEXT_START);
         actions.moveToElement(homePage.advancedSearchHeaderComponent.getSearchInputCloseButton()).perform();
 
@@ -28,7 +26,7 @@ public class TestClearIconInSearchField extends HomePageTestRunner {
 
         boolean ifButtonOverlapText = closeButtonLocation <= inputFieldLocation + InputFieldWidth;
 
-        softAssert.assertFalse(ifButtonOverlapText,"Button overlaps text" );
+        softAssert.assertFalse(ifButtonOverlapText, "Button overlaps text");
         softAssert.assertAll();
 
 

@@ -58,8 +58,9 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]")
     protected WebElement profileMenuNode;
 
-    @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
-    private WebElement isLoggedIn;
+    @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
+    private WebElement avatar;
+
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
     private WebElement profilePageButton;
@@ -102,8 +103,7 @@ public class HeaderComponent extends BaseComponent {
     }
 
     public AddClubPopUpComponent addClubButtonClick() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(e -> isLoggedIn.isDisplayed());
+        waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
@@ -123,6 +123,16 @@ public class HeaderComponent extends BaseComponent {
         return new UserMenuComponent(driver, profileMenuNode);
     }
 
+
+    public boolean isLoggedIn(){
+        return avatar.getAttribute("class").contains("avatarIfLogin");
+    }
+
+    public HeaderComponent waitUntilIsLoggedIn(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(e -> isLoggedIn());
+        return this;
+    }
     public ProfilePage openProfilePage(){
         openUserMenu();
         profilePageButton.click();

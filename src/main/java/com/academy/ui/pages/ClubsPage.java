@@ -1,10 +1,7 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.AdvancedSearchSiderComponent;
-import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.*;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
-import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.SwitchPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -38,7 +35,7 @@ public class ClubsPage extends BasePage {
     @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected SwitchPaginationComponent switchPagination;
+    protected ClubsPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
@@ -48,7 +45,7 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
@@ -88,5 +85,4 @@ public class ClubsPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
         return this;
     }
-
 }

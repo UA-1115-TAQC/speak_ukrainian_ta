@@ -143,14 +143,14 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepOneWithValidDataPreconditions();
         fillStepTwoWithValidDataPreconditions();
         stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree = stepThree.uploadImgToGallery(configProperties.getPathToImg());
+        stepThree = stepThree.uploadImgToGallery(configProperties.getImagePath());
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
 
-        stepThree = stepThree.uploadImgToGallery(configProperties.getPathToImg())
-                .uploadImgToGallery(configProperties.getPathToImg())
-                .uploadImgToGallery(configProperties.getPathToImg())
-                .uploadImgToGallery(configProperties.getPathToImg());
+        stepThree = stepThree.uploadImgToGallery(configProperties.getImagePath())
+                .uploadImgToGallery(configProperties.getImagePath())
+                .uploadImgToGallery(configProperties.getImagePath())
+                .uploadImgToGallery(configProperties.getImagePath());
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();

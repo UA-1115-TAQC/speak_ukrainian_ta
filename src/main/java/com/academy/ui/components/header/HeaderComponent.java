@@ -10,6 +10,7 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AboutUsPage;
 import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.ClubsPage;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.pages.ServicePage;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import lombok.Getter;
@@ -74,6 +75,14 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
+    private WebElement avatar;
+
+
+    @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
+    private WebElement profilePageButton;
+
+
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -117,8 +126,7 @@ public class HeaderComponent extends BaseComponent {
     }
 
     public AddClubPopUpComponent addClubButtonClick() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(e -> isLoggedIn.isDisplayed());
+        waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
@@ -142,5 +150,21 @@ public class HeaderComponent extends BaseComponent {
         if (cityMenuElements == null || cityMenuElements.isEmpty())
             cityMenuElements = openCityMenu().findElements(By.xpath("//li[contains(@class, 'ant-dropdown-menu-item-only-child')]"));
         return cityMenuElements;
+    }
+
+    public boolean isLoggedIn(){
+        return avatar.getAttribute("class").contains("avatarIfLogin");
+    }
+
+    public HeaderComponent waitUntilIsLoggedIn(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(e -> isLoggedIn());
+        return this;
+    }
+    public ProfilePage openProfilePage(){
+        openUserMenu();
+        profilePageButton.click();
+        return new ProfilePage (driver);
+
     }
 }

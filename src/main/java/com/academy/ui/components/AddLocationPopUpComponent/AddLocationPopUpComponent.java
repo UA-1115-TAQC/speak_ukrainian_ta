@@ -64,8 +64,8 @@ public class AddLocationPopUpComponent extends BasePopUp {
     private AddLocationInputElement locationCoordinatesInputElement;
     private AddLocationInputElement locationTelephoneInputElement;
 
-    public AddLocationPopUpComponent(WebDriver driver) {
-        super(driver, driver.findElement(By.xpath("//descendant::div[contains(@class,'modal-add-club')][2]")));
+    public AddLocationPopUpComponent(WebDriver driver, WebElement rootElement) {
+        super(driver, rootElement);
         this.locatioNameInputElement = new AddLocationInputElement(driver,locationNameInput);
         this.locatioCityDropdownElement = new DropdownElement(driver, locationCityDropdown);
         this.locationDistrictDropdownElement = new DropdownElement(driver, locationDistrictDropdown);
@@ -73,6 +73,10 @@ public class AddLocationPopUpComponent extends BasePopUp {
         this.locationAddressInputElement = new AddLocationInputElement(driver, locationAddressInput);
         this.locationCoordinatesInputElement = new AddLocationInputElement(driver, locationCoordinatesInput);
         this.locationTelephoneInputElement = new AddLocationInputElement(driver, locationTelephoneInput);
+    }
+
+    public void clickAddLocationButton(){
+        addLocationButton.click();
     }
 
 

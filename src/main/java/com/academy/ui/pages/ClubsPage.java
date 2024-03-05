@@ -1,15 +1,11 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.AdvancedSearchSiderComponent;
-import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.*;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
-import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.SwitchPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,7 +35,7 @@ public class ClubsPage extends BasePage {
     @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected SwitchPaginationComponent switchPagination;
+    protected ClubsPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
@@ -49,7 +45,7 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
@@ -82,5 +78,11 @@ public class ClubsPage extends BasePage {
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
-    
+
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.urlContains("clubs"));
+        wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+        return this;
+    }
 }

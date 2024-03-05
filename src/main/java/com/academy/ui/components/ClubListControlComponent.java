@@ -30,6 +30,7 @@ public class ClubListControlComponent extends BaseComponent{
     @FindBy(xpath = ".//label[contains(@class, 'ant-radio-button-wrapper')][2]")
     protected WebElement wrapperBlock;
 
+
     public ClubListControlComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

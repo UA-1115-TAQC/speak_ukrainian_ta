@@ -5,7 +5,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,7 +13,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
+public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
     private static final String CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";
@@ -101,19 +101,23 @@ public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
 
         stepThree.getClubGalleryDownloadButton().click();
         stepThree.getClubGalleryDownloadInput().sendKeys(imgPath);
-        softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
+        List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
+        softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
+        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+        softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
         stepThree.getClubLogoDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubLogoUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.getClubCoverDownloadButton().click();
         stepThree.getClubCoverDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubCoverUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
 
+        stepThree.clickCompleteButton();
         softAssert.assertAll();
     }
 

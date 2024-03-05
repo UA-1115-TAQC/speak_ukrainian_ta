@@ -29,10 +29,15 @@ public class ClubDirectionCard extends BaseComponent {
     }
     public ClubsPage clickClubCardButton() {
         this.getClubCardButton().click();
-        return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
+        return new ClubsPage(driver).waitClubsPageWithSiderLoaded(30);
     }
     public ClubsPage clickClubCardButtonPointer() {
         this.getClubCardButtonPointer().click();
         return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
+    }
+
+    public ClubsPage clickCard(){
+        clubCardText.click();
+        return new ClubsPage(driver).waitClubsPageWithSiderLoaded(30);
     }
 }

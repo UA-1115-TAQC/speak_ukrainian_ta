@@ -1,4 +1,4 @@
-package com.academy.ui.components;
+package com.academy.ui.registration;
 
 import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;

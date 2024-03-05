@@ -1,9 +1,8 @@
 package com.academy.ui.profilePage;
 
-//import com.academy.ui.runners.LogInWithUserTestRunner;
+import com.academy.ui.runners.LogInWithUserTestRunner;
 import com.academy.ui.components.EditProfilePopUpComponent;
 import com.academy.ui.pages.ProfilePage;
-import com.academy.ui.runners.LoginWithUserTestRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -15,7 +14,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-public class CheckThatSetUserProfilePhotoCanBeDeleted extends LoginWithUserTestRunner {
+public class CheckThatSetUserProfilePhotoCanBeDeleted extends LogInWithUserTestRunner {
     SoftAssert softAssert;
     WebDriverWait wait;
     EditProfilePopUpComponent editProfilePopUpComponent;

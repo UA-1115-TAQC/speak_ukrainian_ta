@@ -3,7 +3,6 @@ package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
-import com.academy.ui.runners.BaseTestRunner;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -26,5 +25,20 @@ public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
 
         Assert.assertTrue(containsExpectedText);
     }
+
+    @Test(description = "TUA-883-Verify that the system shows online clubs when the user chooses 'інше' in the categories")
+    public void checkBasicSearchByNameOfCategoryOther() {
+        homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField("інше");
+        homePage.advancedSearchHeaderComponent.clickSelectionSearchInputField();
+
+        ClubsPage clubs = new ClubsPage(driver);
+        List<ClubCardComponent> clubsCard = clubs.getClubCards();
+
+        boolean containsExpectedText = clubsCard.stream().flatMap(component -> component.getDirectionTags().stream())
+                .anyMatch(component -> component.getText().contains("Iнше"));
+
+        Assert.assertTrue(containsExpectedText);
+    }
+
 
 }

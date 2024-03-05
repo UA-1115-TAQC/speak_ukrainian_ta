@@ -79,4 +79,10 @@ public class ClubsPage extends BasePage {
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
 
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.urlContains("clubs"));
+        wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+        return this;
+    }
 }

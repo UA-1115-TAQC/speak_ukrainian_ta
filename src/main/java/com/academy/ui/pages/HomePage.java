@@ -2,16 +2,20 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
+import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.Properties;
 
 @Getter
 public class HomePage extends BasePageWithAdvancedSearch {
@@ -103,4 +107,22 @@ public class HomePage extends BasePageWithAdvancedSearch {
         action.sendKeys(Keys.PAGE_DOWN).perform();
         return this;
     }
+
+    public void waitUntilHomePageIsLoaded(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        String firstPageURL = "http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
+        wait.until((ExpectedCondition<Boolean>) driver -> firstPageURL.equals(driver.getCurrentUrl()));
+    }
+
+    public void waitUntilHomePageIsVisible(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOf(carouselCardComponentWebElement));
+    }
+
+    public CarouselCardComponent clickClubCarouselRightArrow(){
+        carouselCardComponent.clickRightArrowButton();
+        waitUntilHomePageIsVisible();
+        return getCarouselCardComponent();
+    }
+
 }

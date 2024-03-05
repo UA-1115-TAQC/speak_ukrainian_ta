@@ -1,11 +1,10 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
-import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
-import com.academy.ui.components.AddCenterPopUpComponent.AddLocationPopUpCenterComponent;
+import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpStepOne;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
-import com.academy.ui.runners.LoginWithUserTestRunner;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -13,14 +12,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
-
 public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManager extends LoginWithManagerTestRunner {
     protected SoftAssert softAssert;
     protected ProfilePage profilePage;
     WebDriverWait wait;
     AddCenterPopUpComponent addCenterPopUpComponent;
     AddCenterPopUpStepOne addClubPopUpStepOne;
-    AddLocationPopUpCenterComponent addLocationPopUpComponent;
+    AddLocationPopUpComponent addLocationPopUpComponent;
     String testLocationName ="ТестЛокація";
     String cityDropdownValue = "Київ";
     String address = "вул. Грушевського, 5";
@@ -30,7 +28,6 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         profilePage = homePage.header.openUserMenu().clickProfile();
         profilePage.addButtonClick().get(1).click();
-        //fix the locator when the element is implemented
         addCenterPopUpComponent = new AddCenterPopUpComponent(driver);
         addClubPopUpStepOne = addCenterPopUpComponent.getStepOneContainer();
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterNameInput()));

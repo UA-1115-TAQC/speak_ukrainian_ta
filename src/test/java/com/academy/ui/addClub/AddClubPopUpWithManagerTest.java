@@ -8,6 +8,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -137,4 +138,27 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
+
+    @Test(description = "TUA-173", dataProvider = "validDescription")
+    public void checkDescriptionValidData(String input, String markColor){
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue(input);
+        softAssert.assertEquals(stepThree.getClubDescriptionCheckMark().getCssValue("color"), markColor);
+        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty());
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name = "validDescription")
+    private Object[][] descriptionValidInput(){
+        return new String[][]{
+                {"Lorem ipsum dolor sit amet consectetur efficitur","rgba(82, 196, 26, 1)"},
+                {"123 Lorem ipsum dolor 456 sit amet consectetur 789","rgba(82, 196, 26, 1)"},
+                {"!\\\"Lorem!#$%&'()*+ipsum,-./:;<=>?@dolor[]^_`{}~","rgba(82, 196, 26, 1)"},
+        };
+    }
+
 }

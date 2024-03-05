@@ -70,6 +70,15 @@ public class FooterComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::button[contains(@class,'donate-button')]")
     private WebElement donateButton;
 
+    @FindBy(xpath = "./descendant::div[@class='footer-social']")
+    private WebElement socialBlock;
+
+    @FindBy(xpath = "./descendant::div[@class='footer-partners']")
+    private WebElement partnersBlock;
+
+    @FindBy(xpath = "./descendant::div[@class='footer-donate']")
+    private WebElement donateBlock;
+
     public FooterComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -132,6 +141,21 @@ public class FooterComponent extends BaseComponent {
 
     public void clickOnProstirSvobodiLink() {
         prostirSvobodiLink.click();
+    }
+
+    public boolean isSocialBlockIsDisplayed(){
+        socialBlock.isDisplayed();
+        return true;
+    }
+
+    public boolean isPartnerBlockIsDisplayed(){
+        partnersBlock.isDisplayed();
+        return true;
+    }
+
+    public boolean isDonateBlockIsDisplayed(){
+        donateBlock.isDisplayed();
+        return true;
     }
 
 }

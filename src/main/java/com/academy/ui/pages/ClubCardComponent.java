@@ -1,14 +1,16 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
-import com.academy.ui.components.ClubListControlComponent;
+import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,10 @@ public class ClubCardComponent extends BaseComponent {
     protected WebElement detailsButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+    private List<WebElement> directionTags;
+
+    @FindBy(xpath = "//div[@class='ant-modal-root css-1kvr9ql']")
+    @Getter(AccessLevel.NONE)private WebElement popUpWebElement;
 
     protected List<DirectionTagComponent> directions;
 
@@ -51,8 +56,33 @@ public class ClubCardComponent extends BaseComponent {
         return directions;
     }
 
-    public void clickTitle() {
+    public boolean directionsContains(String text){
+        getDirections();
+        for (DirectionTagComponent direction : directions) {
+            if(direction.getNameText().toLowerCase().contains(text.toLowerCase())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getClubName(){
+        return getTitle().getText();
+    }
+
+    public boolean clubNameContains(String text){
+        return getClubName().toLowerCase().contains(text.toLowerCase());
+    }
+
+    public boolean descriptionContains(String text){
+        return getDescription().getText().toLowerCase().contains(text.toLowerCase());
+    }
+
+    public ClubInfoPopUp clickTitle() {
         getTitle().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        return new ClubInfoPopUp(driver, root);
     }
 
     public void clickAddress() {

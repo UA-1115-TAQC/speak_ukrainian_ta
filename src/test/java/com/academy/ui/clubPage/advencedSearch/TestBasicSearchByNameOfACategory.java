@@ -18,9 +18,9 @@ public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
         homePage.advancedSearchHeaderComponent.clickSelectionSearchInputField();
 
         ClubsPage clubs = new ClubsPage(driver);
-        List<ClubCardComponent> clubs2 = clubs.getClubCards();
+        List<ClubCardComponent> clubsCard = clubs.getClubCards();
 
-        boolean containsExpectedText = clubs2.stream()
+        boolean containsExpectedText = clubsCard.stream()
                 .flatMap(component -> component.getDirectionTags().stream())
                 .anyMatch(component -> component.getText().contains("Танці, хореографія"));
 

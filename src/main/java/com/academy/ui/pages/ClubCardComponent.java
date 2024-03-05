@@ -1,7 +1,6 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
-import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

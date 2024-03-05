@@ -34,7 +34,7 @@ public class ConfigProperties {
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
-    public String getSampleImagePath(){return properties.getProperty("sample.image.path");}
+    public String getImagePath(){return properties.getProperty("image.path");}
 
     public String getManagerEmail() {
         return properties.getProperty("manager.email");
@@ -46,4 +46,7 @@ public class ConfigProperties {
     public String getUserFirstname(){return properties.getProperty("user.firstname");}
     public String getUserLastname(){return properties.getProperty("user.lastname");}
     public String getUserPhone(){return properties.getProperty("user.phone");}
+    public void setManagerPassword(String pass){
+        properties.setProperty("manager.pass ", pass);
+    }
 }

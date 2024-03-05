@@ -49,10 +49,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
-    private WebElement validationCircleIcon;
+    private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;
+    @FindBy(xpath = "//span[contains(@class,\"ant-upload-list-item-name\")]")
+    private List<WebElement> uploadedElementsListNode;
+    private List<WebElement> errorMessagesTextarea;
 
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
@@ -103,7 +106,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     }
 
     public List<String> getErrorMessagesTextList() {
-        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+        return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
     public AddClubPopUpStepThree clearDescriptionTextarea(){
@@ -114,6 +117,9 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+    public List<WebElement> getAllUploadedElements() {
+        return getUploadedElementsListNode();
     }
 
     public UploadedImgComponent getUploadedGalleryImg(int index) {

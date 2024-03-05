@@ -1,6 +1,7 @@
 package com.academy.ui.components;
 
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
+import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -72,6 +73,11 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = "//span[@class=\"add-club-upload\"]")
     private WebElement uploadPhotoLink;
 
+    @FindBy(xpath = "//input[@id=\"edit_urlLogo\"]")
+    protected WebElement uploadUserPhotoInput;
+    @FindBy(xpath = "./descendant::span[@class=\"ant-upload-list-item-name\"]")
+    protected WebElement uploadPhotoNameUserPhoto;
+
     @FindBy(xpath = ".//span[@class=\"ant-upload-list-item-name\"]")
     private WebElement uploadPictureTitle;
 
@@ -80,6 +86,23 @@ public class EditProfilePopUp extends BasePopUp {
 
     @FindBy(xpath = ".//div[@class=\"ant-upload-icon\"]")
     private WebElement paperClipForUploadUserPhoto;
+
+    //delete 3 lines below when the selectors for the 3 find by above are fixed
+
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[1]")
+    protected WebElement currentPasswordInputNode;
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[2]")
+    protected WebElement newPasswordInputNode;
+    @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[3]")
+    protected WebElement confirmPasswordInputNode;
+    @FindBy(xpath = "./descendant:://span[@class=\"add-club-upload\"]")
+    private WebElement downloadPhotoLink;
+
+    @FindBy(xpath = "./descendant::input[@id='edit_urlLogo']")
+    private WebElement downloadPhotoInput;
+
+    @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][1]")
+    private WebElement downloadPhotoButton;
 
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
@@ -97,7 +120,16 @@ public class EditProfilePopUp extends BasePopUp {
         newPasswordElement = new EditProfileInputElement(driver, newPassword);
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
     }
+    public InputWithIconElement getCurrentPasswordInput(){
+        return new InputWithIconElement(driver, getCurrentPasswordInputNode());
+    }
+    public InputWithIconElement getNewPasswordInput(){
+        return new InputWithIconElement(driver, getNewPasswordInputNode());
+    }
 
+    public InputWithIconElement getConfirmPasswordInput(){
+        return new InputWithIconElement(driver, getConfirmPasswordInputNode());
+    }
     public EditProfilePopUp clickUserButton() {
         userTypeButton.click();
         return this;
@@ -109,7 +141,7 @@ public class EditProfilePopUp extends BasePopUp {
     }
 
     public EditProfilePopUp clickCheckBox(){
-        checkboxChangePassword.click();
+        getCheckboxChangePassword().click();
         return this;
     }
 

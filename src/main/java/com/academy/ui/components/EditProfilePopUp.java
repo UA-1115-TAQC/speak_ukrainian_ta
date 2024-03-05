@@ -81,6 +81,15 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = ".//div[@class=\"ant-upload-icon\"]")
     private WebElement paperClipForUploadUserPhoto;
 
+    @FindBy(xpath = "./descendant:://span[@class=\"add-club-upload\"]")
+    private WebElement downloadPhotoLink;
+
+    @FindBy(xpath = "./descendant::input[@id='edit_urlLogo']")
+    private WebElement downloadPhotoInput;
+
+    @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][1]")
+    private WebElement downloadPhotoButton;
+
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
     private EditProfileInputElement phoneElement;

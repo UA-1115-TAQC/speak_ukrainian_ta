@@ -65,9 +65,12 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
     }
     @Test(description = "TUA-845")
     public void checkThatTextOnCarouselImgCardIsCentered(){
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardHeading().getCssValue("text-align").contains("center"));
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardText().getCssValue("text-align").contains("center"));
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButtonText().getCssValue("text-align").contains("center"));
+        for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardHeading().getCssValue("text-align").contains("center"));
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardText().getCssValue("text-align").contains("center"));
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("text-align").contains("center"));
+            homePage.carouselImgComponent.clickRightArrowButton();
+        }
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
@@ -75,26 +78,32 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(homePage.carouselImgComponent.getLeftArrowButton().isDisplayed());
         softAssert.assertTrue(homePage.carouselImgComponent.getRightArrowButton().isDisplayed());
         softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotsContainer().isDisplayed());
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardHeading().isDisplayed());
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardText().isDisplayed());
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButton().isDisplayed());
+        for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++){
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardHeading().isDisplayed());
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardText().isDisplayed());
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed());
+            homePage.carouselImgComponent.clickRightArrowButton();
+        }
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
     public void checkHoverEffectsFindOutMoreButton(){
-        if(! homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButton().isDisplayed()){
-            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButton()));
-        }
-        softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"),
-                "The card button text isn't white by default");
-        homePage.carouselImgComponent.clickSlickDotByIndex(0);
-        if(! homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButton().isDisplayed()){
-            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButton()));
-        }
-            actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButtonText());
+        for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
+            if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
+            }
+            softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"),
+                    "The card button text isn't white by default");
+            homePage.carouselImgComponent.clickSlickDotByIndex(i);
+            if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
+            }
+            actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText());
             actions.build().perform();
-        softAssert.assertFalse(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).getCardButtonText().getCssValue("background").contains("rgba(255, 255, 255, 1)"),
-                "The card button text hasn't changed after hover");
+            softAssert.assertFalse(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("background").contains("rgba(255, 255, 255, 1)"),
+                    "The card button text hasn't changed after hover");
+            homePage.carouselImgComponent.clickRightArrowButton();
+        }
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
@@ -126,84 +135,4 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"),"The TeachInUkrainian page isn't opened");
         softAssert.assertAll();
     }
-    /*@Test(description = "TUA-845")
-    public void verifyImgCarouselCard1(){
-        performActionsToCheckElementsOnTheImgCard(0,1);
-        ChallengeUnited challengeUnited = new ChallengeUnited(driver);
-        softAssert.assertTrue(driver.getCurrentUrl().contains("challenges/5"));
-        WebElement challengeImageText = challengeUnited.getChallengeImageText();
-       // wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        //softAssert.assertEquals(challengeImageText.getText(), "\"Єдині\" - це 28 днів підтримки у переході на українську");
-        softAssert.assertAll();
-    }
-    @Test(description = "TUA-845")
-    public void verifyImgCarouselCard2(){
-       // homePage.carouselImgComponent.clickSlickDotByIndex(1);
-        performActionsToCheckElementsOnTheImgCard(1,2);
-       ClubsPage clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(20);
-        softAssert.assertTrue(driver.getCurrentUrl().contains("clubs"));
-        softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки "));
-        System.out.println(softAssert.toString());
-        softAssert.assertAll();
-    }
-
-    @Test(description = "TUA-845")
-    public void verifyImgCarouselCard3(){
-        performActionsToCheckElementsOnTheImgCard(2,0);
-        ChallengeTeachInUkrainian challengeTeachInUkrainian = new ChallengeTeachInUkrainian(driver);
-        WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
-        wait.until(ExpectedConditions.visibilityOf(challengeImageText));
-        softAssert.assertTrue(driver.getCurrentUrl().contains("about"));
-        softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
-        softAssert.assertAll();
-    }
-
-    private void verifyThatSlickDotsAreCentered(){
-        softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotsContainer()
-                .getCssValue("justify-content").contains("center"));
-    }
-    private void checkThatSlickDotsChangeColor(int imgCardToCheckIndex, int imgCardAdditionalForSwitchingDuringCheckIndex){
-        System.out.println(homePage.carouselImgComponent.getSlickDotByIndex(imgCardToCheckIndex).getCssValue("background"));
-        if(imgCardToCheckIndex!=0){
-            softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotByIndex(imgCardToCheckIndex).getCssValue("background").contains("rgb(250, 140, 22)"));
-        }else{
-            softAssert.assertTrue(!homePage.carouselImgComponent.getSlickDotByIndex(imgCardToCheckIndex).getCssValue("background").contains("rgb(196, 196, 196)"));
-        }
-        homePage.carouselImgComponent.clickSlickDotByIndex(imgCardAdditionalForSwitchingDuringCheckIndex);
-        wait.until(ExpectedConditions.elementToBeClickable(homePage.carouselImgComponent.getSlickDotByIndex(imgCardToCheckIndex)));
-        wait.until(ExpectedConditions.attributeContains(homePage.carouselImgComponent.getSlickDotByIndex(imgCardAdditionalForSwitchingDuringCheckIndex), "background", "rgb(250, 140, 22)"));
-
-        softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotByIndex(imgCardToCheckIndex).getCssValue("background").contains("rgb(196, 196, 196)"));
-    }
-    private void performActionsToCheckElementsOnTheImgCard(int imgCardToCheckIndex, int imgCardAdditionalForSwitchingDuringCheckIndex){
-       if(imgCardToCheckIndex!=0) {
-           homePage.carouselImgComponent.clickSlickDotByIndex(imgCardToCheckIndex);
-       }
-        verifyImgCardSize();
-        checkThatSlickDotsChangeColor(imgCardToCheckIndex,imgCardAdditionalForSwitchingDuringCheckIndex);
-        verifyThatSlickDotsAreCentered();
-
-        softAssert.assertTrue(homePage.carouselImgComponent.getWebElement().getCssValue("align-items").contains("center"));
-        homePage.carouselImgComponent.clickSlickDotByIndex(imgCardToCheckIndex);
-        if(! homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton().isDisplayed()){
-        wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton()));}
-        homePage.carouselImgComponent.clickSlickDotByIndex(imgCardToCheckIndex);
-        if(! homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton().isDisplayed()){
-            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton()));
-        }
-        softAssert.assertTrue(homePage.carouselImgComponent.getActiveCarouselImgCard().getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"));
-        homePage.carouselImgComponent.clickSlickDotByIndex(imgCardToCheckIndex);
-        if(! homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton().isDisplayed()){
-            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButton()));
-        }else{
-            actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).getCardButtonText());
-            actions.build().perform();
-        }
-        softAssert.assertTrue(homePage.carouselImgComponent.getActiveCarouselImgCard().getCardButton().getCssValue("background").contains("rgb(250, 140, 22)"));
-        System.out.println(homePage.carouselImgComponent.getActiveCarouselImgCard().getCardButtonText().getCssValue("color"));
-        //where to see the color
-        //what happens during 2nd hover????
-        softAssert.assertTrue(homePage.carouselImgComponent.getActiveCarouselImgCard().getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"));
-        homePage.carouselImgComponent.getCarouselImgCardByDataIndex(imgCardToCheckIndex).clickCardButton();
-    }*/
 }

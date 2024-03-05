@@ -29,7 +29,6 @@ public class EditProfilePageWithUserTest extends LoginWithUserTestRunner {
         softAssert.assertAll();
     }
 
-
     @Test(description = "TUA-328", dataProvider = "invalidFirstName")
     public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
         final var emptyFieldErrorMsg = "Введіть Ваше ім'я";
@@ -69,4 +68,18 @@ public class EditProfilePageWithUserTest extends LoginWithUserTestRunner {
         };
     }
 
+    @Test(description = "TUA-866")
+    public void checkVisibilityOfUploadPhotoLink() {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+
+        softAssert.assertTrue(editProfilePopUp.getPhotoLink().isDisplayed());
+        softAssert.assertTrue(editProfilePopUp.getPhotoLink().getText().equals("Фото"));
+        softAssert.assertEquals(editProfilePopUp.getTooltipText(),
+                "Приймас зображення формату JPG / PNG із мінімальною роздільною здатністю 200x200 пікселів"
+                        + " та максимальним розміром файлу 5МВ");
+        softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().isDisplayed());
+        softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().getText().equals("Завантажити фото"));
+        softAssert.assertAll();
+    }
 }

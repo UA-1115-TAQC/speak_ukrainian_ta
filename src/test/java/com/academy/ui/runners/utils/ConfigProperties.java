@@ -28,11 +28,9 @@ public class ConfigProperties {
     public String getAdminPassword() {
         return properties.getProperty("admin.pass");
     }
-
     public String getUserEmail() {
         return properties.getProperty("user.email");
     }
-
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
@@ -45,4 +43,7 @@ public class ConfigProperties {
     public String getManagerPassword() {
         return properties.getProperty("manager.pass");
     }
+    public String getUserFirstname(){return properties.getProperty("user.firstname");}
+    public String getUserLastname(){return properties.getProperty("user.lastname");}
+    public String getUserPhone(){return properties.getProperty("user.phone");}
 }

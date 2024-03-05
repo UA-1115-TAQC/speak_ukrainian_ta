@@ -107,7 +107,6 @@ public class HeaderComponent extends BaseComponent {
 
     public AllNewsPage newsButtonClick() {
         newsButton.click();
-
         return new AllNewsPage(driver);
     }
 

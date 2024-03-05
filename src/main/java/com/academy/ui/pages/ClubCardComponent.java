@@ -27,12 +27,8 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//a[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
-    @FindBy(xpath = "./descendant::div[@class='tags club-tags']")
-    protected List<WebElement> categoryClub;
-
-
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+    private List<WebElement> directionTags;
 
     protected List<DirectionTagComponent> directions;
 

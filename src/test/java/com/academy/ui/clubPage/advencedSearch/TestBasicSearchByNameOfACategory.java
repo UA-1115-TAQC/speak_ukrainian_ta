@@ -21,7 +21,7 @@ public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
         List<ClubCardComponent> clubs2 = clubs.getClubCards();
 
         boolean containsExpectedText = clubs2.stream()
-                .flatMap(component -> component.getCategoryClub().stream())
+                .flatMap(component -> component.getDirectionTags().stream())
                 .anyMatch(component -> component.getText().contains("Танці, хореографія"));
 
         Assert.assertTrue(containsExpectedText);

@@ -38,7 +38,8 @@ public class TestAllEnteredValuesAreSavedClubPopUpWithoutCenter extends LoginWit
    private String coordinates="50.4504, 30.524";
    private String description="test description. -09j2njnsiiu\n" +
            "test description. -09j2njnsiiu";
-private String imagePath = "speak_ukrainian_ta/src/test/java/com/academy/ui/addClub/image.png";
+
+private String imagePath = "speak_ukrainian_ta/src/test/resources/images/image.png";
 private String stepOneSelectedCentre;
     @BeforeMethod
     public void precondition(){

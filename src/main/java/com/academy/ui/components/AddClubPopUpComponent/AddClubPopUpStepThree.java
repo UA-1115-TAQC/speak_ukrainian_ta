@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
@@ -48,13 +49,34 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
-    private WebElement validationCircleIcon;
+    private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
-    private List<WebElement> errorMessages;
+    private List<WebElement> errorMessagesTextarea;
+
+    @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
+    private List<WebElement> clubGalleryUploadedImgs;
+
+    @FindBy(xpath = "./descendant::a[@title='Preview file']")
+    private WebElement previewFile;
+
+    @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
+    private WebElement previewIcon;
+
+    @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
+    @Getter(AccessLevel.NONE)
+    private WebElement uploadedLogoImgContainer;
+    @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
+    @Getter(AccessLevel.NONE)
+    private WebElement uploadedCoverImgContainer;
+
+    private final UploadedImgComponent uploadedLogoImg;
+    private final UploadedImgComponent uploadedCoverImg;
 
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        uploadedCoverImg = new UploadedImgComponent(driver, uploadedCoverImgContainer);
+        uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
     public AddClubPopUpStepThree clickClubLogoDownloadButton(){
@@ -81,7 +103,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     }
 
     public List<String> getErrorMessagesTextList() {
-        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+        return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
     public AddClubPopUpStepThree clearDescriptionTextarea(){
@@ -92,5 +114,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+
+    public UploadedImgComponent getUploadedGalleryImg(int index) {
+        if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
+            return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));
+        } else {
+            throw new RuntimeException("GalleryImg not found by index: " + index);
+        }
     }
 }

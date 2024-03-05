@@ -29,6 +29,7 @@ public class EditProfilePageWithUserTest extends LoginWithUserTestRunner {
         softAssert.assertAll();
     }
 
+
     @Test(description = "TUA-328", dataProvider = "invalidFirstName")
     public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
         final var emptyFieldErrorMsg = "Введіть Ваше ім'я";
@@ -67,4 +68,5 @@ public class EditProfilePageWithUserTest extends LoginWithUserTestRunner {
                 {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
         };
     }
+
 }

@@ -3,12 +3,12 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class EditProfileWithManagerTest extends LoginWithUserTestRunner {
+public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
 

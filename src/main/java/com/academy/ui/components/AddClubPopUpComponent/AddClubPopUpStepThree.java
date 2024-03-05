@@ -15,56 +15,42 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class AddClubPopUpStepThree extends AddClubPopUpContainer{
+public class AddClubPopUpStepThree extends AddClubPopUpContainer {
 
+    private final UploadedImgComponent uploadedLogoImg;
+    private final UploadedImgComponent uploadedCoverImg;
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubLogoTitle;
-
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][2]")
     private WebElement clubCoverTitle;
-
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][3]")
     private WebElement clubGalleryTitle;
-
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][4]")
     private WebElement clubDescriptionTitle;
-
     @FindBy(xpath = "./descendant::input[@id='basic_urlLogo']")
     private WebElement clubLogoDownloadInput;
-
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][1]")
     private WebElement clubLogoDownloadButton;
-
     @FindBy(xpath = "./descendant::input[@id='basic_urlBackground']")
     private WebElement clubCoverDownloadInput;
-
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][2]")
     private WebElement clubCoverDownloadButton;
-
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]")
     private WebElement clubGalleryDownloadButton;
-
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]//input")
     private WebElement clubGalleryDownloadInput;
-
     @FindBy(xpath = "./descendant::textarea[@id='basic_description']")
     private WebElement clubDescriptionTextarea;
-
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
-    private WebElement validationCircleIcon;
-
+    private WebElement validationTextareaCircleIcon;
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
-    private List<WebElement> errorMessages;
-
+    private List<WebElement> errorMessagesTextarea;
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
-
     @FindBy(xpath = "./descendant::a[@title='Preview file']")
     private WebElement previewFile;
-
     @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
     private WebElement previewIcon;
-
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedLogoImgContainer;
@@ -72,30 +58,28 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @Getter(AccessLevel.NONE)
     private WebElement uploadedCoverImgContainer;
 
-    private final UploadedImgComponent uploadedLogoImg;
-    private final UploadedImgComponent uploadedCoverImg;
-
     public AddClubPopUpStepThree(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
         uploadedCoverImg = new UploadedImgComponent(driver, uploadedCoverImgContainer);
         uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
-    public AddClubPopUpStepThree clickClubLogoDownloadButton(){
+    public AddClubPopUpStepThree clickClubLogoDownloadButton() {
         clubLogoDownloadButton.click();
         return this;
     }
-    public AddClubPopUpStepThree clickClubGalleryDownloadButton(){
+
+    public AddClubPopUpStepThree clickClubGalleryDownloadButton() {
         clubGalleryDownloadButton.click();
         return this;
     }
 
-    public AddClubPopUpStepThree clickClubCoverDownloadButton(){
+    public AddClubPopUpStepThree clickClubCoverDownloadButton() {
         clubCoverDownloadButton.click();
         return this;
     }
 
-    public void clickCompleteButton(){
+    public void clickCompleteButton() {
         getNextStepButton().click();
     }
 
@@ -105,10 +89,10 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     }
 
     public List<String> getErrorMessagesTextList() {
-        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+        return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
-    public AddClubPopUpStepThree clearDescriptionTextarea(){
+    public AddClubPopUpStepThree clearDescriptionTextarea() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
             clubDescriptionTextarea.sendKeys(Keys.COMMAND + "a", Keys.DELETE);

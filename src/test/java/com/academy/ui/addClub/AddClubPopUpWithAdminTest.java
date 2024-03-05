@@ -1,6 +1,11 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.*;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
@@ -15,11 +20,11 @@ import java.util.List;
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
-    private static final String CLUB_NAME = "Add club name";
+    private static final String VALID_CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";
-    private static final String MIN_AGE = "5";
-    private static final String MAX_AGE = "8";
-    private static final String TELEPHONE_NUMBER = "0987656453";
+    private static final String VALID_MIN_AGE = "2";
+    private static final String VALID_MAX_AGE = "18";
+    private static final String VALID_TELEPHONE_NUMBER = "0987656453";
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
@@ -39,16 +44,16 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     }
 
     private void fillStepOneWithValidDataPreconditions() {
-        stepOne.getClubNameInputElement().setValue(CLUB_NAME);
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
-                .setMinAgeInput(MIN_AGE)
-                .setMaxAgeInput(MAX_AGE)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE)
                 .clickNextStepButton();
     }
 
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
-        stepTwo.getTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
         stepTwo.clickNextStepButton();
     }
 
@@ -66,11 +71,11 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepThree = addClubPopUpComponent.getStepThreeContainer();
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(),
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
                 "Should be no errors with 1500 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(),
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
                 "Should be no errors with 50 symbols");
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1501_SYMBOLS);
@@ -114,13 +119,13 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertTrue(addLocationPopUpComponent.getLocationCoordinatesInputElement()
                 .getValidationCircleIcon().getAttribute("class").contains(VALID_CIRCLE_ICON));
 
-        addLocationPopUpComponent.getLocationTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        addLocationPopUpComponent.getLocationTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
         softAssert.assertTrue(addLocationPopUpComponent.getLocationTelephoneInputElement()
                 .getValidationCircleIcon().getAttribute("class").contains(VALID_CIRCLE_ICON));
 
         addLocationPopUpComponent.getAddLocationButton().click();
 
-        stepTwo.getTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().getValidationCircleIcon()
                 .getAttribute("class").contains(VALID_CIRCLE_ICON));
 
@@ -148,7 +153,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(), "Should be no errors with 50 symbols");
 
         addClubPopUpComponent.getCloseButton().click();
         softAssert.assertAll();
@@ -280,6 +285,236 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 "Step Previous Step Button should be displayed");
         softAssert.assertTrue(stepThree.getNextStepButton().isDisplayed(),
                 "Step Submit Button should be displayed");
+    }
+
+    @Test(description = "TUA-928'")
+    public void checkNewClubAddedWithCorrectedData() {
+
+        final String INVALID_CLUB_NAME = "ÄыЁЪùייראפ";
+        final String VALID_CLUB_NAME = "ПОРівд(*^*&%jhTY";
+        final String ERROR_SYMBOL_MESSAGE = "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи";
+        final String TELEPHONE_ERROR_SYMBOL_MESSAGE = "Телефон не може містити спеціальні символи, літери та пробіли";
+        final String TELEPHONE_ERROR_FORMAT_MESSAGE = "Телефон не відповідає вказаному формату";
+        final String INVALID_MIN_AGE = "0";
+        final String INVALID_MAX_AGE = "35";
+        final String INVALID_TELEPHONE_NUMBER = "&*^роYT8";
+        final String INVALID_DESCRIPTION = "%;№?*(?:фЙїqfG123456789 ÄыЁЪ ¥¼µ€";
+
+        stepOne.getClubNameInputElement().setValue(INVALID_CLUB_NAME);
+        softAssert.assertTrue(stepOne
+                        .getClubNameInputElement()
+                        .getErrorMessagesTextList()
+                        .contains(ERROR_SYMBOL_MESSAGE),
+                "Error message should have text " + ERROR_SYMBOL_MESSAGE);
+
+        Actions actions = new Actions(driver);
+
+        stepOne.setMinAgeInput(INVALID_MIN_AGE);
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertEquals(stepOne
+                        .getMinAgeInput()
+                        .getAttribute("value"),
+                VALID_MIN_AGE);
+
+        stepOne.setMaxAgeInput(INVALID_MAX_AGE);
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertEquals(stepOne
+                        .getMaxAgeInput()
+                        .getAttribute("value"),
+                VALID_MAX_AGE);
+
+        stepOne.clickNextStepButton();
+        softAssert.assertEquals(stepOne
+                        .getClubNameInputElement()
+                        .getInput()
+                        .getAttribute("value"),
+                INVALID_CLUB_NAME);
+        softAssert.assertEquals(stepOne
+                        .getMinAgeInput()
+                        .getAttribute("value"),
+                VALID_MIN_AGE);
+        softAssert.assertEquals(stepOne
+                        .getMaxAgeInput()
+                        .getAttribute("value"),
+                VALID_MAX_AGE);
+
+        AddClubInputElement nameInput = stepOne.getClubNameInputElement();
+        nameInput.clearInput();
+        nameInput.setValue(VALID_CLUB_NAME);
+        softAssert.assertTrue(nameInput
+                        .getValidationCircleIcon()
+                        .getAttribute("class")
+                        .contains(VALID_CIRCLE_ICON),
+                "Green circle check icon should appear");
+
+        stepOne.selectCategory(CATEGORY);
+
+        stepOne.clickNextStepButton();
+
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddClubInputElement telephoneInput = stepTwo.getTelephoneInputElement();
+        telephoneInput.setValue(INVALID_TELEPHONE_NUMBER);
+        softAssert.assertTrue(telephoneInput
+                        .getValidationCircleIcon()
+                        .getAttribute("class")
+                        .contains(INVALID_CIRCLE_ICON),
+                "Red circle close icon should appear");
+        softAssert.assertTrue(telephoneInput
+                        .getErrorMessagesTextList().contains(TELEPHONE_ERROR_SYMBOL_MESSAGE),
+                "Error message should have text " + TELEPHONE_ERROR_SYMBOL_MESSAGE);
+
+        softAssert.assertTrue(telephoneInput
+                        .getErrorMessagesTextList().contains(TELEPHONE_ERROR_FORMAT_MESSAGE),
+                "Error message should have text " + TELEPHONE_ERROR_FORMAT_MESSAGE);
+
+        stepTwo.clickNextStepButton();
+        softAssert.assertEquals(telephoneInput
+                        .getInput()
+                        .getAttribute("value"),
+                INVALID_TELEPHONE_NUMBER);
+        telephoneInput.clearInput();
+        telephoneInput.setValue(VALID_TELEPHONE_NUMBER);
+        softAssert.assertTrue(telephoneInput
+                        .getValidationCircleIcon()
+                        .getAttribute("class")
+                        .contains(VALID_CIRCLE_ICON),
+                "Green circle check icon should appear");
+
+        stepTwo.clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(INVALID_DESCRIPTION);
+        softAssert.assertTrue(stepThree
+                        .getValidationTextareaCircleIcon()
+                        .getAttribute("class")
+                        .contains(INVALID_CIRCLE_ICON),
+                "Red circle close icon should appear");
+        softAssert.assertTrue(stepThree
+                        .getErrorMessagesTextList()
+                        .contains(ERROR_SYMBOL_MESSAGE),
+                "Error message should have text " + ERROR_SYMBOL_MESSAGE);
+
+        stepThree.clickCompleteButton();
+        softAssert.assertEquals(stepThree
+                        .getClubDescriptionTextarea()
+                        .getAttribute("value"),
+                INVALID_DESCRIPTION);
+
+        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
+        softAssert.assertTrue(stepThree
+                        .getValidationTextareaCircleIcon()
+                        .getAttribute("class")
+                        .contains(VALID_CIRCLE_ICON),
+                "Green circle check icon should appear");
+
+        stepThree.clickCompleteButton();
+
+        softAssert.assertTrue(driver.getCurrentUrl().equals(configProperties.getBaseUrl()),
+                "Home Page should be opened after adding club");
+
+        softAssert.assertAll();
+
+    }
+
+    @Test(description = "TUA-930")
+    public void checkStepOneClubNameWithInvalidData() {
+        String incorrectClubNameErrorMessage = "Некоректна назва гуртка";
+        String enterNameClubErrorMessage = "Введіть назву гуртка";
+        String invalidClubName = "123Qw*&#єЇ".repeat(11);
+
+        stepOne = addClubPopUpComponent.getStepOneContainer();
+
+        stepOne.getClubNameInputElement().setValue(" ÄыЁЪùייראפ");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("ƻ®©¥¼µ€");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appear : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("       ");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : "
+                        + "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue("@fЙ8");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : Назва гуртка закоротка");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(enterNameClubErrorMessage));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepOne.getClubNameInputElement().setValue(invalidClubName);
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getErrorMessagesTextList().get(0).equals(incorrectClubNameErrorMessage),
+                "Below the field error message in the red color appears : Назва гуртка задовга");
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                        .getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-954")
+    public void checkStepTwoTelephoneInvalidData() {
+        String telephoneErrorMessage = "Телефон не відповідає вказаному формату";
+
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+
+        stepTwo.getTelephoneInputElement().setValue("fgtskana");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                "The error message is displayed : Телефон не може містити літери");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepTwo.getTelephoneInputElement().clearInput().setValue("/*-+()");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                "The error message is displayed : Телефон не може містити спеціальні символи");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        stepTwo.getTelephoneInputElement().clearInput().setValue("06725841");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage));
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().
+                getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
     }
 
     @Test(description = "LVTEACH-23")

@@ -115,10 +115,27 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextList().isEmpty(), "Should be no errors with 50 symbols");
 
         stepThree.clickCompleteButton();
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-179")
+    public void checkWhenAddClubTextareaFieldIsBlank() {
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea();
+        stepThree.clickCompleteButton();
+
+        softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 
     @Test(description = "TUA-925")
@@ -137,22 +154,5 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();
-    }
-
-    @Test(description = "TUA-179")
-    public void checkWhenAddClubTextareaFieldIsBlank() {
-        fillStepOneWithValidDataPreconditions();
-        stepOne.clickNextStepButton();
-
-        stepTwo = addClubPopUpComponent.getStepTwoContainer();
-        fillStepTwoWithValidDataPreconditions();
-        stepTwo.clickNextStepButton();
-
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.clearDescriptionTextarea();
-        stepThree.clickCompleteButton();
-
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
-        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 }

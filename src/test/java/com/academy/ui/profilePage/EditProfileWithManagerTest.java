@@ -5,6 +5,7 @@ import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -30,7 +31,8 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(editProfile.getPhotoLink().isDisplayed());
 
         String actualResult = editProfile.getTooltipText();
-        softAssert.assertEquals(actualResult, "Приймас зображення формату JPG / PNG із мінімальною роздільною здатністю 200x200 пікселів та максимальним розміром файлу 5МВ", "Error messages are different");
+        softAssert.assertEquals(actualResult, "Приймас зображення формату JPG / PNG із мінімальною роздільною" +
+                " здатністю 200x200 пікселів та максимальним розміром файлу 5МВ", "Error messages are different");
         softAssert.assertTrue(editProfile.getPhotoToolTipForm().isDisplayed());
 
         softAssert.assertTrue(editProfile.getUploadPhotoLink().isDisplayed());
@@ -173,5 +175,39 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
                 "The password is invisible");
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-835", dataProvider = "invalidFirstName")
+    public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
+        final String emptyFieldErrorMsg = "Введіть Ваше ім'я";
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+
+        editProfile.getFirstNameElement().clearInput().setValue(firstName);
+        softAssert.assertEquals(editProfile.getFirstNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled(),
+                "Submit button should not be enabled");
+
+        editProfile.getFirstNameElement().clearInput();
+        softAssert.assertEquals(editProfile.getFirstNameElement().getErrorMessagesTextList().get(0), emptyFieldErrorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled(),
+                "Submit button should not be enabled");
+
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name = "invalidFirstName")
+    private Object[][] invalidFirstNameDataProvider() {
+        return new Object[][] {
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
+                {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
+                {"1234", "Ім'я не може містити цифри"},
+                {"-Name", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"< Name>", "Ім'я не може містити спеціальні символи"},
+                {"'Name", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"<Name >", "Ім'я не може містити спеціальні символи"},
+                {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
+        };
     }
 }

@@ -6,20 +6,25 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Homepage_Buttons_OnTheBody_OutsideComponents_Test extends HomePageTestRunner {
-    @Test
-    public void check_find_out_more_button_on_the_body(){
+    @Test(description = "TUA-21")
+    public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = home.clickChallengeFindOutMoreButton().getChallengeImageText();
-       Assert.assertTrue(driver.getCurrentUrl().contains("challenge"));
-       Assert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+       softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"), "The challenge page isn't opened");
+       softAssert.assertTrue(challengeImageText.getText().contains("Навчай українською"));
+        softAssert.assertAll();
     }
-    @Test
-    public void check_club_heading_button(){
+    @Test(description = "TUA-21")
+    public void checkClubHeadingButton(){
         WebElement challengeImageText = home.clickSpeakingClubHeading().getChallengeImageText();
-        Assert.assertTrue(driver.getCurrentUrl().contains("speakingclub"));
-        Assert.assertTrue(challengeImageText.getText().contains("Клуб української мови \"Розмовляй\""));
+        softAssert.assertTrue(driver.getCurrentUrl().contains("speakingclub"),
+                "The speaking club page isn't opened");
+        softAssert.assertTrue(challengeImageText.getText().contains("Клуб української мови \"Розмовляй\""));
+        softAssert.assertAll();
     }
-    @Test
-    public void check_image_facebook_link(){
-        Assert.assertTrue(home.clickSpeakingClubImage().getFacebookLogo().isDisplayed());
+    @Test(description = "TUA-21")
+    public void checkImageFacebookLink(){
+        softAssert.assertTrue(home.clickSpeakingClubImage().getFacebookLogo().isDisplayed(),
+                "The facebook page isn't opened");
+        softAssert.assertAll();
     }
 }

@@ -5,7 +5,11 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.ProfileClubCardComponent;
+import com.academy.ui.pages.ClubCardComponent;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -23,6 +27,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String VALID_DESCRIPTION = "Lorem ipsum dolor sit amet orci aliquam.";
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
@@ -137,4 +142,33 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
+
+    @Test(description = "TUA-923")
+    public void checkIfDefaultIconIsSet(){
+        softAssert = new SoftAssert();
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        ProfilePage profilePage = stepThree.clickCompleteButton();
+
+        List<ProfileClubCardComponent> list = profilePage.getMyClubs();
+        ProfileClubCardComponent newClub = null;
+        for(ProfileClubCardComponent club : list){
+            if(club.getClubName().equals(VALID_CLUB_NAME)){
+                newClub = club;
+            }
+        }
+
+        if(newClub == null){
+            softAssert.fail("Club was not added");
+            softAssert.assertAll();
+            return;
+        }
+
+        softAssert.assertNotEquals(newClub.getIconSrc(), "");
+        softAssert.assertAll();
+    }
+
 }

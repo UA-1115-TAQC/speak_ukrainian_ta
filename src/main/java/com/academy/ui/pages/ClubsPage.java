@@ -66,7 +66,7 @@ public class ClubsPage extends BasePage {
 
     private List<CenterCardComponent> createCenterComponents() {
         List<CenterCardComponent> centers = new ArrayList<>();
-        for (WebElement element : clubCardsWebElement) {
+        for (WebElement element : centerCardsWebElement) {
             centers.add(new CenterCardComponent(driver, element));
         }
         return centers;

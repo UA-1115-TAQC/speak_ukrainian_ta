@@ -3,6 +3,7 @@ package com.academy.ui.pages;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import com.academy.ui.components.ProfileClubCardComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -55,6 +56,9 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
 
+    @FindBy(xpath = "//div[contains(@class,'user-club-content')]//div[contains(@class, 'ant-space-item')]")
+    private List<WebElement> myClubsWebElement;
+    private List<ClubCardComponent> myClubs;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -114,5 +118,13 @@ public class ProfilePage extends BasePage {
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
+    }
+
+    public List<ProfileClubCardComponent> getMyClubs() {
+        List<ProfileClubCardComponent> clubs = new ArrayList<>();
+        for (WebElement element : myClubsWebElement) {
+            clubs.add(new ProfileClubCardComponent(driver, element));
+        }
+        return clubs;
     }
 }

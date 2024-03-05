@@ -19,6 +19,9 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
 
+    @FindBy(xpath = ".//div[contains(@class,'title')]//img[contains(@class,'icon')]")
+    protected WebElement icon;
+
     @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;
 
@@ -65,6 +68,10 @@ public class ClubCardComponent extends BaseComponent {
 
     public String getClubName(){
         return getTitle().getText();
+    }
+
+    public String getIconSrc(){
+        return getIcon().getAttribute("src");
     }
 
     public boolean clubNameContains(String text){

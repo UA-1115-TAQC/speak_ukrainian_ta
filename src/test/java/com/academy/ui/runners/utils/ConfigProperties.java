@@ -45,10 +45,7 @@ public class ConfigProperties {
     public String getUserFirstname(){return properties.getProperty("user.firstname");}
     public String getUserLastname(){return properties.getProperty("user.lastname");}
     public String getUserPhone(){return properties.getProperty("user.phone");}
-<<<<<<< HEAD
     public void setManagerPassword(String pass){
         properties.setProperty("manager.pass ", pass);
     }
-=======
->>>>>>> 659ff91ef23708e4c5b885aacceb12dc9e612300
 }

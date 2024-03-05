@@ -3,7 +3,6 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
-import com.academy.ui.runners.LoginWithUserTestRunner;
 import com.academy.ui.runners.randomvaluesgenerators.RandomPasswordGenerator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -17,7 +16,7 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 
 //change to LoginWithManagerTestRunner
-public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunner {
+public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunner{
     private EditProfilePopUp editProfilePopUpComponent;
     SoftAssert softAssert;
     private String newPassword;

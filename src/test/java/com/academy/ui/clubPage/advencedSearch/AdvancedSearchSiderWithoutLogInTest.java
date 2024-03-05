@@ -12,13 +12,18 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
     private AdvancedSearchSiderComponent advancedSearchSider;
     private ClubsPage clubsPage;
     private SoftAssert softAssert;
+
+    private record ClubAddress(String name, String address) {
+    }
 
     @BeforeMethod
     public void advancedSearchSiderTestSetUp() {
@@ -39,16 +44,14 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         String cityName = dropdownCity.getInputContent().getText();
         softAssert.assertEquals(cityName, DEFAULT_CITY);
 
-        int pagesShowed = clubsPage.getSwitchPagination().getPaginationItems().size();
-        String pageNumber = clubsPage.getSwitchPagination()
-                .getPaginationItems()
-                .get(pagesShowed - 1)
-                .getAttribute("title");
+        List<ClubAddress> allCardsAddresses = new ArrayList<>();
         int currentPage = 1;
-        while (currentPage < Integer.parseInt(pageNumber)) {
-            getCardsFromCurrentPage(currentPage, DEFAULT_CITY);
+        while (currentPage < getPagesNumber()) {
+            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage, DEFAULT_CITY));
             currentPage++;
         }
+        allCardsAddresses.forEach(club -> softAssert.assertTrue(club.address.contains(DEFAULT_CITY),
+                "Address of club " + club.name + " should contain selected city " + DEFAULT_CITY));
 
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         softAssert.assertFalse(dropdownCity.clickDropDown().getDropDownElement().getItemsList().isEmpty(),
@@ -64,13 +67,21 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    private void getCardsFromCurrentPage(int page, String city) {
+    private List<ClubAddress> getCardsFromCurrentPageByCity(int page, String city) {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            softAssert.assertTrue(clubCard.getAddress().getText().contains(city),
-                    "Address in the Card on page " + page + " should contain selected city " + city);
-        }
+        List<ClubAddress> list = new ArrayList<>();
+        clubsPage.getClubCards().forEach(card -> list.add(new ClubAddress(card.getTitle().getText(), card.getAddress().getText())));
         clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        return list;
+    }
+
+    private int getPagesNumber() {
+        int pagesShowed = clubsPage.getSwitchPagination().getPaginationItems().size();
+        String pagesNumber = clubsPage.getSwitchPagination()
+                .getPaginationItems()
+                .get(pagesShowed - 1)
+                .getAttribute("title");
+        return Integer.parseInt(pagesNumber);
     }
 
     @Test(description = "TUA-858")
@@ -85,21 +96,27 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         LocationSearchSiderElement dropdownCity = advancedSearchSider.getSearchCityElement();
         softAssert.assertFalse(dropdownCity.clickDropDown().getDropDownElement().getItemsList().isEmpty(),
                 "City dropdown shouldn't be empty");
+
         dropdownCity.selectItem(SELECTED_CITY);
         String cityName = dropdownCity.getInputContent().getText();
         softAssert.assertEquals(cityName, SELECTED_CITY, "Dropdown value should be " + SELECTED_CITY);
-
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            softAssert.assertTrue(clubCard.getAddress().getText().contains(SELECTED_CITY),
-                    "Address in the Card should contain selected city " + cityName);
+        List<ClubAddress> allCardsAddresses = new ArrayList<>();
+        int currentPage = 1;
+        while (currentPage < getPagesNumber()) {
+            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage, SELECTED_CITY));
+            currentPage++;
         }
+        allCardsAddresses.forEach(club -> softAssert.assertTrue(club.address.contains(SELECTED_CITY),
+                "Address of club " + club.name + " should contain selected city " + SELECTED_CITY));
         dropdownCity.clickDropDown().selectItem(DEFAULT_CITY);
 
         clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(5);
         for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-
-            softAssert.assertTrue(clubCard.getWebElement().getAttribute("innerText").contains(ONLINE_CLUB_TEXT),
+            softAssert.assertTrue(clubCard
+                            .getWebElement()
+                            .getAttribute("innerText")
+                            .contains(ONLINE_CLUB_TEXT),
                     "Club " + clubCard.getTitle().getText() + " should contain label \"Гурток онлайн\"");
         }
         clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(10);

@@ -3,7 +3,6 @@ package com.academy.ui.pages;
 import com.academy.ui.components.BaseComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,7 +28,7 @@ public class ClubCardComponent extends BaseComponent {
     protected WebElement detailsButton;
 
     @FindBy(xpath = "./descendant::div[@class='tags club-tags']")
-    protected WebElement categoryClub;
+    protected List<WebElement> categoryClub;
 
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
@@ -53,10 +52,6 @@ public class ClubCardComponent extends BaseComponent {
 
     public void clickTitle() {
         getTitle().click();
-    }
-
-    public String getCategoryClub(){
-        return categoryClub.getText();
     }
 
     public void clickAddress() {

@@ -91,6 +91,34 @@ public class RegistrationPopupComponent extends BasePopUp {
         }
     }
 
+    public InputWithIconElement getFirstNameInput() {
+        return firstNameInput;
+    }
+
+    public InputWithIconElement getLastNameInput() {
+        return lastNameInput;
+    }
+
+    public InputWithIconElement getPhoneInput() {
+        return phoneInput;
+    }
+
+    public InputWithIconElement getPasswordConfirmationInput() {
+        return passwordConfirmationInput;
+    }
+
+    public InputWithIconElement getPasswordInput() {
+        return passwordInput;
+    }
+
+    public InputWithIconElement getEmailInput() {
+        return emailInput;
+    }
+
+    public WebElement getRegistrationButton() {
+        return registrationButton;
+    }
+
     public RegistrationPopupComponent clickSetUserButton() {
         userTypeButton.click();
         return this;

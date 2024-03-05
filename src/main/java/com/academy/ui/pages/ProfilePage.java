@@ -9,6 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class ProfilePage extends BasePage {
@@ -38,12 +44,17 @@ public class ProfilePage extends BasePage {
     private WebElement myCentersDropDown;
     @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
     private WebElement addButton;
+
+    protected WebElement addButtonAddClubOption;
+    protected WebElement addButtonAddCenterOption;
+
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати гурток']")
     private WebElement addClubButton;
     @FindBy(xpath = "./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")
     private WebElement editUserModalForm;
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
+
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -61,6 +72,19 @@ public class ProfilePage extends BasePage {
 
     public void centersDropDownClick() {
         myCentersDropDown.click();
+    }
+
+    public List<WebElement> addButtonClick(){
+        addButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
+        List<WebElement> addButtonDropdown = new ArrayList<>();
+        addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("club"))));
+        addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("center"))));
+        return addButtonDropdown;
+    }
+    private String getAddButtonOptionStringPath(String name){
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
     }
 
     public void hoverAddButton() {

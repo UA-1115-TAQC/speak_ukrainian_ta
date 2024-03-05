@@ -4,7 +4,6 @@ import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,7 +32,7 @@ public class ClubCardComponent extends BaseComponent {
     protected WebElement detailsButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
-    @Getter(AccessLevel.NONE)private List<WebElement> directionTags;
+    private List<WebElement> directionTags;
 
     @FindBy(xpath = "//div[@class='ant-modal-root css-1kvr9ql']")
     @Getter(AccessLevel.NONE)private WebElement popUpWebElement;

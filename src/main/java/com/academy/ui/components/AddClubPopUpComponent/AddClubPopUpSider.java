@@ -19,6 +19,8 @@ public class AddClubPopUpSider extends BaseComponent {
 
     @FindBy(xpath = "./descendant::span[@class='ant-steps-icon'][2]")
     private WebElement secondStepIcon;
+    @FindBy(xpath = "//descendant::div[@class='ant-steps-item-icon'][2]")
+    private WebElement secondStepIconBackground;
 
     @FindBy(xpath = "./descendant::span[@class='ant-steps-icon'][3]")
     private WebElement thirdStepIcon;

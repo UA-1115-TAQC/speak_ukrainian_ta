@@ -90,6 +90,14 @@ public class EditProfilePopUp extends BasePopUp {
     protected WebElement newPasswordInputNode;
     @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[3]")
     protected WebElement confirmPasswordInputNode;
+    @FindBy(xpath = "./descendant:://span[@class=\"add-club-upload\"]")
+    private WebElement downloadPhotoLink;
+
+    @FindBy(xpath = "./descendant::input[@id='edit_urlLogo']")
+    private WebElement downloadPhotoInput;
+
+    @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][1]")
+    private WebElement downloadPhotoButton;
 
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;

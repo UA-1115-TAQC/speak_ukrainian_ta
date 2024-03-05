@@ -52,6 +52,9 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
+    private List<WebElement> errorMessages;
+    @FindBy(xpath = "//span[contains(@class,\"ant-upload-list-item-name\")]")
+    private List<WebElement> uploadedElementsListNode;
     private List<WebElement> errorMessagesTextarea;
 
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
@@ -114,6 +117,9 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
             clubDescriptionTextarea.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         return this;
+    }
+    public List<WebElement> getAllUploadedElements() {
+        return getUploadedElementsListNode();
     }
 
     public UploadedImgComponent getUploadedGalleryImg(int index) {

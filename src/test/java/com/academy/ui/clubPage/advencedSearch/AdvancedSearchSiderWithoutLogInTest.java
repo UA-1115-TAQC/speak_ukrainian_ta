@@ -5,16 +5,13 @@ import com.academy.ui.components.ClubInfoPopUp;
 import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
-import com.academy.ui.pages.DirectionTagComponent;
 import com.academy.ui.runners.BaseTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
@@ -23,6 +20,12 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
     private SoftAssert softAssert;
 
     private record ClubAddress(String name, String address) {
+    }
+
+    private record ClubCategory(String name, List<String> categoryList) {
+    }
+
+    private record ClubAge(String name, List<Integer> ageList) {
     }
 
     @BeforeMethod
@@ -45,10 +48,8 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertEquals(cityName, DEFAULT_CITY);
 
         List<ClubAddress> allCardsAddresses = new ArrayList<>();
-        int currentPage = 1;
-        while (currentPage < getPagesNumber()) {
-            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage, DEFAULT_CITY));
-            currentPage++;
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage));
         }
         allCardsAddresses.forEach(club -> softAssert.assertTrue(club.address.contains(DEFAULT_CITY),
                 "Address of club " + club.name + " should contain selected city " + DEFAULT_CITY));
@@ -67,15 +68,76 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    private List<ClubAddress> getCardsFromCurrentPageByCity(int page, String city) {
+    private List<ClubAddress> getCardsFromCurrentPageByCity(int page) {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<ClubAddress> list = new ArrayList<>();
-        clubsPage.getClubCards().forEach(card -> list.add(new ClubAddress(card.getTitle().getText(), card.getAddress().getText())));
-        clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        if (!clubsPage.isClubsPageEmpty()) {
+            clubsPage.getClubCards().forEach(card -> list.add(new ClubAddress(card.getTitle().getText(), card.getAddress().getText())));
+            clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        }
+        return list;
+    }
+
+    private List<String> getCardsFromCurrentPage() {
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
+        List<String> list = new ArrayList<>();
+        if (!clubsPage.isClubsPageEmpty()) {
+            clubsPage.getClubCards().forEach(card -> list.add(card.getTitle().getText()));
+        }
+        return list;
+    }
+
+    private List<String> getCardsFromCurrentPageByOnline(int page) {
+        final String ONLINE_TEXT = "Гурток онлайн";
+        List<String> list = new ArrayList<>();
+        if (!clubsPage.isClubsPageEmpty()) {
+            clubsPage.getClubCards().stream().filter(card -> card
+                            .getWebElement()
+                            .getAttribute("innerText")
+                            .contains(ONLINE_TEXT))
+                    .forEach(card -> list.add(card.getTitle().getText()));
+            clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        }
+        return list;
+    }
+
+    private List<ClubCategory> getCardsFromCurrentPageByCategory(int page) {
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
+        List<ClubCategory> list = new ArrayList<>();
+        if (!clubsPage.isClubsPageEmpty()) {
+            for (ClubCardComponent card : clubsPage.getClubCards()) {
+                ClubInfoPopUp clubInfoPopUp = card.clickTitle();
+                clubInfoPopUp.waitPopUpOpen(5);
+                List<String> directionsList = clubInfoPopUp
+                        .getDirections()
+                        .stream()
+                        .map(direction -> direction.getName().getText())
+                        .toList();
+                list.add(new ClubCategory(card.getTitle().getText(), directionsList));
+                clubInfoPopUp.getCloseButton().click();
+            }
+            clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        }
+        return list;
+    }
+
+    private List<ClubAge> getCardsFromCurrentPageByAge(int page) {
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
+        List<ClubAge> list = new ArrayList<>();
+        if (!clubsPage.isClubsPageEmpty()) {
+            for (ClubCardComponent card : clubsPage.getClubCards()) {
+                ClubInfoPopUp clubInfoPopUp = card.clickTitle();
+                clubInfoPopUp.waitPopUpOpen(5);
+                list.add(new ClubAge(card.getTitle().getText(), clubInfoPopUp.getClubsAgeList()));
+                clubInfoPopUp.getCloseButton().click();
+            }
+            clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(page + 1));
+        }
         return list;
     }
 
     private int getPagesNumber() {
+        if (!clubsPage.isElementPresent(clubsPage.getSwitchPagination().getWebElement())) return 1;
         int pagesShowed = clubsPage.getSwitchPagination().getPaginationItems().size();
         String pagesNumber = clubsPage.getSwitchPagination()
                 .getPaginationItems()
@@ -90,7 +152,6 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         final String DEFAULT_CITY = "Київ";
         final String CATEGORY = "Спортивні секції";
         final String AGE = "7";
-        final String ONLINE_CLUB_TEXT = "Гурток онлайн";
         softAssert.assertTrue(advancedSearchSider.getWebElement().isDisplayed(),
                 "AdvancedSearchSider should be displayed");
         LocationSearchSiderElement dropdownCity = advancedSearchSider.getSearchCityElement();
@@ -100,63 +161,79 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         dropdownCity.selectItem(SELECTED_CITY);
         String cityName = dropdownCity.getInputContent().getText();
         softAssert.assertEquals(cityName, SELECTED_CITY, "Dropdown value should be " + SELECTED_CITY);
+
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<ClubAddress> allCardsAddresses = new ArrayList<>();
-        int currentPage = 1;
-        while (currentPage < getPagesNumber()) {
-            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage, SELECTED_CITY));
-            currentPage++;
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsAddresses.addAll(getCardsFromCurrentPageByCity(currentPage));
         }
         allCardsAddresses.forEach(club -> softAssert.assertTrue(club.address.contains(SELECTED_CITY),
                 "Address of club " + club.name + " should contain selected city " + SELECTED_CITY));
+
         dropdownCity.clickDropDown().selectItem(DEFAULT_CITY);
 
         clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(5);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            softAssert.assertTrue(clubCard
-                            .getWebElement()
-                            .getAttribute("innerText")
-                            .contains(ONLINE_CLUB_TEXT),
-                    "Club " + clubCard.getTitle().getText() + " should contain label \"Гурток онлайн\"");
-        }
-        clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(10);
 
-        int countOnlineClubs = 0;
-        for (ClubCardComponent card : clubsPage.getClubCards()) {
-            if (card.getWebElement().getAttribute("innerText").contains(ONLINE_CLUB_TEXT)) {
-                countOnlineClubs++;
-            }
+        List<String> allCards = new ArrayList<>();
+        List<String> allCardsOnline = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCards.addAll(getCardsFromCurrentPage());
+            allCardsOnline.addAll(getCardsFromCurrentPageByOnline(currentPage));
         }
-        softAssert.assertNotEquals(clubsPage.getClubCards().size(), countOnlineClubs,
+        softAssert.assertEquals(allCards.size(), allCardsOnline.size(),
+                "All club's should contain label \"Гурток онлайн\"");
+
+        clubsPage = clubsPage.getSearchSider().checkOnlineCheckBox().waitUntilClubsPageIsLoaded(5);
+
+        List<String> allCardsAfterRestore = new ArrayList<>();
+        List<String> allCardsOnlineAfterRestore = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsAfterRestore.addAll(getCardsFromCurrentPage());
+            allCardsOnlineAfterRestore.addAll(getCardsFromCurrentPageByOnline(currentPage));
+        }
+        softAssert.assertNotEquals(allCardsAfterRestore.size(), allCardsOnlineAfterRestore.size(),
                 "Cards list should restore all cards after filter with OnlineClubs is off");
 
         clubsPage = clubsPage.getSearchSider().checkDirectionCheckBox(CATEGORY).waitUntilClubsPageIsLoaded(5);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            List<String> list = new ArrayList<>();
-            for (DirectionTagComponent direction : clubCard.getDirections()) {
-                list.add(direction.getName().getText());
-            }
-            softAssert.assertTrue(list.contains(CATEGORY),
-                    "Club " + clubCard.getTitle().getText() + " should contain category " + CATEGORY);
+
+        List<ClubCategory> allCardsCategories = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsCategories.addAll(getCardsFromCurrentPageByCategory(currentPage));
         }
+        allCardsCategories.forEach(card -> softAssert.assertTrue(card.categoryList.contains(CATEGORY),
+                "Club " + card.name + " should contain category " + CATEGORY));
+
         clubsPage = clubsPage.getSearchSider().checkDirectionCheckBox(CATEGORY).waitUntilClubsPageIsLoaded(5);
-        int countCategories = 0;
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            countCategories += clubCard.getListOfDirectionsTitles().contains(CATEGORY) ? 1 : 0;
+
+        List<ClubCategory> allCardsCategoriesAfterRestore = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsCategoriesAfterRestore.addAll(getCardsFromCurrentPageByCategory(currentPage));
         }
-        softAssert.assertNotEquals(clubsPage.getClubCards().size(), countCategories,
+        softAssert.assertNotEquals(allCardsCategoriesAfterRestore.size(), allCardsCategories.size(),
                 "Cards list should restore all cards after filter with Category is off");
 
         clubsPage = clubsPage.getSearchSider().enterAge(AGE).waitUntilClubsPageIsLoaded(5);
-        ;
-        int currentAge = Integer.parseInt(AGE);
-        for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
-            ClubInfoPopUp clubInfoPopUp = clubCard.clickTitle();
-            List<Integer> age = clubInfoPopUp.getClubsAgeList();
-            softAssert.assertTrue(currentAge >= age.get(0) && currentAge <= age.get(1),
-                    "Age " + AGE + " should be in a range from " + age.get(0) + " to " + age.get(1));
-            clubInfoPopUp.getCloseButton().click();
+        List<ClubAge> allCardsByAge = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsByAge.addAll(getCardsFromCurrentPageByAge(currentPage));
         }
+        int currentAge = Integer.parseInt(AGE);
+        allCardsByAge.forEach(club -> softAssert
+                .assertTrue(currentAge >= club.ageList().get(0) && currentAge <= club.ageList().get(1),
+                        "Age " + AGE + " in club " + club.name + " should be in a range from "
+                                + club.ageList().get(0) + " to " + club.ageList().get(1)));
+
+        clubsPage.getSearchSider().clearAgeInput();
+
+        clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
+
+        List<String> allCardsByAgeAfterRestore = new ArrayList<>();
+        for (int currentPage = 0; currentPage < getPagesNumber(); currentPage++) {
+            allCardsByAgeAfterRestore.addAll(getCardsFromCurrentPage());
+            clubsPage.getSwitchPagination().clickPagItemByNum(String.valueOf(currentPage + 1));
+        }
+        softAssert.assertNotEquals(allCardsByAgeAfterRestore.size(), allCardsByAge.size(),
+                "Cards list should restore all cards after filter with Age is empty");
 
         softAssert.assertAll();
     }

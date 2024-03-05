@@ -1,6 +1,7 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.EditProfilePopUpComponent;
+
+import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -12,7 +13,7 @@ import org.testng.asserts.SoftAssert;
 import java.util.List;
 
 public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
-    private EditProfilePopUpComponent editProfilePopUpComponent;
+    private EditProfilePopUp editProfilePopUpComponent;
     private final String TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR ="Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
     private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Новий пароль не може бути таким самим як попередній";
     SoftAssert softAssert;
@@ -20,10 +21,10 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     public void setup(){
         softAssert= new SoftAssert();
         homePage.header.openUserMenu().clickProfile().editButtonClick();
-        editProfilePopUpComponent = new EditProfilePopUpComponent(driver,
+        editProfilePopUpComponent = new EditProfilePopUp(driver,
                 driver.findElement(By.xpath("./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")));
-        editProfilePopUpComponent.clickUserType();
-        editProfilePopUpComponent.checkBoxChangePasswordClick();
+        editProfilePopUpComponent.clickUserButton();
+        editProfilePopUpComponent.clickCheckBox();
     }
     @Test
     public void test(){
@@ -49,11 +50,11 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
         inputField.sendKeys(Keys.DELETE);
     }
     private void checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration(){
-        softAssert.assertEquals(editProfilePopUpComponent.getEditLastNameInput().getAttribute("value"), configProperties.getUserLastname(),
+        softAssert.assertEquals(editProfilePopUpComponent.getLastNameElement().getInput().getAttribute("value"), configProperties.getUserLastname(),
                 "The shown last name doesn't match the last name, which was entered by a user during registration");
-        softAssert.assertEquals(editProfilePopUpComponent.getEditFirstNameInput().getAttribute("value"), configProperties.getUserFirstname(),
+        softAssert.assertEquals(editProfilePopUpComponent.getFirstNameElement().getInput().getAttribute("value"), configProperties.getUserFirstname(),
                 "The shown first name doesn't match the last name, which was entered by a user during registration");
-        softAssert.assertEquals(editProfilePopUpComponent.getEditPhoneInput().getAttribute("value"), configProperties.getUserPhone(),
+        softAssert.assertEquals(editProfilePopUpComponent.getPhoneElement().getInput().getAttribute("value"), configProperties.getUserPhone(),
                 "The shown phone doesn't match the last name, which was entered by a user during registration");
 
         //assert email !!! - now unaccessible

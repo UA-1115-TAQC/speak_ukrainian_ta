@@ -37,6 +37,17 @@ public class ConfigProperties {
         return properties.getProperty("user.pass");
     }
 
+    public String getManagerEmail() {
+        return properties.getProperty("manager.email");
+    }
+
+    public String getManagerPassword() {
+        return properties.getProperty("manager.pass");
+    }
+    public String getUserFirstname(){return properties.getProperty("user.firstname");}
+    public String getUserLastname(){return properties.getProperty("user.lastname");}
+    public String getUserPhone(){return properties.getProperty("user.phone");}
+
     public String getPathToImg() {
         return properties.getProperty("image.path");
     }

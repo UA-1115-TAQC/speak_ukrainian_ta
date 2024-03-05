@@ -5,7 +5,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,13 +13,13 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
+public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
-    private static final String CLUB_NAME = "Add club name";
+    private static final String VALID_CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";
-    private static final String MIN_AGE = "5";
-    private static final String MAX_AGE = "8";
-    private static final String TELEPHONE_NUMBER = "0987656453";
+    private static final String VALID_MIN_AGE = "5";
+    private static final String VALID_MAX_AGE = "8";
+    private static final String VALID_TELEPHONE_NUMBER = "0987656453";
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
@@ -37,16 +37,16 @@ public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
     }
 
     private void fillStepOneWithValidDataPreconditions() {
-        stepOne.getClubNameInputElement().setValue(CLUB_NAME);
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
-                .setMinAgeInput(MIN_AGE)
-                .setMaxAgeInput(MAX_AGE)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE)
                 .clickNextStepButton();
     }
 
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
-        stepTwo.getTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
         stepTwo.getWorkDaysCheckboxList().get(0).click();
         stepTwo.getWorkDaysCheckboxList().get(1).click();
         stepTwo.clickNextStepButton();
@@ -101,19 +101,23 @@ public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
 
         stepThree.getClubGalleryDownloadButton().click();
         stepThree.getClubGalleryDownloadInput().sendKeys(imgPath);
-        softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
+        List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
+        softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
+        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+        softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
         stepThree.getClubLogoDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubLogoUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.getClubCoverDownloadButton().click();
         stepThree.getClubCoverDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getClubCoverUploadedImg().getAttribute("title").contains("landscape.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
 
+        stepThree.clickCompleteButton();
         softAssert.assertAll();
     }
 
@@ -133,5 +137,22 @@ public class AddClubPopUpWithManagerTest extends LoginWithUserTestRunner {
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-179")
+    public void checkWhenAddClubTextareaFieldIsBlank() {
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea();
+        stepThree.clickCompleteButton();
+
+        softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
+        softAssert.assertTrue(stepThree.getValidationCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 }

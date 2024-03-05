@@ -1,12 +1,14 @@
 package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
-import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private static final String VALID_CIRCLE_ICON = "check-circle";
@@ -175,32 +177,21 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
 //        softAssert.assertAll();
 //    }
 
-    @Test(description = "TUA-836")
-    public void checkErrorChangeLastName(){
+    @Test(description = "TUA-836", dataProvider = "invalidLastNameInput",
+            dataProviderClass = EditProfileWithManagerDataProvider.class)
+    public void checkErrorInvalidLastName(String lastName, String errorMsg){
         softAssert = new SoftAssert();
-        String[] strs = new String[]{
-                "-Lastname",
-                "Lastname-",
-                " Lastname",
-                "Lastname ",
-                "'Lastname",
-                "Lastname'"
-        };
 
         EditProfilePopUp editProfile = profilePage.openEditUserProfile();
         editProfile.waitPopUpOpen(10);
         editProfile.clickManagerButton();
 
-        editProfile.getLastNameElement().clearInput().setValue("abcdefghijklmnopqrstuvwxyz");
-        editProfile.getLastNameElement().clearInput().setValue("#$%^&");
-        editProfile.getLastNameElement().clearInput().setValue("123");
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+        List<String> errors = editProfile.getLastNameElement().getErrorMessagesTextList();
+        softAssert.assertEquals(errors.get(0), errorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled());
 
-        editProfile.getLastNameElement().clearInput().setValue(strs[0]);
-
-//        for(String str : strs){
-//            editProfile.getLastNameElement().clearInput().setValue(str);
-//        }
-        editProfile.getLastNameElement().clearInput();
+        softAssert.assertAll();
     }
 
 }

@@ -82,6 +82,9 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @FindBy(xpath = "//div[contains(@class,'ant-message-top')]")
     private WebElement topMessage;
 
+    @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
+    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
+
     @Getter(AccessLevel.NONE)
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
     @Getter(AccessLevel.NONE)
@@ -134,11 +137,6 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
-    public AddLocationPopUpComponent getAddLocationPopUpComponent() {
-        addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
-        return addLocationPopUpComponent;
-    }
-
     public AddClubPopUpStepTwo clickOnDayCheckbox(String day){
         dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
         return this;
@@ -146,7 +144,7 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
 
     public AddLocationPopUpComponent clickAddLocationButton(){
         addLocationButton.click();
-        addLocationPopUpComponent = new AddLocationPopUpComponent(driver);
+        addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 }

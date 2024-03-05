@@ -2,6 +2,7 @@ package com.academy.ui.components.AddClubPopUpComponent;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -71,6 +72,9 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
     @FindBy(xpath = "//div[@class='ant-select-item-option-content']")
     private List<WebElement> centersList;
+
+    @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
+    private WebElement selectPlaceholder;
 
     private AddClubInputElement clubNameInputElement;
 

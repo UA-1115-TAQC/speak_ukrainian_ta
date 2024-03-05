@@ -1,6 +1,6 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.EditProfilePopUpComponent;
+import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.LoginWithUserTestRunner;
@@ -10,7 +10,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -19,7 +18,7 @@ import java.time.Duration;
 
 //change to LoginWithManagerTestRunner
 public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunner {
-    private EditProfilePopUpComponent editProfilePopUpComponent;
+    private EditProfilePopUp editProfilePopUpComponent;
     SoftAssert softAssert;
     private String newPassword;
     protected RandomPasswordGenerator passwordGenerator;
@@ -31,10 +30,10 @@ public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunne
         softAssert= new SoftAssert();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         homePage.header.openUserMenu().clickProfile().editButtonClick();
-        editProfilePopUpComponent = new EditProfilePopUpComponent(driver,
+        editProfilePopUpComponent = new EditProfilePopUp(driver,
                 driver.findElement(By.xpath("./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")));
-        editProfilePopUpComponent.clickManagerType();
-        editProfilePopUpComponent.checkBoxChangePasswordClick();
+        editProfilePopUpComponent.clickManagerButton();
+        editProfilePopUpComponent.clickCheckBox();
     }
     @Test(description = "TUA-849")
     public void test(){

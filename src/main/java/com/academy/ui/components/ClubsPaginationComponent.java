@@ -33,6 +33,16 @@ public class ClubsPaginationComponent extends SwitchPaginationComponent{
         return new ClubsPage(driver);
     }
 
+
+    @Override
+    public ClubsPage clickPagItemByNum(String pageNum) {
+        WebElement pagItem = getPagItemByTitle(pageNum);
+        if (pagItem != null) {
+            clickItem(pagItem);
+        }
+        return new ClubsPage(driver);
+    }
+
     private void clickItem(WebElement item) {
         WebElement firstClubName = driver.findElement(By.xpath(FIRST_CLUB_XPATH));
         String text = firstClubName.getText();

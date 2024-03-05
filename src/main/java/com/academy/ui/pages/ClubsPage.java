@@ -1,7 +1,10 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.*;
+import com.academy.ui.components.AdvancedSearchSiderComponent;
+import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
+import com.academy.ui.components.ClubListControlComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -78,6 +81,15 @@ public class ClubsPage extends BasePage {
         }
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
+
+    public ClubsPage setTextHeaderSearch(String input) {
+        advancedSearchClubHeader.setTextSelectionSearchInputField(input);
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1500000));
+        sleep(1000);
+        clubCards = createClubComponents();
+        return this;
+    }
+
 
     public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));

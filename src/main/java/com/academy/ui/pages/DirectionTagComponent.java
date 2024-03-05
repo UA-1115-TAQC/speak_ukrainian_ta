@@ -18,4 +18,9 @@ public class DirectionTagComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+
+    public String getNameText(){
+        return name.getText();
+    }
+
 }

@@ -148,6 +148,17 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
         return new ClubsPage(driver);
     }
 
+    public boolean  isDirectionBoxChecked(String direction){
+        for(WebElement e : getDirectionsCheckBox()){
+            String text = e.getText();
+            if(text.equals(direction)){
+                String classStr = e.getAttribute("class");
+                return classStr.contains("checked");
+            }
+        }
+        return false;
+    }
+
     public ClubsPage enterAge(String age){
         getAgeInput().sendKeys(age);
         return new ClubsPage(driver);

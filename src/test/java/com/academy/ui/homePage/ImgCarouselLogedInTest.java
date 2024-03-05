@@ -3,7 +3,7 @@ package com.academy.ui.homePage;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUnited;
-import com.academy.ui.runners.LoginWithUserTestRunner;
+import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,7 +15,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-public class ImgCarouselLogedInTest extends LoginWithUserTestRunner {
+public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
     SoftAssert softAssert;
     WebDriverWait wait;
     Actions actions;

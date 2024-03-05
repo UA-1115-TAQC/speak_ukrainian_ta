@@ -55,6 +55,8 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
 
+    @FindBy(xpath = "//div[contains(@class,'modal-add-club')]")
+    private WebElement addClubPopUp;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -114,5 +116,12 @@ public class ProfilePage extends BasePage {
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
+    }
+
+    public void openAddClubPopUp() {
+        addButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOf(addClubButton));
+        addClubButton.click();
     }
 }

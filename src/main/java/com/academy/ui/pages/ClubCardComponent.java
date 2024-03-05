@@ -83,8 +83,8 @@ public class ClubCardComponent extends BaseComponent {
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
-        return new ClubInfoPopUp(driver, root);
+        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        return new ClubInfoPopUp(driver);
     }
 
     public void clickAddress() {

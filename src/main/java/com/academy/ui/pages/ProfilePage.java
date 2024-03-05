@@ -58,7 +58,7 @@ public class ProfilePage extends BasePage {
 
     @FindBy(xpath = "//div[contains(@class,'user-club-content')]//div[contains(@class, 'ant-space-item')]")
     private List<WebElement> myClubsWebElement;
-    private List<ClubCardComponent> myClubs;
+    protected List<ClubCardComponent> myClubs;
 
     public ProfilePage(WebDriver driver) {
         super(driver);

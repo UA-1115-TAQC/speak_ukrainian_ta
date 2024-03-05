@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
 import lombok.AccessLevel;
@@ -57,8 +58,6 @@ public class ClubsPage extends BasePage {
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsWebElement));
         sleep(1000);
         for (WebElement element : clubCardsWebElement) {
             clubs.add(new ClubCardComponent(driver, element));
@@ -98,5 +97,9 @@ public class ClubsPage extends BasePage {
         wait.until(ExpectedConditions.urlContains("clubs"));
         wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
         return this;
+    }
+
+    public boolean isClubsPageEmpty(){
+        return clubCards.isEmpty();
     }
 }

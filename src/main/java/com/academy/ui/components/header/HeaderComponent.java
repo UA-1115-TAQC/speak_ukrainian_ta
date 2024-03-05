@@ -29,20 +29,25 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class, 'user-profile')]")
     protected WebElement profileMenuButton;
-
-    @FindBy(xpath = ".//a[@href='/dev/news']")
+//TODO
+//    @FindBy(xpath = ".//a[@href='/dev/news']")
+    @FindBy(xpath = ".//a[contains(@href, '/news')]")
     protected WebElement newsButton;
 
-    @FindBy(xpath = ".//a[@href='/dev/clubs']")
+//    @FindBy(xpath = ".//a[@href='/dev/clubs']")
+    @FindBy(xpath = ".//a[contains(@href, '/clubs')]")
     protected WebElement clubsButton;
+
     //@FindBy(xpath = ".//a[@href='/about']") - for a test to pass on the production level site
-    @FindBy(xpath = ".//a[@href='/dev/about']")
+//    @FindBy(xpath = ".//a[@href='/dev/about']")
+    @FindBy(xpath = ".//a[contains(@href, '/about')]")
     protected WebElement aboutUsButton;
 
     @FindBy(xpath = "//li[contains(@data-menu-id,'about')]")
     protected WebElement aboutUsButtonContainer;
 
-    @FindBy(xpath = ".//a[@href='/dev/service']")
+//    @FindBy(xpath = ".//a[@href='/dev/service']")
+    @FindBy(xpath = ".//a[contains(@href, '/service')]")
     protected WebElement serviceButton;
 
     @FindBy(xpath = ".//button[contains(@class,'add-club-button')]")
@@ -107,6 +112,8 @@ public class HeaderComponent extends BaseComponent {
 
     public AllNewsPage newsButtonClick() {
         newsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("news"));
         return new AllNewsPage(driver);
     }
 
@@ -118,16 +125,22 @@ public class HeaderComponent extends BaseComponent {
 
     public ClubsPage clickClubsPageButton() {
         clubsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("clubs"));
         return new ClubsPage(driver);
     }
 
     public AboutUsPage clickAboutUsButton() {
         aboutUsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("about"));
         return new AboutUsPage(driver);
     }
 
     public ServicePage clickServiceButton() {
         serviceButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("service"));
         return new ServicePage(driver);
     }
 
@@ -173,4 +186,5 @@ public class HeaderComponent extends BaseComponent {
         return new ProfilePage (driver);
 
     }
+
 }

@@ -4,6 +4,7 @@ import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.ClubInfoPopUp;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

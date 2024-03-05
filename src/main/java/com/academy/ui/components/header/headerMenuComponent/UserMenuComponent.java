@@ -1,5 +1,6 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
+import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ProfilePage;
@@ -33,9 +34,9 @@ public class UserMenuComponent extends BaseComponent {
         return new AddClubPopUpComponent(driver);
     }
 
-    public void openAddCentreForm() {
+    public AddCenterPopUpComponent openAddCentreForm() {
         clickElement(driver, addCentre);
-//        return new AddCentreFormComponent(driver, addCentre); // todo
+        return new AddCenterPopUpComponent(driver);
     }
 
     public void clickSearchCertificate() {

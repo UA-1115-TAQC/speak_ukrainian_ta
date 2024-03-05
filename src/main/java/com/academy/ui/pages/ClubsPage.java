@@ -1,11 +1,15 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.*;
+import com.academy.ui.components.AdvancedSearchSiderComponent;
+import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
+import com.academy.ui.components.ClubListControlComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -87,4 +91,11 @@ public class ClubsPage extends BasePage {
         return this;
     }
 
+
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.urlContains("clubs"));
+        wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
+        return this;
+    }
 }

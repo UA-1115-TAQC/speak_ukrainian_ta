@@ -1,10 +1,12 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.LeftSideProfileComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 public class ProfilePage extends BasePage{
@@ -15,6 +17,7 @@ public class ProfilePage extends BasePage{
     }
 
     //ЗАЛИШИЛОСЬ ЛИШЕ : карточка з гуртком і робота з нею
+    // Залишилось ще плюс додати дроп давнт карточки
 
     @Getter
     @FindBy(xpath = "//div[@class='content-title']")
@@ -48,23 +51,31 @@ public class ProfilePage extends BasePage{
     private WebElement myLessonsDropDown;
     @FindBy(xpath = "//div[contains(@class, 'select-item')]//span[text()='центри']")
     private WebElement myCentersDropDown;
+    @Getter
     @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
     private WebElement addButton;
+    @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати гурток']")
+    private WebElement addClubButton;
 
-    public void dropDownClick(){
-        myLessonsOrCentersDropDown.click();
-    }
-    public void editButtonClick() { editProfileButton.click(); }
-    public void lessonsDropDownClick(){
-        myLessonsDropDown.click();
-    }
-    public void centersDropDownClick(){
-        myCentersDropDown.click();
-    }
-    public void addButtonClick(){
-        addButton.click();
+    @Getter
+    @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
+    private WebElement addCenterButton;
+
+    public void hoverAddButton(){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(addButton).perform();
     }
 
+    public AddClubPopUpComponent lessonsDropDownClick(){
+        addClubButton.click();
+        return new AddClubPopUpComponent(driver);
+    }
+
+//    public AddCenterPopUpComponent centerDropDownClick(){
+//        Дописати схожий код сюди, коли буде готовий AddCenterPopUpComponent :
+//        addCenterButton.click();
+//        return new AddCenterPopUpComponent(driver);
+//    }
 
     public LeftSideProfileComponent getLeftSideProfileComponent(){
         if(leftSideProfileComponent == null) {
@@ -73,5 +84,4 @@ public class ProfilePage extends BasePage{
         }
         return leftSideProfileComponent;
     }
-
 }

@@ -11,6 +11,8 @@ import org.testng.asserts.SoftAssert;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_MORE_THAN_25_CHARACTERS = "Прізвище не може містити більше, ніж 25 символів";
     private static final String ERROR_MESSAGE_LASTNAME_WITH_DIGITS = "Прізвище не може містити цифри";
@@ -257,8 +259,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         registrationPopupComponent.close();
 
         String currentUrl = driver.getCurrentUrl();
-        softAssert = new SoftAssert();
-        softAssert.assertEquals(currentUrl, url);
+        assertEquals(currentUrl, url);
     }
 
 }

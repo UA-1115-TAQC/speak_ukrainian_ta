@@ -7,4 +7,10 @@ base.url=url
 
 admin.email=email
 admin.pass=pass
+
+user.email=email
+user.pass=pass
+
+manager.email = email
+manager.pass = pass
 ```

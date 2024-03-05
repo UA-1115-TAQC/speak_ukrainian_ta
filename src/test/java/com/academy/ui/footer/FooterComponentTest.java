@@ -1,7 +1,10 @@
-package com.academy.ui.components;
+package com.academy.ui.footer;
 
+import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.JavascriptExecutor;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import static org.testng.Assert.assertEquals;
 import com.academy.ui.pages.challenges.BaseChallengePage;
@@ -100,5 +103,23 @@ public class FooterComponentTest extends BaseTestRunner {
         String actual = driver.getCurrentUrl();
         assertEquals(expected, actual);
     }
+
+    @Test(description = "TUA-946")
+    public void testInstagramIconClickOpensCorrespondingPage() {
+        homePage.scrollToFooter();
+        FooterComponent footer = homePage.getFooter();
+        softAssert.assertTrue(footer.isPartnerBlockIsDisplayed());
+        softAssert.assertTrue(footer.isSocialBlockIsDisplayed());
+        softAssert.assertTrue(footer.isDonateBlockIsDisplayed());
+
+        footer.clickOnInstagramLink();
+        basePageWithoutHeaderAndFooter.getTabHandles();
+        basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(1);
+        String title = driver.getTitle();
+        softAssert.assertTrue(title.contains("Єдині"), "Instagram page 'Єдині' didn't open in a new tab");
+
+        softAssert.assertAll();
+    }
+
 
 }

@@ -1,11 +1,15 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
+import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.pages.ProfilePage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import static com.academy.ui.components.header.HeaderUtil.clickElement;
 
 @Getter
 public class UserMenuComponent extends BaseComponent {
@@ -20,16 +24,28 @@ public class UserMenuComponent extends BaseComponent {
     private WebElement profile;
     @FindBy(xpath = ".//li[contains(@data-menu-id, 'logout')]")
     private WebElement logout;
-    @FindBy(xpath = "//div[contains(@class,'modal-add-club')]")
-    private WebElement addClubModalForm;
 
     public UserMenuComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
     public AddClubPopUpComponent openAddClubForm() {
-        addClub.click();
+        clickElement(driver, addClub);
         return new AddClubPopUpComponent(driver);
+    }
+
+    public AddCenterPopUpComponent openAddCentreForm() {
+        clickElement(driver, addCentre);
+        return new AddCenterPopUpComponent(driver);
+    }
+
+    public void clickSearchCertificate() {
+        clickElement(driver, searchCertificates); // todo
+    }
+
+    public ProfilePage clickProfile() {
+        clickElement(driver, profile);
+        return new ProfilePage(driver);
     }
 
     public UserMenuComponent clickLogout() {

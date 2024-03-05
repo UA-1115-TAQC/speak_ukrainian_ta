@@ -34,6 +34,7 @@ public class ConfigProperties {
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
+    public String getImagePath(){return properties.getProperty("image.path");}
 
     public String getManagerEmail() {
         return properties.getProperty("manager.email");

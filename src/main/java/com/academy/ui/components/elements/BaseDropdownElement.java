@@ -6,7 +6,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +44,8 @@ public class BaseDropdownElement extends BaseComponent {
     }
 
     public Set<String> getTextDropdownOptionsList() {
+        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(dropdownBox));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollTop = 0", dropdownBox);
         Set<String> set = new HashSet<>();
@@ -54,6 +60,8 @@ public class BaseDropdownElement extends BaseComponent {
     }
 
     public BaseDropdownElement selectValue(String value) {
+        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(dropdownBox));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollTop = 0", dropdownBox);
         while (true) {

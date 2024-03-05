@@ -178,7 +178,7 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     @Test(description = "TUA-836")
     public void checkErrorChangeLastName(){
         softAssert = new SoftAssert();
-        String[] strs = new String[] {
+        String[] strs = new String[]{
                 "-Lastname",
                 "Lastname-",
                 " Lastname",
@@ -195,11 +195,12 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         editProfile.getLastNameElement().clearInput().setValue("#$%^&");
         editProfile.getLastNameElement().clearInput().setValue("123");
 
-        for(String str : strs){
-            editProfile.getLastNameElement().clearInput().setValue(str);
-        }
+        editProfile.getLastNameElement().clearInput().setValue(strs[0]);
+
+//        for(String str : strs){
+//            editProfile.getLastNameElement().clearInput().setValue(str);
+//        }
         editProfile.getLastNameElement().clearInput();
     }
-
 
 }

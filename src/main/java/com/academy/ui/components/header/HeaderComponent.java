@@ -10,6 +10,7 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.AboutUsPage;
 import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.pages.ClubsPage;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.pages.ServicePage;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import lombok.Getter;
@@ -60,6 +61,9 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
     private WebElement avatar;
 
+
+    @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
+    private WebElement profilePageButton;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -119,6 +123,7 @@ public class HeaderComponent extends BaseComponent {
         return new UserMenuComponent(driver, profileMenuNode);
     }
 
+
     public boolean isLoggedIn(){
         return avatar.getAttribute("class").contains("avatarIfLogin");
     }
@@ -127,5 +132,10 @@ public class HeaderComponent extends BaseComponent {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(e -> isLoggedIn());
         return this;
+    }
+    public ProfilePage openProfilePage(){
+        openUserMenu();
+        profilePageButton.click();
+        return new ProfilePage (driver);
     }
 }

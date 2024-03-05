@@ -47,6 +47,10 @@ public class ClubCardComponent extends BaseComponent {
         return directions;
     }
 
+    public String getClubName(){
+        return getTitle().getText();
+    }
+
     public void clickTitle() {
         getTitle().click();
     }

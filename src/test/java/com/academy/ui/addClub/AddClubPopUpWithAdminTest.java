@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class TestAddClubPopUpWithManager extends LoginWithAdminTestRunner {
+public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
     private static final String CLUB_NAME = "Add club name";
     private static final String CATEGORY = "Спортивні секції";

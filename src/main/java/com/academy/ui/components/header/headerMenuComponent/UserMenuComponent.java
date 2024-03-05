@@ -1,5 +1,6 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
+import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ProfilePage;
@@ -7,6 +8,10 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static com.academy.ui.components.header.HeaderUtil.clickElement;
 
@@ -33,9 +38,9 @@ public class UserMenuComponent extends BaseComponent {
         return new AddClubPopUpComponent(driver);
     }
 
-    public void openAddCentreForm() {
+    public AddCenterPopUpComponent openAddCentreForm() {
         clickElement(driver, addCentre);
-//        return new AddCentreFormComponent(driver, addCentre); // todo
+        return new AddCenterPopUpComponent(driver);
     }
 
     public void clickSearchCertificate() {
@@ -48,7 +53,8 @@ public class UserMenuComponent extends BaseComponent {
     }
 
     public UserMenuComponent clickLogout() {
-        logout.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(logout)).click();
         return this;
     }
 }

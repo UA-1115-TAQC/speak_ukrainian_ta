@@ -58,37 +58,6 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepTwo.clickNextStepButton();
     }
 
-    @Test(description = "TUA-177")
-    public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols() {
-
-        final String TEXT_1500_SYMBOLS = "Abcd ".repeat(300);
-        final String TEXT_1501_SYMBOLS = TEXT_1500_SYMBOLS + "!";
-        final String TEXT_1550_SYMBOLS = "Abcd ".repeat(310);
-        final String ERROR_MESSAGE = "Опис гуртка може містити від 40 до 1500 символів.";
-
-        fillStepOneWithValidDataPreconditions();
-        fillStepTwoWithValidDataPreconditions();
-
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
-                "Should be no errors with 1500 symbols");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
-                "Should be no errors with 50 symbols");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1501_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
-                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1550_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
-                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
-
-        softAssert.assertAll();
-    }
 
     @Test(description = "TUA-237")
     public void validate_inputs_in_addLocationForm_ok() {

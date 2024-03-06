@@ -15,9 +15,24 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_LASTNAME_WITH_SPECIAL_SYMBOLS = "Прізвище не може містити спеціальні символи";
     public static final String ERROR_MESSAGE_LASTNAME_STARTS = "Прізвище повинно починатися і закінчуватися літерою";
 
+
+
     private RegistrationPopupComponent registrationPopupComponent;
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
+
+    final String VALID_FIRST_NAME_USER = "Петро";
+    final String VALID_LAST_NAME_USER = "Поліщук";
+    final String VALID_TELEPHONE_USER = "0987654321";
+    final String VALID_EMAIL_USER = "petxdr@mailna.co";
+    final String VALID_PASSWORD = "Qwerty8!";
+    final String VALID_CONFIRM_PASSWORD = "Qwerty8!";
+    final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
+
+    private static final String INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS = "Qwerty";
+    private static final String ERROR_MESSAGE_FOR_INVALID_PASSWORD = "Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
+    private static final String INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS = "Eleven benevolent elephants_11";
+
 
     @BeforeMethod
     public void registrationSetUp() {
@@ -237,6 +252,61 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                 "Successful registration message should appear");
 
         softAssert.assertAll();
+    }
+
+    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    public void checkIfErrorMessagesAreShownForInvalidData(){
+        List<String> errorMessagesTextList;
+
+        registrationPopupComponent.clickSetUserButton();
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getFirstNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_FIRST_NAME_USER);
+
+        registrationPopupComponent.getLastNameInput().clearInput().setValue(VALID_LAST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getLastNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_LAST_NAME_USER);
+
+        registrationPopupComponent.getPhoneInput().clearInput().setValue(VALID_TELEPHONE_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPhoneInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_TELEPHONE_USER);
+
+        registrationPopupComponent.getEmailInput().clearInput().setValue(VALID_EMAIL_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getEmailInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_EMAIL_USER);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPasswordInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_PASSWORD);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
+        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS);
+        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        softAssert.assertAll();
+
+
+
+
     }
 
 }

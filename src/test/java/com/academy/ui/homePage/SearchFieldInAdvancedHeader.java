@@ -24,6 +24,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Гурток");
         home.advancedSearchHeaderComponent.clickSelectionSearchCloseButton();
 
+        home.sleep(1000);
         softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
     }
     private void checkThatUserCanDoBasicSearchByString(String string){

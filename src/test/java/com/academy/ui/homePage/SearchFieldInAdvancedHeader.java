@@ -16,6 +16,16 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         //+Check the search result with DB
         softAssert.assertAll();
     }
+    @Test(description = "TUA-43")
+    public void checkThatUserCanDeleteSearchQuery(){
+        home.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Ансамбль");
+        home.advancedSearchHeaderComponent.clickSelectionSearchCloseButton();
+
+        home.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Гурток");
+        home.advancedSearchHeaderComponent.clickSelectionSearchCloseButton();
+
+        softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
+    }
     private void checkThatUserCanDoBasicSearchByString(String string){
         string = string.trim().toLowerCase();
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField(string);

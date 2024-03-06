@@ -126,13 +126,13 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
         softAssert.assertEquals(editProfilePopUp.getUserTypeButton().getText(), "Відвідувач");
         softAssert.assertEquals(editProfilePopUp.getUserTypeButton()
-                .getCssValue("color"), "rgba(0, 0, 0, 0.25)");
+                .getCssValue("color"), "rgba(0, 0, 0, 1)");
         softAssert.assertEquals(editProfilePopUp.getUserTypeButton()
                 .getCssValue("font-size"), "18px");
 
         softAssert.assertEquals(editProfilePopUp.getManagerTypeButton().getText(), "Керівник");
         softAssert.assertEquals(editProfilePopUp.getManagerTypeButton()
-                .getCssValue("color"), "rgba(0, 0, 0, 0.25)");
+                .getCssValue("color"), "rgba(0, 0, 0, 0.88)");
         softAssert.assertEquals(editProfilePopUp.getManagerTypeButton()
                 .getCssValue("font-size"), "18px");
 
@@ -296,6 +296,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(editProfilePopUp.getCloseButton()
                 .equals(driver.switchTo().activeElement()));
         actions.sendKeys(Keys.TAB).perform();
+        editProfilePopUp.getLastNameElement().clearInput();
         softAssert.assertTrue(editProfilePopUp.getLastNameElement().getInput()
                 .equals(driver.switchTo().activeElement()));
         actions.sendKeys(Keys.TAB).perform();

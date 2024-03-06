@@ -150,7 +150,9 @@ public class ProfilePage extends BasePage {
     }
 
     public ClubCardWithEditComponent getClubCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
             if (card.getTitle().getText().equals(name)) {
                 return card;
             }
@@ -159,8 +161,6 @@ public class ProfilePage extends BasePage {
     }
 
     public AddClubPopUpComponent openAddClubPopUp(){
-        sleep(3000);
-        System.out.println(addButtonClick().get(0));
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
     }

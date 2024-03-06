@@ -239,4 +239,68 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-875")
+    public void checkTheCorrespondingMessage() {
+        final String VALID_FIRST_NAME_USER = "Гаррі";
+        final String VALID_LAST_NAME_USER = "Поттер";
+        final String VALID_TELEPHONE_USER = "0961257864";
+        final String VALID_EMAIL_USER = "a476185dd@emailabox.pro";
+        final String VALID_PASSWORD = "Pass!wor4";
+        final String VALID_CONFIRM_PASSWORD = "Pass!wor4";
+        final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! " +
+                "Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
+
+        registrationPopupComponent.waitPopUpOpen(5);
+        registrationPopupComponent.clickSetUserButton();
+
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getFirstNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_FIRST_NAME_USER);
+
+        registrationPopupComponent.getLastNameInput().clearInput().setValue(VALID_LAST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getLastNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_LAST_NAME_USER);
+
+        registrationPopupComponent.getPhoneInput().clearInput().setValue(VALID_TELEPHONE_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPhoneInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_TELEPHONE_USER);
+
+        registrationPopupComponent.getEmailInput().clearInput().setValue(VALID_EMAIL_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getEmailInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_EMAIL_USER);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPasswordInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_PASSWORD);
+
+        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPasswordConfirmationInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_CONFIRM_PASSWORD);
+
+        registrationPopupComponent.clickRegisterButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_REGISTRATION_MESSAGE,
+                "Successful registration message should appear");
+
+        softAssert.assertAll();
+    }
+
 }

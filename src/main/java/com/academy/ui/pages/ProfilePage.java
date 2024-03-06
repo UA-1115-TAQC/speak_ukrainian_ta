@@ -70,7 +70,7 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = ".//div[contains(@class, 'menu-component')]")
     private WebElement leftSideRoot;
 
-    @FindBy(xpath = ".//div[contains(@class,'ant-card')]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-card-body')]")
     @Getter(AccessLevel.NONE)
     private List<WebElement> clubCardsListWebElements;
 
@@ -102,8 +102,8 @@ public class ProfilePage extends BasePage {
     }
 
     public List<WebElement> addButtonClick(){
-        addButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
         List<WebElement> addButtonDropdown = new ArrayList<>();
         addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("club"))));

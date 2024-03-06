@@ -70,7 +70,7 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = ".//div[contains(@class, 'menu-component')]")
     private WebElement leftSideRoot;
 
-    @FindBy(xpath = ".//div[contains(@class,'ant-card')]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-card-body')]")
     @Getter(AccessLevel.NONE)
     private List<WebElement> clubCardsListWebElements;
 

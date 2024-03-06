@@ -28,17 +28,16 @@ public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
 
     @Test(description = "TUA-883-Verify that the system shows online clubs when the user chooses 'інше' in the categories")
     public void checkBasicSearchByNameOfCategoryOther() {
-        homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField("інше");
+        homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Інше");
         homePage.advancedSearchHeaderComponent.clickSelectionSearchInputField();
 
         ClubsPage clubs = new ClubsPage(driver);
         List<ClubCardComponent> clubsCard = clubs.getClubCards();
 
         boolean containsExpectedText = clubsCard.stream().flatMap(component -> component.getDirectionTags().stream())
-                .anyMatch(component -> component.getText().contains("Iнше"));
+                .anyMatch(component -> component.getText().contains("Інше"));
 
         Assert.assertTrue(containsExpectedText);
     }
-
 
 }

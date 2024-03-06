@@ -178,6 +178,12 @@ public class ProfilePage extends BasePage {
         return centerCardComponentsList;
     }
 
+    public ProfilePage clickMyClubsAndCentersOnDropdown(){
+        myLessonsOrCentersDropDown.click();
+        getCenterCardComponents();
+        return this;
+    }
+
     public void clickMyCentersOnDropdown(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();

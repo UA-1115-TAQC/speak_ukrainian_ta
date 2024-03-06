@@ -16,6 +16,10 @@ import java.util.List;
 
 @Getter
 public class ClubCardComponent extends BaseComponent {
+
+    @FindBy(xpath = ".//div[@class='title']//img")
+    protected WebElement logo;
+
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
 
@@ -28,7 +32,7 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
 
-    @FindBy(xpath = ".//a[contains(@class,'details-button')]")
+    @FindBy(xpath = ".//*[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")

@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
@@ -77,10 +78,15 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath=".//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
     @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;
 
+    @FindBy(xpath = ".//div[contains(@class,'center-card')]")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> centerCardsListWebElements;
+
     protected WebElement addButtonAddClubOption;
     protected WebElement addButtonAddCenterOption;
     protected List<ClubCardWithEditComponent> clubCardComponentsList;
     protected ClubsPaginationComponent switchPagination;
+    protected List<CenterCardWithEditComponent> centerCardComponentsList;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -140,7 +146,6 @@ public class ProfilePage extends BasePage {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
     }
-
     public List<ClubCardWithEditComponent> getClubCardComponents() {
         clubCardComponentsList = new ArrayList<>();
         for (WebElement card : clubCardsListWebElements) {
@@ -150,12 +155,53 @@ public class ProfilePage extends BasePage {
     }
 
     public ClubCardWithEditComponent getClubCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
             if (card.getTitle().getText().equals(name)) {
                 return card;
             }
         }
         return null;
     }
+
+    public AddClubPopUpComponent openAddClubPopUp(){
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
+    }
+
+    public List<CenterCardWithEditComponent> getCenterCardComponents() {
+        centerCardComponentsList = new ArrayList<>();
+        for (WebElement card : centerCardsListWebElements) {
+            centerCardComponentsList.add(new CenterCardWithEditComponent(driver, card));
+        }
+        return centerCardComponentsList;
+    }
+
+    public void clickMyCentersOnDropdown(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
+        getCenterCardComponents();
+    }
+
+    public void clickMyClubsOnDropdown(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();
+        getClubCardComponents();
+    }
+
+    public CenterCardWithEditComponent getCenterCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (CenterCardWithEditComponent card : centerCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
+            if (card.getCenterName().getText().equals(name)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+
+
 
 }

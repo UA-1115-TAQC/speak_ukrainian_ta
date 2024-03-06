@@ -540,7 +540,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     }
 
     @Test(description = "TUA-312")
-    public void checkPopUpIsDisplayed(){
+    public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());
     }

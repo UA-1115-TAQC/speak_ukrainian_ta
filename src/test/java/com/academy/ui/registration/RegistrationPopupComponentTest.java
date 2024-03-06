@@ -14,7 +14,10 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_LASTNAME_WITH_DIGITS = "Прізвище не може містити цифри";
     private static final String ERROR_MESSAGE_LASTNAME_WITH_SPECIAL_SYMBOLS = "Прізвище не може містити спеціальні символи";
     public static final String ERROR_MESSAGE_LASTNAME_STARTS = "Прізвище повинно починатися і закінчуватися літерою";
-    private static final String ERROR_MESSAGE_FOR_INVALID_PASSWORD = "Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
+    private static final String EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD = "Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
+    final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
+    private static final String INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS = "Qa#1234";
+    private static final String INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS = "TeachUA#QC-572LV/devs";
     final String VALID_FIRST_NAME_USER = "Петро";
     final String VALID_LAST_NAME_USER = "Поліщук";
     final String VALID_TELEPHONE_USER = "0987654321";
@@ -27,11 +30,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     final String VALID_EMAIL_MANAGER = "petrzdz2@mailna.co";
     final String VALID_PASSWORD_MANAGER = "Qwerty8!";
     final String VALID_CONFIRM_PASSWORD_MANAGER = "Qwerty8!";
-    final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
-    private static final String INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS = "Qa#1234";
-    private static final String INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS = "TeachUA#QC-572LV/devs";
-
-
     private RegistrationPopupComponent registrationPopupComponent;
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
@@ -241,7 +239,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
     @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
     public void checkIfErrorMessagesAreShownForInvalidDataUser() {
-        List<String> errorMessagesTextList;
+        List<String> errorMessagesActual;
 
         registrationPopupComponent.clickSetUserButton();
         registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_USER);
@@ -280,19 +278,19 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                 VALID_PASSWORD_USER);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
-        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
-        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS);
-        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
-        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
 
         softAssert.assertAll();
     }
 
     @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
     public void checkIfErrorMessagesAreShownForInvalidDataManager() {
-        List<String> errorMessagesTextList;
+        List<String> errorMessagesActual;
 
         registrationPopupComponent.clickSetManagerButton();
         registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_MANAGER);
@@ -331,15 +329,14 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                 VALID_PASSWORD_MANAGER);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
-        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
-        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS);
-        errorMessagesTextList = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
-        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
 
         softAssert.assertAll();
-
 
     }
 

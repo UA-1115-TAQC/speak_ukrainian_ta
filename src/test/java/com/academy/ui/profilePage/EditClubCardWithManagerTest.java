@@ -2,6 +2,7 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
@@ -49,6 +50,19 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     }
 
+    private String getClubName() {
+        if (profilePage.getClubCardComponents().isEmpty()) {
+            addNewClubAddedWithCorrectData();
+            driver.navigate().refresh();
+            profilePage = new ProfilePage(driver);
+        }
+        return profilePage
+                .getClubCardComponents()
+                .get(0)
+                .getTitle()
+                .getAttribute("innerText");
+    }
+
 
     @Test(description = "TUA-970")
     public void checkUserCanAddLocationsOfTheClub() {
@@ -59,17 +73,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         final String VALID_LOCATION_NAME_4 = "ТестЛокація4";
         final String VALID_LOCATION_NAME_5 = "ТестЛокація5";
 
-        if (profilePage.getClubCardComponents().isEmpty()){
-            addNewClubAddedWithCorrectData();
-            driver.navigate().refresh();
-            profilePage = new ProfilePage(driver);
-        }
-        String clubName = profilePage
-                .getClubCardComponents()
-                .get(0)
-                .getTitle()
-                .getAttribute("innerText");
-
+        String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
         editClubPopUp.waitPopUpOpen(5);
@@ -151,6 +155,57 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 VALID_TELEPHONE);
 
         addLocationPopUp.clickAddLocationButton();
+    }
+
+    @Test(description = "TUA-82")
+    public void checkUserCanChangePhotoWhileEditClub() {
+        final String IMAGE_PATH = "/speak_ukrainian_ta/src/test/resources/images/";
+        final String IMAGE_NAME_1 = "image.png";
+        final String IMAGE_NAME_2 = "book.png";
+
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + IMAGE_PATH + IMAGE_NAME_1);
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        String uploadedImage = stepThree
+                .getUploadedCoverImg()
+                .getImgTitle()
+                .getText();
+        softAssert.assertEquals(uploadedImage, IMAGE_NAME_1, "Image should be downloaded");
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + IMAGE_PATH + IMAGE_NAME_2);
+        stepThree.getUploadedCoverImg().waitImageChanged(uploadedImage, 5);
+
+        softAssert.assertEquals(stepThree
+                        .getUploadedCoverImg()
+                        .getImgTitle()
+                        .getText(),
+                IMAGE_NAME_2,
+                "Image should be changed");
+
+        stepThree.clickCompleteButton();
+
+        softAssert.assertTrue(driver.getCurrentUrl().contains("/user"),
+                "Profile page should be opened");
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertTrue(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCover()
+                        .getAttribute("style")
+                        .contains(IMAGE_NAME_2),
+                "Image should be changed to the " + IMAGE_NAME_2);
+
+        softAssert.assertAll();
     }
 
 }

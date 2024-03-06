@@ -102,8 +102,8 @@ public class ProfilePage extends BasePage {
     }
 
     public List<WebElement> addButtonClick(){
-        addButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
         List<WebElement> addButtonDropdown = new ArrayList<>();
         addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("club"))));
@@ -111,7 +111,7 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
     private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]";
     }
 
     public void hoverAddButton() {
@@ -150,12 +150,19 @@ public class ProfilePage extends BasePage {
     }
 
     public ClubCardWithEditComponent getClubCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
             if (card.getTitle().getText().equals(name)) {
                 return card;
             }
         }
         return null;
+    }
+
+    public AddClubPopUpComponent openAddClubPopUp(){
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
     }
 
 }

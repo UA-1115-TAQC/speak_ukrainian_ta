@@ -147,4 +147,10 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
+
+    public List<String> getLocationsNameList(){
+        List<String> list = new ArrayList<>();
+        getListOfLocationElements().forEach(location -> list.add(location.getLocationTitle().getText()));
+        return list;
+    }
 }

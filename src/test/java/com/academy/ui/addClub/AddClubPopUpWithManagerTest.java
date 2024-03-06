@@ -5,7 +5,6 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
-import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
@@ -28,7 +27,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
-    private ProfilePage profilePage;
     private SoftAssert softAssert;
 
     @BeforeMethod
@@ -139,6 +137,4 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
-
-
 }

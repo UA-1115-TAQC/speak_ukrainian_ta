@@ -10,7 +10,6 @@ import org.testng.asserts.SoftAssert;
 public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
 
-
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
         softAssert = new SoftAssert();
@@ -20,15 +19,17 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     public void checkDifferentWaysToAddClub() {
         AddClubPopUpComponent addClubPopUpComponent= homePage.header.addClubButtonClick();
         addClubPopUpComponent.waitPopUpOpen(10);
-        softAssert.assertTrue(addClubPopUpComponent.isOpen(), "1 step failed");
+        softAssert.assertTrue(addClubPopUpComponent.isOpen(),
+                "PopUp not opened clicking the button 'Add club' in HomePage");
 
         addClubPopUpComponent.getCloseButton().click();
 
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
         System.out.println(addClubPopUp.getWebElement().getText());
-        softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(), "2 step");
-        softAssert.assertAll();
+        softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(),
+                "PopUp not opened clicking the button 'Add club' in ProfilePage");
 
+        softAssert.assertAll();
     }
 }

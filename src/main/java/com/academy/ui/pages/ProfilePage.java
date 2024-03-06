@@ -3,7 +3,6 @@ package com.academy.ui.pages;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
-import com.github.dockerjava.core.dockerfile.DockerfileStatement;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -74,6 +73,7 @@ public class ProfilePage extends BasePage {
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
+
     public AddClubPopUpComponent openAddClubPopUp() {
         System.out.println(addButtonClick().get(0).getText());
         addButtonClick().get(0).click();
@@ -121,6 +121,4 @@ public class ProfilePage extends BasePage {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
     }
-
-
 }

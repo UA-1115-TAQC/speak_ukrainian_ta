@@ -26,7 +26,6 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
 
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
-        System.out.println(addClubPopUp.getWebElement().getText());
         softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(),
                 "PopUp not opened clicking the button 'Add club' in ProfilePage");
 

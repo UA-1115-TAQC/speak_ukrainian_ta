@@ -75,7 +75,6 @@ public class ProfilePage extends BasePage {
     }
 
     public AddClubPopUpComponent openAddClubPopUp() {
-        System.out.println(addButtonClick().get(0).getText());
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
     }

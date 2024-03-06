@@ -28,6 +28,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+    private static final String imagePath = System.getProperty("user.dir") + "\\src\\test\\resources\\images\\image.png";
 
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
@@ -144,19 +145,16 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepTwoWithValidDataPreconditions();
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
-        String imagePath = System.getProperty("user.dir") + "/src/main/test/resources/images/image.png";
         stepThree.getClubLogoDownloadInput().sendKeys(imagePath);
-
-     //   stepThree.getClubLogoDownloadInput().sendKeys("");
         stepThree.sleep(2000);
         softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), "image.png",
-                "1 step fail");
+                "Photo not added for Logo");
         stepThree.getUploadedLogoImg().clickRemoveImg();
 
         stepThree.sleep(2000);
-        stepThree.getClubCoverDownloadInput().sendKeys("src/main/test/resources/images/image.png");
+        stepThree.getClubCoverDownloadInput().sendKeys(imagePath);
         softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), "image.png",
-                "2 step fail");
+                "Photo not added for Cover");
 
         stepThree.getUploadedCoverImg().clickRemoveImg();
 

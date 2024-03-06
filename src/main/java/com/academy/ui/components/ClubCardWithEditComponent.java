@@ -59,7 +59,8 @@ public class ClubCardWithEditComponent extends ClubCardComponent {
     }
 
     public ClubCardWithEditComponent clickMoreButton() {
-        moreButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(moreButton)).click();
         return this;
     }
 

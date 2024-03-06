@@ -7,6 +7,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -115,7 +116,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty(), "Should be no errors with 50 symbols");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(), "Should be no errors with 50 symbols");
 
         stepThree.clickCompleteButton();
         softAssert.assertAll();
@@ -136,5 +137,72 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+    }
+
+    @Test(description = "TUA-123")
+    public void checkClubCantBeCreatedWithEmptyMandatoryParameters() {
+        final String EMPTY_STRING = "";
+        final String DISABLED_BUTTON_MESSAGE = "Next button should be disabled";
+
+        softAssert.assertEquals(stepOne
+                        .getClubNameInputElement()
+                        .getInput()
+                        .getAttribute("value"),
+                EMPTY_STRING,
+                "Name should be empty"
+        );
+        softAssert.assertFalse(stepOne.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE + " when name field is empty");
+
+        softAssert.assertTrue(stepOne.getCheckedCategoriesList().isEmpty(),
+                "Checkboxes should be empty"
+        );
+        softAssert.assertFalse(stepOne.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE + " when category isn't selected");
+        softAssert.assertEquals(stepOne
+                        .getMinAgeInput()
+                        .getAttribute("value"),
+                EMPTY_STRING,
+                "Min age should be empty"
+        );
+        softAssert.assertFalse(stepOne.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE + " when min age field is empty");
+        softAssert.assertEquals(stepOne
+                        .getMinAgeInput()
+                        .getAttribute("value"),
+                EMPTY_STRING,
+                "Max age should be empty"
+        );
+        softAssert.assertFalse(stepOne.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE + " when max age field is empty");
+
+        fillStepOneWithValidDataPreconditions();
+
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+
+        softAssert.assertEquals(stepTwo
+                        .getTelephoneInputElement()
+                        .getInput()
+                        .getAttribute("value"),
+                EMPTY_STRING,
+                "Telephone should be empty"
+        );
+
+        softAssert.assertFalse(stepTwo.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE + " when telephone field is empty");
+
+        fillStepTwoWithValidDataPreconditions();
+
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        softAssert.assertEquals(stepThree
+                        .getClubDescriptionTextarea()
+                        .getAttribute("value"),
+                EMPTY_STRING,
+                "Description should be empty"
+        );
+        softAssert.assertFalse(stepTwo.getNextStepButton().isEnabled(),
+                DISABLED_BUTTON_MESSAGE  + " when description textarea is field is empty");
+
+        softAssert.assertAll();
     }
 }

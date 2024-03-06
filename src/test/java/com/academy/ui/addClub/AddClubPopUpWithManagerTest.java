@@ -7,10 +7,12 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
+import java.time.Duration;
 import java.util.List;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
@@ -28,12 +30,18 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+    private String imagePath1 = "speak_ukrainian_ta/src/test/resources/images/image.png";
+    private String image1FileName= "image.png";
+    private String imagePath2 = "speak_ukrainian_ta/src/test/resources/images/image2.png";
+    private String image2FileName= "image2.png";
+    WebDriverWait wait;
 
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     private void fillStepOneWithValidDataPreconditions() {
@@ -136,5 +144,25 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+    }
+    @Test(description = "TUA-924")
+    public void checkManagerCanAddOnePhotoAsCoverInCertainSize(){
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + imagePath1);
+        WebElement firstUploadedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertTrue(firstUploadedElement.getAttribute("title").contains(image1FileName),
+                "The first photo wasn't uploaded");
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + imagePath2);
+        wait.until(ExpectedConditions.stalenessOf(firstUploadedElement));
+        WebElement refreshedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertEquals(stepThree.getAllUploadedElements().size(), 1,
+                "More than one photo could be added in the upload cover element");
+        softAssert.assertTrue(refreshedElement.getAttribute("title").contains(image2FileName),
+                "The second photo wasn't uploaded");
+        softAssert.assertAll();
     }
 }

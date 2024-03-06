@@ -161,4 +161,33 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+
+    @Test(description = "TUA-926")
+    public void testGalleryUploadAndDeletePhoto() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubGalleryDownloadInput().sendKeys(imagePath);
+        stepThree.sleep(2000);
+
+        softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
+
+        //не можу достукатись до тайтла картинки
+//        softAssert.assertEquals(stepThree.getUploadedGalleryImg(0).getImgTitle().getText(),
+//                "image.png", "1 step fail");
+
+        stepThree.getUploadedGalleryImg(0).clickPreviewFile();
+        softAssert.assertEquals(stepThree.getUploadedGalleryImg(0).getModalFormTitleImg().getText(),
+                "image.png", "2 step fail");
+
+        //не можу достукатись до кнопки
+//        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow();
+
+        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().isEmpty());
+
+        softAssert.assertAll();
+    }
 }

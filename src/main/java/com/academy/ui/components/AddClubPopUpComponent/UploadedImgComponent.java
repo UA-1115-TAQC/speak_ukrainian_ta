@@ -30,6 +30,9 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::button[(@type='button') and (@aria-label='Close')][3]")
     private WebElement closeButton;
 
+    @FindBy(xpath = "//div[@class=\"ant-modal-title\"]")
+    private WebElement modalFormTitleImg;
+
     public UploadedImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

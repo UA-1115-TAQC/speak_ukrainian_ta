@@ -3,6 +3,7 @@ package com.academy.ui.pages;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import com.github.dockerjava.core.dockerfile.DockerfileStatement;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -55,8 +56,6 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
 
-    @FindBy(xpath = "//div[contains(@class,'modal-add-club')]")
-    private WebElement addClubPopUp;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -75,6 +74,11 @@ public class ProfilePage extends BasePage {
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
+    public AddClubPopUpComponent openAddClubPopUp() {
+        System.out.println(addButtonClick().get(0).getText());
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
+    }
 
     public List<WebElement> addButtonClick(){
         addButton.click();
@@ -86,7 +90,7 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
     private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]";
     }
 
     public void hoverAddButton() {
@@ -118,10 +122,5 @@ public class ProfilePage extends BasePage {
         return new EditProfilePopUp(driver, editUserModalForm);
     }
 
-    public void openAddClubPopUp() {
-        addButton.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOf(addClubButton));
-        addClubButton.click();
-    }
+
 }

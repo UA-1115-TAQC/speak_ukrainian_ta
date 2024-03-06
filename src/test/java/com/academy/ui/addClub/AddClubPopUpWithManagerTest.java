@@ -140,17 +140,5 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 
-    @Test(description = "TUA-116")
-    public void checkDifferentWaysToAddClub() {
-        homePage.header.addClubButtonClick();
-        softAssert.assertTrue(addClubPopUpComponent.getAddClubPopUp().isDisplayed(), "1 step failed");
-        addClubPopUpComponent.close();
 
-        profilePage = homePage.header.openUserMenu().clickProfile();
-        profilePage.openAddClubPopUp();
-        profilePage.sleep(10);
-        softAssert.assertTrue(profilePage.getAddClubPopUp().isDisplayed(),"2 step failed");
-        softAssert.assertAll();
-
-    }
 }

@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
     private static final String VALID_CLUB_NAME = "Add club name";
@@ -535,4 +536,27 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    public void checkValidClubNameInput(String input){
+        softAssert = new SoftAssert();
+
+        stepOne.getClubNameInputElement().setValue(input);
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(82, 196, 26, 1)"
+        );
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(255, 77, 79, 1)"
+        );
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getErrorMessages().get(0).getText(),
+                "Введіть назву гуртка");
+
+        softAssert.assertAll();
+    }
+
 }

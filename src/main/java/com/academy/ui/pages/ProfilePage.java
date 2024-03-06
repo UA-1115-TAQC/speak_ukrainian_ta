@@ -111,7 +111,7 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
     private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]";
     }
 
     public void hoverAddButton() {
@@ -156,6 +156,13 @@ public class ProfilePage extends BasePage {
             }
         }
         return null;
+    }
+
+    public AddClubPopUpComponent openAddClubPopUp(){
+        sleep(3000);
+        System.out.println(addButtonClick().get(0));
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
     }
 
 }

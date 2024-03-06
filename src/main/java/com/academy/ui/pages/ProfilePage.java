@@ -3,7 +3,8 @@ package com.academy.ui.pages;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
-import com.academy.ui.components.ProfileClubCardComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -56,9 +57,10 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
 
-    @FindBy(xpath = "//div[contains(@class,'user-club-content')]//div[contains(@class, 'ant-space-item')]")
-    private List<WebElement> myClubsWebElement;
-    protected List<ClubCardComponent> myClubs;
+    @FindBy(xpath = ".//div[contains(@class, 'ant-card')]")
+    @Getter(AccessLevel.NONE) private List<WebElement> clubCardsListWebElements;
+
+    protected List<ClubCardWithEditComponent> clubCardComponentsList;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -120,11 +122,11 @@ public class ProfilePage extends BasePage {
         return new EditProfilePopUp(driver, editUserModalForm);
     }
 
-    public List<ProfileClubCardComponent> getMyClubs() {
-        List<ProfileClubCardComponent> clubs = new ArrayList<>();
-        for (WebElement element : myClubsWebElement) {
-            clubs.add(new ProfileClubCardComponent(driver, element));
+    public List<ClubCardWithEditComponent> getClubCardComponentsList() {
+        clubCardComponentsList = new ArrayList<>();
+        for (WebElement element : clubCardsListWebElements) {
+            clubCardComponentsList.add(new ClubCardWithEditComponent(driver, element));
         }
-        return clubs;
+        return clubCardComponentsList;
     }
 }

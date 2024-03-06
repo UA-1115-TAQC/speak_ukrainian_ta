@@ -5,11 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ProfileClubCardComponent extends ClubCardComponent {
-    @FindBy(xpath = ".//div[contains(@class,'title-name')]")
-    private WebElement title;
+public class ClubCardWithEditComponent extends ClubCardComponent {
+    @FindBy(xpath = ".//div[@class='title-name']")
+    protected WebElement title;
 
-    public ProfileClubCardComponent(WebDriver driver, WebElement rootElement) {
+    public ClubCardWithEditComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 

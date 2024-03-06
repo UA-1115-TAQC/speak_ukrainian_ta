@@ -5,7 +5,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
-import com.academy.ui.components.ProfileClubCardComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.WebElement;
@@ -151,9 +151,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.setDescriptionValue(VALID_DESCRIPTION);
         ProfilePage profilePage = stepThree.clickCompleteButton();
 
-        List<ProfileClubCardComponent> list = profilePage.getMyClubs();
-        ProfileClubCardComponent newClub = null;
-        for(ProfileClubCardComponent club : list){
+        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
+        ClubCardWithEditComponent newClub = null;
+        for(ClubCardWithEditComponent club : list){
             if(club.getClubName().equals(VALID_CLUB_NAME)){
                 newClub = club;
             }
@@ -165,7 +165,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
             return;
         }
 
-        softAssert.assertNotEquals(newClub.getIconSrc(), "");
+        softAssert.assertNotEquals(newClub.getLogoSrc(), "");
         softAssert.assertAll();
     }
 

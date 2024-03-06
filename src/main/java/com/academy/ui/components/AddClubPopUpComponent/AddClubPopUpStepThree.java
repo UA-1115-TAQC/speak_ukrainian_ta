@@ -49,7 +49,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")
-    private WebElement clubDescriptionCheckMark;
+    private WebElement clubDescriptionValidationMark;
 
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
     private WebElement validationTextareaCircleIcon;

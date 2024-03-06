@@ -137,4 +137,30 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
+
+    @Test(description = "TUA-922")
+    public void testAddAndDeletePhotoInLogoAndCover() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        String imagePath = System.getProperty("user.dir") + "/src/main/test/resources/images/image.png";
+        stepThree.getClubLogoDownloadInput().sendKeys(imagePath);
+
+     //   stepThree.getClubLogoDownloadInput().sendKeys("");
+        stepThree.sleep(2000);
+        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), "image.png",
+                "1 step fail");
+        stepThree.getUploadedLogoImg().clickRemoveImg();
+
+        stepThree.sleep(2000);
+        stepThree.getClubCoverDownloadInput().sendKeys("src/main/test/resources/images/image.png");
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), "image.png",
+                "2 step fail");
+
+        stepThree.getUploadedCoverImg().clickRemoveImg();
+
+        softAssert.assertAll();
+    }
+
 }

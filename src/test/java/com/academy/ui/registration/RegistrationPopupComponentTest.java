@@ -3,6 +3,7 @@ package com.academy.ui.registration;
 import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -14,6 +15,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_LASTNAME_WITH_DIGITS = "Прізвище не може містити цифри";
     private static final String ERROR_MESSAGE_LASTNAME_WITH_SPECIAL_SYMBOLS = "Прізвище не може містити спеціальні символи";
     public static final String ERROR_MESSAGE_LASTNAME_STARTS = "Прізвище повинно починатися і закінчуватися літерою";
+
+    public static final String ERROR_MESSAGE_EMAIl_FORMAT = "Некоректний формат email";
+    public static final String ERROR_MESSAGE_EMAIl_EMPTY = "Введіть email";
 
     private RegistrationPopupComponent registrationPopupComponent;
     private GuestMenuComponent guestMenuComponent;
@@ -110,6 +114,49 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-110")
+    public void registration_invalidInputOfEmailErrorMessageShown_ok() {
+        registrationPopupComponent.waitPopUpOpen(5);
+
+        List<String> errorMessagesTextList;
+        String[] inputValues = new String[]{ "ddd", "\\\\\\;R", "000@"};
+
+        // User mode
+        registrationPopupComponent.clickSetUserButton();
+
+        // user touches input, but doesn't enter anything
+        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);;
+        errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+
+        for (String testValue : inputValues) {
+            registrationPopupComponent.getEmailInput().clearInput().setValue(testValue);
+            errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
+            softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_FORMAT);
+            softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+        }
+
+        // Manager mode
+        registrationPopupComponent.clickSetManagerButton();
+
+        // user touches input, but doesn't enter anything
+        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);;
+        errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+
+        for (String testValue : inputValues) {
+            registrationPopupComponent.getEmailInput().clearInput().setValue(testValue);
+            errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
+            softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_FORMAT);
+            softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+        }
+
+        softAssert.assertAll();
+    }
+
 
     @Test(description = "TUA-7 USER")
     public void checkNewUserCanRegisterWithValidDataForEachRoleUserAndManager() {

@@ -9,6 +9,8 @@ import org.openqa.selenium.support.FindBy;
 public class AdminGenerateCertificatePage extends BasePage{
     @FindBy(xpath = "//label[@for=\"basic_hours\"]")
     private WebElement studyDurationLabel;
+    @FindBy(xpath = "//input[@name=\"hours\"]")
+    private WebElement studyDurationInput;
     public AdminGenerateCertificatePage(WebDriver driver){
         super(driver);
     }

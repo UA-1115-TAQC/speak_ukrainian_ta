@@ -22,14 +22,12 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     final String VALID_LAST_NAME_USER = "Поліщук";
     final String VALID_TELEPHONE_USER = "0987654321";
     final String VALID_EMAIL_USER = "petxdr@mailna.co";
-    final String VALID_PASSWORD_USER = "Qwerty8!";
-    final String VALID_CONFIRM_PASSWORD_USER = "Qwerty8!";
+    final String VALID_PASSWORD = "Qwerty8!";
+    final String VALID_CONFIRM_PASSWORD = "Qwerty8!";
     final String VALID_FIRST_NAME_MANAGER = "Микола";
     final String VALID_LAST_NAME_MANAGER = "Ткачук";
     final String VALID_TELEPHONE_MANAGER = "0987654322";
     final String VALID_EMAIL_MANAGER = "petrzdz2@mailna.co";
-    final String VALID_PASSWORD_MANAGER = "Qwerty8!";
-    final String VALID_CONFIRM_PASSWORD_MANAGER = "Qwerty8!";
     private RegistrationPopupComponent registrationPopupComponent;
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
@@ -160,19 +158,19 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                         .getAttribute("value"),
                 VALID_EMAIL_USER);
 
-        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD_USER);
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_PASSWORD_USER);
+                VALID_PASSWORD);
 
-        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD_USER);
+        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordConfirmationInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_CONFIRM_PASSWORD_USER);
+                VALID_CONFIRM_PASSWORD);
 
         registrationPopupComponent.clickRegisterButton();
 
@@ -215,19 +213,19 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                         .getAttribute("value"),
                 VALID_EMAIL_MANAGER);
 
-        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD_MANAGER);
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_PASSWORD_MANAGER);
+                VALID_PASSWORD);
 
-        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD_MANAGER);
+        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordConfirmationInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_CONFIRM_PASSWORD_MANAGER);
+                VALID_CONFIRM_PASSWORD);
 
         registrationPopupComponent.clickRegisterButton();
 
@@ -270,12 +268,12 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                         .getAttribute("value"),
                 VALID_EMAIL_USER);
 
-        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD_USER);
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_PASSWORD_USER);
+                VALID_PASSWORD);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
         errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
@@ -321,12 +319,12 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                         .getAttribute("value"),
                 VALID_EMAIL_MANAGER);
 
-        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD_MANAGER);
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(VALID_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordInput()
                         .getInput()
                         .getAttribute("value"),
-                VALID_PASSWORD_MANAGER);
+                VALID_PASSWORD);
 
         registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
         errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();

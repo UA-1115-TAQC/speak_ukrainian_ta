@@ -16,6 +16,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import static org.testng.Assert.assertTrue;
+
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
@@ -558,8 +560,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
-
-
+    
     @Test(description = "TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();

@@ -1,13 +1,17 @@
 package com.academy.ui.registration;
 
 import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
+import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.runners.BaseTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.lang.reflect.Method;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_MORE_THAN_25_CHARACTERS = "Прізвище не може містити більше, ніж 25 символів";
@@ -20,7 +24,10 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
 
     @BeforeMethod
-    public void registrationSetUp() {
+    public void registrationSetUp(Method method) {
+        if(method.getAnnotation(Test.class).description().equals("TUA-876")){
+            return;
+        }
         guestMenuComponent = homePage.header.openGuestMenu();
         registrationPopupComponent = guestMenuComponent.openRegistrationForm();
         softAssert = new SoftAssert();
@@ -264,6 +271,22 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                 "Successful registration message should appear");
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-876")
+    public void checkRedirectionAfterRegistrationCanceled(){
+        HeaderComponent header = homePage.getHeader();
+        header.newsButtonClick();
+        String url = driver.getCurrentUrl();
+
+        registrationPopupComponent = header.openGuestMenu().openRegistrationForm();
+        registrationPopupComponent.getLastNameInput().clearInput().setValue("Qwerty");
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue("Qwerty");
+        registrationPopupComponent.getPhoneInput().clearInput().setValue("0123456789");
+        registrationPopupComponent.close();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertEquals(currentUrl, url);
     }
 
 }

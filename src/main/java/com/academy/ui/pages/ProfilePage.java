@@ -27,8 +27,6 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = ".//div[@class='content-title']")
     private WebElement myProfileTitle;
 
-    //ЗАЛИШИЛОСЬ ЛИШЕ : карточка з гуртком і робота з нею
-    // Залишилось ще плюс додати дроп давнт карточки
     @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
 
@@ -47,7 +45,7 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "./descendant::span[text()='Редагувати профіль']")
     private WebElement editProfileButton;
 
-    @FindBy(xpath = "//div[contains(@class, 'ant-select-selector')]")
+    @FindBy(xpath = ".//div[contains(@class, 'ant-select-selector')]")
     private WebElement myLessonsOrCentersDropDown;
 
     @FindBy(xpath = "//div[contains(@class, 'select-item')]//span[text()='гуртки']")
@@ -56,7 +54,7 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class, 'select-item')]//span[text()='центри']")
     private WebElement myCentersDropDown;
 
-    @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
+    @FindBy(xpath = ".//div[contains(@class, 'add-club-dropdown')]//button")
     private WebElement addButton;
 
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати гурток']")
@@ -75,8 +73,9 @@ public class ProfilePage extends BasePage {
     @Getter(AccessLevel.NONE)
     private List<WebElement> clubCardsListWebElements;
 
-    @FindBy(xpath=".//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
-    @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;
+    @FindBy(xpath = ".//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement switchPaginationWebElement;
 
     @FindBy(xpath = ".//div[contains(@class,'center-card')]")
     @Getter(AccessLevel.NONE)
@@ -92,7 +91,7 @@ public class ProfilePage extends BasePage {
         super(driver);
         leftSideProfileComponent = new LeftSideProfileComponent(driver, leftSideRoot);
         switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
-        getClubCardComponents();
+        selectWhatCardsToShow();
     }
 
     public void dropDownClick() {
@@ -107,7 +106,7 @@ public class ProfilePage extends BasePage {
         myCentersDropDown.click();
     }
 
-    public List<WebElement> addButtonClick(){
+    public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
@@ -116,8 +115,9 @@ public class ProfilePage extends BasePage {
         addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("center"))));
         return addButtonDropdown;
     }
-    private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+
+    private String getAddButtonOptionStringPath(String name) {
+        return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
     }
 
     public void hoverAddButton() {
@@ -130,24 +130,20 @@ public class ProfilePage extends BasePage {
         return new AddClubPopUpComponent(driver);
     }
 
-    public AddCenterPopUpComponent centerDropDownClick(){
+    public AddCenterPopUpComponent centerDropDownClick() {
         addCenterButton.click();
         return new AddCenterPopUpComponent(driver);
-    }
-
-    public LeftSideProfileComponent getLeftSideProfileComponent() {
-        if (leftSideProfileComponent == null) {
-
-        }
-        return leftSideProfileComponent;
     }
 
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
     }
+
     public List<ClubCardWithEditComponent> getClubCardComponents() {
         clubCardComponentsList = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsListWebElements));
         for (WebElement card : clubCardsListWebElements) {
             clubCardComponentsList.add(new ClubCardWithEditComponent(driver, card));
         }
@@ -165,32 +161,33 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
-    public AddClubPopUpComponent openAddClubPopUp(){
+    public AddClubPopUpComponent openAddClubPopUp() {
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
     }
 
     public List<CenterCardWithEditComponent> getCenterCardComponents() {
         centerCardComponentsList = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsListWebElements));
         for (WebElement card : centerCardsListWebElements) {
             centerCardComponentsList.add(new CenterCardWithEditComponent(driver, card));
         }
         return centerCardComponentsList;
     }
 
-    public ProfilePage clickMyClubsAndCentersOnDropdown(){
+    public ProfilePage clickMyClubsAndCentersOnDropdown() {
         myLessonsOrCentersDropDown.click();
-        getCenterCardComponents();
         return this;
     }
 
-    public void clickMyCentersOnDropdown(){
+    public void clickMyCentersOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
         getCenterCardComponents();
     }
 
-    public void clickMyClubsOnDropdown(){
+    public void clickMyClubsOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();
         getClubCardComponents();
@@ -207,7 +204,13 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
-
-
-
+    private void selectWhatCardsToShow() {
+        if (myLessonsOrCentersDropDown.getAttribute("innerText").equals("гуртки")) {
+            getClubCardComponents();
+        } else {
+            getCenterCardComponents();
+        }
+    }
 }
+
+

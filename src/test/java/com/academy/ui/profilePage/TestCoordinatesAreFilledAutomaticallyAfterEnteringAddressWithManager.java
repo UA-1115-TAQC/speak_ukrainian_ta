@@ -1,7 +1,7 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpStepOne;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;

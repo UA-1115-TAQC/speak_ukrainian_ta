@@ -9,6 +9,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.List;
+
 public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
@@ -210,4 +212,22 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
                 {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
         };
     }
+
+    @Test(description = "TUA-836", dataProvider = "invalidLastNameInput",
+            dataProviderClass = EditProfileWithManagerDataProvider.class)
+    public void checkErrorInvalidLastName(String lastName, String errorMsg){
+        softAssert = new SoftAssert();
+
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.waitPopUpOpen(10);
+        editProfile.clickManagerButton();
+
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+        List<String> errors = editProfile.getLastNameElement().getErrorMessagesTextList();
+        softAssert.assertEquals(errors.get(0), errorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled());
+
+        softAssert.assertAll();
+    }
+
 }

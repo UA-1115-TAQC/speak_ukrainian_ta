@@ -2,9 +2,9 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.ClubsPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 public class ClubsPage extends BasePage {
     @FindBy(xpath="//div[contains(@class, 'lower-header-box')]")
-    @Getter(AccessLevel.NONE) private WebElement searchClubHeaderWebElement;
+    private WebElement searchClubHeaderWebElement;
 
     @FindBy(xpath="//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
     @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;
@@ -38,7 +38,7 @@ public class ClubsPage extends BasePage {
     @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected ClubsPaginationComponent switchPagination;
+    protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
@@ -48,7 +48,7 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
 
@@ -58,6 +58,7 @@ public class ClubsPage extends BasePage {
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
+        sleep(1000);
         for (WebElement element : clubCardsWebElement) {
             clubs.add(new ClubCardComponent(driver, element));
         }
@@ -96,5 +97,9 @@ public class ClubsPage extends BasePage {
         wait.until(ExpectedConditions.urlContains("clubs"));
         wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
         return this;
+    }
+
+    public boolean isClubsPageEmpty(){
+        return clubCards.isEmpty();
     }
 }

@@ -24,6 +24,11 @@ public class BaseInputElement extends BaseComponent {
         return this;
     }
 
+    public BaseInputElement setKey(Keys key) {
+        input.sendKeys(key);
+        return this;
+    }
+
     public BaseInputElement clearInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {

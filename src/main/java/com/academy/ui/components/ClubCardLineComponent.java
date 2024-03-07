@@ -49,8 +49,7 @@ public class ClubCardLineComponent extends BaseComponent {
 
     public ClubInfoPopUp clubLogoClick() {
         clubLogo.click();
-        ClubInfoPopUp clubInfoPopUp = new ClubInfoPopUp(driver,
-                driver.findElement(xpath("//div[contains(@class, 'clubInfo')]")));
+        ClubInfoPopUp clubInfoPopUp = new ClubInfoPopUp(driver);
         clubInfoPopUp.waitPopUpOpen(500);
         return clubInfoPopUp;
     }

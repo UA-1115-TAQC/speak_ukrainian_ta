@@ -1,6 +1,5 @@
-package com.academy.ui.components.AddCenterPopUPComponent;
+package com.academy.ui.components.AddCenterPopUpComponent;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.UploadedImgComponent;
 import lombok.AccessLevel;
 import lombok.Getter;

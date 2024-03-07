@@ -106,7 +106,7 @@ public class ProfilePage extends BasePage {
         myCentersDropDown.click();
     }
 
-    public List<WebElement> addButtonClick() {
+    public List<WebElement> addButtonClick(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
@@ -118,6 +118,7 @@ public class ProfilePage extends BasePage {
 
     private String getAddButtonOptionStringPath(String name) {
         return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
+
     }
 
     public void hoverAddButton() {

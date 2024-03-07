@@ -39,7 +39,7 @@ public class TestAllEnteredValuesAreSavedClubPopUpWithoutCenter extends LoginWit
    private String description="test description. -09j2njnsiiu\n" +
            "test description. -09j2njnsiiu";
 
-private String imagePath = "speak_ukrainian_ta/src/test/resources/images/image.png";
+private String imagePath = "image.png";
 private String stepOneSelectedCentre;
     @BeforeMethod
     public void precondition(){

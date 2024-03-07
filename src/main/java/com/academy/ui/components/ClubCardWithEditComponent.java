@@ -4,6 +4,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.pages.ApplicationPage;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ProfilePage;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,18 +14,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+@Getter
 public class ClubCardWithEditComponent extends ClubCardComponent {
 
     @FindBy(xpath = ".//div[@class='title-name']")
     protected WebElement title;
 
-    @FindBy(xpath = "//span[@aria-label='more']")
+    @FindBy(xpath = ".//span[@aria-label='more']")
     private WebElement moreButton;
 
-    @FindBy(xpath = "//ul[contains(@class,'update-menu')]")
+    @FindBy(xpath = ".//ul[contains(@class,'update-menu')]")
     private WebElement moreButtonMenu;
 
-    @FindBy(xpath = "//ul[contains(@class,'update-menu')]/li")
+    @FindBy(xpath = ".//ul[contains(@class,'update-menu')]/li")
     private List<WebElement> moreButtonMenuItems;
 
     @FindBy(xpath = "//ul[contains(@class,'update-menu')]/li[1]")
@@ -67,5 +69,10 @@ public class ClubCardWithEditComponent extends ClubCardComponent {
     @Override
     public WebElement getTitle() {
         return title;
+    }
+
+    @Override
+    public String getClubName(){
+        return title.getText();
     }
 }

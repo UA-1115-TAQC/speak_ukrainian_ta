@@ -32,7 +32,6 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
 
-
     @FindBy(xpath = "./descendant::div[@class='club-online']")
     protected WebElement clubOnline;
 

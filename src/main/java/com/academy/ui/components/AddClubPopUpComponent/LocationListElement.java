@@ -1,10 +1,17 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.BaseComponent;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
 
 @Getter
 public class LocationListElement extends BaseComponent {
@@ -36,13 +43,18 @@ public class LocationListElement extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-popover-inner-content']/descendant::button[contains(@class,'popConfirm-ok-button')]")
     private WebElement popConfirmOkButton;
 
+    @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
+    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
+
     public LocationListElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public LocationListElement clickEditIcon(){
+    public AddLocationPopUpComponent clickEditIcon(){
         editIcon.click();
-        return this;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOf(locationPopUp));
+        return new AddLocationPopUpComponent(driver, locationPopUp);
     }
 
     public LocationListElement clickDeleteIcon(){

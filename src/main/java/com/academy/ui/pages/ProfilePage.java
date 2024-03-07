@@ -212,6 +212,7 @@ public class ProfilePage extends BasePage {
             getCenterCardComponents();
         }
     }
+
 }
 
 

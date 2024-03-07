@@ -1,4 +1,4 @@
-package com.academy.ui.components.AddCenterPopUPComponent;
+package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
 import lombok.AccessLevel;

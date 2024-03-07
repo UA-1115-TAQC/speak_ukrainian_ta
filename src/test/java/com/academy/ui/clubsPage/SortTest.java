@@ -20,7 +20,6 @@ public class SortTest extends BaseTestRunner {
     public void openClubsPageWithAdvancedSearch() {
         clubsPage = homePage.getAdvancedSearchHeaderComponent().clickAdvancedSearchIcon();
     }
-
     @Test
     public void ascendingAlphabetSortTest(){
         List<String> names = getAllClubsNames();

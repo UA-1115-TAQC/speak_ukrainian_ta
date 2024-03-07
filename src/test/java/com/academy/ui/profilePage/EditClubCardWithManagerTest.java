@@ -211,7 +211,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
-        String imagePath = "src\\test\\resources\\images\\harrybean.jpg";
+        String imagePath = "harrybean.jpg";
 
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
         AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
@@ -222,23 +222,23 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubLogoDownloadButton();
-        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().equals("harrybean.jpg"));
 
         stepThree.clickClubCoverDownloadButton();
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().equals("harrybean.jpg"));
 
         stepThree.clickClubGalleryDownloadButton();
-        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         stepThree.clickClubGalleryDownloadButton();
-        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         stepThree.clickClubGalleryDownloadButton();
-        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         stepThree.clickClubGalleryDownloadButton();
-        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
         stepThree.clickClubGalleryDownloadButton();
-        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath() + imagePath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
 
         stepThree.sleep(500);
         softAssert.assertEquals(stepThree.getClubGalleryUploadedImgs().size(), 5);
@@ -257,7 +257,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     @Test(description = "TUA-85")
     public void checkDefaultCoverImg() {
-        String imagePath = "src\\test\\resources\\images\\";
         String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";
 
@@ -270,7 +269,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubCoverDownloadButton();
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + imagePath + testCoverImage);
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(testCoverImage));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
         softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testCoverImage));
         stepThree.clickCompleteButton();
@@ -293,7 +292,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubCoverDownloadButton();
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + imagePath + defaultCoverImage);
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(defaultCoverImage));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
         softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(defaultCoverImage));
         stepThree.clickCompleteButton();

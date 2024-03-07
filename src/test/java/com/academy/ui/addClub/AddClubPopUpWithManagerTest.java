@@ -137,4 +137,20 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
+
+    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    public void checkDescriptionValidData(String input){
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue(input);
+        softAssert.assertEquals(
+                stepThree.getClubDescriptionValidationMark().getCssValue("color"),
+                "rgba(82, 196, 26, 1)");
+        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty());
+        softAssert.assertAll();
+    }
+
 }

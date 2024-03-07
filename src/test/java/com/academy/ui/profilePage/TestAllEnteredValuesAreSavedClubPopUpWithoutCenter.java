@@ -39,7 +39,7 @@ public class TestAllEnteredValuesAreSavedClubPopUpWithoutCenter extends LoginWit
    private String description="test description. -09j2njnsiiu\n" +
            "test description. -09j2njnsiiu";
 
-private String imagePath = "speak_ukrainian_ta/src/test/resources/images/image.png";
+private String imagePath = "image.png";
 private String stepOneSelectedCentre;
     @BeforeMethod
     public void precondition(){
@@ -65,8 +65,8 @@ private String stepOneSelectedCentre;
         addClubPopUpStepTwo.clickNextStepButton();
         addClubPopUpStepThree = addClubPopUpComponent.getStepThreeContainer();
         verifyAllParametersAreEmptyStepThree();
-        fillStepThreeWithValidData(configProperties.getImagePath()+imagePath,configProperties.getImagePath()+imagePath,description);
-        verifyStepThreeIsFilledWithEnteredData(configProperties.getImagePath()+imagePath,configProperties.getImagePath()+imagePath,description);
+        fillStepThreeWithValidData(configProperties.getImagePath(imagePath),configProperties.getImagePath(imagePath),description);
+        verifyStepThreeIsFilledWithEnteredData(configProperties.getImagePath(imagePath),configProperties.getImagePath(imagePath),description);
         addClubPopUpStepThree.clickPreviousStepButton();
         addClubPopUpStepTwo = addClubPopUpComponent.getStepTwoContainer();
         verifyStepTwoIsFilledWithEnteredData( phone, facebook, whatsapp, email, skype,site, locationName);

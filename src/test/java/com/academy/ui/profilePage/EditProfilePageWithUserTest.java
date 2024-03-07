@@ -2,7 +2,6 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
-
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -55,7 +54,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidFirstName")
     private Object[][] invalidFirstNameDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
                 {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
@@ -82,5 +81,68 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().isDisplayed());
         softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().getText().equals("Завантажити фото"));
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-171", dataProvider = "userValidPassword")
+    public void checkUserCanChangeOldPassword(String userPassword, String password,
+                                              String expectedColor, String expectedSuccessMessage) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+        editProfilePopUp = editProfilePopUp.clickCheckBox();
+
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(userPassword);
+        softAssert.assertEquals(currentPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var newPasswordInput = editProfilePopUp.getNewPasswordInput();
+        newPasswordInput.clearInput();
+        newPasswordInput.setValue(password);
+        softAssert.assertEquals(newPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        softAssert.assertEquals(repeatPassword.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        profilePage = editProfilePopUp.clickSubmitButton();
+        softAssert.assertEquals(profilePage.getSuccessEditMessage(), expectedSuccessMessage);
+
+        tearDownUser(password, userPassword);
+        softAssert.assertAll();
+    }
+
+    @DataProvider
+    private Object[][] userValidPassword() {
+        return new Object[][]{
+                {configProperties.getUserPassword(), "Dictionary13?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "Qwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "QwertyQwertyQwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"}
+        };
+    }
+
+    //для того, щоб повернути юсера у першопочатковий стан (такий як у конфіг-проперті)
+    private void tearDownUser(String oldPassword, String password) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(oldPassword);
+
+        var newPassword = editProfilePopUp.getNewPasswordInput();
+        newPassword.clearInput();
+        newPassword.setValue(password);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        profilePage = editProfilePopUp.clickSubmitButton();
     }
 }

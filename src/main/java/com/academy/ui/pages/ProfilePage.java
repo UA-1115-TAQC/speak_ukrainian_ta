@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ProfilePage extends BasePage {
@@ -114,5 +115,13 @@ public class ProfilePage extends BasePage {
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();
         return new EditProfilePopUp(driver, editUserModalForm);
+    }
+
+    public String getSuccessEditMessage() {
+        return driver.findElements(By
+                .xpath("//div[contains(@class, 'ant-message')]//span[text() =  'Профіль змінено успішно']"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.joining(";"));
     }
 }

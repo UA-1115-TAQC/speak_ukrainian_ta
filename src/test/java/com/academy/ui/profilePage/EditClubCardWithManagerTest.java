@@ -159,7 +159,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     @Test(description = "TUA-82")
     public void checkUserCanChangePhotoWhileEditClub() {
-        final String IMAGE_PATH = "/speak_ukrainian_ta/src/test/resources/images/";
         final String IMAGE_NAME_1 = "image.png";
         final String IMAGE_NAME_2 = "book.png";
 
@@ -171,7 +170,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
 
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + IMAGE_PATH + IMAGE_NAME_1);
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_1));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
         String uploadedImage = stepThree
                 .getUploadedCoverImg()
@@ -179,7 +178,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 .getText();
         softAssert.assertEquals(uploadedImage, IMAGE_NAME_1, "Image should be downloaded");
 
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath() + IMAGE_PATH + IMAGE_NAME_2);
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_2));
         stepThree.getUploadedCoverImg().waitImageChanged(uploadedImage, 5);
 
         softAssert.assertEquals(stepThree

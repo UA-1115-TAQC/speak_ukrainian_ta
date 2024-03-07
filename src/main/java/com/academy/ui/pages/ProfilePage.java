@@ -74,6 +74,11 @@ public class ProfilePage extends BasePage {
         myCentersDropDown.click();
     }
 
+    public AddClubPopUpComponent openAddClubPopUp() {
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
+    }
+
     public List<WebElement> addButtonClick(){
         addButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -84,7 +89,7 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
     private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]";
     }
 
     public void hoverAddButton() {

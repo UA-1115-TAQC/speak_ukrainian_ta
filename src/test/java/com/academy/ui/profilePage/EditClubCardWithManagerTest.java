@@ -208,7 +208,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
-        /*String imagePath = "harrybean.jpg";
+        String imagePath = "harrybean.jpg";
 
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
         AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
@@ -249,12 +249,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(driver.getCurrentUrl().contains("/club"));
         softAssert.assertEquals(clubPage.getCarouselImgs().size(), 5);
 
-        softAssert.assertAll();*/
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-85")
     public void checkDefaultCoverImg() {
-        /*String testCoverImage = "image.png";
+        String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";
 
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
@@ -300,12 +300,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(defaultCoverImage));
 
-        softAssert.assertAll();*/
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-78")
     public void checkStepThreeEditDescriptionTextArea() {
-       /* String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
+        String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
                 + " We will teach you acting better than anyone else.";
         String testDescription = "^^/!/::expecto патронум::!!/?/&&".repeat(10);
 
@@ -348,6 +348,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
 
-        softAssert.assertAll();*/
+        softAssert.assertAll();
     }
 }

@@ -48,14 +48,17 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::textarea[@id='basic_descriptionText']")
     private WebElement clubDescriptionTextarea;
 
+    @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")
+    private WebElement clubDescriptionValidationMark;
+
     @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
     private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
-    private List<WebElement> errorMessages;
-    @FindBy(xpath = "//span[contains(@class,\"ant-upload-list-item-name\")]")
-    private List<WebElement> uploadedElementsListNode;
     private List<WebElement> errorMessagesTextarea;
+
+    @FindBy(xpath = "//span[contains(@class,'ant-upload-list-item-name')]")
+    private List<WebElement> uploadedElementsListNode;
 
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
@@ -69,6 +72,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedLogoImgContainer;
+
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedCoverImgContainer;

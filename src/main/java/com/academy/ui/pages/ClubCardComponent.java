@@ -91,8 +91,8 @@ public class ClubCardComponent extends BaseComponent {
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
-        return new ClubInfoPopUp(driver);
+        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        return new ClubInfoPopUp(driver, root);
     }
 
     public void clickAddress() {
@@ -104,9 +104,4 @@ public class ClubCardComponent extends BaseComponent {
         return new ClubPage(driver);
     }
 
-    public List<String> getListOfDirectionsTitles() {
-        List<String> list = new ArrayList<>();
-        getDirections().forEach(direction -> list.add(direction.getName().getText()));
-        return list;
-    }
 }

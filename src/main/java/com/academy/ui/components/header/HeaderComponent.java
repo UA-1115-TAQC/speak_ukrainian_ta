@@ -34,6 +34,7 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = ".//a[contains(@href,'clubs')]")
     protected WebElement clubsButton;
+  
     @FindBy(xpath = ".//a[contains(@href,'about')]")
     protected WebElement aboutUsButton;
 
@@ -97,6 +98,8 @@ public class HeaderComponent extends BaseComponent {
 
     public AllNewsPage newsButtonClick() {
         newsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("news"));
         return new AllNewsPage(driver);
     }
 
@@ -108,16 +111,22 @@ public class HeaderComponent extends BaseComponent {
 
     public ClubsPage clickClubsPageButton() {
         clubsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("clubs"));
         return new ClubsPage(driver);
     }
 
     public AboutUsPage clickAboutUsButton() {
         aboutUsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("about"));
         return new AboutUsPage(driver);
     }
 
     public ServicePage clickServiceButton() {
         serviceButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("service"));
         return new ServicePage(driver);
     }
 

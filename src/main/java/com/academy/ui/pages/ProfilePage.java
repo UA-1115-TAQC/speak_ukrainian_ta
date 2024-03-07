@@ -101,6 +101,11 @@ public class ProfilePage extends BasePage {
         myCentersDropDown.click();
     }
 
+    public AddClubPopUpComponent openAddClubPopUp() {
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
+    }
+
     public List<WebElement> addButtonClick(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();

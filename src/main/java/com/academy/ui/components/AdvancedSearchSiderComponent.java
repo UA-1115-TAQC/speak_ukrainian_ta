@@ -1,11 +1,15 @@
 package com.academy.ui.components;
 
+import com.academy.ui.components.elements.BaseInputElement;
 import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubsPage;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -162,6 +166,16 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     public ClubsPage enterAge(String age){
         getAgeInput().sendKeys(age);
         return new ClubsPage(driver);
+    }
+
+    public AdvancedSearchSiderComponent clearAgeInput() {
+        Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
+        if (currentPlatform.is(Platform.MAC)) {
+            ageInput.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
+        } else {
+            ageInput.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
+        }
+        return this;
     }
 
 }

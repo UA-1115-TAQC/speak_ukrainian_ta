@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.*;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -127,10 +128,10 @@ public class ProfilePage extends BasePage {
         return new AddClubPopUpComponent(driver);
     }
 
-//    public AddCenterPopUpComponent centerDropDownClick() {
-//        addCenterButton.click();
-//        return new AddCenterPopUpComponent(driver);
-//    }
+    public AddCenterPopUpComponent centerDropDownClick() {
+        addCenterButton.click();
+        return new AddCenterPopUpComponent(driver);
+    }
 
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();

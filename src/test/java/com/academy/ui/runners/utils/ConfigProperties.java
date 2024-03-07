@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigProperties {
-    private static final String imgFolderPath = "src/test/resources/images";
+    private static final String imgFolderPath = "src/test/resources/images/";
     private final Properties properties;
 
     public ConfigProperties() {

@@ -38,6 +38,18 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-329")
+    public void verifyAdvancedSearchAppearsAfter1stClickAndDisappearsAfter2ndClick(){
+        verifyPageIsLoaded();
+        verifySearchSiderElementsAreDisplayed();
+        softAssert.assertTrue(clubsPage.getSearchSiderAsideNode().isDisplayed(),
+                "The search sider isn't displayed on one side of the page, it isn't a sider");
+        clubsPage.getAdvancedSearchClubHeader().clickAdvancedSearchIcon();
+        softAssert.assertFalse(clubsPage.isElementPresent(clubsPage.getSearchSiderAsideNode()),
+                "The advanced search sider doesn't disappear after the second click on the advanced search icon in the header");
+        softAssert.assertAll();
+    }
+
     private void verifyPageIsLoaded() {
         softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки в місті"),
                 "The clubs page isn't opened");

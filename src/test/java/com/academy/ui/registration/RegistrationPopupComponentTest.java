@@ -111,6 +111,33 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-243")
+    public void checkNewUserCanBeRegisteredWithValidData() {
+        final String firstName = "John";
+        final String lastName = "Doe";
+        final String phone = "0987654321";
+        final String email = "new_email_example@email.com";
+        final String password = "Password1;";
+        final String confirmation = "Password1;";
+        final String registration_success = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
+
+        registrationPopupComponent.waitPopUpOpen(5);
+        registrationPopupComponent.clickSetUserButton();
+
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue(firstName);
+        registrationPopupComponent.getLastNameInput().clearInput().setValue(lastName);
+        registrationPopupComponent.getPhoneInput().clearInput().setValue(phone);
+        registrationPopupComponent.getEmailInput().clearInput().setValue(email);
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(password);
+        registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(confirmation);
+        registrationPopupComponent.clickRegisterButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), registration_success,
+                "Successful registration message should appear");
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-7 USER")
     public void checkNewUserCanRegisterWithValidDataForEachRoleUserAndManager() {
 

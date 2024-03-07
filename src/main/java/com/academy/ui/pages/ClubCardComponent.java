@@ -31,7 +31,6 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
 
-
     @FindBy(xpath = "./descendant::div[@class='club-online']")
     protected WebElement clubOnline;
 
@@ -94,7 +93,7 @@ public class ClubCardComponent extends BaseComponent {
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
         return new ClubInfoPopUp(driver);
     }
 

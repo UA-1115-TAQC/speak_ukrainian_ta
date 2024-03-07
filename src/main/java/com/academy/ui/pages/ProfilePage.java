@@ -1,8 +1,12 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.*;
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.CenterCardWithEditComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
+import com.academy.ui.components.EditProfilePopUp;
+import com.academy.ui.components.LeftSideProfileComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;

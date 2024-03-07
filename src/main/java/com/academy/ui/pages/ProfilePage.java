@@ -91,7 +91,7 @@ public class ProfilePage extends BasePage {
         super(driver);
         leftSideProfileComponent = new LeftSideProfileComponent(driver, leftSideRoot);
         switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
-        //selectWhatCardsToShow();
+        selectWhatCardsToShow();
     }
 
     public void dropDownClick() {

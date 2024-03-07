@@ -17,7 +17,7 @@ public class HeaderComponentTest extends BaseTestRunner {
     @Test(description = "TUA-23")
     public void testVerifyKyivIsShownByDefaultCity() {
         softAssert.assertTrue(homePage.header.getLocationIcon().isDisplayed());
-        softAssert.assertEquals(homePage.header.getCityButton().getText(), DEFAULT_CITY,
+        softAssert.assertEquals(homePage.header.getClubsLocationButton().getText(), DEFAULT_CITY,
                 "Київ must be shown as the default");
         softAssert.assertAll();
     }
@@ -25,10 +25,10 @@ public class HeaderComponentTest extends BaseTestRunner {
     @Test(description = "TUA-311")
     public void testVerifyLocationItem() {
         softAssert.assertTrue(homePage.header.getLocationIcon().isDisplayed());
-        softAssert.assertEquals(homePage.header.getCityButton().getText(), DEFAULT_CITY,
+        softAssert.assertEquals(homePage.header.getClubsLocationButton().getText(), DEFAULT_CITY,
                 "Київ must be shown as the default");
 
-        homePage.header.getCityButton().click();
+        homePage.header.getClubsLocationButton().click();
         softAssert.assertTrue(homePage.header.openCityMenu().isDisplayed(), "List of city doesn't display");
         softAssert.assertAll();
     }

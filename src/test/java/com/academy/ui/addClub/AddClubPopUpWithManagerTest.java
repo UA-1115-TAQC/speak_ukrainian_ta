@@ -6,6 +6,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -370,7 +371,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Step Submit Button should be displayed");
     }
 
-    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Test(description = "TUA-173", dataProvider = "validDescription", dataProviderClass = AddClubWithManagerDataProvider.class)
     public void checkDescriptionValidData(String input){
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();
@@ -382,6 +383,34 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-173", dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    public void checkErrorForAddressAddLocation(String input){
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue("Lorem");
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue("Одеса");
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue("Малиновський");
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("Фонтан");
+
+        addLocation.getLocationAddressInputElement().setValue(input);
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0),
+                "Некоректна адреса"
+        );
+
+        addLocation.getLocationAddressInputElement().clearInput().setValue("");
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0)+
+                        System.lineSeparator()+
+                        addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(1),
+                "Це поле є обов'язковим"+System.lineSeparator()+"Некоректна адреса"
+        );
+
         softAssert.assertAll();
     }
 }

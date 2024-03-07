@@ -67,6 +67,9 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "./descendant::p[@class='show-more-p']")
     private WebElement showMoreCommentsButton;
 
+    @FindBy(xpath = ".//header[contains(@class,'page-header')]")
+    private WebElement clubCover;
+
 
     private List<CommentsClubComponent> commentsClub;
     private List<RatingComponent> rating;

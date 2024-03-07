@@ -83,4 +83,37 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(editProfilePopUp.getUploadPhotoLink().getText().equals("Завантажити фото"));
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-343", dataProvider = "invalidLastName")
+    public void checkEditLastNameFieldWithInvalidData(String lastName, String expectedErrorMsg) {
+        final String emptyFieldErrorMsg = "Будь ласка введіть Ваше прізвище";
+
+        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+        softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled(),
+                "Submit button should not be enabled");
+
+        editProfile.getLastNameElement().clearInput();
+        softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), emptyFieldErrorMsg);
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled(),
+                "Submit button should not be enabled");
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name = "invalidLastName")
+    private Object[][] invalidLastNameDataProvider() {
+        return new Object[][] {
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Прізвище не може містити більше, ніж 25 символів"},
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Прізвище не може містити більше, ніж 25 символів"},
+                {"!@#$%^&,", "Прізвище не може містити спеціальні символи"},
+                {"1234", "Прізвище не може містити цифри"},
+                {"-Lastname", "Прізвище не може містити символи"},
+                {"< Lastname>", "Прізвище повинно починатися та закінчуватися літерою"},
+                {"'Lastname", "Прізвище повинно починатися та закінчуватися літерою"},
+                {"Lastname-", "Прізвище повинно починатися та закінчуватися літерою"},
+                {"Lastname'", "Прізвище повинно починатися та закінчуватися літерою"}
+        };
+    }
 }

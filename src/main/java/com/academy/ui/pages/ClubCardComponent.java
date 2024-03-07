@@ -16,6 +16,10 @@ import java.util.List;
 
 @Getter
 public class ClubCardComponent extends BaseComponent {
+
+    @FindBy(xpath = ".//div[@class='title']//img")
+    protected WebElement logo;
+
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
 
@@ -31,7 +35,7 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::div[@class='club-online']")
     protected WebElement clubOnline;
 
-    @FindBy(xpath = ".//a[contains(@class,'details-button')]")
+    @FindBy(xpath = ".//*[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
     @FindBy(xpath = ".//span[contains(@class,'ant-tag')]")
@@ -86,8 +90,8 @@ public class ClubCardComponent extends BaseComponent {
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
-        return new ClubInfoPopUp(driver);
+        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
+        return new ClubInfoPopUp(driver, root);
     }
 
     public void clickAddress() {
@@ -99,9 +103,4 @@ public class ClubCardComponent extends BaseComponent {
         return new ClubPage(driver);
     }
 
-    public List<String> getListOfDirectionsTitles() {
-        List<String> list = new ArrayList<>();
-        getDirections().forEach(direction -> list.add(direction.getName().getText()));
-        return list;
-    }
 }

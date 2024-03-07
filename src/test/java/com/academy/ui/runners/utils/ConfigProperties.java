@@ -1,10 +1,12 @@
 package com.academy.ui.runners.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigProperties {
+    private static final String imgFolderPath = "src/test/resources/images";
     private final Properties properties;
 
     public ConfigProperties() {
@@ -15,6 +17,17 @@ public class ConfigProperties {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getImagePath(String imageName) {
+        String path = null;
+        try {
+            File img = new File(imgFolderPath + imageName);
+            path = img.getAbsolutePath();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return path;
     }
 
     public String getBaseUrl() {
@@ -28,13 +41,14 @@ public class ConfigProperties {
     public String getAdminPassword() {
         return properties.getProperty("admin.pass");
     }
+
     public String getUserEmail() {
         return properties.getProperty("user.email");
     }
+
     public String getUserPassword() {
         return properties.getProperty("user.pass");
     }
-    public String getImagePath(){return properties.getProperty("image.path");}
 
     public String getManagerEmail() {
         return properties.getProperty("manager.email");
@@ -43,10 +57,20 @@ public class ConfigProperties {
     public String getManagerPassword() {
         return properties.getProperty("manager.pass");
     }
-    public String getUserFirstname(){return properties.getProperty("user.firstname");}
-    public String getUserLastname(){return properties.getProperty("user.lastname");}
-    public String getUserPhone(){return properties.getProperty("user.phone");}
-    public void setManagerPassword(String pass){
+
+    public void setManagerPassword(String pass) {
         properties.setProperty("manager.pass ", pass);
+    }
+
+    public String getUserFirstname() {
+        return properties.getProperty("user.firstname");
+    }
+
+    public String getUserLastname() {
+        return properties.getProperty("user.lastname");
+    }
+
+    public String getUserPhone() {
+        return properties.getProperty("user.phone");
     }
 }

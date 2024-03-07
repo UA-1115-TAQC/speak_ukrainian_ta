@@ -45,7 +45,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]//input")
     private WebElement clubGalleryDownloadInput;
 
-    @FindBy(xpath = "./descendant::textarea[@id='basic_description']")
+    @FindBy(xpath = "./descendant::textarea[@id='basic_descriptionText']")
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")
@@ -76,6 +76,9 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedCoverImgContainer;
+
+    @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
+    private WebElement selectPlaceholder;
 
     private final UploadedImgComponent uploadedLogoImg;
     private final UploadedImgComponent uploadedCoverImg;

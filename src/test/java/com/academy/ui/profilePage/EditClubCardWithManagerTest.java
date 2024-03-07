@@ -5,6 +5,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
@@ -169,7 +170,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         editClubPopUp.getStepOneContainer().clickNextStepButton();
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
-
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_1));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
         String uploadedImage = stepThree
@@ -177,7 +177,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 .getImgTitle()
                 .getText();
         softAssert.assertEquals(uploadedImage, IMAGE_NAME_1, "Image should be downloaded");
-
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_2));
         stepThree.getUploadedCoverImg().waitImageChanged(uploadedImage, 5);
 
@@ -207,4 +206,148 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-967")
+    public void checkEditCartUploadPhotos() {
+        String imagePath = "harrybean.jpg";
+
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickClubLogoDownloadButton();
+        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().equals("harrybean.jpg"));
+
+        stepThree.clickClubCoverDownloadButton();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().equals("harrybean.jpg"));
+
+        stepThree.clickClubGalleryDownloadButton();
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        stepThree.clickClubGalleryDownloadButton();
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        stepThree.clickClubGalleryDownloadButton();
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        stepThree.clickClubGalleryDownloadButton();
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+        stepThree.clickClubGalleryDownloadButton();
+        stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
+
+        stepThree.sleep(500);
+        softAssert.assertEquals(stepThree.getClubGalleryUploadedImgs().size(), 5);
+
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
+        ClubPage clubPage = card.clickDetailsButton();
+        softAssert.assertTrue(driver.getCurrentUrl().contains("/club"));
+        softAssert.assertEquals(clubPage.getCarouselImgs().size(), 5);
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-85")
+    public void checkDefaultCoverImg() {
+        String testCoverImage = "image.png";
+        String defaultCoverImage = "harrybean.jpg";
+
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickClubCoverDownloadButton();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(testCoverImage));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testCoverImage));
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
+        ClubPage clubPage = card.clickDetailsButton();
+        softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(testCoverImage));
+
+        clubPage = new ClubPage(driver);
+        profilePage = clubPage.getHeader().openUserMenu().clickProfile();
+
+        clubCard = profilePage.getClubCardComponents().getFirst();
+        addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickClubCoverDownloadButton();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(defaultCoverImage));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(defaultCoverImage));
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        card = profilePage.getClubCardComponents().getFirst();
+        clubPage = card.clickDetailsButton();
+        softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(defaultCoverImage));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-78")
+    public void checkStepThreeEditDescriptionTextArea() {
+        String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
+                + " We will teach you acting better than anyone else.";
+        String testDescription = "^^/!/::expecto патронум::!!/?/&&".repeat(10);
+
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea().setDescriptionValue(testDescription);
+        softAssert.assertTrue(stepThree.getNextStepButton().isEnabled());
+
+        stepThree.clickCompleteButton();
+        driver.navigate().refresh();
+
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
+        ClubPage clubPage = card.clickDetailsButton();
+        softAssert.assertTrue(clubPage.getClubDescription().getText().equals(testDescription));
+
+        clubPage = new ClubPage(driver);
+        profilePage = clubPage.getHeader().openUserMenu().clickProfile();
+
+        clubCard = profilePage.getClubCardComponents().getFirst();
+        addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea().setDescriptionValue(defaultDescription);
+        softAssert.assertTrue(stepThree.getNextStepButton().isEnabled());
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        card = profilePage.getClubCardComponents().getFirst();
+        clubPage = card.clickDetailsButton();
+        softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
+
+        softAssert.assertAll();
+    }
 }

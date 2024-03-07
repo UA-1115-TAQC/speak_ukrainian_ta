@@ -19,6 +19,9 @@ import java.util.List;
 
 @Getter
 public class ClubsPage extends BasePage {
+    @FindBy(xpath = "//aside[contains(@class,\"sider\")]")
+    private WebElement searchSiderAsideNode;
+
     @FindBy(xpath="//div[contains(@class, 'lower-header-box')]")
     @Getter(AccessLevel.NONE) private WebElement searchClubHeaderWebElement;
 

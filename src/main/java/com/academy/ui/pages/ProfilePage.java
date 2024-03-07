@@ -1,12 +1,7 @@
 package com.academy.ui.pages;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.*;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.ClubCardWithEditComponent;
-import com.academy.ui.components.ClubsPaginationComponent;
-import com.academy.ui.components.EditProfilePopUp;
-import com.academy.ui.components.LeftSideProfileComponent;
-import com.academy.ui.components.ClubCardWithEditComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -132,10 +127,10 @@ public class ProfilePage extends BasePage {
         return new AddClubPopUpComponent(driver);
     }
 
-    public AddCenterPopUpComponent centerDropDownClick() {
-        addCenterButton.click();
-        return new AddCenterPopUpComponent(driver);
-    }
+//    public AddCenterPopUpComponent centerDropDownClick() {
+//        addCenterButton.click();
+//        return new AddCenterPopUpComponent(driver);
+//    }
 
     public EditProfilePopUp openEditUserProfile() {
         editProfileButton.click();

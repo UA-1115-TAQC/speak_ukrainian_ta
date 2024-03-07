@@ -27,8 +27,6 @@ public class ProfilePage extends BasePage {
     @FindBy(xpath = ".//div[@class='content-title']")
     private WebElement myProfileTitle;
 
-    //ЗАЛИШИЛОСЬ ЛИШЕ : карточка з гуртком і робота з нею
-    // Залишилось ще плюс додати дроп давнт карточки
     @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
 
@@ -119,7 +117,7 @@ public class ProfilePage extends BasePage {
     }
 
     private String getAddButtonOptionStringPath(String name) {
-        return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]/span";
+        return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
     }
 
     public void hoverAddButton() {
@@ -135,13 +133,6 @@ public class ProfilePage extends BasePage {
     public AddCenterPopUpComponent centerDropDownClick() {
         addCenterButton.click();
         return new AddCenterPopUpComponent(driver);
-    }
-
-    public LeftSideProfileComponent getLeftSideProfileComponent() {
-        if (leftSideProfileComponent == null) {
-
-        }
-        return leftSideProfileComponent;
     }
 
     public EditProfilePopUp openEditUserProfile() {

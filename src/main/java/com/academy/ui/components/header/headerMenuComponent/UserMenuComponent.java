@@ -1,6 +1,6 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ProfilePage;

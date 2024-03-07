@@ -1,8 +1,13 @@
 package com.academy.ui.pages;
 
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.CenterCardWithEditComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,46 +25,75 @@ import java.util.stream.Collectors;
 @Getter
 public class ProfilePage extends BasePage {
     public LeftSideProfileComponent leftSideProfileComponent;
-    @FindBy(xpath = "//div[@class='content-title']")
+
+    @FindBy(xpath = ".//div[@class='content-title']")
     private WebElement myProfileTitle;
 
-    //ЗАЛИШИЛОСЬ ЛИШЕ : карточка з гуртком і робота з нею
-    // Залишилось ще плюс додати дроп давнт карточки
-    @FindBy(xpath = "//span[contains(@class, 'user-avatar')]")
+    @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
-    @FindBy(xpath = "//div[@class='user-name']")
+
+    @FindBy(xpath = ".//div[@class='user-name']")
     private WebElement userName;
-    @FindBy(xpath = "//div[@class='user-role']")
+
+    @FindBy(xpath = ".//div[@class='user-role']")
     private WebElement userRole;
+
     @FindBy(xpath = "./descendant::div[@class='user-phone-data']")
     private WebElement phoneUser;
+
     @FindBy(xpath = "./descendant::div[@class='user-email-data']")
     private WebElement emailUser;
+
     @FindBy(xpath = "./descendant::span[text()='Редагувати профіль']")
     private WebElement editProfileButton;
-    @FindBy(xpath = "//div[contains(@class, 'ant-select-selector')]")
+
+    @FindBy(xpath = ".//div[contains(@class, 'ant-select-selector')]")
     private WebElement myLessonsOrCentersDropDown;
+
     @FindBy(xpath = "//div[contains(@class, 'select-item')]//span[text()='гуртки']")
     private WebElement myLessonsDropDown;
+
     @FindBy(xpath = "//div[contains(@class, 'select-item')]//span[text()='центри']")
     private WebElement myCentersDropDown;
-    @FindBy(xpath = "//div[contains(@class, 'add-club-dropdown')]//button")
-    private WebElement addButton;
 
-    protected WebElement addButtonAddClubOption;
-    protected WebElement addButtonAddCenterOption;
+    @FindBy(xpath = ".//div[contains(@class, 'add-club-dropdown')]//button")
+    private WebElement addButton;
 
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати гурток']")
     private WebElement addClubButton;
-    @FindBy(xpath = "./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")
+
+    @FindBy(xpath = "./descendant::div[contains(@class, 'ant-modal css-13m256z user-edit')]//div[@class='ant-modal-content']")
     private WebElement editUserModalForm;
+
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
 
+    @FindBy(xpath = ".//div[contains(@class, 'menu-component')]")
+    private WebElement leftSideRoot;
+
+    @FindBy(xpath = ".//div[contains(@class,'ant-card-body')]")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> clubCardsListWebElements;
+
+    @FindBy(xpath = ".//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement switchPaginationWebElement;
+
+    @FindBy(xpath = ".//div[contains(@class,'center-card')]")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> centerCardsListWebElements;
+
+    protected WebElement addButtonAddClubOption;
+    protected WebElement addButtonAddCenterOption;
+    protected List<ClubCardWithEditComponent> clubCardComponentsList;
+    protected ClubsPaginationComponent switchPagination;
+    protected List<CenterCardWithEditComponent> centerCardComponentsList;
 
     public ProfilePage(WebDriver driver) {
         super(driver);
-        this.leftSideProfileComponent = getLeftSideProfileComponent();
+        leftSideProfileComponent = new LeftSideProfileComponent(driver, leftSideRoot);
+        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
+        selectWhatCardsToShow();
     }
 
     public void dropDownClick() {
@@ -70,22 +104,23 @@ public class ProfilePage extends BasePage {
         editProfileButton.click();
     }
 
-
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
 
     public List<WebElement> addButtonClick(){
-        addButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
         List<WebElement> addButtonDropdown = new ArrayList<>();
         addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("club"))));
         addButtonDropdown.add(driver.findElement(By.xpath(getAddButtonOptionStringPath("center"))));
         return addButtonDropdown;
     }
-    private String getAddButtonOptionStringPath(String name){
-        return "//li[contains(@data-menu-id,\"add_"+name+"_admin\")]/span";
+
+    private String getAddButtonOptionStringPath(String name) {
+        return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
+
     }
 
     public void hoverAddButton() {
@@ -98,18 +133,9 @@ public class ProfilePage extends BasePage {
         return new AddClubPopUpComponent(driver);
     }
 
-//    public AddCenterPopUpComponent centerDropDownClick(){
-//        Дописати схожий код сюди, коли буде готовий AddCenterPopUpComponent :
-//        addCenterButton.click();
-//        return new AddCenterPopUpComponent(driver);
-//    }
-
-    public LeftSideProfileComponent getLeftSideProfileComponent() {
-        if (leftSideProfileComponent == null) {
-            WebElement leftSideRoot = this.driver.findElement(By.xpath("//div[contains(@class, 'menu-component')]"));
-            leftSideProfileComponent = new LeftSideProfileComponent(driver, leftSideRoot);
-        }
-        return leftSideProfileComponent;
+    public AddCenterPopUpComponent centerDropDownClick() {
+        addCenterButton.click();
+        return new AddCenterPopUpComponent(driver);
     }
 
     public EditProfilePopUp openEditUserProfile() {
@@ -117,9 +143,83 @@ public class ProfilePage extends BasePage {
         return new EditProfilePopUp(driver, editUserModalForm);
     }
 
+    public List<ClubCardWithEditComponent> getClubCardComponents() {
+        clubCardComponentsList = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsListWebElements));
+        for (WebElement card : clubCardsListWebElements) {
+            clubCardComponentsList.add(new ClubCardWithEditComponent(driver, card));
+        }
+        return clubCardComponentsList;
+    }
+
+    public ClubCardWithEditComponent getClubCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
+            if (card.getTitle().getText().equals(name)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public AddClubPopUpComponent openAddClubPopUp() {
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
+    }
+
+    public List<CenterCardWithEditComponent> getCenterCardComponents() {
+        centerCardComponentsList = new ArrayList<>();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsListWebElements));
+        for (WebElement card : centerCardsListWebElements) {
+            centerCardComponentsList.add(new CenterCardWithEditComponent(driver, card));
+        }
+        return centerCardComponentsList;
+    }
+
+    public ProfilePage clickMyClubsAndCentersOnDropdown() {
+        myLessonsOrCentersDropDown.click();
+        return this;
+    }
+
+    public void clickMyCentersOnDropdown() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
+        getCenterCardComponents();
+    }
+
+    public void clickMyClubsOnDropdown() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();
+        getClubCardComponents();
+    }
+
+    public CenterCardWithEditComponent getCenterCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (CenterCardWithEditComponent card : centerCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
+            if (card.getCenterName().getText().equals(name)) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    private void selectWhatCardsToShow() {
+        if (myLessonsOrCentersDropDown.getAttribute("innerText").equals("гуртки")) {
+            getClubCardComponents();
+        } else {
+            getCenterCardComponents();
+        }
+    }
+
+    //може бути декілька меседжів одночасно: наприклад, коли змінюєш пароль: Профіль змінено успішно та Пароль змінено успішно.
+    //Збираю ці меседжи колектором у стрінгу із сепаратором ';', щоб потім assertTrue("msg".contains(expectedMessage))
     public String getSuccessEditMessage() {
         return driver.findElements(By
-                .xpath("//div[contains(@class, 'ant-message')]//span[text() =  'Профіль змінено успішно']"))
+                .xpath("//div[contains(@class, 'notice-wrapper')]//span[contains(., 'змінено успішно')]"))
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.joining(";"));

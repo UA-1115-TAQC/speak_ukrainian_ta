@@ -17,11 +17,6 @@ public class CardCarouselBlockTest extends BaseTestRunner {
 
     private SoftAssert softAssert;
 
-    @BeforeTest
-    private void initializeSoftAssert(){
-        softAssert = new SoftAssert();
-    }
-
     @BeforeMethod
     private void login(){
         LoginPopupComponent loginForm = homePage.getHeader().openGuestMenu().openLoginForm();
@@ -33,6 +28,7 @@ public class CardCarouselBlockTest extends BaseTestRunner {
 
     @Test(description = "TUA-863")
     public void checkLoggedInClickableBlockAndButton(){
+        softAssert = new SoftAssert();
         List<ClubDirectionCard> directionCards = homePage.getCarouselCardComponent().getAllCarouselCards();
         ClubDirectionCard directionCard;
         ClubsPage clubsPage;
@@ -49,6 +45,7 @@ public class CardCarouselBlockTest extends BaseTestRunner {
             softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
             homePage = backToHomePage();
         }
+        softAssert.assertAll();
     }
 
     private HomePage backToHomePage(){

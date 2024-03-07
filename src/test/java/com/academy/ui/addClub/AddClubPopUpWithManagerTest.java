@@ -381,7 +381,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty());
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
         softAssert.assertAll();
     }
 }

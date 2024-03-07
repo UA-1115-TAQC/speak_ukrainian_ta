@@ -386,7 +386,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("font-size"), "19px");
 
         softAssert.assertEquals(stepTwo.getAddLocationButton().getText(), "Додати локацію");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"), "#fe7729");
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(250, 140, 22, 1)");
         softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "17px",
                 "location button");
 
@@ -397,11 +397,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepTwo.getNextStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наструпний крок");
-        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "fa8c16");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
 
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getPrevStepButton().getText(),"Назад");
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "#fa8c16");
+        softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);
         actions.sendKeys(Keys.TAB).perform();

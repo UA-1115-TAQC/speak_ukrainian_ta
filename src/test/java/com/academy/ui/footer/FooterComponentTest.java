@@ -131,33 +131,22 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-982")
-    public void checkUIAscrossDifferentMobile() {
-        int WINDOW_WIDTH_S = 320;
-        int WINDOW_HEIGHT_S = 667;
-
-        int WINDOW_WIDTH_M = 414;
-        int WINDOW_HEIGHT_M = 896;
-
-        int WINDOW_WIDTH_L = 425;
-        int WINDOW_HEIGHT_L = 915;
-
-        Dimension dimension = new Dimension(WINDOW_WIDTH_S, WINDOW_HEIGHT_S);
+    @Test(description = "TUA-982", dataProvider = "window extension")
+    public void checkUIAscrossDifferentMobile(int width, int height) {
+        Dimension dimension = new Dimension(width, height);
         driver.manage().window().setSize(dimension);
         checkFooterElements(footerComponent, "Home Page");
         checkTextSizeAndColorAllElements();
-
-        dimension = new Dimension(WINDOW_WIDTH_M, WINDOW_HEIGHT_M);
-        driver.manage().window().setSize(dimension);
-        checkFooterElements(footerComponent, "Home Page");
-        checkTextSizeAndColorAllElements();
-
-        dimension = new Dimension(WINDOW_WIDTH_L, WINDOW_HEIGHT_L);
-        driver.manage().window().setSize(dimension);
-        checkFooterElements(footerComponent, "Home Page");
-        checkTextSizeAndColorAllElements();
-
         softAssert.assertAll();
+    }
+
+    @DataProvider(name = "window extension")
+    private Object[][] windowExtension() {
+        return new Object[][] {
+                {320, 667},
+                {414, 896},
+                {425, 915}
+        };
     }
 
     private void checkTextSizeAndColorAllElements() {

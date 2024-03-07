@@ -20,7 +20,7 @@ public class VerifyKyivIsShownByDefaultCity extends BaseTestRunner {
     public void testVerifyKyivIsShownByDefaultCity() {
         softAssert.assertTrue(homePage.header.getLocationIcon().isDisplayed());
 
-        softAssert.assertEquals(homePage.header.getCityButton().getText(), DEFAULT_CITY, "Київ must be shown as the default");
+        softAssert.assertEquals(homePage.header.getClubsLocationButton().getText(), DEFAULT_CITY, "Київ must be shown as the default");
 
         softAssert.assertAll();
     }

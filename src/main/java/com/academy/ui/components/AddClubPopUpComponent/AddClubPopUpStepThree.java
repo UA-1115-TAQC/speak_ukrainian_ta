@@ -55,10 +55,10 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     private WebElement validationTextareaCircleIcon;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
-    private List<WebElement> errorMessages;
-    @FindBy(xpath = "//span[contains(@class,\"ant-upload-list-item-name\")]")
-    private List<WebElement> uploadedElementsListNode;
     private List<WebElement> errorMessagesTextarea;
+
+    @FindBy(xpath = "//span[contains(@class,'ant-upload-list-item-name')]")
+    private List<WebElement> uploadedElementsListNode;
 
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
@@ -72,6 +72,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedLogoImgContainer;
+
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedCoverImgContainer;

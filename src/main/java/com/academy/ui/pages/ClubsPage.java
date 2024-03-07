@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 public class ClubsPage extends BasePage {
     @FindBy(xpath="//div[contains(@class, 'lower-header-box')]")
-    @Getter(AccessLevel.NONE) private WebElement searchClubHeaderWebElement;
+    private WebElement searchClubHeaderWebElement;
 
     @FindBy(xpath="//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
     @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;

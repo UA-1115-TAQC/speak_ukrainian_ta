@@ -12,8 +12,10 @@ import org.openqa.selenium.support.FindBy;
 public class BasePageWithAdvancedSearch extends BasePage {
     @Getter(AccessLevel.NONE)
     public AdvancedSearchHeaderComponent advancedSearchHeaderComponent;
+
     @FindBy(xpath = "//div[contains(@class, \"lower-header-box\")]")
     protected WebElement advancedSearchHeaderComponentNode;
+
     public BasePageWithAdvancedSearch(WebDriver driver) {
         super(driver);
         this.advancedSearchHeaderComponent = getAdvancedSearchHeaderComponent();

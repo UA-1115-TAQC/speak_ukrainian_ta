@@ -3,6 +3,7 @@ package com.academy.ui.footer;
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -130,5 +131,74 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-982")
+    public void checkUIAscrossDifferentMobile() {
+        int WINDOW_WIDTH_S = 320;
+        int WINDOW_HEIGHT_S = 667;
 
+        int WINDOW_WIDTH_M = 414;
+        int WINDOW_HEIGHT_M = 896;
+
+        int WINDOW_WIDTH_L = 425;
+        int WINDOW_HEIGHT_L = 915;
+
+        Dimension dimension = new Dimension(WINDOW_WIDTH_S, WINDOW_HEIGHT_S);
+        driver.manage().window().setSize(dimension);
+        checkFooterElements(footerComponent, "Home Page");
+        checkTextSizeAndColorAllElements();
+
+        dimension = new Dimension(WINDOW_WIDTH_M, WINDOW_HEIGHT_M);
+        driver.manage().window().setSize(dimension);
+        checkFooterElements(footerComponent, "Home Page");
+        checkTextSizeAndColorAllElements();
+
+        dimension = new Dimension(WINDOW_WIDTH_L, WINDOW_HEIGHT_L);
+        driver.manage().window().setSize(dimension);
+        checkFooterElements(footerComponent, "Home Page");
+        checkTextSizeAndColorAllElements();
+
+        softAssert.assertAll();
+    }
+
+    private void checkTextSizeAndColorAllElements() {
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getText(),
+                "Наші партнери");
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("font-size"),
+                "20px");
+
+        softAssert.assertEquals(footerComponent.getDonateTitle().getText(),
+                "Як допомогти проєкту?");
+        softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("font-size"),
+                "20px");
+
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getText(),
+                "Ініціатива потребує постійної фінансової підтримки, аби покривати щоденні витрати на роботу.");
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("font-size"),
+                "14px");
+
+        softAssert.assertEquals(footerComponent.getDonateButton().getText(),
+                "Допомогти проєкту");
+        softAssert.assertEquals(footerComponent.getDonateButton().getCssValue("color"),
+                "rgba(250, 140, 22, 1)");
+
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getText(),
+                "Нам небайдуже майбутнє дітей та української мови");
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getCssValue("font-size"),
+                "12px");
+
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getText(),
+                "©2021-2022 Design by Qubstudio & Development by SoftServe");
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getCssValue("font-size"),
+                "12px");
+    }
 }

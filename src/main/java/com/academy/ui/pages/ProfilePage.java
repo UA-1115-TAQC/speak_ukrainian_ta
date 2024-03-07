@@ -155,12 +155,19 @@ public class ProfilePage extends BasePage {
     }
 
     public ClubCardWithEditComponent getClubCardByName(String name) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
             if (card.getTitle().getText().equals(name)) {
                 return card;
             }
         }
         return null;
+    }
+
+    public AddClubPopUpComponent openAddClubPopUp(){
+        addButtonClick().get(0).click();
+        return new AddClubPopUpComponent(driver);
     }
 
 }

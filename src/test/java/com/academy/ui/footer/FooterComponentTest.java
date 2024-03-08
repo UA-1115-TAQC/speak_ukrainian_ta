@@ -2,14 +2,18 @@ package com.academy.ui.footer;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
-import com.academy.ui.runners.BaseTestRunner;
-import org.openqa.selenium.JavascriptExecutor;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.assertEquals;
 import com.academy.ui.pages.challenges.BaseChallengePage;
-import org.testng.annotations.*;
+import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import static org.testng.Assert.assertEquals;
 
 public class FooterComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
@@ -129,6 +133,27 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-949")
+    public void testDonateButtonLightsUp() {
+        WebElement footerButton = footerComponent.getDonateButton();
+        System.out.println(footerButton.getCssValue("background-color"));
+        String expectedColor = "rgba(253, 155, 58, 1)";
+        Actions actions = new Actions(driver);
+        actions.moveToElement(footerButton).perform();
+        try {
+            // Introduce a wait after the hover (e.g., 2 seconds)
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String buttonColor = footerButton.getCssValue("background-color");
+        System.out.println(buttonColor);
+        Assert.assertEquals(buttonColor, expectedColor, "Button did not light up as expected");
+
+        softAssert.assertAll();
+    }
+
 
 
 }

@@ -54,6 +54,10 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     @FindBy(xpath = "./descendant::div[contains(@class,'ant-select-in-form-item')][3]")
     @Getter(AccessLevel.NONE)private WebElement searchMetroBox;
 
+    @FindBy(xpath = ".//span[contains(@class,'ant-radio-checked')]/following-sibling::span")
+    protected WebElement checkedRadioButton;
+
+
     protected LocationSearchSiderElement searchCityElement;
     protected LocationSearchSiderElement searchDistrictElement;
     protected LocationSearchSiderElement searchMetroElement;

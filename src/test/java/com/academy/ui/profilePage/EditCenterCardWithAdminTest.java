@@ -1,7 +1,7 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpStepThree;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepThree;
 import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;

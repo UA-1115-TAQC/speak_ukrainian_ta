@@ -26,6 +26,9 @@ import static com.academy.ui.components.header.HeaderUtil.clickElement;
 public class HeaderComponent extends BaseComponent {
     public LoginPopupComponent loginPopupComponent;
 
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu-light')]")
+    protected WebElement cityMenuNode;
+
     @FindBy(xpath = ".//div[contains(@class, 'user-profile')]")
     protected WebElement profileMenuButton;
 
@@ -178,4 +181,10 @@ public class HeaderComponent extends BaseComponent {
                 .forEach(WebElement::click);
         return new ClubsPage(driver);
     }
+
+    public WebElement openCityMenu() {
+        clubsLocationButton.click();
+        return cityMenuNode;
+    }
+
 }

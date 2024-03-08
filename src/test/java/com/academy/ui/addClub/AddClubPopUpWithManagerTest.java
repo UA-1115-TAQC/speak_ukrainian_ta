@@ -37,6 +37,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
+        addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
     }
@@ -381,7 +382,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
-        softAssert.assertTrue(stepThree.getErrorMessages().isEmpty());
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
         softAssert.assertAll();
     }
 }

@@ -68,7 +68,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         System.out.println(Arrays.toString(expectedErrorMsg));
 
         var phoneElement = editProfilePopUp.getPhoneElement();
-        System.out.println(phoneElement);
+        System.out.println(phoneElement.clearInput());
         phoneElement.clearInput();
         List<String> errorMessagesTextList = phoneElement.getErrorMessagesTextList();
 

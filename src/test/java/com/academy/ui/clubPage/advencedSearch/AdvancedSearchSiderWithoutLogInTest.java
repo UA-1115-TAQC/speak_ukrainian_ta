@@ -6,10 +6,17 @@ import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.time.Duration;
+import java.util.List;
 
 public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
@@ -52,18 +59,25 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-259-Verify that user can find club using all parameters of advanced search")
-    public void checkIfUserCanFindClubUsingAdvancedSearch() {
-        advancedSearchSider.getSearchDistrictElement().clickDropDown().selectItem("Оболонський");
-        advancedSearchSider.getSearchMetroElement().clickDropDown().selectItem("Почайна");
+    public void checkIfUserCanFindClubUsingAdvancedSearch() throws InterruptedException {
+        advancedSearchSider.getSearchDistrictElement().clickDropDown().selectItem("Деснянський");
+        advancedSearchSider.getSearchMetroElement().clickDropDown().selectItem("Троєщина");
         advancedSearchSider.getOnlineCheckBox().click();
-        advancedSearchSider.checkDirectionCheckBox("Програмування, робототехніка, STEM");
+        clubsPage = new ClubsPage(driver);
+        advancedSearchSider.checkDirectionCheckBox("Спортивні секції");
+        clubsPage = new ClubsPage(driver);
         advancedSearchSider.enterAge("8");
+
+
+
+        //List<ClubCardComponent> clubCards = new ClubsPage(driver).getClubCards();
 
         softAssert.assertTrue(clubsPage.getClubCards().stream()
                 .flatMap(component -> component.getDirectionTags().stream())
-                .anyMatch(component -> component.getText().contains("Програмування, робототехніка, STEM")));
+                .anyMatch(component -> component.getText().contains("Спортивні секції")));
+        softAssert.assertAll();
+
     }
 
 
 }
-

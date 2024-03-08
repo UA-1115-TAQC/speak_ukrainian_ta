@@ -9,7 +9,6 @@ import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -80,7 +79,6 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
     private WebElement avatar;
-
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
     private WebElement profilePageButton;
@@ -188,6 +186,12 @@ public class HeaderComponent extends BaseComponent {
     public WebElement openCityMenu() {
         clubsLocationButton.click();
         return cityMenuNode;
+    }
+
+    public HeaderComponent waitUntilCityMenuNodeDisplayed(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.visibilityOf(cityMenuNode));
+        return this;
     }
 
 }

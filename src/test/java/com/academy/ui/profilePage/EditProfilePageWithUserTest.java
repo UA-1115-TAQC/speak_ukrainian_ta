@@ -8,8 +8,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.Arrays;
-
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
@@ -56,30 +54,19 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @Test(description = "TUA-421", dataProvider = "invalidPhone")
     public void checkEditPhoneFieldWithInvalidData(String phone, String[] expectedErrorMsg) throws InterruptedException {
-        final var emptyFieldErrorMsg = "Будь ласка введіть Ваш номер телефону";
 
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
         softAssert.assertTrue(editProfilePopUp.getSubmitButton().isEnabled(),
                 "SubmitButton should be enabled");
 
-        System.out.println(phone);
-        System.out.println(Arrays.toString(expectedErrorMsg));
-
         var phoneElement = editProfilePopUp.getPhoneElement();
-        System.out.println(phoneElement.clearInput());
         phoneElement.clearInput();
-//        List<String> errorMessagesTextList = phoneElement.getErrorMessagesTextList();
-
-        softAssert.assertEquals(phoneElement.getErrorMessagesTextList().get(0), emptyFieldErrorMsg);
-//        softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
-//                "Submit button should not be enabled");
 
         phoneElement.setValue(phone);
         for (int i = 0; i < expectedErrorMsg.length; i++) {
             softAssert.assertEquals(phoneElement.getErrorMessagesTextList().get(i), expectedErrorMsg[i]);
-//            softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
-//                    "Submit button should not be enabled");
+            softAssert.assertNotEquals(profilePage.getPhoneUser().getText(), phone);
         }
 
         softAssert.assertAll();

@@ -1,6 +1,5 @@
 package com.academy.ui.components.AddCenterPopUPComponent;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.UploadedImgComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -55,6 +54,9 @@ public class AddCenterPopUpStepThree extends AddCenterPopUpContainer {
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessagesTextarea;
 
+    @FindBy(xpath = "./descendant::button[contains(@class,'finish-btn')]")
+    private WebElement completeButton;
+
     private UploadedImgComponent uploadedLogoImg;
     private UploadedImgComponent uploadedCoverImg;
 
@@ -70,7 +72,7 @@ public class AddCenterPopUpStepThree extends AddCenterPopUpContainer {
     }
 
     public void clickCompleteButton(){
-        getNextStepButton().click();
+        completeButton.click();
     }
 
     public List<String> getErrorMessagesTextList() {

@@ -17,11 +17,9 @@ import java.time.Duration;
 public class EditProfilePopUp extends BasePopUp {
 
     @FindBy(xpath="//input[@value='ROLE_MANAGER']/../..")
-    @Getter(AccessLevel.NONE)
     protected WebElement managerTypeButton;
 
     @FindBy(xpath="//input[@value='ROLE_USER']/../..")
-    @Getter(AccessLevel.NONE)
     protected WebElement userTypeButton;
 
     @FindBy(xpath = "./descendant::div[contains(@class,'user-edit-input')][1]")
@@ -104,12 +102,22 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][1]")
     private WebElement downloadPhotoButton;
 
+    @FindBy(xpath = "./descendant::div[@class='edit-header']")
+    private WebElement popUpHeaderTitle;
+
+    @FindBy(xpath = "./descendant::div[@class='ellipse'][1]")
+    private WebElement userIcon;
+
+    @FindBy(xpath = "./descendant::div[@class='ellipse'][2]")
+    private WebElement managerIcon;
+
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
     private EditProfileInputElement phoneElement;
     private EditProfileInputElement currentPasswordElement;
     private EditProfileInputElement newPasswordElement;
     private EditProfileInputElement confirmPasswordElement;
+    private EditProfileInputElement emailElement;
 
     public EditProfilePopUp(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -119,6 +127,7 @@ public class EditProfilePopUp extends BasePopUp {
         currentPasswordElement = new EditProfileInputElement(driver, currentPassword);
         newPasswordElement = new EditProfileInputElement(driver, newPassword);
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
+        emailElement = new EditProfileInputElement(driver, email);
     }
     public InputWithIconElement getCurrentPasswordInput(){
         return new InputWithIconElement(driver, getCurrentPasswordInputNode());

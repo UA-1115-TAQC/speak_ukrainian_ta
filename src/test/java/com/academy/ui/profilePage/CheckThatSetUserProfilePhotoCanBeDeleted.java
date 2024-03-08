@@ -27,16 +27,16 @@ public class CheckThatSetUserProfilePhotoCanBeDeleted extends LogInWithUserTestR
     }
     @Test (description = "TUA-919")
     public void checkThatSetUserProfilePhotoCanBeDeleted(){
-        editProfilePopUpComponent.getUploadUserPhotoInput().sendKeys(configProperties.getImagePath()+"/speak_ukrainian_ta/src/test/java/com/academy/ui/profilePage/samplePhoto.png");
+        editProfilePopUpComponent.getUploadUserPhotoInput().sendKeys(configProperties.getImagePath("image.png"));
         wait.until(ExpectedConditions.visibilityOf(editProfilePopUpComponent.getUploadPhotoNameUserPhoto()));
         editProfilePopUpComponent.getUploadPhotoNameUserPhoto().click();
         wait.until(ExpectedConditions.elementToBeClickable(editProfilePopUpComponent.getRemoveUserPhoto()));
         editProfilePopUpComponent.getRemoveUserPhoto().click();
         editProfilePopUpComponent.clickSubmitButton();
-        //+ verify the pop up The profile image was successfully changed???
+        //+ verify the pop up The profile image was successfully changed??? //todo
         ProfilePage profilePage = new ProfilePage(driver);
-        softAssert.assertFalse(profilePage.getUserAvatarImage().getAttribute("src").contains("samplePhoto.png"),"The uploaded photo wasn't deleted. It is still present on the profile page");
-        softAssert.assertFalse(profilePage.header.getAvatarImage().getAttribute("src").contains("samplePhoto.png"),"The uploaded photo wasn't deleted. It is still present on the profile page");
+        softAssert.assertFalse(profilePage.getUserAvatarImage().getAttribute("src").contains("image.png"),"The uploaded photo wasn't deleted. It is still present on the profile page");
+        softAssert.assertFalse(profilePage.header.getAvatarImage().getAttribute("src").contains("image.png"),"The uploaded photo wasn't deleted. It is still present on the profile page");
         softAssert.assertAll();
     }
 }

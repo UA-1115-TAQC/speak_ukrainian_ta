@@ -87,26 +87,17 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
     @Test(description = "TUA-845")
     public void checkHoverEffectsFindOutMoreButton(){
         for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
-            waitUntilTheCardIsDisplayedByIndex(i);
+            homePage.carouselImgComponent.waitUntilTheCardIsDisplayedByIndex(i);
             softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"),
                     "The card button text isn't white by default");
             homePage.carouselImgComponent.clickSlickDotByIndex(i);
-            waitUntilTheCardIsDisplayedByIndex(i);
-            hoverOverCardButton(i);
+            homePage.carouselImgComponent.waitUntilTheCardIsDisplayedByIndex(i);
+            homePage.carouselImgComponent.hoverOverCardButton(i);
             softAssert.assertFalse(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("background").contains("rgba(255, 255, 255, 1)"),
                     "The card button text hasn't changed after hover");
             homePage.carouselImgComponent.clickRightArrowButton();
         }
         softAssert.assertAll();
-    }
-    private void waitUntilTheCardIsDisplayedByIndex(int i){
-        if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
-            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
-        }
-    }
-    private void hoverOverCardButton(int i){
-        actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText());
-        actions.build().perform();
     }
     @Test(description = "TUA-845")
     public void verifyImgcarouselButton1() {

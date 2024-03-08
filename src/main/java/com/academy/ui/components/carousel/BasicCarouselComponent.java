@@ -5,8 +5,10 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +24,10 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     protected WebElement slickDotsContainer;
     @FindBy(xpath = ".//div[contains(@class,\"slick-slider\")]")
     protected WebElement sliderContainer;
+    protected  WebDriverWait wait;
     public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     public T clickLeftArrowButton() {
@@ -45,8 +49,11 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
 
     public T clickSlickDotByIndex(int index) {
         this.getSlickDotByIndex(index).click();
+        wait.until(ExpectedConditions.attributeContains(getSlickDotByIndex(index), "background", "rgb(250, 140, 22)"));
         return (T) this;
     }
+
+
 
     public WebElement getActiveSlickDot() {
         WebElement activeSlickDot = null;

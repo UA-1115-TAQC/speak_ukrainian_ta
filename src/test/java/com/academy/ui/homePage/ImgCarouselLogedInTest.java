@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -26,6 +25,7 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         wait = new WebDriverWait(driver, Duration.ofSeconds(120));
         actions = new Actions(driver);
         homePage = new HomePage(driver);
+        wait.until(driver -> homePage.header.isLoggedIn());
     }
     @Test(description = "TUA-845")
     public void checkThatSlickDotsContainerIsCentered(){
@@ -52,8 +52,6 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotByIndex(0).getCssValue("background").contains("rgb(250, 140, 22)"),
                 "The first dot indicator under carousel isn't highlighted in orange by default when active");
         homePage.carouselImgComponent.clickSlickDotByIndex(1);
-        wait.until(ExpectedConditions.elementToBeClickable(homePage.carouselImgComponent.getSlickDotByIndex(1)));
-        wait.until(ExpectedConditions.attributeContains(homePage.carouselImgComponent.getSlickDotByIndex(1), "background", "rgb(250, 140, 22)"));
         softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotByIndex(0).getCssValue("background").contains("rgb(196, 196, 196)"),
                 "The first dot indicator under carousel isn't highlighted in grey by default when inactive");
         softAssert.assertAll();
@@ -89,22 +87,26 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
     @Test(description = "TUA-845")
     public void checkHoverEffectsFindOutMoreButton(){
         for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
-            if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
-                wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
-            }
+            waitUntilTheCardIsDisplayedByIndex(i);
             softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("color").contains("rgba(255, 255, 255, 1)"),
                     "The card button text isn't white by default");
             homePage.carouselImgComponent.clickSlickDotByIndex(i);
-            if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
-                wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
-            }
-            actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText());
-            actions.build().perform();
+            waitUntilTheCardIsDisplayedByIndex(i);
+            hoverOverCardButton(i);
             softAssert.assertFalse(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText().getCssValue("background").contains("rgba(255, 255, 255, 1)"),
                     "The card button text hasn't changed after hover");
             homePage.carouselImgComponent.clickRightArrowButton();
         }
         softAssert.assertAll();
+    }
+    private void waitUntilTheCardIsDisplayedByIndex(int i){
+        if (!homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
+            wait.until(ExpectedConditions.visibilityOf(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButton()));
+        }
+    }
+    private void hoverOverCardButton(int i){
+        actions.moveToElement(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardButtonText());
+        actions.build().perform();
     }
     @Test(description = "TUA-845")
     public void verifyImgcarouselButton1() {

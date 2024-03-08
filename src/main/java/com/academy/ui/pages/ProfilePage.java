@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ProfilePage extends BasePage {
@@ -54,7 +55,14 @@ public class ProfilePage extends BasePage {
     private WebElement editUserModalForm;
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]//div[contains(@class, 'space-item')]")
+    private List<WebElement> myClubsList;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]")
+    private WebElement clubsSpace;
 
+    public List<ClubCardComponent> getClubsElements(){
+        return myClubsList.stream().map(el -> new ClubCardComponent(driver, el)).collect(Collectors.toList());
+    }
 
     public ProfilePage(WebDriver driver) {
         super(driver);

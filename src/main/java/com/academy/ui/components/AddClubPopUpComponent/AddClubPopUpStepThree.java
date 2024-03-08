@@ -49,7 +49,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]//input")
     private WebElement clubGalleryDownloadInput;
 
-    @FindBy(xpath = "./descendant::textarea[@id='basic_descriptionText']")
+    @FindBy(xpath = ".//textarea[contains(@id,'basic_description')]")
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")

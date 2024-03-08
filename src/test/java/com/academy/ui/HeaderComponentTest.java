@@ -1,6 +1,7 @@
 package com.academy.ui;
 
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -15,6 +16,7 @@ public class HeaderComponentTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-23")
+    @Issue("TUA-23")
     public void testVerifyKyivIsShownByDefaultCity() {
         softAssert.assertTrue(homePage.header.getLocationIcon().isDisplayed());
         softAssert.assertEquals(homePage.header.getClubsLocationButton().getText(), DEFAULT_CITY,

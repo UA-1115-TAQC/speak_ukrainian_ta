@@ -54,30 +54,37 @@ public class ClubsPage extends BasePage {
         switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
-
-        clubCards = createClubComponents();
-        centerCards = createCenterComponents();
+        selectWhatCardsToShow();
     }
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
-        sleep(1000);
-        for (WebElement element : clubCardsWebElement) {
-            clubs.add(new ClubCardComponent(driver, element));
+        sleep(500);
+        if (!clubCardsWebElement.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsWebElement));
+            for (WebElement element : clubCardsWebElement) {
+                clubs.add(new ClubCardComponent(driver, element));
+            }
         }
         return clubs;
     }
 
     private List<CenterCardComponent> createCenterComponents() {
         List<CenterCardComponent> centers = new ArrayList<>();
-        for (WebElement element : centerCardsWebElement) {
-            centers.add(new CenterCardComponent(driver, element));
+        sleep(500);
+        if (!centerCardsWebElement.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsWebElement));
+            for (WebElement element : centerCardsWebElement) {
+                centers.add(new CenterCardComponent(driver, element));
+            }
         }
         return centers;
     }
 
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds){
-        if(seconds > 0 ) {
+        if(seconds > 0) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
             wait.until(ExpectedConditions.urlContains("clubs"));
             wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
@@ -104,5 +111,17 @@ public class ClubsPage extends BasePage {
 
     public boolean isClubsPageEmpty(){
         return clubCards.isEmpty();
+    }
+
+    private void selectWhatCardsToShow() {
+        if (isElementPresent(searchSiderAsideNode)) {
+            if (searchSider.getCheckedRadioButton().getAttribute("innerText").equals("Гурток")) {
+                clubCards = createClubComponents();
+            } else {
+                centerCards = createCenterComponents();
+            }
+        } else {
+            clubCards = createClubComponents();
+        }
     }
 }

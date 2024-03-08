@@ -28,9 +28,9 @@ public class CheckThatSetUserProfilePhotoCanBeDeleted extends LogInWithUserTestR
     @Test (description = "TUA-919")
     public void checkThatSetUserProfilePhotoCanBeDeleted(){
         editProfilePopUpComponent.getUploadUserPhotoInput().sendKeys(configProperties.getImagePath("image.png"));
-        wait.until(ExpectedConditions.visibilityOf(editProfilePopUpComponent.getUploadPhotoNameUserPhoto()));
+        editProfilePopUpComponent.waitUntilElementIsVisible(editProfilePopUpComponent.getUploadPhotoNameUserPhoto());
         editProfilePopUpComponent.getUploadPhotoNameUserPhoto().click();
-        wait.until(ExpectedConditions.elementToBeClickable(editProfilePopUpComponent.getRemoveUserPhoto()));
+        editProfilePopUpComponent.waitUntilElementIsVisible(editProfilePopUpComponent.getRemoveUserPhoto());
         editProfilePopUpComponent.getRemoveUserPhoto().click();
         editProfilePopUpComponent.clickSubmitButton();
         //+ verify the pop up The profile image was successfully changed??? //todo

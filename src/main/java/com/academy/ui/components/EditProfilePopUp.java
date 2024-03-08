@@ -118,6 +118,7 @@ public class EditProfilePopUp extends BasePopUp {
     private EditProfileInputElement newPasswordElement;
     private EditProfileInputElement confirmPasswordElement;
     private EditProfileInputElement emailElement;
+    WebDriverWait wait;
 
     public EditProfilePopUp(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -128,6 +129,7 @@ public class EditProfilePopUp extends BasePopUp {
         newPasswordElement = new EditProfileInputElement(driver, newPassword);
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
         emailElement = new EditProfileInputElement(driver, email);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
     public InputWithIconElement getCurrentPasswordInput(){
         return new InputWithIconElement(driver, getCurrentPasswordInputNode());
@@ -171,5 +173,7 @@ public class EditProfilePopUp extends BasePopUp {
         submitButton.click();
         return new ProfilePage(driver);
     }
-
+    public void waitUntilElementIsVisible(WebElement el){
+        wait.until(ExpectedConditions.visibilityOf(el));
+    }
 }

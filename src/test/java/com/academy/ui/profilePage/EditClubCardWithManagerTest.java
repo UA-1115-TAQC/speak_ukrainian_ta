@@ -1,8 +1,10 @@
 package com.academy.ui.profilePage;
 
+import com.academy.ui.addClub.AddClubWithManagerDataProvider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
@@ -11,6 +13,8 @@ import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
@@ -206,6 +210,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    TODO
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
@@ -348,6 +353,45 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-961a", dataProvider = "invalidTelephone", dataProviderClass = EditClubWithManagerDataProvider.class)
+    public void checkInvalidTelephoneInput(String input, String expectedErrorMsg){
+        softAssert = new SoftAssert();
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
+        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(10);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo two = edit.getStepTwoContainer();
+
+        two.getTelephoneInputElement().setValue(input);
+        String errorMsg = "";
+        List<String> errorList= two.getTelephoneInputElement().getErrorMessagesTextList();
+        for(String str : errorList){
+            errorMsg = errorMsg + str + " ";
+        }
+
+        softAssert.assertEquals(errorMsg, expectedErrorMsg);
+        softAssert.assertFalse(two.getNextStepButton().isEnabled());
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-961b", dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
+    public void checkInvalidEmailInput(String input){
+        softAssert = new SoftAssert();
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
+        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(10);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo two = edit.getStepTwoContainer();
+
+        two.getEmailInputElement().setValue(input);
+        softAssert.assertEquals(
+                two.getEmailInputElement().getErrorMessagesTextList().get(0),
+                "Некоректний формат email"
+        );
+        softAssert.assertFalse(two.getNextStepButton().isEnabled());
         softAssert.assertAll();
     }
 }

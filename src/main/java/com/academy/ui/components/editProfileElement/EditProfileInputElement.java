@@ -30,7 +30,7 @@ public class EditProfileInputElement extends AddClubInputElement {
         return this;
     }
 
-    public String getTitle() {
+    public String getTitleText() {
         return title.getText();
     }
 

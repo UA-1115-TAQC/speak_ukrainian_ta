@@ -11,10 +11,13 @@ import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import static org.testng.Assert.assertTrue;
+
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
@@ -534,5 +537,33 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    public void checkValidClubNameInput(String input){
+        softAssert = new SoftAssert();
+
+        stepOne.getClubNameInputElement().setValue(input);
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(82, 196, 26, 1)"
+        );
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(255, 77, 79, 1)"
+        );
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getErrorMessages().get(0).getText(),
+                "Введіть назву гуртка");
+
+        softAssert.assertAll();
+    }
+    
+    @Test(description = "TUA-312")
+    public void checkAddClubPopUpIsDisplayed(){
+        WebElement element = stepOne.getNextStepButton();
+        assertTrue(element.isDisplayed());
     }
 }

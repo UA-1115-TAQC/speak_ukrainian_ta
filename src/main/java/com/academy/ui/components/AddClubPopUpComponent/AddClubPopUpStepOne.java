@@ -112,4 +112,9 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
+    public void selectCenterByName(){
+        centersList.get(0).click();
+
+    }
+
 }

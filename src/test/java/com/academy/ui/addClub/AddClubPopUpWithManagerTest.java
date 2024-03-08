@@ -37,6 +37,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
+        addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
     }

@@ -8,6 +8,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -351,7 +352,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-79")
+    @Test
+    @Issue("TUA-79")
     public void checkUserCanEditDescriptionFieldWithInvalidData() {
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
@@ -365,7 +367,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getClubDescriptionTextarea().isDisplayed());
         softAssert.assertFalse(stepThree.getErrorMessagesTextList().isEmpty());
-        softAssert.assertFalse(stepThree.getNextStepButton().isEnabled());
+        softAssert.assertFalse(stepThree.getNextStepButton().isEnabled(),
+                "The 'Завершити' button is enabled");
 
         softAssert.assertAll();
     }

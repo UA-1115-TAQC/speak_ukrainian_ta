@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddLocationPopUpComponent;
 
 import com.academy.ui.components.elements.BaseInputElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,6 +29,7 @@ public class AddLocationInputElement extends BaseInputElement {
         super(driver, rootElement);
     }
 
+    @Step("Get list of error messages of input on the Add location pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }

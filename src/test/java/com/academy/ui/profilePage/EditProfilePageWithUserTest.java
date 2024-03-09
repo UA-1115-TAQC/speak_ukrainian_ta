@@ -2,19 +2,14 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
-
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import java.time.Duration;
 
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private SoftAssert softAssert;
@@ -354,4 +349,43 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 {"Lastname'", "Прізвище повинно починатися та закінчуватися літерою"}
         };
     }
+
+    @Test(description = "TUA-113")
+    public void editUserWithValidData() {
+        final String firstName = "John";
+        final String lastName = "Doe";
+        final String phone = "0987654321";
+        final String password = "Password1;";
+
+        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, false);
+
+        editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, true);
+
+        softAssert.assertAll();
+    }
+    private void editUserWithData(EditProfilePopUp editProfile, String firstName, String lastName, String phone, String password, boolean withPassword) {
+        final String updateSuccessMessage = withPassword ? "Профіль змінено успішно" : "Ви успішно залогувалися!";
+
+        editProfile.waitPopUpOpen(5);
+        editProfile.clickUserButton();
+        editProfile.getPhoneElement().clearInput().setValue(phone);
+        editProfile.getFirstNameElement().clearInput().setValue(firstName);
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+
+        if (withPassword) {
+            editProfile.clickCheckBox();
+            editProfile.getCurrentPasswordElement().clearInput().setValue(configProperties.getUserPassword());
+            editProfile.getNewPasswordInput().clearInput().setValue(password);
+            editProfile.getConfirmPasswordInput().clearInput().setValue(password);
+        }
+
+        editProfile.clickSubmitButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), updateSuccessMessage,
+                "Successful registration message should appear");
+    }
+
+
 }

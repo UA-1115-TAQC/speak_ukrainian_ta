@@ -46,19 +46,19 @@ public class DayTimeCheckboxElement extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Set 'From' club time on the second step of Add club pop-up")
+    @Step("Set 'From' club time on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement setTimeFromInput(String time) {
         timeFromInput.sendKeys(time);
         return this;
     }
 
-    @Step("Set 'To' club time on the second step of Add club pop-up")
+    @Step("Set 'To' club time on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement setTimeToInput(String time) {
         timeToInput.sendKeys(time);
         return this;
     }
 
-    @Step("Click on 'OK' button on the time picker on the second step of Add club pop-up")
+    @Step("Click on 'OK' button on the time picker on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement clickOkTimePickerButton() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(timePickerButton)).click();

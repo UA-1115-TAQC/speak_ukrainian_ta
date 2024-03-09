@@ -47,25 +47,25 @@ public class LocationListElement extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Click on the Edit-icon to edit location on the second step of Add club pop-up")
+    @Step("Click on the Edit-icon to edit location on the second step of Add/Edit club pop-up")
     public AddLocationPopUpComponent clickEditIcon() {
         editIcon.click();
         return new AddLocationPopUpComponent(driver, locationPopUp);
     }
 
-    @Step("Click on the Delete-icon to delete location on the second step of Add club pop-up")
+    @Step("Click on the Delete-icon to delete location on the second step of Add/Edit club pop-up")
     public LocationListElement clickDeleteIcon() {
         deleteIcon.click();
         return this;
     }
 
-    @Step("Click on 'Cancel' button on deleting location confirmation pop-up the second step of Add club pop-up")
+    @Step("Click on 'Cancel' button on deleting location confirmation pop-up the second step of Add/Edit club pop-up")
     public LocationListElement clickPopConfirmCancelButton() {
         popConfirmCancelButton.click();
         return this;
     }
 
-    @Step("Click on 'OK' button on deleting location confirmation pop-up the second step of Add club pop-up")
+    @Step("Click on 'OK' button on deleting location confirmation pop-up the second step of Add/Edit club pop-up")
     public LocationListElement clickPopConfirmOkButton() {
         popConfirmOkButton.click();
         return this;

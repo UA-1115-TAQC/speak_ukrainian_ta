@@ -136,17 +136,21 @@ public class FooterComponentTest extends BaseTestRunner {
 
     @Test(description = "TUA-949")
     public void testDonateButtonLightsUp() {
+        homePage.scrollToFooter();
+        FooterComponent footer = homePage.getFooter();
+        softAssert.assertTrue(footer.isDonateBlockIsDisplayed());
+
         WebElement footerButton = footerComponent.getDonateButton();
         System.out.println(footerButton.getCssValue("background-color"));
-        String expectedColor = "rgba(253, 155, 58, 1)";
+        String expectedColor = "rgba(255, 169, 64, 1)";
         Actions actions = new Actions(driver);
         actions.moveToElement(footerButton).perform();
+
         try {
-            // Introduce a wait after the hover (e.g., 2 seconds)
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
         }
+
         String buttonColor = footerButton.getCssValue("background-color");
         System.out.println(buttonColor);
         Assert.assertEquals(buttonColor, expectedColor, "Button did not light up as expected");

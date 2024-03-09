@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -83,6 +84,7 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         clubNameInputElement = new AddClubInputElement(driver, clubNameInput);
     }
 
+    @Step("Select club category by name on the first step of Add club pop-up")
     public AddClubPopUpStepOne selectCategory(String value) {
         categoriesCheckboxList.stream()
                 .filter(category -> category.getAttribute("value").equals(value))
@@ -90,16 +92,19 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
+    @Step("Set club minimum age on the first step of Add club pop-up")
     public AddClubPopUpStepOne setMinAgeInput(String age) {
         minAgeInput.sendKeys(age);
         return this;
     }
 
+    @Step("Set club maximum age on the first step of Add club pop-up")
     public AddClubPopUpStepOne setMaxAgeInput(String age) {
         maxAgeInput.sendKeys(age);
         return this;
     }
 
+    @Step("Select center by name on the first step of Add club pop-up")
     public AddClubPopUpStepOne selectCenter(String value) {
         centersList.stream()
                 .filter(center -> (center.getAttribute("innerText").equals(value)))
@@ -107,7 +112,8 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    public AddClubPopUpStepOne clickCenterDropdown(){
+    @Step("Click on center dropdown on the first step of Add club pop-up")
+    public AddClubPopUpStepOne clickCenterDropdown() {
         centerSelect.click();
         return this;
     }

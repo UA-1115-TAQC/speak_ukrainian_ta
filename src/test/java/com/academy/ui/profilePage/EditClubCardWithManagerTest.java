@@ -1,16 +1,18 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
+import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
@@ -349,5 +351,72 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
 
         softAssert.assertAll();
+    }
+    @Test(description = "TUA-955")
+    public void checkValidPhoneInput() {
+        final String PHONE_TEST_VALUE = "0661782312";
+        final String FACEBOOK_TEST_VALUE = "facebook1user";
+        final String WHATSAPP_TEST_VALUE = "username";
+        final String SITE_TEST_VALUE = "exampleuser";
+        final String SKYPE_TEST_VALUE = "skypeuser1";
+        final String EMAIL_TEST_VALUE = "email@email.com";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(2);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo addLocationPopUp = editClubPopUp.getStepTwoContainer();
+
+        AddClubInputElement phone = addLocationPopUp.getTelephoneInputElement();
+        validateAddClubInputElement(phone, PHONE_TEST_VALUE);
+
+        AddClubInputElement facebook = addLocationPopUp.getFacebookInputElement();
+        validateAddClubInputElement(facebook, FACEBOOK_TEST_VALUE);
+
+        AddClubInputElement whatsapp = addLocationPopUp.getWhatsappInputElement();
+        validateAddClubInputElement(whatsapp, WHATSAPP_TEST_VALUE);
+
+        AddClubInputElement email = addLocationPopUp.getEmailInputElement();
+        validateAddClubInputElement(email, EMAIL_TEST_VALUE);
+
+        AddClubInputElement skype = addLocationPopUp.getSkypeInputElement();
+        validateAddClubInputElement(skype, SKYPE_TEST_VALUE);
+
+        AddClubInputElement site = addLocationPopUp.getSiteInputElement();
+        validateAddClubInputElement(site, SITE_TEST_VALUE);
+
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+
+
+        String newClubName = getClubName();
+        ClubCardWithEditComponent newClubCardByName = profilePage.getClubCardByName(newClubName);
+        AddClubPopUpComponent newEditClubPopUp = newClubCardByName.clickMoreButton().clickEditClub();
+        newEditClubPopUp.waitPopUpOpen(5);
+        newEditClubPopUp.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo newAddLocationPopUp = newEditClubPopUp.getStepTwoContainer();
+
+        softAssert.assertEquals(newAddLocationPopUp.getTelephoneInputElement().getInput().getAttribute("value"), PHONE_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getFacebookInputElement().getInput().getAttribute("value"), FACEBOOK_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getWhatsappInputElement().getInput().getAttribute("value"), WHATSAPP_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getSkypeInputElement().getInput().getAttribute("value"), SKYPE_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getEmailInputElement().getInput().getAttribute("value"), EMAIL_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getSiteInputElement().getInput().getAttribute("value"), SITE_TEST_VALUE);
+        softAssert.assertAll();
+    }
+
+    private void validateAddClubInputElement(AddClubInputElement element, String testValue) {
+        element.clearInput();
+        element.setValue(testValue);
+        softAssert.assertEquals(element.getErrorMessagesTextList(), List.of());
+
+        WebElement parentOfCircleIcon = element.getValidationCircleIcon().findElement(By.xpath(".."));
+        softAssert.assertTrue(parentOfCircleIcon.getAttribute("class").contains("ant-form-item-feedback-icon-success"));
+
+
     }
 }

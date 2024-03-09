@@ -377,10 +377,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
+        clubCardByName.clickMoreButton();
 
         ProfilePage updateprofile = new ProfilePage(driver);
         softAssert.assertTrue(updateprofile.getCurrentTabHandle().contains("user"));
-        clubCardByName.clickMoreButton();
+
 
         softAssert.assertAll();
     }

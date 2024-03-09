@@ -106,7 +106,7 @@ public class ProfilePage extends BasePage {
         myCentersDropDown.click();
     }
 
-    public List<WebElement> addButtonClick(){
+    public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(getAddButtonOptionStringPath("club"))));
@@ -137,16 +137,19 @@ public class ProfilePage extends BasePage {
     }
 
     public EditProfilePopUp openEditUserProfile() {
-        editProfileButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.elementToBeClickable(editProfileButton)).click();
         return new EditProfilePopUp(driver, editUserModalForm);
     }
 
     public List<ClubCardWithEditComponent> getClubCardComponents() {
         clubCardComponentsList = new ArrayList<>();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsListWebElements));
-        for (WebElement card : clubCardsListWebElements) {
-            clubCardComponentsList.add(new ClubCardWithEditComponent(driver, card));
+        if (!clubCardsListWebElements.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsListWebElements));
+            for (WebElement card : clubCardsListWebElements) {
+                clubCardComponentsList.add(new ClubCardWithEditComponent(driver, card));
+            }
         }
         return clubCardComponentsList;
     }
@@ -169,10 +172,12 @@ public class ProfilePage extends BasePage {
 
     public List<CenterCardWithEditComponent> getCenterCardComponents() {
         centerCardComponentsList = new ArrayList<>();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsListWebElements));
-        for (WebElement card : centerCardsListWebElements) {
-            centerCardComponentsList.add(new CenterCardWithEditComponent(driver, card));
+        if (!centerCardsListWebElements.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsListWebElements));
+            for (WebElement card : centerCardsListWebElements) {
+                centerCardComponentsList.add(new CenterCardWithEditComponent(driver, card));
+            }
         }
         return centerCardComponentsList;
     }

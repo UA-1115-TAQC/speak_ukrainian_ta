@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,12 +23,14 @@ public abstract class AddCenterPopUpContainer extends BaseComponent {
         super(driver, rootElement);
     }
 
-    public AddCenterPopUpContainer clickNextStepButton(){
+    @Step("Get next step button on the Add/Edit center pop-up")
+    public AddCenterPopUpContainer clickNextStepButton() {
         nextStepButton.click();
         return this;
     }
 
-    public AddCenterPopUpContainer clickPreviousStepButton(){
+    @Step("Get previous step button on the Add/Edit center pop-up")
+    public AddCenterPopUpContainer clickPreviousStepButton() {
         prevStepButton.click();
         return this;
     }

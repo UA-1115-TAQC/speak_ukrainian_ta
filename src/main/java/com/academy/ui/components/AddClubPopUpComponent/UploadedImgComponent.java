@@ -5,6 +5,10 @@ import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 @Getter
 public class UploadedImgComponent extends BaseComponent {
@@ -30,6 +34,9 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::button[(@type='button') and (@aria-label='Close')][3]")
     private WebElement closeButton;
 
+    @FindBy(xpath = ".//div[contains(@class,'ant-upload-list-item-done')]")
+    private WebElement uploadDone;
+
     public UploadedImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -51,5 +58,16 @@ public class UploadedImgComponent extends BaseComponent {
     public UploadedImgComponent clickClosePreviewWindow() {
         closeButton.click();
         return this;
+    }
+
+    public void waitImageLoad(long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.until(ExpectedConditions.visibilityOf(uploadDone));
+    }
+
+    public void waitImageChanged(String prevImage, long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.until(e -> !imgTitle.getText().equals(prevImage));
+        wait.until(ExpectedConditions.visibilityOf(uploadDone));
     }
 }

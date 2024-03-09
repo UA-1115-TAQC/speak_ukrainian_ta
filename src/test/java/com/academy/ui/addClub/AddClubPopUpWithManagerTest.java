@@ -7,6 +7,9 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
+import io.qameta.allure.Description;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -42,6 +45,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert = new SoftAssert();
     }
 
+    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
@@ -50,6 +54,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 .clickNextStepButton();
     }
 
+    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
@@ -144,7 +149,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
     }
 
-    @Test(description = "TUA-123")
+    @Test(description = "Club can't be created with empty mandatory fields")
+    @Description("Verify that a club can't be created if mandatory parameters are empty")
+    @Issue("TUA-123")
     public void checkClubCantBeCreatedWithEmptyMandatoryParameters() {
         final String EMPTY_STRING = "";
         final String DISABLED_BUTTON_MESSAGE = "Next button should be disabled";
@@ -211,7 +218,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-177")
+    @Test(description = "Error messages appear when clubs description is more 1500 symbols")
+    @Description("Verify that error message ‘Опис гуртка задовгий’ appears when the user enters more than 1500 symbols into the field")
+    @Issue("TUA-177")
     public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols() {
 
         final String TEXT_1500_SYMBOLS = "Abcd ".repeat(300);
@@ -243,7 +252,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-119")
+    @Test(description = "UI test for third step 'Description' of Add club pop-up")
+    @Description("Check 'Опис' tab on 'Додати гурток' pop-up window (UI)")
+    @Issue("TUA-119")
     public void checkStepTreeDescriptionUI() {
         int WINDOW_WIDTH = 400;
         int WINDOW_HEIGHT = 600;

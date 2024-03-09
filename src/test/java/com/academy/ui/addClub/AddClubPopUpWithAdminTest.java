@@ -9,6 +9,9 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -47,6 +50,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert = new SoftAssert();
     }
 
+    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
@@ -55,6 +59,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 .clickNextStepButton();
     }
 
+    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
@@ -131,7 +136,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-928'")
+    @Test(description = "New club added with corrected data")
+    @Description("Verify that new club with corrected data after error messages is added on the website")
+    @Issue("TUA-928")
     public void checkNewClubAddedWithCorrectedData() {
 
         final String INVALID_CLUB_NAME = "ÄыЁЪùייראפ";

@@ -110,18 +110,18 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         this.siteInputElement = new AddClubInputElement(driver, siteInput);
     }
 
-    @Step("Click on switch button 'Доступний онлайн' on the second step of Add club pop-up")
+    @Step("Click on switch button 'Доступний онлайн' on the second step of Add/Edit club pop-up")
     public AddClubPopUpStepTwo clickSwitchButton() {
         switchButton.click();
         return this;
     }
 
-    @Step("Check if switch button 'Доступний онлайн' is checked on the second step of Add club pop-up")
+    @Step("Check if switch button 'Доступний онлайн' is checked on the second step of Add/Edit club pop-up")
     public Boolean isSwitchButtonChecked() {
         return switchButton.getAttribute("aria-checked").equals("true");
     }
 
-    @Step("Get Day and Time collection on the second step of Add club pop-up")
+    @Step("Get Day and Time collection on the second step of Add/Edit club pop-up")
     public HashMap<String, DayTimeCheckboxElement> getDayTimeCheckboxElementsCollection() {
         dayTimeCheckboxElementsCollection = new HashMap<>();
         By locator = By.xpath("./descendant::input[@class='ant-checkbox-input']");
@@ -134,7 +134,7 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return dayTimeCheckboxElementsCollection;
     }
 
-    @Step("Get list of locations on the second step of Add club pop-up")
+    @Step("Get list of locations on the second step of Add/Edit club pop-up")
     public List<LocationListElement> getListOfLocationElements() {
         listOfLocationElements = new ArrayList<>();
         if (!locationList.isEmpty()) {
@@ -143,20 +143,20 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
-    @Step("Click on the checkbox with certain day value on the second step of Add club pop-up")
+    @Step("Click on the checkbox with certain day value on the second step of Add/Edit club pop-up")
     public AddClubPopUpStepTwo clickOnDayCheckbox(String day) {
         dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
         return this;
     }
 
-    @Step("Click on the button 'Додати локацію' on the second step of Add club pop-up")
+    @Step("Click on the button 'Додати локацію' on the second step of Add/Edit club pop-up")
     public AddLocationPopUpComponent clickAddLocationButton() {
         addLocationButton.click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 
-    @Step("Get list of location names on the second step of Add club pop-up")
+    @Step("Get list of location names on the second step of Add/Edit club pop-up")
     public List<String> getLocationsNameList() {
         List<String> list = new ArrayList<>();
         getListOfLocationElements().forEach(location -> list.add(location.getLocationTitle().getText()));

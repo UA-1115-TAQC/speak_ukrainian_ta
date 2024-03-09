@@ -23,13 +23,13 @@ public abstract class AddClubPopUpContainer extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Get next step button on the Add club pop-up")
+    @Step("Get next step button on the Add/Edit club pop-up")
     public AddClubPopUpContainer clickNextStepButton() {
         nextStepButton.click();
         return this;
     }
 
-    @Step("Get previous step button on the Add club pop-up")
+    @Step("Get previous step button on the Add/Edit club pop-up")
     public AddClubPopUpContainer clickPreviousStepButton() {
         prevStepButton.click();
         return this;

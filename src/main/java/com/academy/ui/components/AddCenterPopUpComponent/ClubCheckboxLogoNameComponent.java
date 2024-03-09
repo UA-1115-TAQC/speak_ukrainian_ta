@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ public class ClubCheckboxLogoNameComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Click on club checkbox on the fourth step of Add center pop-up")
     public ClubCheckboxLogoNameComponent clickOnCheckbox() {
         clubCheckbox.click();
         return this;

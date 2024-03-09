@@ -35,8 +35,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
-    private static final String imagePath = System.getProperty("user.dir") + "\\src\\test\\resources\\images\\image.png";
-
     private String image1FileName= "image.png";
     private String image2FileName= "image2.png";
     private WebDriverWait wait;
@@ -421,15 +419,15 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepTwoWithValidDataPreconditions();
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.getClubLogoDownloadInput().sendKeys(imagePath);
-        stepThree.sleep(2000);
-        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), "image.png",
+        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(image1FileName));
+        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), image1FileName,
                 "Photo not added for Logo");
         stepThree.getUploadedLogoImg().clickRemoveImg();
 
-        stepThree.sleep(2000);
-        stepThree.getClubCoverDownloadInput().sendKeys(imagePath);
-        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), "image.png",
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image2FileName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), image2FileName,
                 "Photo not added for Cover");
 
         stepThree.getUploadedCoverImg().clickRemoveImg();

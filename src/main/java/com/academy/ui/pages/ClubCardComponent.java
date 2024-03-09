@@ -32,6 +32,10 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
 
+
+    @FindBy(xpath = "./descendant::div[@class='club-online']")
+    protected WebElement clubOnline;
+
     @FindBy(xpath = ".//*[contains(@class,'details-button')]")
     protected WebElement detailsButton;
 
@@ -41,6 +45,13 @@ public class ClubCardComponent extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-modal-root css-1kvr9ql']")
     @Getter(AccessLevel.NONE)private WebElement popUpWebElement;
 
+    @FindBy(xpath = ".//span[@class='club-online-label']")
+    protected WebElement onlineLabel;
+
+    @FindBy(xpath = ".//div[@class='ant-card-body']/child::*")
+    protected List<WebElement> cardChildList;
+
+    @Getter(AccessLevel.NONE)
     protected List<DirectionTagComponent> directions;
 
     public ClubCardComponent(WebDriver driver, WebElement rootElement) {
@@ -48,11 +59,9 @@ public class ClubCardComponent extends BaseComponent {
     }
 
     public List<DirectionTagComponent> getDirections() {
-        if (directions == null) {
-            directions = new ArrayList<>();
-            for (WebElement tag : directionTags) {
-                directions.add(new DirectionTagComponent(driver, tag));
-            }
+        directions = new ArrayList<>();
+        for (WebElement tag : directionTags) {
+            directions.add(new DirectionTagComponent(driver, tag));
         }
         return directions;
     }
@@ -81,9 +90,7 @@ public class ClubCardComponent extends BaseComponent {
 
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement root = wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
-        return new ClubInfoPopUp(driver, root);
+        return new ClubInfoPopUp(driver);
     }
 
     public void clickAddress() {

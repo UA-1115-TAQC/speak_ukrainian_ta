@@ -10,8 +10,8 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Step;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,22 +27,25 @@ import static com.academy.ui.components.header.HeaderUtil.clickElement;
 public class HeaderComponent extends BaseComponent {
     public LoginPopupComponent loginPopupComponent;
 
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu-light')]")
+    protected WebElement cityMenuNode;
+
     @FindBy(xpath = ".//div[contains(@class, 'user-profile')]")
     protected WebElement profileMenuButton;
 
-    @FindBy(xpath = ".//a[@href='/dev/news']")
+    @FindBy(xpath = ".//a[contains(@href,'news')]")
     protected WebElement newsButton;
 
-    @FindBy(xpath = ".//a[@href='/dev/clubs']")
+    @FindBy(xpath = ".//a[contains(@href,'clubs')]")
     protected WebElement clubsButton;
-    //@FindBy(xpath = ".//a[@href='/about']") - for a test to pass on the production level site
-    @FindBy(xpath = ".//a[@href='/dev/about']")
+  
+    @FindBy(xpath = ".//a[contains(@href,'about')]")
     protected WebElement aboutUsButton;
 
     @FindBy(xpath = "//li[contains(@data-menu-id,'about')]")
     protected WebElement aboutUsButtonContainer;
 
-    @FindBy(xpath = ".//a[@href='/dev/service']")
+    @FindBy(xpath = ".//a[contains(@href,'service')]")
     protected WebElement serviceButton;
 
     @FindBy(xpath = ".//button[contains(@class,'add-club-button')]")
@@ -57,23 +60,20 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//ul[contains(@id,\"challenge_ONE-popup\")]")
     protected WebElement headerChallengeDropdownNode;
 
-    @FindBy(xpath = "//div[contains(@class, 'city')]")
-    protected WebElement cityButton;
-
-    @FindBy(xpath = "//div[contains(@class, 'city')]/span[1]")
-    protected WebElement locationIcon;
-
-    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu-light')]")
-    protected WebElement cityMenuNode;
-
     @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]")
     protected WebElement profileMenuNode;
 
-    @FindBy(xpath = "//li[contains(@class, 'ant-dropdown-menu-item-only-child')]")
-    protected List<WebElement> cityMenuElements;
-
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
+
+    @FindBy(xpath = "//span[@aria-label='environment']")
+    protected WebElement locationIcon;
+
+    @FindBy(xpath = "//div[@class='ant-dropdown-trigger city']")
+    protected WebElement clubsLocationButton;
+
+    @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]/descendant::li[@role='menuitem']")
+    protected List<WebElement> citiesLocationOfClubs;
 
     @FindBy(xpath = "//div[contains(@class,\"logo\")]")
     protected WebElement teachInUkrainianLogo;
@@ -100,13 +100,10 @@ public class HeaderComponent extends BaseComponent {
         return new HeaderChallengesDropdown(driver, getHeaderChallengeDropdownNode());
     }
 
-    public WebElement openCityMenu() {
-        cityButton.click();
-        return cityMenuNode;
-    }
-
     public AllNewsPage newsButtonClick() {
         newsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("news"));
         return new AllNewsPage(driver);
     }
 
@@ -118,25 +115,33 @@ public class HeaderComponent extends BaseComponent {
 
     public ClubsPage clickClubsPageButton() {
         clubsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("clubs"));
         return new ClubsPage(driver);
     }
 
     public AboutUsPage clickAboutUsButton() {
         aboutUsButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("about"));
         return new AboutUsPage(driver);
     }
 
     public ServicePage clickServiceButton() {
         serviceButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("service"));
         return new ServicePage(driver);
     }
 
+    @Step("click button addClub")
     public AddClubPopUpComponent addClubButtonClick() {
         waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Open menu")
     public GuestMenuComponent openGuestMenu() {
         profileMenuButton.click();
         return new GuestMenuComponent(driver, profileMenuNode);
@@ -150,12 +155,6 @@ public class HeaderComponent extends BaseComponent {
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
-    }
-
-    public List<WebElement> getCityMenuElements() {
-        if (cityMenuElements == null || cityMenuElements.isEmpty())
-            cityMenuElements = openCityMenu().findElements(By.xpath("//li[contains(@class, 'ant-dropdown-menu-item-only-child')]"));
-        return cityMenuElements;
     }
 
     public boolean isLoggedIn(){
@@ -173,4 +172,22 @@ public class HeaderComponent extends BaseComponent {
         return new ProfilePage (driver);
 
     }
+
+    public HeaderComponent clickCityLocation() {
+        clubsLocationButton.click();
+        return this;
+    }
+
+    public ClubsPage selectClubsCityLocation(String city) {
+        citiesLocationOfClubs.stream()
+                .filter(currentCity -> currentCity.getText().equals(city))
+                .forEach(WebElement::click);
+        return new ClubsPage(driver);
+    }
+
+    public WebElement openCityMenu() {
+        clubsLocationButton.click();
+        return cityMenuNode;
+    }
+
 }

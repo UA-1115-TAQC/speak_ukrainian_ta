@@ -2,9 +2,9 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.CenterCardComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
-import com.academy.ui.components.ClubsPaginationComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -19,26 +19,34 @@ import java.util.List;
 
 @Getter
 public class ClubsPage extends BasePage {
-    @FindBy(xpath="//div[contains(@class, 'lower-header-box')]")
-    @Getter(AccessLevel.NONE) private WebElement searchClubHeaderWebElement;
+    @FindBy(xpath = "//aside[contains(@class,\"sider\")]")
+    private WebElement searchSiderAsideNode;
 
-    @FindBy(xpath="//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
-    @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;
+    @FindBy(xpath = "//div[contains(@class, 'lower-header-box')]")
+    private WebElement searchClubHeaderWebElement;
 
-    @FindBy(xpath="//div[contains(@class, 'club-list-control')]")
-    @Getter(AccessLevel.NONE) private WebElement listControlWebElement;
+    @FindBy(xpath = "//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement switchPaginationWebElement;
 
-    @FindBy(xpath="//div[contains(@class, '')]")
-    @Getter(AccessLevel.NONE) private WebElement searchSiderWebElement;
+    @FindBy(xpath = "//div[contains(@class, 'club-list-control')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement listControlWebElement;
 
-    @FindBy(xpath="//div[contains(@class,'content-clubs-list')]/child::div")
-    @Getter(AccessLevel.NONE) private List<WebElement> clubCardsWebElement;
+    @FindBy(xpath = "//div[contains(@class, '')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement searchSiderWebElement;
 
-    @FindBy(xpath="//div[contains(@class,'content-center-list')]/child::div")
-    @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
+    @FindBy(xpath = "//div[contains(@class,'content-clubs-list')]/child::div")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> clubCardsWebElement;
+
+    @FindBy(xpath = "//div[contains(@class,'content-center-list')]/child::div")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
-    protected ClubsPaginationComponent switchPagination;
+    protected SwitchPaginationComponent switchPagination;
     protected ClubListControlComponent listControl;
     protected AdvancedSearchSiderComponent searchSider;
     protected List<ClubCardComponent> clubCards;
@@ -48,32 +56,40 @@ public class ClubsPage extends BasePage {
         super(driver);
 
         advancedSearchClubHeader = new AdvancedSearchClubHeaderComponent(this.driver, searchClubHeaderWebElement);
-        switchPagination = new ClubsPaginationComponent(this.driver, switchPaginationWebElement);
+        switchPagination = new SwitchPaginationComponent(this.driver, switchPaginationWebElement);
         listControl = new ClubListControlComponent(this.driver, listControlWebElement);
         searchSider = new AdvancedSearchSiderComponent(this.driver, searchSiderWebElement);
-
-        clubCards = createClubComponents();
-        centerCards = createCenterComponents();
+        selectWhatCardsToShow();
     }
 
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
-        for (WebElement element : clubCardsWebElement) {
-            clubs.add(new ClubCardComponent(driver, element));
+        sleep(500);
+        if (!clubCardsWebElement.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(clubCardsWebElement));
+            for (WebElement element : clubCardsWebElement) {
+                clubs.add(new ClubCardComponent(driver, element));
+            }
         }
         return clubs;
     }
 
     private List<CenterCardComponent> createCenterComponents() {
         List<CenterCardComponent> centers = new ArrayList<>();
-        for (WebElement element : clubCardsWebElement) {
-            centers.add(new CenterCardComponent(driver, element));
+        sleep(500);
+        if (!centerCardsWebElement.isEmpty()) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfAllElements(centerCardsWebElement));
+            for (WebElement element : centerCardsWebElement) {
+                centers.add(new CenterCardComponent(driver, element));
+            }
         }
         return centers;
     }
 
-    public ClubsPage waitUntilClubsPageIsLoaded(int seconds){
-        if(seconds > 0 ) {
+    public ClubsPage waitUntilClubsPageIsLoaded(int seconds) {
+        if (seconds > 0) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
             wait.until(ExpectedConditions.urlContains("clubs"));
             wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
@@ -84,17 +100,32 @@ public class ClubsPage extends BasePage {
 
     public ClubsPage setTextHeaderSearch(String input) {
         advancedSearchClubHeader.setTextSelectionSearchInputField(input);
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1500000));
         sleep(1000);
         clubCards = createClubComponents();
         return this;
     }
 
 
-    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.urlContains("clubs"));
         wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
         return this;
+    }
+
+    public boolean isClubsPageEmpty() {
+        return clubCards.isEmpty();
+    }
+
+    private void selectWhatCardsToShow() {
+        if (isElementPresent(searchSiderAsideNode)) {
+            if (searchSider.getCheckedRadioButton().getAttribute("innerText").equals("Гурток")) {
+                clubCards = createClubComponents();
+            } else {
+                centerCards = createCenterComponents();
+            }
+        } else {
+            clubCards = createClubComponents();
+        }
     }
 }

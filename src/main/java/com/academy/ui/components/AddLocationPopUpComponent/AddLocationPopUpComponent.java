@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddLocationPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -75,9 +76,9 @@ public class AddLocationPopUpComponent extends BasePopUp {
         this.locationTelephoneInputElement = new AddLocationInputElement(driver, locationTelephoneInput);
     }
 
+    @Step("Click on button 'Додати' to add location on the Add location pop-up")
     public void clickAddLocationButton(){
         addLocationButton.click();
     }
-
 
 }

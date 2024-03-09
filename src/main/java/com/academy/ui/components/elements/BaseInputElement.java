@@ -1,6 +1,7 @@
 package com.academy.ui.components.elements;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
@@ -19,16 +20,19 @@ public class BaseInputElement extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Set input String value")
     public BaseInputElement setValue(String value) {
         input.sendKeys(value);
         return this;
     }
 
+    @Step("Set input Key value")
     public BaseInputElement setKey(Keys key) {
         input.sendKeys(key);
         return this;
     }
 
+    @Step("Clear input")
     public BaseInputElement clearInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {

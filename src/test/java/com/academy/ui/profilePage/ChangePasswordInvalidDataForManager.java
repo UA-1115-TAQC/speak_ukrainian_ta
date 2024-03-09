@@ -4,7 +4,6 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChangePasswordInvalidDataForManager extends LoginWithManagerTestRunner {
@@ -23,13 +21,14 @@ public class ChangePasswordInvalidDataForManager extends LoginWithManagerTestRun
     private final String NO_SPECIAL_SYMBOLS = "Пароль повинен містити великі/маленькі літери латинського алфавіту, цифри та спеціальні символи";
     private final String CONFIRMATION_FAILED = "'Значення поля ‘Підтвердити новий пароль’ має бути еквівалентним значенню поля ‘Новий пароль’";
     private final Object[][] invalidPasswordErrors = {
-//            {"1pas;", "1pas;", WRONG_LENGTH, ""},
-//            {"passpasspasspass", "passpasspasspass", NO_SPECIAL_SYMBOLS, ""},
-//            {"1Pas", "1Pas", WRONG_LENGTH, NO_SPECIAL_SYMBOLS, ""},
-//            {"1;P", "1;P", WRONG_LENGTH, ""},
-//            {"1pas;", "11pas;", WRONG_LENGTH, CONFIRMATION_FAILED},
-//            {"passpasspasspass", "11passpasspasspass", NO_SPECIAL_SYMBOLS, CONFIRMATION_FAILED},
-//            {"1Pas", "111Pas", WRONG_LENGTH, NO_SPECIAL_SYMBOLS, CONFIRMATION_FAILED},
+            // {new invalid password, password confirmation (invalid/valid), *errors, password confirmation error}
+            {"1pas;", "1pas;", WRONG_LENGTH, ""},
+            {"passpasspasspass", "passpasspasspass", NO_SPECIAL_SYMBOLS, ""},
+            {"1Pas", "1Pas", WRONG_LENGTH, NO_SPECIAL_SYMBOLS, ""},
+            {"1;P", "1;P", WRONG_LENGTH, ""},
+            {"1pas;", "11pas;", WRONG_LENGTH, CONFIRMATION_FAILED},
+            {"passpasspasspass", "11passpasspasspass", NO_SPECIAL_SYMBOLS, CONFIRMATION_FAILED},
+            {"1Pas", "111Pas", WRONG_LENGTH, NO_SPECIAL_SYMBOLS, CONFIRMATION_FAILED},
             {"1;P", "1111;P", WRONG_LENGTH, CONFIRMATION_FAILED}
     };
 
@@ -61,28 +60,22 @@ public class ChangePasswordInvalidDataForManager extends LoginWithManagerTestRun
         InputWithIconElement currPass = editProfilePopUpComponent.getCurrentPasswordInput();
         InputWithIconElement newPass = editProfilePopUpComponent.getNewPasswordInput();
         InputWithIconElement confPass = editProfilePopUpComponent.getConfirmPasswordInput();
+        String confirmationTest = (String) invalidPasswordError[invalidPasswordError.length - 1];
 
-        String confPassTest = (String) invalidPasswordError[invalidPasswordError.length - 1];
         clearInputFields(currPass, newPass, confPass);
 
-        fillNewPasswordFieldWithInvalidDataAndVerify(currPass, configProperties.getManagerPassword(), true);
-        fillNewPasswordFieldWithInvalidDataAndVerify(newPass, (String) invalidPasswordError[0], false);
+        // check current password input field
+        fillPasswordFieldWithInvalidDataAndVerify(currPass, configProperties.getManagerPassword(), true);
 
+        // check new password input field
+        fillPasswordFieldWithInvalidDataAndVerify(newPass, (String) invalidPasswordError[0], false);
         List<String> newPassErrors = newPass.getErrorMessagesTextList();
         verifyErrorMessages(invalidPasswordError, newPassErrors, 2);
 
-        fillNewPasswordFieldWithInvalidDataAndVerify(confPass, (String) invalidPasswordError[1], confPassTest.isEmpty());
-        System.out.println(confPassTest);
-
-        for(WebElement webElement : confPass.getErrorMessages()) {
-            wait.until(ExpectedConditions.visibilityOf(webElement));
-        }
-
+        // check password confirmation input field
+        fillPasswordFieldWithInvalidDataAndVerify(confPass, (String) invalidPasswordError[1], confirmationTest.isEmpty());
         List<String> confPassErrors = confPass.getErrorMessagesTextList();
-        System.out.println(Arrays.toString(confPassErrors.toArray()));
-        String confPassError = confPassErrors.isEmpty() ? "" : confPassErrors.get(0);
-        System.out.println(confPassError);
-        softAssert.assertEquals(confPassTest, confPassError);
+        verifyErrorMessages(invalidPasswordError, confPassErrors, invalidPasswordError.length-1);
     }
 
     private void clearInputFields(InputWithIconElement... inputElements) {
@@ -91,7 +84,7 @@ public class ChangePasswordInvalidDataForManager extends LoginWithManagerTestRun
         }
     }
 
-    private void fillNewPasswordFieldWithInvalidDataAndVerify(InputWithIconElement inputWithIconElement, String pwd, boolean validity) {
+    private void fillPasswordFieldWithInvalidDataAndVerify(InputWithIconElement inputWithIconElement, String pwd, boolean validity) {
         inputWithIconElement.getInput().sendKeys(pwd);
         wait.until(ExpectedConditions.visibilityOf(inputWithIconElement.getValidationCircleIcon()));
         wait.until(ExpectedConditions.attributeContains(inputWithIconElement.getInput(), "value", pwd));

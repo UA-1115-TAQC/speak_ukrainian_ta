@@ -5,6 +5,8 @@ import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepThree
 import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -24,8 +26,9 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
         profilePage = homePage.header.openProfilePage();
     }
 
-
-    @Test(description = "TUA-394")
+    @Test(description = "Admin can edit description in the center pop-up")
+    @Description("Verify that user can edit ‘Опис’ textfield with valid data and save changes on the ‘Опис’ tab of the ‘Редагувати Центр’ pop-up window")
+    @Issue("TUA-394")
     public void checkAdminCanEditDescriptionInCenter() {
 
         profilePage.clickMyClubsAndCentersOnDropdown();

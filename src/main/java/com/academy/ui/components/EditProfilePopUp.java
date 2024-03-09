@@ -3,6 +3,7 @@ package com.academy.ui.components;
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.pages.ProfilePage;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
@@ -124,31 +125,41 @@ public class EditProfilePopUp extends BasePopUp {
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
         emailElement = new EditProfileInputElement(driver, email);
     }
+
+    @Step("Choose current password input")
     public InputWithIconElement getCurrentPasswordInput(){
         return new InputWithIconElement(driver, getCurrentPasswordInputNode());
     }
+
+    @Step("Choose new password input")
     public InputWithIconElement getNewPasswordInput(){
         return new InputWithIconElement(driver, getNewPasswordInputNode());
     }
 
+    @Step("Choose confirm password input")
     public InputWithIconElement getConfirmPasswordInput(){
         return new InputWithIconElement(driver, getConfirmPasswordInputNode());
     }
+
+    @Step("Click on User type button")
     public EditProfilePopUp clickUserButton() {
         userTypeButton.click();
         return this;
     }
 
+    @Step("Click on Manager type button")
     public EditProfilePopUp clickManagerButton() {
         managerTypeButton.click();
         return this;
     }
 
+    @Step("Click on the checkbox")
     public EditProfilePopUp clickCheckBox(){
         getCheckboxChangePassword().click();
         return this;
     }
 
+    @Step("Move to question circle for photo and wait for the tooltip")
     public String getTooltipText() {
         Actions actions = new Actions(driver);
         actions.moveToElement(questionCircleForPhoto).perform();
@@ -157,11 +168,13 @@ public class EditProfilePopUp extends BasePopUp {
         return tooltip.getText();
     }
 
+    @Step("Click on the download photo link")
     public EditProfilePopUp clickUploadPhoto() {
-        uploadPhotoLink.click();
+        downloadPhotoInput.click();
         return this;
     }
 
+    @Step("Click on the Submit button")
     public ProfilePage clickSubmitButton() {
         submitButton.click();
         return new ProfilePage(driver);

@@ -8,7 +8,11 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -51,6 +55,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
     }
 
+    @Step("Get club name from the first club card")
     private String getClubName() {
         if (profilePage.getClubCardComponents().isEmpty()) {
             addNewClubAddedWithCorrectData();
@@ -65,7 +70,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-970")
+    @Test(description = "User can add locations of the club")
+    @Description("Verify that user can add locations of the club (for a club that is in the center)")
+    @Issue("TUA-970")
     public void checkUserCanAddLocationsOfTheClub() {
 
         final String VALID_LOCATION_NAME_1 = "ТестЛокація1";
@@ -96,11 +103,15 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Step("Check location {name} is in the locations list")
+    @Parameters({"editClubPopUp", "name"})
     private void checkLocationInList(AddClubPopUpComponent editClubPopUp, String name) {
         softAssert.assertTrue(editClubPopUp.getStepTwoContainer().getLocationsNameList().contains(name),
                 "List of location names should have " + name);
     }
 
+    @Step("Add location {VALID_LOCATION_NAME}")
+    @Parameters({"editClubPopUp", "VALID_LOCATION_NAME"})
     private void addLocation(AddClubPopUpComponent editClubPopUp, String VALID_LOCATION_NAME) {
 
         final String VALID_CITY_NAME = "Київ";
@@ -158,7 +169,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         addLocationPopUp.clickAddLocationButton();
     }
 
-    @Test(description = "TUA-82")
+    @Test(description = "User can change photo while editing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window (for club that is in the center)")
+    @Issue("TUA-82")
     public void checkUserCanChangePhotoWhileEditClub() {
         final String IMAGE_NAME_1 = "image.png";
         final String IMAGE_NAME_2 = "book.png";

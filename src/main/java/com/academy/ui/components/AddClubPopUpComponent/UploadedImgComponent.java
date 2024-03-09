@@ -42,36 +42,36 @@ public class UploadedImgComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Get error message text of the loaded image on the third step of Add club pop-up")
+    @Step("Get error message text of the loaded image on the third step of Add/Edit club pop-up")
     public String getUploadErrorMessage() {
         return uploadError.getAttribute("innerText");
     }
 
-    @Step("Click on the Remove-icon to delete image on the third step of Add club pop-up")
+    @Step("Click on the Remove-icon to delete image on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickRemoveImg() {
         removeImgButton.click();
         return this;
     }
 
-    @Step("Click on the Preview-icon to preview image on the third step of Add club pop-up")
+    @Step("Click on the Preview-icon to preview image on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickPreviewFile() {
         previewFile.click();
         return this;
     }
 
-    @Step("Click 'X' button to close image preview on the third step of Add club pop-up")
+    @Step("Click 'X' button to close image preview on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickClosePreviewWindow() {
         closeButton.click();
         return this;
     }
 
-    @Step("Wait until image is loaded on the third step of Add club pop-up")
+    @Step("Wait until image is loaded on the third step of Add/Edit club pop-up")
     public void waitImageLoad(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(ExpectedConditions.visibilityOf(uploadDone));
     }
 
-    @Step("Wait until loaded image is changed to the new one on the third step of Add club pop-up")
+    @Step("Wait until loaded image is changed to the new one on the third step of Add/Edit club pop-up")
     public void waitImageChanged(String prevImage, long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(e -> !imgTitle.getText().equals(prevImage));

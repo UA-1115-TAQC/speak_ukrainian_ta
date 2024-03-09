@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -42,6 +43,7 @@ public class AddCenterPopUpComponent extends BasePopUp {
         sider = new AddCenterPopUpSider(driver, siderElement);
     }
 
+    @Step("Get first step 'Основна інформація' on the Add/Edit center pop-up")
     public AddCenterPopUpStepOne getStepOneContainer() {
         if (activeStep.getAttribute("innerText").equals("1")) {
             stepOneContainer = new AddCenterPopUpStepOne(driver, stepContainerElement);
@@ -49,6 +51,7 @@ public class AddCenterPopUpComponent extends BasePopUp {
         return stepOneContainer;
     }
 
+    @Step("Get second step 'Контакти' on the Add/Edit center pop-up")
     public AddCenterPopUpStepTwo getStepTwoContainer() {
         if (activeStep.getAttribute("innerText").equals("2")) {
             stepTwoContainer = new AddCenterPopUpStepTwo(driver, stepContainerElement);
@@ -56,6 +59,7 @@ public class AddCenterPopUpComponent extends BasePopUp {
         return stepTwoContainer;
     }
 
+    @Step("Get third step 'Опис' on the Add/Edit center pop-up")
     public AddCenterPopUpStepThree getStepThreeContainer() {
         if (activeStep.getAttribute("innerText").equals("3")) {
             stepThreeContainer = new AddCenterPopUpStepThree(driver, stepContainerElement);
@@ -63,6 +67,7 @@ public class AddCenterPopUpComponent extends BasePopUp {
         return stepThreeContainer;
     }
 
+    @Step("Get fourth step 'Гуртки' on the Add/Edit center pop-up")
     public AddCenterPopUpStepFour getStepFourContainer() {
         if (activeStep.getAttribute("innerText").equals("4")) {
             stepFourContainer = new AddCenterPopUpStepFour(driver, stepContainerElement);

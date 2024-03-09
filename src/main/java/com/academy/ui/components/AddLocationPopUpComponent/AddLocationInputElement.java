@@ -29,7 +29,7 @@ public class AddLocationInputElement extends BaseInputElement {
         super(driver, rootElement);
     }
 
-    @Step("Get list of error messages of input on the Add location pop-up")
+    @Step("Get list of error messages of input on the Add/Edit location pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }

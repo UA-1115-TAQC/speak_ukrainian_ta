@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -56,7 +57,8 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     private List<WebElement> checkedLocationsList;
 
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')]")
-    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
+    @Getter(AccessLevel.NONE)
+    private WebElement locationPopUp;
 
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
@@ -65,13 +67,15 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         super(driver, rootElement);
     }
 
+    @Step("Click on the button 'Додати локацію' on the first step of Add/Edit center pop-up")
     public AddLocationPopUpComponent clickAddLocationButton() {
-        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addLocationButton)).click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 
+    @Step("Click on location checkbox by name on the first step of Add/Edit center pop-up")
     public AddCenterPopUpStepOne clickLocationCheckboxByName(String name) {
         locationsElementsList.stream()
                 .filter(location -> (location.getAttribute("innerText").equals(name)))
@@ -79,11 +83,13 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return this;
     }
 
-    public AddCenterPopUpStepOne setCenterName(String value){
+    @Step("Set center name input on the first step of Add/Edit center pop-up")
+    public AddCenterPopUpStepOne setCenterName(String value) {
         centerNameInput.sendKeys(value);
         return this;
     }
 
+    @Step("Clear center name input on the first step of Add/Edit center pop-up")
     public AddCenterPopUpStepOne clearNameInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
@@ -94,7 +100,8 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return this;
     }
 
-    public List<String> getLocationsNameList(){
+    @Step("Get list of locations on the first step of Add/Edit center pop-up")
+    public List<String> getLocationsNameList() {
         List<String> list = new ArrayList<>();
         locationsElementsList.forEach(location -> list.add(location.getText()));
         return list;

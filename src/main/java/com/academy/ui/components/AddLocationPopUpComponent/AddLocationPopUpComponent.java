@@ -76,7 +76,7 @@ public class AddLocationPopUpComponent extends BasePopUp {
         this.locationTelephoneInputElement = new AddLocationInputElement(driver, locationTelephoneInput);
     }
 
-    @Step("Click on button 'Додати' to add location on the Add location pop-up")
+    @Step("Click on button 'Додати' to add location on the Add/Edit location pop-up")
     public void clickAddLocationButton(){
         addLocationButton.click();
     }

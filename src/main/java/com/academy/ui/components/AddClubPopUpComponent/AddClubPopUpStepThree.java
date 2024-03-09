@@ -90,41 +90,41 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
-    @Step("Click on the button 'Завантажити лого' on the third step of Add club pop-up")
+    @Step("Click on the button 'Завантажити лого' on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree clickClubLogoDownloadButton() {
         clubLogoDownloadButton.click();
         return this;
     }
 
-    @Step("Click on the button 'Додати' to add image to Gallery on the third step of Add club pop-up")
+    @Step("Click on the button 'Додати' to add image to Gallery on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree clickClubGalleryDownloadButton() {
         clubGalleryDownloadButton.click();
         return this;
     }
 
-    @Step("Click on the button 'Завантажити обкладинку' on the third step of Add club pop-up")
+    @Step("Click on the button 'Завантажити обкладинку' on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree clickClubCoverDownloadButton() {
         clubCoverDownloadButton.click();
         return this;
     }
 
-    @Step("Click on the button 'Завершити' on the third step of Add club pop-up")
+    @Step("Click on the button 'Завершити' on the third step of Add/Edit club pop-up")
     public void clickCompleteButton() {
         getNextStepButton().click();
     }
 
-    @Step("Set club description on the third step of Add club pop-up")
+    @Step("Set club description on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree setDescriptionValue(String value) {
         clubDescriptionTextarea.sendKeys(value);
         return this;
     }
 
-    @Step("Get list of error messages of club description on the third step of Add club pop-up")
+    @Step("Get list of error messages of club description on the third step of Add/Edit club pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
-    @Step("Clear club description textarea on the third step of Add club pop-up")
+    @Step("Clear club description textarea on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree clearDescriptionTextarea() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
@@ -135,12 +135,12 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return this;
     }
 
-    @Step("Get all uploaded items on the third step of Add club pop-up")
+    @Step("Get all uploaded items on the third step of Add/Edit club pop-up")
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
 
-    @Step("Get all uploaded Gallery images on the third step of Add club pop-up")
+    @Step("Get all uploaded Gallery images on the third step of Add/Edit club pop-up")
     public UploadedImgComponent getUploadedGalleryImg(int index) {
         if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
             return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));

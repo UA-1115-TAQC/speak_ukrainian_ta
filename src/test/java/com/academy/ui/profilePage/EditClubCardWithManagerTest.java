@@ -8,6 +8,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -347,6 +348,39 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         card = profilePage.getClubCardComponents().getFirst();
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
+
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-958")
+    public void checkChangeCoverPhoto() {
+        String imageName= "book.png";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
+                "Image should be changed");
+
+        softAssert.assertTrue(stepThree
+                .getUploadedCoverImg()
+                .getImgTitle()
+                .isEnabled(),
+                "Cannot click on cover photo");
+
+        stepThree.clickCompleteButton();
+
+        ProfilePage updateprofile = new ProfilePage(driver);
+        softAssert.assertTrue(updateprofile.getCurrentTabHandle().contains("user"));
+        clubCardByName.clickMoreButton();
 
         softAssert.assertAll();
     }

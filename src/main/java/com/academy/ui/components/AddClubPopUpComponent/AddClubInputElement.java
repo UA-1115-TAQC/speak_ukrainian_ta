@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.elements.BaseInputElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,8 @@ public class AddClubInputElement extends BaseInputElement {
     public AddClubInputElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
+
+    @Step("Get list of error messages of input on the Add club pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }

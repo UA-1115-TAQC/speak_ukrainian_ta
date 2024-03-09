@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -83,7 +84,8 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     private WebElement topMessage;
 
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
-    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
+    @Getter(AccessLevel.NONE)
+    private WebElement locationPopUp;
 
     @Getter(AccessLevel.NONE)
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
@@ -108,15 +110,18 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         this.siteInputElement = new AddClubInputElement(driver, siteInput);
     }
 
-    public AddClubPopUpStepTwo clickSwitchButton(){
+    @Step("Click on switch button 'Доступний онлайн' on the second step of Add club pop-up")
+    public AddClubPopUpStepTwo clickSwitchButton() {
         switchButton.click();
         return this;
     }
 
+    @Step("Check if switch button 'Доступний онлайн' is checked on the second step of Add club pop-up")
     public Boolean isSwitchButtonChecked() {
         return switchButton.getAttribute("aria-checked").equals("true");
     }
 
+    @Step("Get Day and Time collection on the second step of Add club pop-up")
     public HashMap<String, DayTimeCheckboxElement> getDayTimeCheckboxElementsCollection() {
         dayTimeCheckboxElementsCollection = new HashMap<>();
         By locator = By.xpath("./descendant::input[@class='ant-checkbox-input']");
@@ -129,6 +134,7 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return dayTimeCheckboxElementsCollection;
     }
 
+    @Step("Get list of locations on the second step of Add club pop-up")
     public List<LocationListElement> getListOfLocationElements() {
         listOfLocationElements = new ArrayList<>();
         if (!locationList.isEmpty()) {
@@ -137,18 +143,21 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
-    public AddClubPopUpStepTwo clickOnDayCheckbox(String day){
+    @Step("Click on the checkbox with certain day value on the second step of Add club pop-up")
+    public AddClubPopUpStepTwo clickOnDayCheckbox(String day) {
         dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
         return this;
     }
 
-    public AddLocationPopUpComponent clickAddLocationButton(){
+    @Step("Click on the button 'Додати локацію' on the second step of Add club pop-up")
+    public AddLocationPopUpComponent clickAddLocationButton() {
         addLocationButton.click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 
-    public List<String> getLocationsNameList(){
+    @Step("Get list of location names on the second step of Add club pop-up")
+    public List<String> getLocationsNameList() {
         List<String> list = new ArrayList<>();
         getListOfLocationElements().forEach(location -> list.add(location.getLocationTitle().getText()));
         return list;

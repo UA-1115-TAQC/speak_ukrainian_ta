@@ -3,6 +3,8 @@ package com.academy.ui.clubPage.advencedSearch;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchTooltip;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
@@ -17,7 +19,7 @@ public class AdvancedSearchHeaderWithoutLogInTest extends BaseTestRunner {
     private AdvancedSearchTooltip advancedSearchTooltip;
     private SoftAssert softAssert;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get advancedSearchHeaderComponent, make softAssert object")
     public void advancedSearchHeaderComponentTest_setUp() {
         advancedSearchHeaderComponent = homePage.getAdvancedSearchHeaderComponent();
         softAssert = new SoftAssert();
@@ -34,7 +36,9 @@ public class AdvancedSearchHeaderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-314")
+    @Test(description = "Search field placeholder disappears while typing")
+    @Description("Verify that there is a placeholder 'Який гурток шукаєте?' and it disappears when to start typing.")
+    @Issue("TUA-314")
     public void verifyPlaceholderDisappearWhileTyping() {
         final String PLACEHOLDER = "Який гурток шукаєте?";
         final String TEXT = "A";

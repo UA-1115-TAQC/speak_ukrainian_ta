@@ -6,6 +6,9 @@ import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -28,14 +31,16 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
     private record ClubAge(String name, List<Integer> ageList) {
     }
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get clubsPage and advancedSearchSider, make softAssert object")
     public void advancedSearchSiderTestSetUp() {
         clubsPage = homePage.getAdvancedSearchHeaderComponent().clickAdvancedSearchIcon();
         advancedSearchSider = clubsPage.getSearchSider();
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-245")
+    @Test(description = "User can find a club in a certain location by city parameter")
+    @Description("[Розширений пошук] Verify that the user can find a club in a certain location using the 'Місто' parameter")
+    @Issue("TUA-245")
     public void verifyUserClubSearchCertainLocationByCityParameter() {
 
         final String DEFAULT_CITY = "Київ";
@@ -68,6 +73,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Step("Get cards from current page (#{page}) by city")
     private List<ClubAddress> getCardsFromCurrentPageByCity(int page) {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<ClubAddress> list = new ArrayList<>();
@@ -78,6 +84,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return list;
     }
 
+    @Step("Get cards from current page")
     private List<String> getCardsFromCurrentPage() {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<String> list = new ArrayList<>();
@@ -87,6 +94,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return list;
     }
 
+    @Step("Get cards from current page (#{page}) by online parameter")
     private List<String> getCardsFromCurrentPageByOnline(int page) {
         final String ONLINE_TEXT = "Гурток онлайн";
         List<String> list = new ArrayList<>();
@@ -101,6 +109,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return list;
     }
 
+    @Step("Get cards from current page (#{page}) by category")
     private List<ClubCategory> getCardsFromCurrentPageByCategory(int page) {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<ClubCategory> list = new ArrayList<>();
@@ -121,6 +130,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return list;
     }
 
+    @Step("Get cards from current page (#{page}) by age")
     private List<ClubAge> getCardsFromCurrentPageByAge(int page) {
         clubsPage = new ClubsPage(driver).waitUntilClubsPageIsLoaded(5);
         List<ClubAge> list = new ArrayList<>();
@@ -136,6 +146,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return list;
     }
 
+    @Step("Get pages number")
     private int getPagesNumber() {
         if (!clubsPage.isElementPresent(clubsPage.getSwitchPagination().getWebElement())) return 1;
         int pagesShowed = clubsPage.getSwitchPagination().getPaginationItems().size();
@@ -146,7 +157,9 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return Integer.parseInt(pagesNumber);
     }
 
-    @Test(description = "TUA-858")
+    @Test(description = "User can make search with 1 parameter")
+    @Description("Verify that User can make search with 1 parameter.")
+    @Issue("TUA-858")
     public void checkUserCanMakeSearchWith_1_Parameter() {
         final String SELECTED_CITY = "Харків";
         final String DEFAULT_CITY = "Київ";

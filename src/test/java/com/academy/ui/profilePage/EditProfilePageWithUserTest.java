@@ -23,7 +23,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();

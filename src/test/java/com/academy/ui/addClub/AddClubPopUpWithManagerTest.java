@@ -37,7 +37,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
     private AddClubPopUpSider sider;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addClubPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
         addClubPopUpComponent.waitPopUpOpen(5);
@@ -339,6 +339,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Step("Check step three description elements are present")
     private void checkStepThreeDescriptionElementsPresent() {
         softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
                 "Step One icon should be displayed");

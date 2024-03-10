@@ -18,7 +18,7 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
     private SoftAssert softAssert;
     private final String VALID_CENTER_NAME = "Center Name";
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addCenterPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addCenterPopUp = homePage.header.openAdminMenu().openAddCentreForm();
         addCenterPopUp.waitPopUpOpen(10);

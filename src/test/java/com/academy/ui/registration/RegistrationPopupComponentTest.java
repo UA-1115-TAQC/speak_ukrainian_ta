@@ -29,7 +29,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
 
-    @BeforeMethod(description = "Precondition: Get guestMenu and registrationPopup components, make new softAssert object")
+    @BeforeMethod(description = "Preconditions: Get guestMenu and registrationPopup components, make new softAssert object")
     public void registrationSetUp(Method method) {
         if(method.getAnnotation(Test.class).description().equals("TUA-876")){
             return;

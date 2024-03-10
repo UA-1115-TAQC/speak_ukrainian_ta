@@ -20,7 +20,7 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
     private final String VALID_TELEPHONE = "0977777777";
     private final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void addClubPopUpTestPrecondition() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openProfilePage();
@@ -32,7 +32,6 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
     public void checkAdminCanEditDescriptionInCenter() {
 
         profilePage.clickMyClubsAndCentersOnDropdown();
-        profilePage.sleep(1000);
         profilePage.clickMyCentersOnDropdown();
         CenterCardWithEditComponent centerCard = profilePage.getCenterCardByName(VALID_CENTER_NAME);
         centerCard.getMoreButton().click();

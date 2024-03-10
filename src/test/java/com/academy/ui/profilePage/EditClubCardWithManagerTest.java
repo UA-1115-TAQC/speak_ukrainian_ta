@@ -21,12 +21,13 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private ProfilePage profilePage;
 
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 
+    @Step("Add new club with valid data")
     private void addNewClubAddedWithCorrectData() {
         final String VALID_CLUB_NAME = "New CLUB NAME 333";
         final String CATEGORY = "Спортивні секції";

@@ -26,11 +26,10 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void SetUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
-
     }
   
   @DataProvider(name = "invalidFirstName")

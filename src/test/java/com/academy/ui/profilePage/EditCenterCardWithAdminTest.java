@@ -1,13 +1,18 @@
 package com.academy.ui.profilePage;
 
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepThree;
 import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
 
@@ -17,6 +22,7 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
     private final String VALID_CENTER_NAME = "Курси програмування IT-stat";
     private final String VALID_TELEPHONE = "0977777777";
     private final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
+    private AddCenterPopUpStepOne stepOne;
 
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
@@ -86,4 +92,24 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
 
     }
 
+    @Test
+    @Description("Verify the UI elements of the 'Редагування центру' page")
+    @Issue("TUA-397")
+    public void checkEditCenterUI() {
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyCentersOnDropdown();
+        CenterCardWithEditComponent centerCard = profilePage.getCenterCardComponentsList().getFirst();
+
+        centerCard.getMoreButton().click();
+
+        AddCenterPopUpComponent addCenterPopUpComponent = centerCard.clickEditCenter();
+        addCenterPopUpComponent.waitPopUpOpen(5);
+        addCenterPopUpComponent.getCloseButton().isDisplayed();
+        addCenterPopUpComponent.getCloseButton().isEnabled();
+
+        stepOne = addCenterPopUpComponent.getStepOneContainer();
+        stepOne.getNextStepButton().isEnabled();
+        stepOne.getNextStepButton().isDisplayed();
+        stepOne.getInfoCircleHintIcon().isDisplayed();
+        stepOne.getLocationsElementsList().getFirst().getText();
+    }
 }

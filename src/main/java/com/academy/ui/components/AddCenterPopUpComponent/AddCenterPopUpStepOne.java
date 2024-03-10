@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
+import com.academy.ui.components.AddClubPopUpComponent.LocationListElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -61,6 +62,12 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
 
+    @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
+    private List<WebElement> locationList;
+
+    @Getter(AccessLevel.NONE)
+    private List<LocationListElement> listOfLocationElements;
+
     public AddCenterPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -100,4 +107,11 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return list;
     }
 
+    public List<LocationListElement> getListOfLocationElements() {
+        listOfLocationElements = new ArrayList<>();
+        if (!locationList.isEmpty()) {
+            locationList.forEach(location -> listOfLocationElements.add(new LocationListElement(driver, location)));
+        }
+        return listOfLocationElements;
+    }
 }

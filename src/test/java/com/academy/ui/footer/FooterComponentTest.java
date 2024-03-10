@@ -22,7 +22,7 @@ public class FooterComponentTest extends BaseTestRunner {
     private BasePageWithoutHeaderAndFooter basePageWithoutHeaderAndFooter;
     private FooterComponent footerComponent;
   
-    @BeforeMethod(description = "Preconditions: get footer and base page without header and footer")
+    @BeforeMethod(description = "Preconditions: Get footer and make new basePageWithoutHeaderAndFooter and softAssert objects")
     public void footerPrecondition() {
         footerComponent = homePage.getFooter();
         basePageWithoutHeaderAndFooter = new BasePageWithoutHeaderAndFooter(driver);

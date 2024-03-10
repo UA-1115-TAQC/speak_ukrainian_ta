@@ -224,7 +224,9 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
   
-    @Test(description = "TUA-843")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Керівник'")
+    @Issue("TUA-843")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);

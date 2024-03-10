@@ -96,7 +96,9 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-360")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Відвідувач'")
+    @Issue("TUA-360")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);

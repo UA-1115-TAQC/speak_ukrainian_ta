@@ -34,7 +34,7 @@ public class AddCenterPopUpStepFour extends AddCenterPopUpContainer {
         }
     }
 
-    @Step("Click on club by name on the fourth step of Add center pop-up")
+    @Step("Click on club by name {name} on the fourth step of Add center pop-up")
     public void clickOnClubCheckBoxByName(String name) {
         clubCheckboxLogoNameComponents.stream()
                 .filter(club -> club.getClubName().getAttribute("innerText").equals(name))

@@ -46,13 +46,13 @@ public class DayTimeCheckboxElement extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Set 'From' club time on the second step of Add/Edit club pop-up")
+    @Step("Set 'From' club time {time} on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement setTimeFromInput(String time) {
         timeFromInput.sendKeys(time);
         return this;
     }
 
-    @Step("Set 'To' club time on the second step of Add/Edit club pop-up")
+    @Step("Set 'To' club time {time} on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement setTimeToInput(String time) {
         timeToInput.sendKeys(time);
         return this;

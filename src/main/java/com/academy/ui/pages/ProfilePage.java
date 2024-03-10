@@ -111,7 +111,7 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
 
-    @Step("Get xpath for add button 'Додати' dropdown options on the Profile page")
+    @Step("Get xpath by name {name} for add button 'Додати' dropdown options on the Profile page")
     private String getAddButtonOptionStringPath(String name) {
         return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
     }
@@ -148,7 +148,7 @@ public class ProfilePage extends BasePage {
         return clubCardComponentsList;
     }
 
-    @Step("Get clubs card by name on the Profile page")
+    @Step("Get clubs card by name {name} on the Profile page")
     public ClubCardWithEditComponent getClubCardByName(String name) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
@@ -205,7 +205,7 @@ public class ProfilePage extends BasePage {
         getClubCardComponents();
     }
 
-    @Step("Get center card by name on the Profile page")
+    @Step("Get center card by name {name} on the Profile page")
     public CenterCardWithEditComponent getCenterCardByName(String name) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (CenterCardWithEditComponent card : centerCardComponentsList) {

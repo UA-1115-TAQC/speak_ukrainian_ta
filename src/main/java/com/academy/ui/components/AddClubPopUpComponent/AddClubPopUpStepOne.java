@@ -84,30 +84,30 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         clubNameInputElement = new AddClubInputElement(driver, clubNameInput);
     }
 
-    @Step("Select club category by name on the first step of Add/Edit club pop-up")
-    public AddClubPopUpStepOne selectCategory(String value) {
+    @Step("Select club category by name {name} on the first step of Add/Edit club pop-up")
+    public AddClubPopUpStepOne selectCategory(String name) {
         categoriesCheckboxList.stream()
-                .filter(category -> category.getAttribute("value").equals(value))
+                .filter(category -> category.getAttribute("value").equals(name))
                 .forEach(WebElement::click);
         return this;
     }
 
-    @Step("Set club minimum age on the first step of Add/Edit club pop-up")
+    @Step("Set club minimum age {age} on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne setMinAgeInput(String age) {
         minAgeInput.sendKeys(age);
         return this;
     }
 
-    @Step("Set club maximum age on the first step of Add/Edit club pop-up")
+    @Step("Set club maximum age {age} on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne setMaxAgeInput(String age) {
         maxAgeInput.sendKeys(age);
         return this;
     }
 
-    @Step("Select center by name on the first step of Add/Edit club pop-up")
-    public AddClubPopUpStepOne selectCenter(String value) {
+    @Step("Select center by name {name} on the first step of Add/Edit club pop-up")
+    public AddClubPopUpStepOne selectCenter(String name) {
         centersList.stream()
-                .filter(center -> (center.getAttribute("innerText").equals(value)))
+                .filter(center -> (center.getAttribute("innerText").equals(name)))
                 .forEach(WebElement::click);
         return this;
     }

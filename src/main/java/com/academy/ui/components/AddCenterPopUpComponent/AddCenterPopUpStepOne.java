@@ -75,7 +75,7 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return addLocationPopUpComponent;
     }
 
-    @Step("Click on location checkbox by name on the first step of Add/Edit center pop-up")
+    @Step("Click on location checkbox by name {name} on the first step of Add/Edit center pop-up")
     public AddCenterPopUpStepOne clickLocationCheckboxByName(String name) {
         locationsElementsList.stream()
                 .filter(location -> (location.getAttribute("innerText").equals(name)))
@@ -83,9 +83,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return this;
     }
 
-    @Step("Set center name input on the first step of Add/Edit center pop-up")
-    public AddCenterPopUpStepOne setCenterName(String value) {
-        centerNameInput.sendKeys(value);
+    @Step("Set center name {name} input on the first step of Add/Edit center pop-up")
+    public AddCenterPopUpStepOne setCenterName(String name) {
+        centerNameInput.sendKeys(name);
         return this;
     }
 

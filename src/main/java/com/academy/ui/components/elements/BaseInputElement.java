@@ -20,13 +20,13 @@ public class BaseInputElement extends BaseComponent {
         super(driver, rootElement);
     }
 
-    @Step("Set input String value")
+    @Step("Set input String value {value}")
     public BaseInputElement setValue(String value) {
         input.sendKeys(value);
         return this;
     }
 
-    @Step("Set input Key value")
+    @Step("Set input Key value {key}")
     public BaseInputElement setKey(Keys key) {
         input.sendKeys(key);
         return this;

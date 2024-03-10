@@ -3,6 +3,9 @@ package com.academy.ui.footer;
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -19,22 +22,14 @@ public class FooterComponentTest extends BaseTestRunner {
     private BasePageWithoutHeaderAndFooter basePageWithoutHeaderAndFooter;
     private FooterComponent footerComponent;
   
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: get footer and base page without header and footer")
     public void footerPrecondition() {
         footerComponent = homePage.getFooter();
         basePageWithoutHeaderAndFooter = new BasePageWithoutHeaderAndFooter(driver);
-    }
-
-    @BeforeTest
-    public void createAssert() {
         softAssert = new SoftAssert();
     }
 
-    @AfterTest
-    public void deleteAssert() {
-        softAssert = null;
-    }
-
+    @Step("Check all elements are displayed on footer")
     private void checkFooterElements(FooterComponent footer, String pageNme) {
 
         final int SOCIAL_LINKS_NUMBER = 3;
@@ -60,7 +55,9 @@ public class FooterComponentTest extends BaseTestRunner {
                 "Donate Button should be displayed on the Footer on the " + pageNme);
     }
 
-    @Test(description = "TUA-943")
+    @Test(description = "Footer remains same across all pages")
+    @Description("[Footer] Verify that the footer remains the same across all pages.")
+    @Issue("TUA-943")
     public void verifyFooterRemainsSameAcrossAllPages() {
 
         final String MESSAGE = "Footer should be displayed on the ";
@@ -93,6 +90,7 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+
     @Test(description = "TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");

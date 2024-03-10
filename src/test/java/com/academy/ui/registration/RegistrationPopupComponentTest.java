@@ -40,6 +40,8 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
     @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Прізвище' field")
+    @Issue("TUA-13")
     public void registration_invalidInputOfLastNameErrorMessageShown_ok() {
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetUserButton();

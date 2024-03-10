@@ -62,7 +62,7 @@ public class BaseDropdownElement extends BaseComponent {
         return set;
     }
 
-    @Step("Set dropdown value")
+    @Step("Set dropdown value {value}")
     public BaseDropdownElement selectValue(String value) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOf(dropdownBox));

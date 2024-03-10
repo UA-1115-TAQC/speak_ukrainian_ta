@@ -140,7 +140,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return getUploadedElementsListNode();
     }
 
-    @Step("Get all uploaded Gallery images on the third step of Add/Edit club pop-up")
+    @Step("Get uploaded Gallery image by index {index} on the third step of Add/Edit club pop-up")
     public UploadedImgComponent getUploadedGalleryImg(int index) {
         if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
             return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));

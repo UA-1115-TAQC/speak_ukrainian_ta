@@ -20,7 +20,7 @@ public abstract class BasePopUp extends BaseComponent {
 
     }
 
-    @Step("Wait certain amount of seconds until pop-up opens")
+    @Step("Wait {timeout} seconds certain amount of seconds until pop-up opens")
     public void waitPopUpOpen(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(e -> rootElement.isDisplayed());

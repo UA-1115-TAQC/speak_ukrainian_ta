@@ -65,13 +65,13 @@ public class UploadedImgComponent extends BaseComponent {
         return this;
     }
 
-    @Step("Wait until image is loaded on the third step of Add/Edit club pop-up")
+    @Step("Wait for {timeout} seconds until image is loaded on the third step of Add/Edit club pop-up")
     public void waitImageLoad(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(ExpectedConditions.visibilityOf(uploadDone));
     }
 
-    @Step("Wait until loaded image is changed to the new one on the third step of Add/Edit club pop-up")
+    @Step("Wait {timeout} seconds until loaded image is changed to the new one on the third step of Add/Edit club pop-up")
     public void waitImageChanged(String prevImage, long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(e -> !imgTitle.getText().equals(prevImage));

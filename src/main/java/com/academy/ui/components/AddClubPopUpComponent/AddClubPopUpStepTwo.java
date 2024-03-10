@@ -143,7 +143,7 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
-    @Step("Click on the checkbox with certain day value on the second step of Add/Edit club pop-up")
+    @Step("Click on the checkbox with day {day} on the second step of Add/Edit club pop-up")
     public AddClubPopUpStepTwo clickOnDayCheckbox(String day) {
         dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
         return this;

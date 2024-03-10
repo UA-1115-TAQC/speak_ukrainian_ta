@@ -125,6 +125,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-110")
+    @Description("Verify that error messages are shown for entering invalid data for the 'Email' field")
     public void registration_invalidInputOfEmailErrorMessageShown_ok() {
         registrationPopupComponent.waitPopUpOpen(5);
 
@@ -166,6 +167,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
   
     @Test(description = "TUA-243")
+    @Description("Verify that user can be registered with valid data")
     public void checkNewUserCanBeRegisteredWithValidData() {
         final String firstName = "John";
         final String lastName = "Doe";

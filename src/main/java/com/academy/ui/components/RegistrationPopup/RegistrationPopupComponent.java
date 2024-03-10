@@ -81,6 +81,7 @@ public class RegistrationPopupComponent extends BasePopUp {
         return registrationHeader.getAttribute("innerText");
     }
 
+    @Step("Select user type (USER/MANAGER)")
     public void selectUserType(String userType) {
         if (userType.equalsIgnoreCase("ROLE_USER")) {
             userTypeButton.click();
@@ -97,7 +98,7 @@ public class RegistrationPopupComponent extends BasePopUp {
         userTypeButton.click();
         return this;
     }
-
+    @Step("Click on 'Manager' button")
     public RegistrationPopupComponent clickSetManagerButton() {
         managerTypeButton.click();
         return this;

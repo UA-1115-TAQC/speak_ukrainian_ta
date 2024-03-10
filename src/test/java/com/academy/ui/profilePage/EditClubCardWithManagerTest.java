@@ -356,6 +356,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Issue("TUA-958")
     public void checkChangeCoverPhoto() {
         String imageName= "book.png";
+        String image2Name = "image.png";
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
@@ -377,11 +378,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
-        clubCardByName.clickMoreButton();
+        clubCardByName.clickDetailsButtonForClub();
 
-        ProfilePage updateprofile = new ProfilePage(driver);
-        softAssert.assertTrue(updateprofile.getCurrentTabHandle().contains("user"));
-
+        ClubPage clubPage = new ClubPage(driver);
+        softAssert.assertTrue(clubPage.getCurrentTabHandle().contains("user"));
+        softAssert.assertTrue(clubPage.getClubCover().getAttribute("url").contains(imageName));
 
         softAssert.assertAll();
     }

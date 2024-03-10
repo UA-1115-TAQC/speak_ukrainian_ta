@@ -12,7 +12,7 @@ import org.testng.asserts.SoftAssert;
 public class AdvancedSearchHeaderWithAdminTest extends LoginWithAdminTestRunner {
 
     private SoftAssert softAssert;
-    @BeforeMethod(description = "Precondition: Make new softAssert object")
+    @BeforeMethod(description = "Preconditions: Make new softAssert object")
     public void advancedSearchHeaderTestSetUp() {
         softAssert = new SoftAssert();
     }

@@ -42,7 +42,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addClubPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
         stepOne = addClubPopUpComponent.getStepOneContainer();

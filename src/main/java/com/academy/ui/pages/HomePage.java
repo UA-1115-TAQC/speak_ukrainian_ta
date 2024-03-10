@@ -7,6 +7,7 @@ import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -101,6 +102,7 @@ public class HomePage extends BasePageWithAdvancedSearch {
     }
 
 
+    @Step("Scroll to carousel with club cards")
     public HomePage scrollToCarouselCardComponentWebElement() {
         Actions action = new Actions(driver);
         action.moveToElement(carouselCardComponentWebElement).perform();

@@ -25,14 +25,18 @@ public class AdvancedSearchHeaderWithoutLogInTest extends BaseTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-316")
-    public void advancedSearchHeader_display_categories_and_clubs_ok() {
+    @Test(description = "Test fails because search field isn't display list of Categories and Clubs")
+    @Description("Verify that 'Категорії' and 'Гуртки' sections with list of "
+            + "categories and clubs are displayed when to click on search field")
+    @Issue("TUA-316")
+    public void checkSearchFieldDisplayCategoriesAndClubs() {
         //Test will pass if you change base URL on https://speak-ukrainian.org.ua/
         advancedSearchTooltip = advancedSearchHeaderComponent.clickSelectionSearchInputField();
         HashMap<String, WebElement> categories = advancedSearchTooltip.getCategories();
         HashMap<String, WebElement> clubs = advancedSearchTooltip.getClubs();
         softAssert.assertFalse(categories.isEmpty());
         softAssert.assertFalse(clubs.isEmpty());
+
         softAssert.assertAll();
     }
 

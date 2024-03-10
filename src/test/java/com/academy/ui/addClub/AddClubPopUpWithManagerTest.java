@@ -7,6 +7,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
 import io.qameta.allure.Description;
@@ -36,6 +37,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
     private AddClubPopUpSider sider;
+    private ConfigProperties properties;
 
     @BeforeMethod(description = "Preconditions: Get addClubPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
@@ -63,9 +65,11 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepTwo.clickNextStepButton();
     }
 
-    @Test(description = "TUA-121")
+    @Test
+    @Description("Verify that a club without center is created if all parameters are filled with valid values")
+    @Issue("TUA-121")
     public void clubWithoutCenterCreated_ok() {
-        String imgPath = "D:\\landscape.jpg";
+        String testImage = "harrybean.jpg";
         AddClubInputElement clubNameInputElement = stepOne.getClubNameInputElement();
         softAssert.assertTrue(clubNameInputElement.getInput().getAttribute("value").isEmpty());
 
@@ -111,19 +115,20 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getClubDescriptionTextarea().getText().isEmpty());
 
         stepThree.getClubGalleryDownloadButton().click();
-        stepThree.getClubGalleryDownloadInput().sendKeys(imgPath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(properties.getImagePath(testImage));
+
         List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
         softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
         stepThree.getUploadedGalleryImg(0).clickRemoveImg();
         softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
-        stepThree.getClubLogoDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains("landscape.jpg"));
+        stepThree.getClubLogoDownloadInput().sendKeys(properties.getImagePath(testImage));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains(testImage));
 
         stepThree.getClubCoverDownloadButton().click();
-        stepThree.getClubCoverDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
+        stepThree.getClubCoverDownloadInput().sendKeys(properties.getImagePath(testImage));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testImage));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(), "Should be no errors with 50 symbols");
@@ -132,7 +137,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-179")
+    @Test
+    @Description("Verify that the ‘Опис’ text field is highlighted in red, when a user leaves the field blank")
+    @Issue("TUA-179")
     public void checkWhenAddClubTextareaFieldIsBlank() {
         fillStepOneWithValidDataPreconditions();
         stepOne.clickNextStepButton();
@@ -147,6 +154,8 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
     }
 
     @Test(description = "Club can't be created with empty mandatory fields")

@@ -267,7 +267,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
     }
 
-    @Test(description = "TUA-930")
+    @Test
+    @Description("Verify that 'Назва' field doesn't accept not allowed characters and error message appears")
+    @Issue("TUA-930")
     public void checkStepOneClubNameWithInvalidData() {
         String incorrectClubNameErrorMessage = "Некоректна назва гуртка";
         String enterNameClubErrorMessage = "Введіть назву гуртка";

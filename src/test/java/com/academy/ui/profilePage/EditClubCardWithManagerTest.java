@@ -220,7 +220,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-967")
+    @Test
+    @Description("Verify that the user can add valid photo to the 'Логотип', 'Обкладинка', and 'Галерея' categories")
+    @Issue("TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
@@ -266,7 +268,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-85")
+    @Test
+    @Description("Verify that the icon of the main photo 'Обкладинка' is set by default if photo is not uploaded")
+    @Issue("TUA-85")
     public void checkDefaultCoverImg() {
         String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";

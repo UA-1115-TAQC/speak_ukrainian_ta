@@ -152,13 +152,13 @@ public class HeaderComponentTest extends BaseTestRunner {
                 .getCssValue("color"),
                 "rgba(255, 165, 0, 1)", "10");
 
-        String headerPadding = header.getHeaderBox().getCssValue("padding-left");
+        String headerPadding = header.getHeaderBox().getCssValue("padding-right");
         String advancedSearchPadding = advancedSearchHeader
                 .getAdvancedSearchHeaderComponent()
                 .getAdvancedSearchBox()
-                .getCssValue("padding-left");
+                .getCssValue("padding-right");
 
-        softAssert.assertEquals(advancedSearchPadding, headerPadding, "Padding-left values are not equal!");
+        softAssert.assertEquals(advancedSearchPadding, headerPadding, "Padding-right values are not equal!");
 
         int headerBoxWidth = header.getHeaderBox().getSize().getWidth();
         int leftBlockWidth = header.getLeftBlock().getSize().getWidth();
@@ -179,15 +179,36 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertEquals(initialTitle, newTitle, "Page did not refresh after clicking the logo");
 
         Actions actions = new Actions(driver);
-        //лого перше потім центральний блок, далі кожен таб крім челендж далі кнопка
-        //далі вже сеарч поле
+//        actions.sendKeys(Keys.TAB).perform();
+//        softAssert.assertTrue(header.getLocationIcon().equals(driver.switchTo().activeElement()),
+//                "Focus should be on logo");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getCenterBlock().equals(driver.switchTo().activeElement()),
+                "Focus should be on center block");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getClubsButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on clubs tab");
+        actions.sendKeys(Keys.TAB).perform();
+//        softAssert.assertTrue(header.getChallengeButton().equals(driver.switchTo().activeElement()),
+//                "Focus should be on challenge tab");
+//        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getNewsButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on news tab");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getAboutUsButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on about us tab");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getServiceButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on service tab");
+        actions.sendKeys(Keys.TAB).perform();
+        softAssert.assertTrue(header.getAddClubButton().equals(driver.switchTo().activeElement()),
+                "Focus should be on add club button");
         actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(advancedSearchHeader
                         .getAdvancedSearchHeaderComponent()
                         .getSelectionSearchInputField()
                         .equals(driver.switchTo().activeElement()),
                 "Focus should be on search filed");
-
 
         softAssert.assertAll();
     }

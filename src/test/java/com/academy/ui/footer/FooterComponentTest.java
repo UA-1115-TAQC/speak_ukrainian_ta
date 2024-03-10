@@ -6,8 +6,6 @@ import com.academy.ui.runners.BaseTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
-import org.openqa.selenium.JavascriptExecutor;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import static org.testng.Assert.assertEquals;
 import com.academy.ui.pages.challenges.BaseChallengePage;
@@ -101,14 +99,18 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
   
-    @Test(description = "TUA-945")
-    public void click_on_youTube_icon_ok() {
+    @Test
+    @Description("Verify that clicking the YouTube icon opens the corresponding page")
+    @Issue("TUA-945")
+    public void clickYouTubeIcon() {
         String expected = footerComponent.getFooterSocialLinks().get(YOUTUBE_URL);
         footerComponent.getYouTubeLink().click();
         basePageWithoutHeaderAndFooter.getTabHandles();
         basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(YOUTUBE_URL);
         String actual = driver.getCurrentUrl();
-        assertEquals(expected, actual);
+        softAssert.assertEquals(expected, actual);
+
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-946")

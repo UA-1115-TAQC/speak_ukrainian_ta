@@ -392,7 +392,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Step Submit Button should be displayed");
     }
 
-    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Test(dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify that the ‘Опис’ text field is filled in with valid data")
+    @Issue("TUA-173")
     public void checkDescriptionValidData(String input){
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();

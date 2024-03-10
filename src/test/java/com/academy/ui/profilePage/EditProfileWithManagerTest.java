@@ -457,8 +457,10 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-836", dataProvider = "invalidLastNameInput",
+    @Test(dataProvider = "invalidLastNameInput",
             dataProviderClass = EditProfileWithManagerDataProvider.class)
+    @Description("Verify that error messages are shown and 'Зберегти зміни' button becomes disabled while entering invalid data into the 'Прізвище' field")
+    @Issue("TUA-836")
     public void checkErrorInvalidLastName(String lastName, String errorMsg){
         softAssert = new SoftAssert();
 

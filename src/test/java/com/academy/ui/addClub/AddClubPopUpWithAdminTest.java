@@ -395,7 +395,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    @Test(dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    @Description("Verify that 'Назва' field accepts allowed characters combinations")
+    @Issue("TUA-931")
     public void checkValidClubNameInput(String input){
         softAssert = new SoftAssert();
 
@@ -417,7 +419,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
     
-    @Test(description = "TUA-312")
+    @Test()
+    @Description("Verify that pop-up 'Додати гурток' appears when clicking 'Додати гурток' button at 'Home' page")
+    @Issue("TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());

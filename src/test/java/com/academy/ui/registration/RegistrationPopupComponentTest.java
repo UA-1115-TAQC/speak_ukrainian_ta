@@ -393,6 +393,8 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
   
     @Test(description = "TUA-876")
+    @Description("Verify that the user is not redirected to another page after canceling the registration process")
+    @Issue("TUA-876")
     public void checkRedirectionAfterRegistrationCanceled(){
         HeaderComponent header = homePage.getHeader();
         header.newsButtonClick();

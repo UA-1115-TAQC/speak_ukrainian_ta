@@ -2,8 +2,6 @@ package com.academy.ui.addClub;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.components.ClubCardWithEditComponent;
-import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -36,6 +34,10 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         put("address", "бульвар Академіка Вернадського, 10");
         put("coordinates", "50.459261, 30.378982");
     }};
+
+    private static final String SUCCESSFUL_POPUP = "Гурток успішно створено";
+
+    private static final String VALID_CENTER_NAME = "Курси програмування IT-stat";
 
 
     private AddClubPopUpComponent addClubPopUpComponent;
@@ -421,16 +423,27 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.getClubDescriptionTextarea().sendKeys(VALID_DESCRIPTION);
         stepThree.clickCompleteButton();
 
-//        driver.navigate().refresh();
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP,
+                "Successful club creation popup message should appear");
+    }
 
-        ProfilePage profile = homePage.header.openProfilePage();
-        for(ClubCardWithEditComponent club: profile.getClubCardComponentsList()) {
-            if (club.getTitle().getText().equals(VALID_LOCATION.get("name")) &&
-                club.getDescription().getText().equals(VALID_DESCRIPTION) &&
-                club.getDirectionTags().stream().anyMatch(element -> element.getText().equals(CATEGORY))) {
-                softAssert.assertEquals(club.getAddress().getText(), VALID_LOCATION.get("address"));
-            }
-        }
+    @Test(description = "TUA-135")
+    public void verifyAddingLocationWithCenterWithoutOptionalParams() {
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE);
+        stepOne.clickCenterDropdown().selectCenter(VALID_CENTER_NAME);
+        stepOne.clickNextStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        stepThree.clickCompleteButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP,
+                "Successful club creation popup message should appear");
     }
 
 }

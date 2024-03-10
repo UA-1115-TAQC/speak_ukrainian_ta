@@ -12,7 +12,6 @@ import com.academy.ui.runners.LoginWithAdminTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -66,8 +65,10 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepTwo.clickNextStepButton();
     }
 
-    @Test(description = "TUA-237")
-    public void validate_inputs_in_addLocationForm_ok() {
+    @Test
+    @Description("Verify that a admin can add a location of a club")
+    @Issue("TUA-237")
+    public void checkAddLocationFormAfterFillingMandatoryFieldsWithValidData() {
 
         fillStepOneWithValidDataPreconditions();
 
@@ -342,32 +343,38 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-954")
+    @Test(description = "Test fails because for all test inputs same message")
+    @Description("Verify error messages for 'Номер телефону' field of 'Додати локацію' pop-up when creating a club")
+    @Issue("TUA-954")
     public void checkStepTwoTelephoneInvalidData() {
-        String telephoneErrorMessage = "Телефон не відповідає вказаному формату";
+        String specialSymbolsErrorMessage = "Телефон не може містити спеціальні символи";
+        String lettersErrorMessage = "Телефон не може містити літери";
+        String incorrectFormatErrorMessage = "Телефон не відповідає вказаному формату";
 
         fillStepOneWithValidDataPreconditions();
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
 
         stepTwo.getTelephoneInputElement().setValue("fgtskana");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                .getErrorMessagesTextList().get(0).equals(lettersErrorMessage),
                 "The error message is displayed : Телефон не може містити літери");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
 
         stepTwo.getTelephoneInputElement().clearInput().setValue("/*-+()");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                        .getErrorMessagesTextList().get(0).equals(specialSymbolsErrorMessage),
                 "The error message is displayed : Телефон не може містити спеціальні символи");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
 
         stepTwo.getTelephoneInputElement().clearInput().setValue("06725841");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage));
+                        .getErrorMessagesTextList().get(0).equals(incorrectFormatErrorMessage));
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-172")

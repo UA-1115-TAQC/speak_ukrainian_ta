@@ -1,11 +1,9 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -15,11 +13,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
-    private static final String VALID_CLUB_NAME = "Add club name";
+    private static final String VALID_CLUB_NAME = "Add club name 2";
     private static final String CATEGORY = "Спортивні секції";
     private static final String VALID_MIN_AGE = "5";
     private static final String VALID_MAX_AGE = "8";
@@ -27,6 +27,17 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String VALID_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ";
+    private static final Map<String, String> VALID_LOCATION = new HashMap<>() {{
+        put("name", "main location");
+        put("city", "Київ");
+        put("district", "Деснянський");
+        put("metro", "Академмістечко");
+        put("address", "бульвар Академіка Вернадського, 10");
+        put("coordinates", "50.459261, 30.378982");
+    }};
+
+
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
@@ -206,7 +217,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Description should be empty"
         );
         softAssert.assertFalse(stepTwo.getNextStepButton().isEnabled(),
-                DISABLED_BUTTON_MESSAGE  + " when description textarea is field is empty");
+                DISABLED_BUTTON_MESSAGE + " when description textarea is field is empty");
 
         softAssert.assertAll();
     }
@@ -371,8 +382,8 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Step Submit Button should be displayed");
     }
 
-    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
-    public void checkDescriptionValidData(String input){
+    @Test(description = "TUA-173", dataProvider = "validDescription", dataProviderClass = AddClubWithManagerDataProvider.class)
+    public void checkDescriptionValidData(String input) {
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();
         fillStepTwoWithValidDataPreconditions();
@@ -385,4 +396,41 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-126")
+    public void verifyAddingLocationWithoutCenter() {
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue(VALID_LOCATION.get("name"));
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("city"));
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("district"));
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("metro"));
+        addLocation.getLocationAddressInputElement().setValue(VALID_LOCATION.get("address"));
+        addLocation.getLocationCoordinatesInputElement().setValue(VALID_LOCATION.get("coordinates"));
+        addLocation.getLocationTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        addLocation.clickAddLocationButton();
+
+        LocationListElement newLocation = stepTwo.getListOfLocationElements().getFirst();
+        softAssert.assertEquals(newLocation.getLocationTitle(), VALID_LOCATION.get("name"));
+        softAssert.assertEquals(newLocation.getDescriptionTitle(), VALID_LOCATION.get("address"));
+
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubDescriptionTextarea().sendKeys(VALID_DESCRIPTION);
+        stepThree.clickCompleteButton();
+
+//        driver.navigate().refresh();
+
+        ProfilePage profile = homePage.header.openProfilePage();
+        for(ClubCardWithEditComponent club: profile.getClubCardComponentsList()) {
+            if (club.getTitle().getText().equals(VALID_LOCATION.get("name")) &&
+                club.getDescription().getText().equals(VALID_DESCRIPTION) &&
+                club.getDirectionTags().stream().anyMatch(element -> element.getText().equals(CATEGORY))) {
+                softAssert.assertEquals(club.getAddress().getText(), VALID_LOCATION.get("address"));
+            }
+        }
+    }
+
 }

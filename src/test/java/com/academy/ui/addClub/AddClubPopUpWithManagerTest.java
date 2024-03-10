@@ -399,7 +399,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-126")
+    @Test(description = "TUA-978")
     public void verifyAddingLocationWithoutCenter() {
         fillStepOneWithValidDataPreconditions();
         stepTwo = addClubPopUpComponent.getStepTwoContainer();

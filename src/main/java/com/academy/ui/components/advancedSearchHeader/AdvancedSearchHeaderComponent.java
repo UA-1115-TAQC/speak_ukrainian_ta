@@ -35,6 +35,8 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[@aria-label=\"close-circle\"]")
     protected WebElement selectionSearchCloseButton;
 
+    @FindBy(xpath = "//div[contains(@class, 'global-padding')]")
+    private WebElement advancedSearchBox;
 
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

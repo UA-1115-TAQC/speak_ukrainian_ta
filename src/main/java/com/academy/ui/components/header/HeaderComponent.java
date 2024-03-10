@@ -81,9 +81,20 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = ".//span[contains(@class,'ant-avatar-icon')]")
     private WebElement avatar;
 
-
     @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
     private WebElement profilePageButton;
+
+    @FindBy(xpath = "//header[contains(@class, 'header')]")
+    private WebElement headerBox;
+
+    @FindBy(xpath = "//div[@class='left-side-menu']")
+    private WebElement leftBlock;
+
+    @FindBy(xpath = "//div[@class='center-side']")
+    private WebElement centerBlock;
+
+    @FindBy(xpath = "//div[@class='right-side-menu']")
+    private WebElement rightBlock;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

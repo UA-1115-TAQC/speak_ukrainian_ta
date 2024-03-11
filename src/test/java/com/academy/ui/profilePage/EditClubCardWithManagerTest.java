@@ -1,6 +1,5 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.addClub.AddClubWithManagerDataProvider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
@@ -10,6 +9,8 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -210,7 +211,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    TODO
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
@@ -356,7 +356,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-961a", dataProvider = "invalidTelephone", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Test(dataProvider = "invalidTelephone", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Description("Verify user cannot save invalid data in Telephone field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
+    @Issue("TUA-961")
     public void checkInvalidTelephoneInput(String input, String expectedErrorMsg){
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
@@ -377,7 +379,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-961b", dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Test(dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Description("Verify user cannot save invalid data in Email field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
+    @Issue("TUA-961")
     public void checkInvalidEmailInput(String input){
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");

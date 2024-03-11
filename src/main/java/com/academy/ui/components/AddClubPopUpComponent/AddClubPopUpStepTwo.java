@@ -85,6 +85,9 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
     @Getter(AccessLevel.NONE) private WebElement locationPopUp;
 
+    @FindBy(xpath = "//descendant::div[@id='basic_Телефон_help']")
+    private WebElement errorMessage;
+
     @Getter(AccessLevel.NONE)
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
     @Getter(AccessLevel.NONE)

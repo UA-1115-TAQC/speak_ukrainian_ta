@@ -356,7 +356,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Issue("TUA-958")
     public void checkChangeCoverPhoto() {
         String imageName= "book.png";
-        String image2Name = "image.png";
+        String imageName2 = "image.png";
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
@@ -365,10 +365,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
 
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName2));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
 
-        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName2,
                 "Image should be changed");
 
         softAssert.assertTrue(stepThree
@@ -378,11 +378,14 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
-        clubCardByName.clickDetailsButtonForClub();
+        ProfilePage profilePage1 = new ProfilePage(driver);
+        String clubName1 = getClubName();
+        ClubCardWithEditComponent clubCardByName1 = profilePage1.getClubCardByName(clubName1);
+        clubCardByName1.clickDetailsButton();
 
         ClubPage clubPage = new ClubPage(driver);
         softAssert.assertTrue(clubPage.getCurrentTabHandle().contains("user"));
-        softAssert.assertTrue(clubPage.getClubCover().getAttribute("url").contains(imageName));
+        softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(imageName2));
 
         softAssert.assertAll();
     }

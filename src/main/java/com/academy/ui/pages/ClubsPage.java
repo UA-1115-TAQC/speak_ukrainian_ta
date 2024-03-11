@@ -5,6 +5,7 @@ import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -62,6 +63,7 @@ public class ClubsPage extends BasePage {
         selectWhatCardsToShow();
     }
 
+    @Step("Create list of club components of the Clubs page")
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
         sleep(500);
@@ -75,6 +77,7 @@ public class ClubsPage extends BasePage {
         return clubs;
     }
 
+    @Step("Create list of center components of the Clubs page")
     private List<CenterCardComponent> createCenterComponents() {
         List<CenterCardComponent> centers = new ArrayList<>();
         sleep(500);
@@ -88,6 +91,7 @@ public class ClubsPage extends BasePage {
         return centers;
     }
 
+    @Step("Wait till the Clubs page is loaded")
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds) {
         if (seconds > 0) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
@@ -98,6 +102,7 @@ public class ClubsPage extends BasePage {
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
 
+    @Step("Enter text {input} in the search field in the header on the Clubs page")
     public ClubsPage setTextHeaderSearch(String input) {
         advancedSearchClubHeader.setTextSelectionSearchInputField(input);
         sleep(1000);
@@ -105,7 +110,7 @@ public class ClubsPage extends BasePage {
         return this;
     }
 
-
+    @Step("Wait till the left sider for advanced search is loaded on the Clubs page")
     public ClubsPage waitClubsPageWithSiderLoaded(int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.urlContains("clubs"));
@@ -113,10 +118,12 @@ public class ClubsPage extends BasePage {
         return this;
     }
 
+    @Step("Check if the is no club cards on the Clubs page")
     public boolean isClubsPageEmpty() {
         return clubCards.isEmpty();
     }
 
+    @Step("Check which type of cards (club or center) is loaded on the Clubs page")
     private void selectWhatCardsToShow() {
         if (isElementPresent(searchSiderAsideNode)) {
             if (searchSider.getCheckedRadioButton().getAttribute("innerText").equals("Гурток")) {

@@ -1,6 +1,7 @@
 package com.academy.ui.components;
 
 import com.academy.ui.pages.ClubsPage;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,31 +36,37 @@ public class ClubListControlComponent extends BaseComponent{
         super(driver, rootElement);
     }
 
+    @Step("Click on the 'за алфавітом' button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickSortByAlphabet(){
         getSortByAlphabet().click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the 'за рейтингом' button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickSortByRating(){
         getSortByRating().click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the arrow up button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickArrowUp(){
         getArrowUp().click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the arrow down button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickArrowDown(){
         getArrowDown().click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the wrapper list button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickWrapperList(){
         getWrapperList().click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the wrapper block button on the control panel on the Clubs page with advanced search")
     public ClubsPage clickWrapperBlock(){
         getWrapperBlock().click();
         return new ClubsPage(driver);

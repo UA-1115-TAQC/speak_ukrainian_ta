@@ -156,7 +156,7 @@ private String stepOneSelectedCentre;
         softAssert.assertEquals(addClubPopUpStepTwo.getEmailInputElement().getInput().getAttribute("value"),email);
         softAssert.assertEquals(addClubPopUpStepTwo.getSkypeInputElement().getInput().getAttribute("value"),skype);
         softAssert.assertEquals(addClubPopUpStepTwo.getSiteInputElement().getInput().getAttribute("value"),site);
-        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationTitle().getText(), locationName);
+        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationItemTitle().getText(), locationName);
     }
     private void addLocation(String locationName,String locationCity, String address, String coordinates, String phone){
         addLocationPopUpComponent.getLocatioNameInputElement().setValue(locationName);

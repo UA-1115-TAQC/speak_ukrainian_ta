@@ -68,6 +68,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
     private List<WebElement> locationList;
 
+    @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][2]")
+    private WebElement locationTitle;
+
     @Getter(AccessLevel.NONE)
     private List<LocationListElement> listOfLocationElements;
 

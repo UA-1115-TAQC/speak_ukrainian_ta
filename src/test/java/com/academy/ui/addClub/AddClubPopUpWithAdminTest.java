@@ -24,6 +24,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import static org.testng.Assert.assertTrue;
+
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -587,5 +589,33 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertTrue(clubCardComponentList.stream().anyMatch(item -> item.getDescription().getText().equals(description)), "There is no such element on page");
         homePage.header.openUserMenu();
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    public void checkValidClubNameInput(String input){
+        softAssert = new SoftAssert();
+
+        stepOne.getClubNameInputElement().setValue(input);
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(82, 196, 26, 1)"
+        );
+
+        stepOne.getClubNameInputElement().clearInput();
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getValidationCircleIcon().getCssValue("color"),
+                "rgba(255, 77, 79, 1)"
+        );
+        softAssert.assertEquals(
+                stepOne.getClubNameInputElement().getErrorMessages().get(0).getText(),
+                "Введіть назву гуртка");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-312")
+    public void checkAddClubPopUpIsDisplayed(){
+        WebElement element = stepOne.getNextStepButton();
+        assertTrue(element.isDisplayed());
     }
 }

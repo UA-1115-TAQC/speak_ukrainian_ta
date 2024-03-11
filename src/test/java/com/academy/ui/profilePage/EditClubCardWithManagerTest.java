@@ -9,6 +9,8 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -356,6 +358,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
     @Test(description = "TUA-981")
+    @Description("Verify that user can change center for the existing club with center")
+    @Issue("TUA-981")
     public void checkChangeCenterClubWithCenter(){
         softAssert = new SoftAssert();
         String centerToSelect = "Центр творчості дітей та юнацтва";

@@ -3,9 +3,14 @@ package com.academy.ui.footer;
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+
+import io.qameta.allure.Issue;
+import org.openqa.selenium.JavascriptExecutor;
+
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
+
 import org.testng.annotations.BeforeMethod;
 import static org.testng.Assert.assertEquals;
 import com.academy.ui.pages.challenges.BaseChallengePage;
@@ -90,6 +95,7 @@ public class FooterComponentTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-974")
+    @Issue("TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");
         String initialTitle = driver.getTitle();

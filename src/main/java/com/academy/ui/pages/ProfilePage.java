@@ -100,7 +100,13 @@ public class ProfilePage extends BasePage {
         editProfileButton.click();
     }
 
+
+    public void centersDropDownClick() {
+        myCentersDropDown.click();
+    }
+
     @Step("Click add button 'Додати' on the Profile page")
+
     public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();

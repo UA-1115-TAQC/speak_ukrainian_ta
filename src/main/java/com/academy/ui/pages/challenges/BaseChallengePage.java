@@ -3,6 +3,8 @@ package com.academy.ui.pages.challenges;
 import com.academy.ui.pages.BasePageWithAdvancedSearch;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
 import com.academy.ui.pages.payment.PaymentPage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,12 +41,16 @@ public class BaseChallengePage extends BasePageWithAdvancedSearch {
    protected WebElement signUpForAChallengeButton;
 @   FindBy(xpath = "//div[contains(@class,\"ant-tooltip-inner\")]")
    protected WebElement signUpForAChallengeButtonTooltip;
+    @Step("Get social media icon by index: {index}")
+    @Description("Get the social media icon by its index in the list.")
     public WebElement getSocialMediaIconByIndex(int index){
         if(index >=0 && index < getContactsSocialMediaIcons().size()){
             return getContactsSocialMediaIcons().get(index);
         }
         throw new Error("The index must be between 0 and " + (getContactsSocialMediaIcons().size()-1)+", inclusive.");
     }
+    @Step("Click social media icon by index: {index}")
+    @Description("Click the social media icon by its index in the list, switch to a new tab.")
     public void clickSocialMediaIconByIndex(int index){
         int previousTabAmount = getTabHandles().size();
         getSocialMediaIconByIndex(index).click();
@@ -52,6 +58,8 @@ public class BaseChallengePage extends BasePageWithAdvancedSearch {
         wait.until(ExpectedConditions.numberOfWindowsToBe( previousTabAmount +1));
         switchToANewTabByItsIndex(previousTabAmount);
     }
+    @Step("Click 'Help Project' button and switch to a new tab")
+    @Description("Click the 'Help Project' button, switch to a new tab, and return the PaymentPage.")
     public PaymentPage clickHelpProjectButton(){
         int previousTabAmount = getTabHandles().size();
         getHelpProjectButton().click();
@@ -62,6 +70,7 @@ public class BaseChallengePage extends BasePageWithAdvancedSearch {
         wait.until(ExpectedConditions.visibilityOf(paymentPage.getLargeLogoImage()));
         return paymentPage;
     }
+    @Step("Click 'Sign Up For A Challenge' button")
     public void clickSignUpForAChallengeButton(){
         this.getSignUpForAChallengeButton().click();
     }

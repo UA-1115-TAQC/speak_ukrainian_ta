@@ -9,7 +9,9 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
-import org.openqa.selenium.Dimension;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -39,7 +41,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addClubPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
         stepOne = addClubPopUpComponent.getStepOneContainer();
@@ -47,6 +49,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert = new SoftAssert();
     }
 
+    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
@@ -55,46 +58,17 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 .clickNextStepButton();
     }
 
+    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
         stepTwo.clickNextStepButton();
     }
 
-    @Test(description = "TUA-177")
-    public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols() {
-
-        final String TEXT_1500_SYMBOLS = "Abcd ".repeat(300);
-        final String TEXT_1501_SYMBOLS = TEXT_1500_SYMBOLS + "!";
-        final String TEXT_1550_SYMBOLS = "Abcd ".repeat(310);
-        final String ERROR_MESSAGE = "Опис гуртка може містити від 40 до 1500 символів.";
-
-        fillStepOneWithValidDataPreconditions();
-        fillStepTwoWithValidDataPreconditions();
-
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
-                "Should be no errors with 1500 symbols");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_50_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(),
-                "Should be no errors with 50 symbols");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1501_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
-                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
-
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1550_SYMBOLS);
-        softAssert.assertTrue(stepThree.getErrorMessagesTextList().contains(ERROR_MESSAGE),
-                "Should appear error message 'Опис гуртка може містити від 40 до 1500 символів.'");
-
-        softAssert.assertAll();
-    }
-
-    @Test(description = "TUA-237")
-    public void validate_inputs_in_addLocationForm_ok() {
+    @Test
+    @Description("Verify that a admin can add a location of a club")
+    @Issue("TUA-237")
+    public void checkAddLocationFormAfterFillingMandatoryFieldsWithValidData() {
 
         fillStepOneWithValidDataPreconditions();
 
@@ -163,135 +137,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-119")
-    public void checkStepTreeDescriptionUI() {
-        int WINDOW_WIDTH = 400;
-        int WINDOW_HEIGHT = 600;
-
-        fillStepOneWithValidDataPreconditions();
-        fillStepTwoWithValidDataPreconditions();
-
-        sider = addClubPopUpComponent.getSider();
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
-
-        checkStepThreeDescriptionElementsPresent();
-
-        softAssert.assertEquals(sider.getFirstStepIcon().getText(), "");
-        softAssert.assertEquals(sider.getFirstStepTitle().getText(), "Основна інформація");
-        softAssert.assertEquals(sider.getSecondStepIcon().getText(), "");
-        softAssert.assertEquals(sider.getSecondStepTitle().getText(), "Контакти");
-        softAssert.assertEquals(sider.getThirdStepIcon().getText(), "3");
-        softAssert.assertEquals(sider.getThirdStepTitle().getText(), "Опис");
-
-        softAssert.assertEquals(stepThree.getClubTitle().getText(), "Додати гурток");
-        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
-                "color"), "rgba(45, 76, 104, 1)");
-        softAssert.assertEquals(stepThree.getClubTitle().getCssValue(
-                "font-size"), "24px");
-
-        softAssert.assertEquals(stepThree.getClubLogoTitle().getText(), "Логотип");
-        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
-                "color"), "rgba(128, 128, 128, 1)");
-        softAssert.assertEquals(stepThree.getClubLogoTitle().getCssValue(
-                "font-size"), "19px");
-        softAssert.assertEquals(stepThree.getClubLogoDownloadButton().getText(), "Завантажити лого");
-
-        softAssert.assertEquals(stepThree.getClubCoverTitle().getText(), "Обкладинка");
-        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
-                "color"), "rgba(128, 128, 128, 1)");
-        softAssert.assertEquals(stepThree.getClubCoverTitle().getCssValue(
-                "font-size"), "19px");
-        softAssert.assertEquals(stepThree.getClubCoverDownloadButton().getText(), "Завантажити обкладинку");
-
-        softAssert.assertEquals(stepThree.getClubGalleryTitle().getText(), "Галерея");
-        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "color"), "rgba(128, 128, 128, 1)");
-        softAssert.assertEquals(stepThree.getClubGalleryTitle().getCssValue(
-                "font-size"), "19px");
-        softAssert.assertEquals(stepThree.getClubGalleryDownloadButton().getText(), "Додати");
-
-        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getText(), "Опис");
-        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "color"), "rgba(128, 128, 128, 1)");
-        softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
-                "font-size"), "19px");
-
-        softAssert.assertEquals(stepThree.getPrevStepButton().getText(), "Назад");
-        softAssert.assertEquals(stepThree.getNextStepButton().getText(), "Завершити");
-        softAssert.assertFalse(stepThree.getNextStepButton().isEnabled(), "Button should be not active");
-
-        Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getClubLogoDownloadButton().equals(driver.switchTo().activeElement()),
-                "Focus should be on Logo Download Button");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getClubCoverDownloadButton().equals(driver.switchTo().activeElement()),
-                "Focus should be on Cover Download Button");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getClubGalleryDownloadButton().equals(driver.switchTo().activeElement()),
-                "Focus should be on Gallery Download Button");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getClubDescriptionTextarea().equals(driver.switchTo().activeElement()),
-                "Focus should be on Description Textarea");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getPrevStepButton().equals(driver.switchTo().activeElement()),
-                "Focus should be on Previous Step Button");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getNextStepButton().equals(driver.switchTo().activeElement()),
-                "Focus should be on Submit Button");
-
-        Dimension dimension = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
-        driver.manage().window().setSize(dimension);
-
-        checkStepThreeDescriptionElementsPresent();
-
-        softAssert.assertAll();
-    }
-
-    private void checkStepThreeDescriptionElementsPresent() {
-        softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
-                "Step One icon should be displayed");
-        softAssert.assertTrue(sider.getFirstStepTitle().isDisplayed(),
-                "Step One title should be displayed");
-
-        softAssert.assertTrue(sider.getSecondStepIcon().isDisplayed(),
-                "Step Two icon should be displayed");
-        softAssert.assertTrue(sider.getSecondStepTitle().isDisplayed(),
-                "Step Two title should be displayed");
-
-        softAssert.assertTrue(sider.getThirdStepIcon().isDisplayed(),
-                "Step Three icon should be displayed");
-        softAssert.assertTrue(sider.getThirdStepTitle().isDisplayed(),
-                "Step Three title should be displayed");
-
-        softAssert.assertTrue(stepThree.getClubTitle().isDisplayed(),
-                "Step Club title should be displayed");
-
-        softAssert.assertTrue(stepThree.getClubLogoTitle().isDisplayed(),
-                "Step Logo title should be displayed");
-        softAssert.assertTrue(stepThree.getClubLogoDownloadButton().isDisplayed(),
-                "Step Logo Download Button should be displayed");
-
-        softAssert.assertTrue(stepThree.getClubCoverTitle().isDisplayed(),
-                "Step Cover title should be displayed");
-        softAssert.assertTrue(stepThree.getClubCoverDownloadButton().isDisplayed(),
-                "Step Cover Download Button should be displayed");
-
-        softAssert.assertTrue(stepThree.getClubGalleryTitle().isDisplayed(),
-                "Step Gallery title should be displayed");
-        softAssert.assertTrue(stepThree.getClubGalleryDownloadButton().isDisplayed(),
-                "Step Gallery Download Button should be displayed");
-
-        softAssert.assertTrue(stepThree.getClubDescriptionTitle().isDisplayed(),
-                "Step Description title should be displayed");
-
-        softAssert.assertTrue(stepThree.getPrevStepButton().isDisplayed(),
-                "Step Previous Step Button should be displayed");
-        softAssert.assertTrue(stepThree.getNextStepButton().isDisplayed(),
-                "Step Submit Button should be displayed");
-    }
-
-    @Test(description = "TUA-928'")
+    @Test(description = "New club added with corrected data")
+    @Description("Verify that new club with corrected data after error messages is added on the website")
+    @Issue("TUA-928")
     public void checkNewClubAddedWithCorrectedData() {
 
         final String INVALID_CLUB_NAME = "ÄыЁЪùייראפ";
@@ -420,7 +268,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
     }
 
-    @Test(description = "TUA-930")
+    @Test
+    @Description("Verify that 'Назва' field doesn't accept not allowed characters and error message appears")
+    @Issue("TUA-930")
     public void checkStepOneClubNameWithInvalidData() {
         String incorrectClubNameErrorMessage = "Некоректна назва гуртка";
         String enterNameClubErrorMessage = "Введіть назву гуртка";
@@ -493,32 +343,38 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-954")
+    @Test(description = "Test fails because for all test inputs same message")
+    @Description("Verify error messages for 'Номер телефону' field of 'Додати локацію' pop-up when creating a club")
+    @Issue("TUA-954")
     public void checkStepTwoTelephoneInvalidData() {
-        String telephoneErrorMessage = "Телефон не відповідає вказаному формату";
+        String specialSymbolsErrorMessage = "Телефон не може містити спеціальні символи";
+        String lettersErrorMessage = "Телефон не може містити літери";
+        String incorrectFormatErrorMessage = "Телефон не відповідає вказаному формату";
 
         fillStepOneWithValidDataPreconditions();
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
 
         stepTwo.getTelephoneInputElement().setValue("fgtskana");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                .getErrorMessagesTextList().get(0).equals(lettersErrorMessage),
                 "The error message is displayed : Телефон не може містити літери");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
 
         stepTwo.getTelephoneInputElement().clearInput().setValue("/*-+()");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage),
+                        .getErrorMessagesTextList().get(0).equals(specialSymbolsErrorMessage),
                 "The error message is displayed : Телефон не може містити спеціальні символи");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
 
         stepTwo.getTelephoneInputElement().clearInput().setValue("06725841");
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
-                        .getErrorMessagesTextList().get(0).equals(telephoneErrorMessage));
+                        .getErrorMessagesTextList().get(0).equals(incorrectFormatErrorMessage));
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-172")
@@ -539,7 +395,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    @Test(dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
+    @Description("Verify that 'Назва' field accepts allowed characters combinations")
+    @Issue("TUA-931")
     public void checkValidClubNameInput(String input){
         softAssert = new SoftAssert();
 
@@ -561,7 +419,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
     
-    @Test(description = "TUA-312")
+    @Test()
+    @Description("Verify that pop-up 'Додати гурток' appears when clicking 'Додати гурток' button at 'Home' page")
+    @Issue("TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());

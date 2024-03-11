@@ -4,6 +4,8 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
 
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -21,13 +23,15 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 
-    @Test(description = "TUA-358")
+    @Test(description = "Edit profile button is present and direct to edit Profile page")
+    @Description("Verify that the ‘Редагувати профіль’ link is present and direct to the ‘Редагувати профіль’ page")
+    @Issue("TUA-358")
     public void checkEditProfileLinkIsPresentAndDirectToEditProfilePage() {
         softAssert.assertTrue(profilePage.getEditProfileButton().isDisplayed(),
                 "EditProfile should be link present");
@@ -92,7 +96,9 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-360")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Відвідувач'")
+    @Issue("TUA-360")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);

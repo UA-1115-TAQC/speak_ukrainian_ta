@@ -37,6 +37,7 @@ public class GuestMenuComponent extends BaseComponent {
         return new LoginPopupComponent(driver, loginModalForm);
     }
 
+    @Step("Click registration")
     public RegistrationPopupComponent openRegistrationForm() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(registration)).click();

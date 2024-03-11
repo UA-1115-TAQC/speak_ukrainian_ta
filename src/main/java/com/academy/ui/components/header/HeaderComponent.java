@@ -152,6 +152,7 @@ public class HeaderComponent extends BaseComponent {
         return new AdminMenuComponent(driver, profileMenuNode);
     }
 
+    @Step("Open user menu")
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
@@ -173,11 +174,13 @@ public class HeaderComponent extends BaseComponent {
 
     }
 
+    @Step("Click city location button")
     public HeaderComponent clickCityLocation() {
         clubsLocationButton.click();
         return this;
     }
 
+    @Step("Select city {city} location of clubs")
     public ClubsPage selectClubsCityLocation(String city) {
         citiesLocationOfClubs.stream()
                 .filter(currentCity -> currentCity.getText().equals(city))

@@ -7,6 +7,10 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
+import io.qameta.allure.Description;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -33,8 +37,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
     private AddClubPopUpSider sider;
+    private ConfigProperties properties;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addClubPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
         addClubPopUpComponent.waitPopUpOpen(5);
@@ -42,6 +47,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert = new SoftAssert();
     }
 
+    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
@@ -50,6 +56,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 .clickNextStepButton();
     }
 
+    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
@@ -58,9 +65,11 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepTwo.clickNextStepButton();
     }
 
-    @Test(description = "TUA-121")
+    @Test
+    @Description("Verify that a club without center is created if all parameters are filled with valid values")
+    @Issue("TUA-121")
     public void clubWithoutCenterCreated_ok() {
-        String imgPath = "D:\\landscape.jpg";
+        String testImage = "harrybean.jpg";
         AddClubInputElement clubNameInputElement = stepOne.getClubNameInputElement();
         softAssert.assertTrue(clubNameInputElement.getInput().getAttribute("value").isEmpty());
 
@@ -106,19 +115,20 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getClubDescriptionTextarea().getText().isEmpty());
 
         stepThree.getClubGalleryDownloadButton().click();
-        stepThree.getClubGalleryDownloadInput().sendKeys(imgPath);
+        stepThree.getClubGalleryDownloadInput().sendKeys(properties.getImagePath(testImage));
+
         List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
         softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
         stepThree.getUploadedGalleryImg(0).clickRemoveImg();
         softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
-        stepThree.getClubLogoDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains("landscape.jpg"));
+        stepThree.getClubLogoDownloadInput().sendKeys(properties.getImagePath(testImage));
+        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains(testImage));
 
         stepThree.getClubCoverDownloadButton().click();
-        stepThree.getClubCoverDownloadInput().sendKeys(imgPath);
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains("landscape.jpg"));
+        stepThree.getClubCoverDownloadInput().sendKeys(properties.getImagePath(testImage));
+        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testImage));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(), "Should be no errors with 50 symbols");
@@ -127,7 +137,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-179")
+    @Test
+    @Description("Verify that the ‘Опис’ text field is highlighted in red, when a user leaves the field blank")
+    @Issue("TUA-179")
     public void checkWhenAddClubTextareaFieldIsBlank() {
         fillStepOneWithValidDataPreconditions();
         stepOne.clickNextStepButton();
@@ -142,9 +154,13 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+
+        softAssert.assertAll();
     }
 
-    @Test(description = "TUA-123")
+    @Test(description = "Club can't be created with empty mandatory fields")
+    @Description("Verify that a club can't be created if mandatory parameters are empty")
+    @Issue("TUA-123")
     public void checkClubCantBeCreatedWithEmptyMandatoryParameters() {
         final String EMPTY_STRING = "";
         final String DISABLED_BUTTON_MESSAGE = "Next button should be disabled";
@@ -211,7 +227,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-177")
+    @Test(description = "Error messages appear when clubs description is more 1500 symbols")
+    @Description("Verify that error message ‘Опис гуртка задовгий’ appears when the user enters more than 1500 symbols into the field")
+    @Issue("TUA-177")
     public void checkDescriptionFieldAllows_1500_MoreAndLessSymbols() {
 
         final String TEXT_1500_SYMBOLS = "Abcd ".repeat(300);
@@ -243,7 +261,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-119")
+    @Test(description = "UI test for third step 'Description' of Add club pop-up")
+    @Description("Check 'Опис' tab on 'Додати гурток' pop-up window (UI)")
+    @Issue("TUA-119")
     public void checkStepTreeDescriptionUI() {
         int WINDOW_WIDTH = 400;
         int WINDOW_HEIGHT = 600;
@@ -328,6 +348,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Step("Check step three description elements are present")
     private void checkStepThreeDescriptionElementsPresent() {
         softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
                 "Step One icon should be displayed");
@@ -371,7 +392,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Step Submit Button should be displayed");
     }
 
-    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Test(dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify that the ‘Опис’ text field is filled in with valid data")
+    @Issue("TUA-173")
     public void checkDescriptionValidData(String input){
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();

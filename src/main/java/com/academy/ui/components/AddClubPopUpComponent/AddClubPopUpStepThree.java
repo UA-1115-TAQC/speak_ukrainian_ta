@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class AddClubPopUpStepThree extends AddClubPopUpContainer{
+public class AddClubPopUpStepThree extends AddClubPopUpContainer {
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubLogoTitle;
@@ -89,34 +90,42 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
-    public AddClubPopUpStepThree clickClubLogoDownloadButton(){
+    @Step("Click on the button 'Завантажити лого' on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubLogoDownloadButton() {
         clubLogoDownloadButton.click();
         return this;
     }
-    public AddClubPopUpStepThree clickClubGalleryDownloadButton(){
+
+    @Step("Click on the button 'Додати' to add image to Gallery on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubGalleryDownloadButton() {
         clubGalleryDownloadButton.click();
         return this;
     }
 
-    public AddClubPopUpStepThree clickClubCoverDownloadButton(){
+    @Step("Click on the button 'Завантажити обкладинку' on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubCoverDownloadButton() {
         clubCoverDownloadButton.click();
         return this;
     }
 
-    public void clickCompleteButton(){
+    @Step("Click on the button 'Завершити' on the third step of Add/Edit club pop-up")
+    public void clickCompleteButton() {
         getNextStepButton().click();
     }
 
+    @Step("Set club description on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree setDescriptionValue(String value) {
         clubDescriptionTextarea.sendKeys(value);
         return this;
     }
 
+    @Step("Get list of error messages of club description on the third step of Add/Edit club pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
-    public AddClubPopUpStepThree clearDescriptionTextarea(){
+    @Step("Clear club description textarea on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clearDescriptionTextarea() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
             clubDescriptionTextarea.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
@@ -125,10 +134,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         }
         return this;
     }
+
+    @Step("Get all uploaded items on the third step of Add/Edit club pop-up")
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
 
+    @Step("Get uploaded Gallery image by index {index} on the third step of Add/Edit club pop-up")
     public UploadedImgComponent getUploadedGalleryImg(int index) {
         if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
             return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));

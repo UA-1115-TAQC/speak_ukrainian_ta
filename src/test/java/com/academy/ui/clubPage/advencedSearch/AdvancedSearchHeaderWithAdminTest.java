@@ -3,6 +3,8 @@ package com.academy.ui.clubPage.advencedSearch;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.pages.AllNewsPage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -10,13 +12,14 @@ import org.testng.asserts.SoftAssert;
 public class AdvancedSearchHeaderWithAdminTest extends LoginWithAdminTestRunner {
 
     private SoftAssert softAssert;
-
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Make new softAssert object")
     public void advancedSearchHeaderTestSetUp() {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-850")
+    @Test(description = "Search redirect user to clubs page from other pages")
+    @Description("[Basic Search] Check if the user is redirected to the clubs page when searching from other pages.")
+    @Issue("TUA-850")
     public void checkSearchRedirectUserToClubsPageFromOtherPages(){
 
         final String NEWS_PAGE = "news";

@@ -3,6 +3,8 @@ package com.academy.ui.clubPage.advencedSearch;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchTooltip;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
@@ -17,24 +19,30 @@ public class AdvancedSearchHeaderWithoutLogInTest extends BaseTestRunner {
     private AdvancedSearchTooltip advancedSearchTooltip;
     private SoftAssert softAssert;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get advancedSearchHeaderComponent, make softAssert object")
     public void advancedSearchHeaderComponentTest_setUp() {
         advancedSearchHeaderComponent = homePage.getAdvancedSearchHeaderComponent();
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-316")
-    public void advancedSearchHeader_display_categories_and_clubs_ok() {
+    @Test(description = "Test fails because search field isn't display list of Categories and Clubs")
+    @Description("Verify that 'Категорії' and 'Гуртки' sections with list of "
+            + "categories and clubs are displayed when to click on search field")
+    @Issue("TUA-316")
+    public void checkSearchFieldDisplayCategoriesAndClubs() {
         //Test will pass if you change base URL on https://speak-ukrainian.org.ua/
         advancedSearchTooltip = advancedSearchHeaderComponent.clickSelectionSearchInputField();
         HashMap<String, WebElement> categories = advancedSearchTooltip.getCategories();
         HashMap<String, WebElement> clubs = advancedSearchTooltip.getClubs();
         softAssert.assertFalse(categories.isEmpty());
         softAssert.assertFalse(clubs.isEmpty());
+
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-314")
+    @Test(description = "Search field placeholder disappears while typing")
+    @Description("Verify that there is a placeholder 'Який гурток шукаєте?' and it disappears when to start typing.")
+    @Issue("TUA-314")
     public void verifyPlaceholderDisappearWhileTyping() {
         final String PLACEHOLDER = "Який гурток шукаєте?";
         final String TEXT = "A";

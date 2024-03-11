@@ -4,8 +4,12 @@ import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.DirectionTagComponent;
 import com.academy.ui.runners.HomePageTestRunner;
+
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
+
+import io.qameta.allure.Description;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
@@ -20,6 +24,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-43")
+    @Description("Verify that user can delete search query")
     public void checkThatUserCanDeleteSearchQuery(){
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Ансамбль");
         home.advancedSearchHeaderComponent.clickSelectionSearchCloseButton();

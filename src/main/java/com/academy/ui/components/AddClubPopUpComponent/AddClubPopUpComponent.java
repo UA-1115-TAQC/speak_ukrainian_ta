@@ -37,7 +37,7 @@ public class AddClubPopUpComponent extends BasePopUp {
         this.sider = new AddClubPopUpSider(driver, siderElement);
     }
 
-    @Step
+    @Step("Get first step 'Основна інформація' on the Add/Edit club pop-up")
     public AddClubPopUpStepOne getStepOneContainer() {
         if (activeStep.getAttribute("innerText").equals("1")) {
             stepOneContainer = new AddClubPopUpStepOne(driver, stepContainerElement);
@@ -45,6 +45,7 @@ public class AddClubPopUpComponent extends BasePopUp {
         return stepOneContainer;
     }
 
+    @Step("Get second step 'Контакти' on the Add/Edit club pop-up")
     public AddClubPopUpStepTwo getStepTwoContainer() {
         if (activeStep.getAttribute("innerText").equals("2")) {
             stepTwoContainer = new AddClubPopUpStepTwo(driver, stepContainerElement);
@@ -52,6 +53,7 @@ public class AddClubPopUpComponent extends BasePopUp {
         return stepTwoContainer;
     }
 
+    @Step("Get third step 'Опис' on the Add/Edit club pop-up")
     public AddClubPopUpStepThree getStepThreeContainer() {
         if (activeStep.getAttribute("innerText").equals("3")) {
             stepThreeContainer = new AddClubPopUpStepThree(driver, stepContainerElement);

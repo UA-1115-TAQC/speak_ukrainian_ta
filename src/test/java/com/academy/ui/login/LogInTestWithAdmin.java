@@ -10,7 +10,7 @@ public class LogInTestWithAdmin extends LoginWithAdminTestRunner {
 
     SoftAssert softAssert = new SoftAssert();
 
-    @BeforeMethod
+    @BeforeMethod(description = "Precondition: Make new softAssert object")
     public void loginSetUp() {
         softAssert = new SoftAssert();
     }

@@ -2,6 +2,7 @@ package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.AddClubPopUpComponent.LocationListElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -113,6 +114,7 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return list;
     }
 
+    @Step("Get list of locations on the second step of Add/Edit club pop-up")
     public List<LocationListElement> getListOfLocationElements() {
         listOfLocationElements = new ArrayList<>();
         if (!locationList.isEmpty()) {

@@ -8,6 +8,8 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -387,7 +389,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-173", dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Test(dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify error message for 'Адреса’ field of ‘Додати локацію’ pop-up when creating a club")
+    @Issue("TUA-250")
     public void checkErrorForAddressAddLocation(String input){
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();

@@ -3,6 +3,7 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepThree;
+import com.academy.ui.components.AddClubPopUpComponent.LocationListElement;
 import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
@@ -103,13 +104,24 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
 
         AddCenterPopUpComponent addCenterPopUpComponent = centerCard.clickEditCenter();
         addCenterPopUpComponent.waitPopUpOpen(5);
-        addCenterPopUpComponent.getCloseButton().isDisplayed();
-        addCenterPopUpComponent.getCloseButton().isEnabled();
+        softAssert.assertTrue(addCenterPopUpComponent.getCloseButton().isDisplayed());
+        softAssert.assertTrue(addCenterPopUpComponent.getCloseButton().isEnabled());
 
         stepOne = addCenterPopUpComponent.getStepOneContainer();
-        stepOne.getNextStepButton().isEnabled();
-        stepOne.getNextStepButton().isDisplayed();
-        stepOne.getInfoCircleHintIcon().isDisplayed();
-        stepOne.getLocationsElementsList().getFirst().getText();
+        softAssert.assertTrue(stepOne.getNextStepButton().isEnabled());
+        softAssert.assertTrue(stepOne.getNextStepButton().isDisplayed());
+        softAssert.assertTrue(stepOne.getInfoCircleHintIcon().isDisplayed());
+        softAssert.assertTrue(stepOne.getAddLocationButtonInEditCenter().isDisplayed());
+        softAssert.assertTrue(stepOne.getAddLocationButtonInEditCenter().isEnabled());
+        softAssert.assertTrue(stepOne.getCenterTitle().getText().equals("Редагувати центр"));
+
+        softAssert.assertTrue(stepOne.getCenterInputTitle().getText().equals("Назва центру"));
+
+
+        LocationListElement locationListElement = stepOne.getListOfLocationElements().getFirst();
+        softAssert.assertTrue(locationListElement.getEditIcon().isDisplayed());
+        softAssert.assertTrue(locationListElement.getEditIcon().isEnabled());
+        softAssert.assertTrue(locationListElement.getDeleteIcon().isDisplayed());
+        softAssert.assertTrue(locationListElement.getDeleteIcon().isEnabled());
     }
 }

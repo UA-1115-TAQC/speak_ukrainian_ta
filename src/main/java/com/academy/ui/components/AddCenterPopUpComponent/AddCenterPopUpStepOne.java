@@ -41,6 +41,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @FindBy(xpath = "./descendant::button[contains(@class,'add-location-btn')]")
     private WebElement addLocationButton;
 
+    @FindBy(xpath = "./descendant::span[@class='add-club-location']")
+    private WebElement addLocationButtonInEditCenter;
+
     @FindBy(xpath = "./descendant::div[@id='basic_locations_help']")
     private WebElement noDataLocationElement;
 

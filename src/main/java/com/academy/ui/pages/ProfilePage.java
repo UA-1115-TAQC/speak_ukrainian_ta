@@ -7,6 +7,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -105,7 +106,7 @@ public class ProfilePage extends BasePage {
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
-
+    @Step("Click the add button and return the dropdown options")
     public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();

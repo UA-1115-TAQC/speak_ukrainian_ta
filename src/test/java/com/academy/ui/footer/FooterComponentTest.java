@@ -3,6 +3,7 @@ package com.academy.ui.footer;
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -94,6 +95,7 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-974")
+    @Issue("TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");
         String initialTitle = driver.getTitle();

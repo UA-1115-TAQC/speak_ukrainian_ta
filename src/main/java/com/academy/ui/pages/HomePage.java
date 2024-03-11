@@ -7,6 +7,8 @@ import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.pages.challenges.ChallengeUkrainianClubSpeakPage;
 import com.academy.ui.pages.facebookpages.LanguageSphereFacebookPage;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -63,6 +65,7 @@ public class HomePage extends BasePageWithAdvancedSearch {
                 carouselImgComponent = new CarouselImgComponent(driver, carouselImgComponentWebElement) :
                 carouselImgComponent;
     }
+    @Step("Click the 'Find Out More' button")
     public BaseChallengePage clickChallengeFindOutMoreButton() {
         this.getChallengeFindOutMoreButton().click();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -70,6 +73,7 @@ public class HomePage extends BasePageWithAdvancedSearch {
         wait.until(ExpectedConditions.visibilityOf(baseChallengePage.getChallengeImageText()));
         return baseChallengePage;
     }
+    @Step("Click the speaking club heading")
     public ChallengeUkrainianClubSpeakPage clickSpeakingClubHeading() {
         this.getSpeakingClubHeading().click();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -77,6 +81,8 @@ public class HomePage extends BasePageWithAdvancedSearch {
         wait.until(ExpectedConditions.visibilityOf(challengeUkrainianClubSpeakPage.getChallengeImageText()));
         return challengeUkrainianClubSpeakPage;
     }
+    @Step("Click the speaking club image")
+    @Description("Clicks the image of the speaking club section and switches to a new tab.")
     public LanguageSphereFacebookPage clickSpeakingClubImage(){
         int previousTabAmount = getTabHandles().size();
         this.getSpeakingClubImage().click();

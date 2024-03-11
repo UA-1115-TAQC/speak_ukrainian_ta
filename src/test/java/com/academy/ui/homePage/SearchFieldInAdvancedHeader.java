@@ -4,16 +4,19 @@ import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.DirectionTagComponent;
 import com.academy.ui.runners.HomePageTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
 
     @Test(description = "TUA-44")
+    @Issue("TUA-44")
     public void checkThatUserCanDoBasicSearch(){
         checkThatUserCanDoBasicSearchByString("American Gymnastics Club");
         checkThatUserCanDoBasicSearchByString("Сфера");
-        //+Check the search result with DB
+        //+Check the search result with DB //todo
         softAssert.assertAll();
     }
     @Test(description = "TUA-43")
@@ -27,6 +30,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         home.sleep(1000);
         softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
     }
+    @Step("Check that user can do basic search by string: {string}")
     private void checkThatUserCanDoBasicSearchByString(String string){
         string = string.trim().toLowerCase();
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField(string);
@@ -43,8 +47,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
                                 " doesn't contain the search query " + string);
             }
         }
-        home.sleep(1000);
-        //+Check the search result with DB
+        //+Check the search result with DB //todo
         driver.get(configProperties.getBaseUrl());
         wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("clubs")));
     }

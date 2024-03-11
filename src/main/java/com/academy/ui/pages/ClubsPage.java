@@ -5,6 +5,7 @@ import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -87,7 +88,7 @@ public class ClubsPage extends BasePage {
         }
         return centers;
     }
-
+    @Step("Wait until the clubs page is loaded")
     public ClubsPage waitUntilClubsPageIsLoaded(int seconds) {
         if (seconds > 0) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));

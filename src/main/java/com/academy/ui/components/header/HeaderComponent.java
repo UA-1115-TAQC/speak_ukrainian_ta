@@ -14,6 +14,7 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,14 +37,20 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = ".//a[contains(@href,'news')]")
     protected WebElement newsButton;
 
+    @FindBy(xpath = ".//li[.//a[contains(@href, '/news')]]")
+    private WebElement newsButtonContainer;
+
     @FindBy(xpath = ".//a[contains(@href,'clubs')]")
     protected WebElement clubsButton;
-  
+
     @FindBy(xpath = ".//a[contains(@href,'about')]")
     protected WebElement aboutUsButton;
 
     @FindBy(xpath = "//li[contains(@data-menu-id,'about')]")
     protected WebElement aboutUsButtonContainer;
+
+    @FindBy(xpath = ".//li[.//a[contains(@href, '/service')]]")
+    private WebElement serviceButtonContainer;
 
     @FindBy(xpath = ".//a[contains(@href,'service')]")
     protected WebElement serviceButton;
@@ -188,6 +195,14 @@ public class HeaderComponent extends BaseComponent {
     public WebElement openCityMenu() {
         clubsLocationButton.click();
         return cityMenuNode;
+    }
+
+    public HeaderComponent moveToWebElement(WebElement webElement) {
+        new Actions(driver)
+                .moveToElement(webElement)
+                .pause(5)
+                .perform();
+        return this;
     }
 
 }

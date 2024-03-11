@@ -164,7 +164,22 @@ public class EditProfilePopUp extends BasePopUp {
 
     public ProfilePage clickSubmitButton() {
         submitButton.click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.invisibilityOf(getWebElement()));
         return new ProfilePage(driver);
     }
 
+    /*кнопки 'видалити аватар' немає на попапі, якщо заходити вже із встановленим аватаром(хоча має бути згідно із вимогами).
+    вона з'являється тільки якщо добавляти аватар заново. Картинка на попапі видаляється, але сама аватарка залишається.*/
+    public EditProfilePopUp deleteUserAvatar() {
+        new Actions(driver)
+                .moveToElement(uploadPictureTitle)
+                .pause(Duration.ofSeconds(2))
+                .moveToElement(removeUserPhoto)
+                .click()
+                .perform();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.invisibilityOf(uploadPictureTitle));
+        return this;
+    }
 }

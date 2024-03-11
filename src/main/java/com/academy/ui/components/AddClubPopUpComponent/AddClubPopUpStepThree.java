@@ -8,7 +8,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,6 +108,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     public void clickCompleteButton(){
         getNextStepButton().click();
+    }
+
+    public void clickCompleteButtonWithWait() {
+        getNextStepButton()
+                .click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfAllElements(getNextStepButton()));
     }
 
     public AddClubPopUpStepThree setDescriptionValue(String value) {

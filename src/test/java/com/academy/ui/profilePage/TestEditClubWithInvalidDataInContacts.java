@@ -61,7 +61,6 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
 
-
         softAssert.assertAll();
 
     }

@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -42,8 +43,11 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-328", dataProvider = "invalidFirstName")
-    public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
+    @Test(dataProvider = "invalidFirstName")
+    @Parameters({"IncorrectFirstName", "ExpectedErrorMessage"})
+    @Description("Verify name field on Edit Profile PopUp doesn't accept incorrect data and error messages are shown")
+    @Issue("TUA-328")
+    public void checkEditNameFieldWithInvalidData(String incorrectFirstNameData, String expectedErrorMsg) {
         final var emptyFieldErrorMsg = "Введіть Ваше ім'я";
 
         var editProfilePopUp = profilePage.openEditUserProfile();
@@ -57,7 +61,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
 
-        firstNameElement.setValue(firstName);
+        firstNameElement.setValue(incorrectFirstNameData);
         softAssert.assertEquals(firstNameElement.getErrorMessagesTextList().get(0), expectedErrorMsg);
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
@@ -81,7 +85,11 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         };
     }
 
-    @Test(description = "TUA-866")
+    @Test
+    @Description("""
+            Verify User as 'Відвідувач' can see 'Завантажити фото' text link
+            under the 'Фото' link and tooltip message appears""")
+    @Issue("TUA-866")
     public void checkVisibilityOfUploadPhotoLink() {
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);

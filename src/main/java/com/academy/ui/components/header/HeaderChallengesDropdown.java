@@ -1,6 +1,7 @@
 package com.academy.ui.components.header;
 
 import com.academy.ui.components.BaseComponent;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,11 +28,12 @@ public class HeaderChallengesDropdown extends BaseComponent {
         throw new Error("The index must be between 0 and " + (getChallengeDropdownItems().size() - 1) + ", inclusive.");
     }
 
-    public void clickChallengeDropdownItemByIndex(int index) {
+    public BaseChallengePage clickChallengeDropdownItemByIndex(int index) {
         String oldUrl = driver.getCurrentUrl();
         getChallengeDropdownItemByIndex(index).click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(oldUrl)));
+        return new BaseChallengePage(driver);
     }
 
     public WebElement getSelectedDropdownItem() {

@@ -4,6 +4,7 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
 
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -353,5 +354,28 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 {"Lastname-", "Прізвище повинно починатися та закінчуватися літерою"},
                 {"Lastname'", "Прізвище повинно починатися та закінчуватися літерою"}
         };
+    }
+
+    @Issue("TUA-905")
+    @Test()
+    public void checkIsPasswordHide(){
+        editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+
+        editProfilePopUp.getCheckboxChangePassword().click();
+        editProfilePopUp.getCurrentPasswordInput().setValue("1qaz@Xsw");
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getCurrentPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getCurrentPasswordInput().getWebElement().getAttribute("type"), "text");
+
+        editProfilePopUp.getNewPasswordInput().setValue("1qaz@Xsw2");
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getNewPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getNewPasswordInput().getWebElement().getAttribute("type"), "text");
+
+        editProfilePopUp.getConfirmPasswordInput().setValue("1qaz@Xsw2");
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getConfirmPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getConfirmPasswordInput().getWebElement().getAttribute("type"), "text");
     }
 }

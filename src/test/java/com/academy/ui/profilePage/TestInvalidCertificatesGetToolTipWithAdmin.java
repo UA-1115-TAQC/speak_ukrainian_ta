@@ -1,8 +1,9 @@
 package com.academy.ui.profilePage;
 
-import com.academy.ui.components.header.headerMenuComponent.adminpopup.submenu.CertificatesSubmenuPopup;
 import com.academy.ui.pages.AdminGenerateCertificatePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,12 +15,12 @@ import java.time.Duration;
 
 public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTestRunner {
     SoftAssert softAssert;
-    CertificatesSubmenuPopup popup;
     AdminGenerateCertificatePage adminGenerateCertificatePage;
     String minValidValue = "1";
     String maxValidValue = "999";
     WebDriverWait wait;
     @BeforeMethod
+    @Step("Open  adminGenerateCertificatePage precondition")
     public void setup(){
         softAssert = new SoftAssert();
         adminGenerateCertificatePage = homePage.header.openAdminMenu().openContentPopup().openCertificatesSubmenuPopup().clickGenerateCertificate();
@@ -35,6 +36,8 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
     }
 
     @Test(dataProvider = "invalidValues")
+    @Step("Test invalid certificates tooltip: {0} -> {1}")
+    @Description("Test the behavior of the certificate tooltip with invalid values.")
     public void testInvalidCertificatesGetToolTip(String inputValue, String expectedValue){
         enterInValidValue(inputValue);
         adminGenerateCertificatePage.getStudyDurationLabel().click();
@@ -43,10 +46,12 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
                 "The duration input accepts an invalid value "+ inputValue);
         softAssert.assertAll();
     }
+    @Step("Clear input field")
     private void clearInputField(WebElement inputField){
         inputField.sendKeys(Keys.COMMAND + "a");
         inputField.sendKeys(Keys.DELETE);
     }
+    @Step("Enter invalid value: {0}")
     private void enterInValidValue(String value){
         WebElement studyDurationInput = adminGenerateCertificatePage.getStudyDurationInput();
         String currentValue = studyDurationInput.getAttribute("value");

@@ -7,6 +7,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
@@ -383,6 +385,42 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
+        softAssert.assertAll();
+    }
+
+    @Issue("TUA-178")
+    public void checkBanRussianLanguageOnDescription(){
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue("Опис, що включаэ російську букву в слові включає");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        int initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опис, що вклЫчає різні російські бüкви в декількох словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опыс, щö включає різні російські букви в декільüою словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
         softAssert.assertAll();
     }
 }

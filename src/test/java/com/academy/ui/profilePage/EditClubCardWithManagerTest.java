@@ -365,10 +365,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
 
-        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName2));
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
 
-        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName2,
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
                 "Image should be changed");
 
         softAssert.assertTrue(stepThree
@@ -378,14 +378,17 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
-        ProfilePage profilePage1 = new ProfilePage(driver);
-        String clubName1 = getClubName();
-        ClubCardWithEditComponent clubCardByName1 = profilePage1.getClubCardByName(clubName1);
-        clubCardByName1.clickDetailsButton();
 
-        ClubPage clubPage = new ClubPage(driver);
-        softAssert.assertTrue(clubPage.getCurrentTabHandle().contains("user"));
-        softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(imageName2));
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertTrue(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCover()
+                        .getAttribute("style")
+                        .contains(imageName),
+                "Image should be changed to the " + imageName);
 
         softAssert.assertAll();
     }

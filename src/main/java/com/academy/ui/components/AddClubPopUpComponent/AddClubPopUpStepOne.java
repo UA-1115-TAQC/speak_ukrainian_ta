@@ -1,12 +1,16 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 @Getter
@@ -70,11 +74,17 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "//div[@class='ant-select-item-option-content']")
+    @FindBy(xpath = "//div[@class='ant-select-item ant-select-item-option']")
     private List<WebElement> centersList;
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
     private WebElement selectPlaceholder;
+
+    @FindBy(xpath = "./descendant::div[contains(@class, ' add-club-select')]")
+    private WebElement centerSelectedInEditClub;
+
+    @FindBy(xpath = "//div[@class='rc-virtual-list-holder']")
+    private WebElement centersDropdownListForm;
 
     private AddClubInputElement clubNameInputElement;
 
@@ -112,4 +122,19 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
+    @Step("Click on the dropdown with a list of centers")
+    public AddClubPopUpStepOne clickEditCenterDropdown(){
+        centerSelectedInEditClub.click();
+        return this;
+    }
+
+    @Step("Select new center for club")
+    public AddClubPopUpStepOne changeCenterForClub(String value) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(centersDropdownListForm));
+        centersList.stream()
+                .filter(center -> (center.getAttribute("title").equals(value)))
+                .forEach(WebElement::click);
+        return this;
+    }
 }

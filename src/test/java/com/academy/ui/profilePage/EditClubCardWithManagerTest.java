@@ -8,6 +8,8 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -350,4 +352,33 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "Center is added")
+    @Description("Verify that user can add center for the existing club without center")
+    @Issue("TUA-980")
+    public void checkStepOneEditCenter() {
+        String centerName = "Академія талановитих дітей";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickEditCenterDropdown().changeCenterForClub(centerName);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        editClubPopUp.getStepThreeContainer().clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertEquals(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCenter()
+                        .getText()
+                        .trim(),
+                centerName);
+
+        softAssert.assertAll();
+    }
+
 }

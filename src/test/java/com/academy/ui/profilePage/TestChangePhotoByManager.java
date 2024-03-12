@@ -7,7 +7,6 @@ import io.qameta.allure.Issue;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 public class TestChangePhotoByManager extends LoginWithManagerTestRunner {
     private static final String PHOTO_PROFILE_200x200 = "butterfly png 200x200.png";
@@ -15,7 +14,7 @@ public class TestChangePhotoByManager extends LoginWithManagerTestRunner {
 
 
     @BeforeMethod
-    public void editProfilePageWithUserTest_setUp() {
+    public void editProfilePageWithManagerTest_setUp() {
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 

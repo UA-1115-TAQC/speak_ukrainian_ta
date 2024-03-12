@@ -2,6 +2,7 @@ package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.ClubInfoPopUp;
+import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
@@ -297,29 +298,29 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         int d10X = advancedSearchSider.getDirectionsCheckBox().get(10).getLocation().getX();
         int ageTitleX = advancedSearchSider.getAgeTitle().getLocation().getX();
         int ageInputX = advancedSearchSider.getYears().getLocation().getX();
-        softAssert.assertEquals(labelX, expectedX, "1");
-        softAssert.assertEquals(clubOrCenterTitleX, expectedX, "2");
-        softAssert.assertEquals(clubRadioButtonX, expectedX, "3");
-        softAssert.assertEquals(centerRadioButtonX, expectedX, "3");
-        softAssert.assertEquals(cityX, expectedX, "4");
-        softAssert.assertEquals(districtX, expectedX, "5");
-        softAssert.assertEquals(metroX, expectedX, "6");
-        softAssert.assertEquals(onlineX, expectedX, "7");
-        softAssert.assertEquals(onlineCheckX, expectedX, "8");
-        softAssert.assertEquals(directionTitleX, expectedX, "9");
-        softAssert.assertEquals(d0X, expectedX, "10");
-        softAssert.assertEquals(d1X, expectedX, "11");
-        softAssert.assertEquals(d2X, expectedX, "12");
-        softAssert.assertEquals(d3X, expectedX, "13");
-        softAssert.assertEquals(d4X, expectedX, "14");
-        softAssert.assertEquals(d5X, expectedX, "15");
-        softAssert.assertEquals(d6X, expectedX, "16");
-        softAssert.assertEquals(d7X, expectedX, "17");
-        softAssert.assertEquals(d8X, expectedX, "18");
-        softAssert.assertEquals(d9X, expectedX, "19");
-        softAssert.assertEquals(d10X, expectedX, "20");
-        softAssert.assertEquals(ageTitleX, expectedX, "21");
-        softAssert.assertEquals(ageInputX, expectedX, "22");
+        softAssert.assertEquals(labelX, expectedX);
+        softAssert.assertEquals(clubOrCenterTitleX, expectedX);
+        softAssert.assertEquals(clubRadioButtonX, expectedX);
+        softAssert.assertEquals(centerRadioButtonX, expectedX);
+        softAssert.assertEquals(cityX, expectedX);
+        softAssert.assertEquals(districtX, expectedX);
+        softAssert.assertEquals(metroX, expectedX);
+        softAssert.assertEquals(onlineX, expectedX);
+        softAssert.assertEquals(onlineCheckX, expectedX);
+        softAssert.assertEquals(directionTitleX, expectedX);
+        softAssert.assertEquals(d0X, expectedX);
+        softAssert.assertEquals(d1X, expectedX);
+        softAssert.assertEquals(d2X, expectedX);
+        softAssert.assertEquals(d3X, expectedX);
+        softAssert.assertEquals(d4X, expectedX);
+        softAssert.assertEquals(d5X, expectedX);
+        softAssert.assertEquals(d6X, expectedX);
+        softAssert.assertEquals(d7X, expectedX);
+        softAssert.assertEquals(d8X, expectedX);
+        softAssert.assertEquals(d9X, expectedX);
+        softAssert.assertEquals(d10X, expectedX);
+        softAssert.assertEquals(ageTitleX, expectedX);
+        softAssert.assertEquals(ageInputX, expectedX);
 
         softAssert.assertEquals(advancedSearchSider.getLabel().getText(),"Розширений пошук");
         softAssert.assertEquals(advancedSearchSider.getClubOrCenterTitle().getText(), "Гурток/Центр");
@@ -373,17 +374,14 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         Actions actions = new Actions(driver);
         WebElement startingElement = advancedSearchSider.getCenterOrClubRadioButton().get(0);
         startingElement.click();
-//        actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(advancedSearchSider.getCenterOrClubRadioButton().get(0).equals(driver.switchTo().activeElement()),
-//                "Focus should be on radio button");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getSearchCityElement().getDropDownElement().getWebElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(advancedSearchSider.getSearchCityElement().equals(driver.switchTo().activeElement()),
                 "Focus should be on city dropdown");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getSearchDistrictElement().getDropDownElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(advancedSearchSider.getSearchDistrictElement().equals(driver.switchTo().activeElement()),
                 "Focus should be on district dropdown");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getSearchMetroElement().getDropDownElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(advancedSearchSider.getSearchMetroElement().equals(driver.switchTo().activeElement()),
                 "Focus should be on search metro dropdown");
         actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(advancedSearchSider.getOnlineCheckBox().equals(driver.switchTo().activeElement()),

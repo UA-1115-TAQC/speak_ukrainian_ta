@@ -1,12 +1,14 @@
 package com.academy.ui.runners.randomvaluesgenerators;
 
+import io.qameta.allure.Step;
+
 import java.security.SecureRandom;
 
 public class RandomAlphanumericStringGenerator {
     private static final String NUMERIC = "0123456789";
     private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String ALPHANUMERIC = NUMERIC + LETTERS;
-
+    @Step("Generate a random string")
     public static String generateRandomString(int minLength, int maxLength, int type) {
         if (minLength < 0 || maxLength < 0 || minLength > maxLength) {
             throw new IllegalArgumentException("Invalid length range");

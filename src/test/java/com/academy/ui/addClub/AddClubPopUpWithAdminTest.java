@@ -14,6 +14,7 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
 import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -632,6 +633,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         //Check DB - that club was added //todo
         softAssert.assertAll();
     }
+    @Step("Get a recently added club card by club name: {0}")
     private ClubCardWithEditComponent getARecentlyAddedClubCardByClubName(String clubName){
         SwitchPaginationComponent switchPagination = profilePage.getSwitchPagination();
         switchPagination.scrollIntoView(driver, switchPagination.getWebElement());
@@ -644,6 +646,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         }
         return null;
     }
+    @Step("Verify the active icon on the sider")
     private void verifyIconOnTheSiderIsActive(WebElement title,  String stepTitleText, WebElement icon, WebElement iconBackground){
         softAssert.assertEquals(title.getText(), stepTitleText,
                 "The sider doesn't contain the '"+stepTitleText+"' text describing the current step of the club addition process");
@@ -652,25 +655,30 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertFalse(iconBackground.getCssValue("background").contains("rgb(232, 232, 232)"),
                 "The background of the current icon on the sider isn't highlighted in orange to show that it is active");
     }
+    @Step("Verify green checks on step one")
     private void verifyGreenChecksOnStepOne(){
         softAssert.assertTrue(stepOne.getClubNameInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
         softAssert.assertTrue(stepOne.getClubNameInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
     }
+    @Step("Fill step one with valid data")
     private void fillStepOneWithValidData(String uniqueClubName){
         stepOne.getClubNameInputElement().setValue( uniqueClubName);
         stepOne.selectCategory(CATEGORY)
                 .setMinAgeInput(VALID_MIN_AGE)
                 .setMaxAgeInput(VALID_MAX_AGE);
     }
+    @Step("Fill step two with valid data")
     private void fillStepTwoWithValidData(){
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
     }
+    @Step("Verify green checks on step two")
     private void verifyGreenChecksOnStepTwo(){
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
     }
+    @Step("Verify green checks on step three")
     private void verifyGreenChecksOnStepThree(){
         softAssert.assertTrue(stepThree
                         .getValidationTextareaCircleIcon()

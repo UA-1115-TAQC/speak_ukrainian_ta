@@ -2,6 +2,7 @@ package com.academy.ui.components;
 
 
 import com.academy.ui.pages.ClubsPage;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.JavascriptExecutor;
@@ -101,6 +102,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         }
         return new ClubsPage(driver);
     }
+    @Step("Scroll until the element of the pagination component is in view")
     public void scrollIntoView(WebDriver driver, WebElement element) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", element);

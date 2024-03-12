@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class TestUserChangePhoto extends LogInWithUserTestRunner {
+public class TestChangePhotoByUser extends LogInWithUserTestRunner {
     private static final String PHOTO_PROFILE_200x200 = "butterfly png 200x200.png";
 
     private static final String PHOTO_PROFILE_7360x4912 = "image jpg 4,6 mb.jpg";
@@ -22,9 +22,9 @@ public class TestUserChangePhoto extends LogInWithUserTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "Verify the visibility of the profile photo in the 'Редагувати профіль' modal window when a user ( as 'Керівник') is logged in via Google")
-    @Issue("TUA-916")
-    public void checkVisibilityOfTheProfilePhotoOnEditProfileWindow() {
+    @Test(description = "Verify that the user as 'Відвідувач' is able to choose the photo according to the validity rules")
+    @Issue("TUA-361")
+    public void checkThatUserAbleToChangePhoto() {
         profilePage.editButtonClick();
         EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.getUploadPhoto().sendKeys(configProperties.getImagePath(PHOTO_PROFILE_200x200));
@@ -40,6 +40,5 @@ public class TestUserChangePhoto extends LogInWithUserTestRunner {
         softAssert.assertTrue(profilePage.getTopNoticeMessage().isDisplayed());
 
         softAssert.assertAll();
-
     }
 }

@@ -55,11 +55,9 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
         softAssert.assertEquals(actualMessage, EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD_WITH_SYMBOLS);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
-
         stepTwo.getEmailInputElement().clearInput().setValue(INVALID_EMAIL);
-        softAssert.assertEquals(stepTwo.getErrorMessageEmailField().getText(), EXPECTED_ERROR_MASSAGE_IN_EMAIL_FIELD);
+        softAssert.assertEquals(stepTwo.getEmailInputElement().getErrorMessagesTextList().getFirst(), EXPECTED_ERROR_MASSAGE_IN_EMAIL_FIELD);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
-
 
         softAssert.assertAll();
 

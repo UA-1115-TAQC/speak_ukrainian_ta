@@ -2,12 +2,15 @@ package com.academy.ui.components.AddClubPopUpComponent;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 @Getter
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
@@ -34,13 +37,21 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']")
     private List<WebElement> checkedCategoriesList;
 
+    @FindBy(xpath = "./descendant::span[contains(@class, 'checkbox')]/following-sibling::span")
+    private List<WebElement> categoriesListForEdit;
+
+    @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/following-sibling::span")
+    private List<WebElement> checkedCategoriesListForEdit;
+
     @FindBy(xpath = "./ancestor::div[@id='basic_categories_help']/div")
     private WebElement categoriesError;
 
     @FindBy(xpath = "./descendant::span[contains(@class,'add-club-age')]")
     private WebElement ageComponent;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_ageFrom']")
+//    @FindBy(xpath = "./descendant::input[@id='basic_ageFrom']")
+//    private WebElement minAgeInput;
+    @FindBy(xpath = "./descendant::input[contains(@id, 'ageFrom')]")
     private WebElement minAgeInput;
 
     @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][1]")
@@ -49,7 +60,9 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][1]")
     private WebElement minAgeDecreaseButton;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_ageTo']")
+//    @FindBy(xpath = "./descendant::input[@id='basic_ageTo']")
+//    private WebElement maxAgeInput;
+    @FindBy(xpath = "./descendant::input[contains(@id, 'ageTo')]")
     private WebElement maxAgeInput;
 
     @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][2]")
@@ -87,6 +100,24 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         categoriesCheckboxList.stream()
                 .filter(category -> category.getAttribute("value").equals(value))
                 .forEach(WebElement::click);
+        return this;
+    }
+
+    public AddClubPopUpStepOne selectCategoryForEdit(String value) {
+        OptionalInt index = IntStream.range(0, categoriesListForEdit.size())
+                .filter(i -> categoriesListForEdit.get(i).getText().equals(value))
+                .findFirst();
+
+        if (index.isPresent()) {
+            int foundIndex = index.getAsInt()+1;
+            categoriesCheckboxList.stream()
+                    .filter(category -> category.getAttribute("value").equals(String.valueOf(foundIndex)))
+                    .forEach(WebElement::click);
+        } else {
+            System.out.println("Елемент з текстом '" + value + "' не знайдено в списку");
+        }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(e -> categoriesCheckboxList);
         return this;
     }
 

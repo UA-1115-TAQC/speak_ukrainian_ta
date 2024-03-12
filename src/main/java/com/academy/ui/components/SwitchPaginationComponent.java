@@ -4,6 +4,7 @@ package com.academy.ui.components;
 import com.academy.ui.pages.ClubsPage;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -100,5 +101,8 @@ public class SwitchPaginationComponent extends BaseComponent {
         }
         return new ClubsPage(driver);
     }
-
+    public void scrollIntoView(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", element);
+    }
 }

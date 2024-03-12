@@ -7,6 +7,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -94,18 +95,23 @@ public class ProfilePage extends BasePage {
         selectWhatCardsToShow();
     }
 
-    public void dropDownClick() {
+    @Step("Click on drop down with my lessons or my centers buttons")
+    public ProfilePage clickMyClubsAndCentersOnDropdown() {
         myLessonsOrCentersDropDown.click();
+        return this;
     }
 
+    @Step("Click on edit button")
     public void editButtonClick() {
         editProfileButton.click();
     }
 
+    @Step("Click on My Centers on drop down")
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
 
+    @Step("Click on add button")
     public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
@@ -118,24 +124,27 @@ public class ProfilePage extends BasePage {
 
     private String getAddButtonOptionStringPath(String name) {
         return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
-
     }
 
+    @Step("Hover on add button")
     public void hoverAddButton() {
         Actions actions = new Actions(driver);
         actions.moveToElement(addButton).perform();
     }
 
-    public AddClubPopUpComponent lessonsDropDownClick() {
+    @Step("Click on add club button on drop down")
+    public AddClubPopUpComponent clubDropDownClick() {
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Click on add center button on drop down")
     public AddCenterPopUpComponent centerDropDownClick() {
         addCenterButton.click();
         return new AddCenterPopUpComponent(driver);
     }
 
+    @Step("Open pop-up Edit user profile")
     public EditProfilePopUp openEditUserProfile() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(editProfileButton)).click();
@@ -165,6 +174,7 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
+    @Step("Open add club pop-up")
     public AddClubPopUpComponent openAddClubPopUp() {
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
@@ -182,17 +192,14 @@ public class ProfilePage extends BasePage {
         return centerCardComponentsList;
     }
 
-    public ProfilePage clickMyClubsAndCentersOnDropdown() {
-        myLessonsOrCentersDropDown.click();
-        return this;
-    }
-
+    @Step("Click on My Centers on drop down")
     public void clickMyCentersOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
         getCenterCardComponents();
     }
 
+    @Step("Click on My Lessons on drop down")
     public void clickMyClubsOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();

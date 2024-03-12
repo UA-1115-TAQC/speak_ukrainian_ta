@@ -43,21 +43,21 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
         AddClubPopUpStepTwo stepTwo = editClub.getStepTwoContainer();
 
         stepTwo.getTelephoneInputElement().clearInput().setValue(TELEPHONE_LESS_THEN_TEN_NUMBERS);
-        softAssert.assertEquals(stepTwo.getErrorMessage().getText(), EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD);
+        softAssert.assertEquals(stepTwo.getErrorMessageEmailField().getText(), EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
         stepTwo.getTelephoneInputElement().clearInput().setValue(TELEPHONE_MORE_THEN_TEN_NUMBERS);
-        softAssert.assertEquals(stepTwo.getErrorMessage().getText(), EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD);
+        softAssert.assertEquals(stepTwo.getErrorMessageEmailField().getText(), EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
         stepTwo.getTelephoneInputElement().clearInput().setValue(TELEPHONE_WITH_SPECIAL_CHARACTERS_AND_LETTERS);
-        String actualMessage = stepTwo.getErrorMessage().getText().replaceAll("\\s+", " ").trim();
+        String actualMessage = stepTwo.getErrorMessageEmailField().getText().replaceAll("\\s+", " ").trim();
         softAssert.assertEquals(actualMessage, EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD_WITH_SYMBOLS);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
-        stepTwo.getTelephoneInputElement().clearInput().setValue("0970609765");
+
 
         stepTwo.getEmailInputElement().clearInput().setValue(INVALID_EMAIL);
-        softAssert.assertEquals(stepTwo.getErrorMessage().getText(), EXPECTED_ERROR_MASSAGE_IN_EMAIL_FIELD);
+        softAssert.assertEquals(stepTwo.getErrorMessageEmailField().getText(), EXPECTED_ERROR_MASSAGE_IN_EMAIL_FIELD);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
 

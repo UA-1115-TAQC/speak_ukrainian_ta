@@ -33,6 +33,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Get the element {pageNum} from the pagination on the page")
     public WebElement getPagItemByTitle(String pageNum) {
         for (WebElement pagItem : paginationItems) {
             String str = pagItem.getDomAttribute("title");
@@ -43,6 +44,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         return null;
     }
 
+    @Step("Check the page {pageNum} is active of the pagination on the page")
     public boolean isPagItemActive(String pageNum) {
         WebElement pagItem = getPagItemByTitle(pageNum);
         if (pagItem != null) {
@@ -52,6 +54,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         return false;
     }
 
+    @Step("Check if the left arrow of the pagination is disabled on the page")
     public boolean isPreviousDisabled(){
         String disabled = previousItem.getAttribute("aria-disabled");
         if(disabled.equals("true")){
@@ -60,6 +63,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         return false;
     }
 
+    @Step("Check if the right arrow of the pagination is disabled on the page")
     public boolean isNextDisabled(){
         String disabled = nextItem.getAttribute("aria-disabled");
         if(disabled.equals("true")){
@@ -68,17 +72,19 @@ public class SwitchPaginationComponent extends BaseComponent {
         return false;
     }
 
+    @Step("Click on the left arrow of the pagination on the page")
     public ClubsPage clickPrevious() {
         previousItem.click();
         return new ClubsPage(driver);
     }
 
-
+    @Step("Click on the right arrow of the pagination on the page")
     public ClubsPage clickNext() {
         nextItem.click();
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the page number {pageNum} of the pagination on the page")
     public ClubsPage clickPagItemByNum(String pageNum) {
         WebElement pagItem = getPagItemByTitle(pageNum);
         if (pagItem != null) {
@@ -87,6 +93,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the triple left arrow of the pagination on the page")
     public ClubsPage clickPrevFivePages() {
         WebElement pagItem = getPagItemByTitle("Previous 5 Pages");
         if (pagItem != null) {
@@ -95,6 +102,7 @@ public class SwitchPaginationComponent extends BaseComponent {
         return new ClubsPage(driver);
     }
 
+    @Step("Click on the triple right arrow of the pagination on the page")
     public ClubsPage clickNextFivePages() {
         WebElement pagItem = getPagItemByTitle("Next 5 Pages");
         if (pagItem != null) {

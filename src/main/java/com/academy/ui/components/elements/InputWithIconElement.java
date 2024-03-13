@@ -1,5 +1,6 @@
 package com.academy.ui.components.elements;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,19 +30,23 @@ public class InputWithIconElement extends BaseInputElement {
         super(driver, rootElement);
     }
 
+    @Step("Click password visibility icon")
     public InputWithIconElement clickPasswordVisibilityIcon() {
         passwordVisibilityIcon.click();
         return this;
     }
 
+    @Step("Get email title text")
     public String getEmailText() {
         return emailTittle.getText();
     }
 
+    @Step("Get password title text")
     public String getPasswordText() {
         return passwordTittle.getText();
     }
 
+    @Step("Get list of error messages")
     public List<String> getErrorMessagesTextList() {
         return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }

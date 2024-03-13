@@ -16,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -29,7 +30,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpSider sider;
 
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
@@ -77,7 +78,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-970")
+    @Test(description = "User can add locations of the club")
+    @Description("Verify that user can add locations of the club (for a club that is in the center)")
+    @Issue("TUA-970")
     public void checkUserCanAddLocationsOfTheClub() {
 
         final String VALID_LOCATION_NAME_1 = "ТестЛокація1";
@@ -170,7 +173,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         addLocationPopUp.clickAddLocationButton();
     }
 
-    @Test(description = "TUA-82")
+    @Test(description = "User can change photo while editing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window (for club that is in the center)")
+    @Issue("TUA-82")
     public void checkUserCanChangePhotoWhileEditClub() {
         final String IMAGE_NAME_1 = "image.png";
         final String IMAGE_NAME_2 = "book.png";
@@ -218,7 +223,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-967")
+    @Test
+    @Description("Verify that the user can add valid photo to the 'Логотип', 'Обкладинка', and 'Галерея' categories")
+    @Issue("TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
@@ -264,7 +271,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-85")
+    @Test
+    @Description("Verify that the icon of the main photo 'Обкладинка' is set by default if photo is not uploaded")
+    @Issue("TUA-85")
     public void checkDefaultCoverImg() {
         String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";
@@ -315,7 +324,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-78")
+    @Test
+    @Description("Verify that user can edit ‘Опис’ field with valid data, and save changes on the "
+            + "‘Опис’ tab of the ‘Редагувати гурток’ pop-up window")
+    @Issue("TUA-78")
     public void checkStepThreeEditDescriptionTextArea() {
         String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
                 + " We will teach you acting better than anyone else.";

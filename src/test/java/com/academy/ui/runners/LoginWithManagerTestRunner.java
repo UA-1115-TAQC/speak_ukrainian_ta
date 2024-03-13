@@ -4,7 +4,7 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import org.testng.annotations.BeforeMethod;
 
 public class LoginWithManagerTestRunner extends BaseTestRunner {
-    @BeforeMethod
+    @BeforeMethod(description = "Precondition login as manager")
     public void loginPrecondition() {
         LoginPopupComponent loginForm = homePage
                 .header

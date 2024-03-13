@@ -8,6 +8,7 @@ import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Description;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -33,14 +34,16 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
     private record ClubAge(String name, List<Integer> ageList) {
     }
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get clubsPage and advancedSearchSider, make softAssert object")
     public void advancedSearchSiderTestSetUp() {
         clubsPage = homePage.getAdvancedSearchHeaderComponent().clickAdvancedSearchIcon();
         advancedSearchSider = clubsPage.getSearchSider();
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-245")
+    @Test(description = "User can find a club in a certain location by city parameter")
+    @Description("[Розширений пошук] Verify that the user can find a club in a certain location using the 'Місто' parameter")
+    @Issue("TUA-245")
     public void verifyUserClubSearchCertainLocationByCityParameter() {
 
         final String DEFAULT_CITY = "Київ";
@@ -151,7 +154,9 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         return Integer.parseInt(pagesNumber);
     }
 
-    @Test(description = "TUA-858")
+    @Test(description = "User can make search with 1 parameter")
+    @Description("Verify that User can make search with 1 parameter.")
+    @Issue("TUA-858")
     public void checkUserCanMakeSearchWith_1_Parameter() {
         final String SELECTED_CITY = "Харків";
         final String DEFAULT_CITY = "Київ";

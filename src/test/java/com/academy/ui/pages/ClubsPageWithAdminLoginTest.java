@@ -2,6 +2,8 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -17,7 +19,9 @@ public class ClubsPageWithAdminLoginTest extends LoginWithAdminTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-880")
+    @Test
+    @Description("Verify that the system shows online clubs when the user chooses 'without location'")
+    @Issue("TUA-880")
     public void checkClubsPageShowsOnlineClubWithoutLocation() {
         HeaderComponent headerComponent = homePage.header.clickCityLocation();
         ClubsPage clubsPage = headerComponent.selectClubsCityLocation("Без локації");

@@ -2,6 +2,7 @@ package com.academy.ui.components.advancedSearchHeader;
 
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ClubsPage;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,11 +39,11 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
-
+    @Step("Get text from the selection search input field")
     public String getTextSelectionSearchInputField() {
         return this.getSelectionSearchInputField().getAttribute("value");
     }
-
+    @Step("Set text in selection search input field: {text}")
     public AdvancedSearchHeaderComponent setTextSelectionSearchInputField(String text) {
         String expectedInput = getTextSelectionSearchInputField() + text;
         this.selectionSearchInputField.sendKeys(text);
@@ -50,23 +51,24 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
         wait.until((ExpectedCondition<Boolean>) driver -> getTextSelectionSearchInputField().equals(expectedInput));
         return this;
     }
-
+    @Step("Click on selection search input field")
     public AdvancedSearchTooltip clickSelectionSearchInputField() {
         this.getSelectionSearchInputField().click();
         return new AdvancedSearchTooltip(driver, getAdvancedSearchTooltipNode());
     }
 
     //there is a bug - when you click on this icon after entering some text, nothing happens
+    @Step("Click on the search icon")
     public AdvancedSearchHeaderComponent clickSearchIcon() {
         this.searchIcon.click();
         return this;
     }
-
+    @Step("Click on the advanced search icon")
     public ClubsPage clickAdvancedSearchIcon() {
         this.getAdvancedSearchIcon().click();
         return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
-
+    @Step("Click on the close button in the selection search input")
     public AdvancedSearchHeaderComponent clickSelectionSearchCloseButton() {
             if (getTextSelectionSearchInputField() != null) {
                 getSelectionSearchCloseButton().click();

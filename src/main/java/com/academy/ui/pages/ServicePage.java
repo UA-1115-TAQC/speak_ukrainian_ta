@@ -3,6 +3,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.SocialInfoComponent;
 import com.academy.ui.components.CollapseComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -50,10 +51,12 @@ public class ServicePage extends BasePageWithAdvancedSearch {
         this.socialInfoComponent = new SocialInfoComponent(driver, socialInfoXpath);
     }
 
+    @Step("Click on the button 'Допомогти проєкту'")
     public void clickHelpProjectButton() {
         helpProjectButton.click();
     }
 
+    @Step("Get list of collapse components at 'Популярні Питання'")
     public List<CollapseComponent> getListOfCollapseComponents() {
         listOfCollapseComponents = new ArrayList<>();
         if (!collapseElementList.isEmpty()) {
@@ -62,6 +65,7 @@ public class ServicePage extends BasePageWithAdvancedSearch {
         return listOfCollapseComponents;
     }
 
+    @Step("Click on collapse question element by index {index}")
     public ServicePage clickOnCollapseElementByIndex(int number) {
         collapseElementList.get(number).click();
         return this;

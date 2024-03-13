@@ -1,5 +1,6 @@
 package com.academy.ui.components.advancedSearchHeader;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,6 +16,7 @@ public class AdvancedSearchClubHeaderComponent extends AdvancedSearchHeaderCompo
         super(driver, rootElement);
     }
 
+    @Step("Click 'Показати на мапі' button on the Clubs page header")
     public void clickShowOnMapButton() {
         getShowOnMapButton().click();
     }

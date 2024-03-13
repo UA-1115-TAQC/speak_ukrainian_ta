@@ -7,6 +7,7 @@ import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
 import io.qameta.allure.Issue;
+import io.qameta.allure.Description;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -20,13 +21,15 @@ public class HeaderComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
     public static final String DEFAULT_CITY = "Київ";
 
-    @BeforeMethod
+    @BeforeMethod(description = "get header component")
     private void headerPreconditions(){
         header = homePage.getHeader();
         softAssert = new SoftAssert();
     }
 
     @Test
+    @Description("Verify that on 'Про нас', 'Новини' and “Послуги українською” pages lower part of header is not displayed")
+    @Issue("TUA-972")
     public void checkLowerPartOfHeaderOnPages(){
         SoftAssert softAssert = new SoftAssert();
 

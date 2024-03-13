@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 
 public class LoginWithAdminTestRunner extends BaseTestRunner {
 
-    @BeforeMethod
+    @BeforeMethod(description = "Precondition for login as administrator")
     public void loginPrecondition() {
         LoginPopupComponent loginForm = homePage
                 .header

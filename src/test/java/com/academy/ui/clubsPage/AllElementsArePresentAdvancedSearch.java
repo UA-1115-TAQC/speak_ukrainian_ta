@@ -4,6 +4,8 @@ import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,6 +32,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
     }
 
     @Test(description = "TUA-59")
+    @Issue("TUA-59")
     public void verifyAllElementsArePresentAdvancedSearch() {
         verifyPageIsLoaded();
         verifySearchSiderElementsAreDisplayed();
@@ -39,6 +42,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
     }
 
     @Test(description = "TUA-329")
+    @Issue("TUA-329")
     public void verifyAdvancedSearchAppearsAfter1stClickAndDisappearsAfter2ndClick(){
         verifyPageIsLoaded();
         verifySearchSiderElementsAreDisplayed();
@@ -49,7 +53,6 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
                 "The advanced search sider doesn't disappear after the second click on the advanced search icon in the header");
         softAssert.assertAll();
     }
-
     private void verifyPageIsLoaded() {
         softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки в місті"),
                 "The clubs page isn't opened");

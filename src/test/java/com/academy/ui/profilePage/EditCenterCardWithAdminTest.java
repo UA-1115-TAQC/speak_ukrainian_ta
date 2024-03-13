@@ -27,18 +27,18 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
     private AddCenterPopUpStepTwo stepTwo;
     private AddCenterPopUpStepThree stepThree;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void addClubPopUpTestPrecondition() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openProfilePage();
     }
 
-
-    @Test(description = "TUA-394")
+    @Test(description = "Admin can edit description in the center pop-up")
+    @Description("Verify that user can edit ‘Опис’ textfield with valid data and save changes on the ‘Опис’ tab of the ‘Редагувати Центр’ pop-up window")
+    @Issue("TUA-394")
     public void checkAdminCanEditDescriptionInCenter() {
 
         profilePage.clickMyClubsAndCentersOnDropdown();
-        profilePage.sleep(1000);
         profilePage.clickMyCentersOnDropdown();
         CenterCardWithEditComponent centerCard = profilePage.getCenterCardByName(VALID_CENTER_NAME);
         centerCard.getMoreButton().click();

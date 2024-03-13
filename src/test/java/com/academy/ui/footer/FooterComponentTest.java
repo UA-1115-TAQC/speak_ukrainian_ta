@@ -4,6 +4,7 @@ import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,20 +23,11 @@ public class FooterComponentTest extends BaseTestRunner {
     private BasePageWithoutHeaderAndFooter basePageWithoutHeaderAndFooter;
     private FooterComponent footerComponent;
   
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get footer and make new basePageWithoutHeaderAndFooter and softAssert objects")
     public void footerPrecondition() {
         footerComponent = homePage.getFooter();
         basePageWithoutHeaderAndFooter = new BasePageWithoutHeaderAndFooter(driver);
-    }
-
-    @BeforeTest
-    public void createAssert() {
         softAssert = new SoftAssert();
-    }
-
-    @AfterTest
-    public void deleteAssert() {
-        softAssert = null;
     }
 
     private void checkFooterElements(FooterComponent footer, String pageNme) {
@@ -63,7 +55,9 @@ public class FooterComponentTest extends BaseTestRunner {
                 "Donate Button should be displayed on the Footer on the " + pageNme);
     }
 
-    @Test(description = "TUA-943")
+    @Test(description = "Footer remains same across all pages")
+    @Description("[Footer] Verify that the footer remains the same across all pages.")
+    @Issue("TUA-943")
     public void verifyFooterRemainsSameAcrossAllPages() {
 
         final String MESSAGE = "Footer should be displayed on the ";
@@ -96,7 +90,9 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+
     @Test(description = "TUA-974")
+    @Issue("TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");
         String initialTitle = driver.getTitle();
@@ -106,14 +102,18 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
   
-    @Test(description = "TUA-945")
-    public void click_on_youTube_icon_ok() {
+    @Test
+    @Description("Verify that clicking the YouTube icon opens the corresponding page")
+    @Issue("TUA-945")
+    public void clickYouTubeIcon() {
         String expected = footerComponent.getFooterSocialLinks().get(YOUTUBE_URL);
         footerComponent.getYouTubeLink().click();
         basePageWithoutHeaderAndFooter.getTabHandles();
         basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(YOUTUBE_URL);
         String actual = driver.getCurrentUrl();
-        assertEquals(expected, actual);
+        softAssert.assertEquals(expected, actual);
+
+        softAssert.assertAll();
     }
 
     @Test(description = "TUA-946")

@@ -46,10 +46,12 @@ public class LoginPopupComponent extends BasePopUp {
         emailInputElement = new InputWithIconElement(driver, emailInput);
     }
 
+    @Step("Get title text of login form")
     public String getMenuHeaderText() {
         return loginPopUpTitle.getText();
     }
 
+    @Step("Get title text OR which under authorization icons")
     public String getAuthorizationLabelTextOr() {
         return labelOr.getText();
     }
@@ -64,6 +66,7 @@ public class LoginPopupComponent extends BasePopUp {
         return new RestorationPasswordComponent(driver, restorePasswordPopUp);
     }
 
+    @Step("Click restoration password button")
     public RestorationPasswordComponent clickRestorePasswordButton() {
         restorePasswordButton.click();
         return getRestorationPasswordComponent();

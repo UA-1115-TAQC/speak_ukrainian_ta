@@ -110,7 +110,14 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
+    @Test(description = "TUA-89")
+    @Issue("TUA-89")
+    public void checkThatLocationsChangeForAclubWhenChangingCenters(){
 
+    }
+    private void addCenter(){
+        
+    }
     private void checkLocationInList(AddClubPopUpComponent editClubPopUp, String name) {
         softAssert.assertTrue(editClubPopUp.getStepTwoContainer().getLocationsNameList().contains(name),
                 "List of location names should have " + name);

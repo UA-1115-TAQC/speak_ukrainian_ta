@@ -47,7 +47,6 @@ public class AddCenterPopUpTestWithManager extends LoginWithManagerTestRunner {
         fillStepThreeWithValidData();
         stepThree.clickNextStepButton();
         stepFour = addCenterPopUp.getStepFourContainer();
-       // stepFour.sleep(1000);
     }
     @Test(description = "TUA-136")
     @Issue("TUA-136")

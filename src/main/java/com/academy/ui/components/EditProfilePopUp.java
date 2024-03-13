@@ -171,6 +171,8 @@ public class EditProfilePopUp extends BasePopUp {
 
     public ProfilePage clickSubmitButton() {
         submitButton.click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.invisibilityOf(getWebElement()));
         return new ProfilePage(driver);
     }
     public void waitUntilElementIsVisible(WebElement el){

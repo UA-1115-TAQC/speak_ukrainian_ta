@@ -2,12 +2,14 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
@@ -355,6 +357,35 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-981")
+    @Description("Verify that user can change center for the existing club with center")
+    @Issue("TUA-981")
+    public void checkChangeCenterClubWithCenter(){
+        softAssert = new SoftAssert();
+        String centerToSelect = "Центр творчості дітей та юнацтва";
+
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
+        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(10);
+
+        AddClubPopUpStepOne one = edit.getStepOneContainer();
+        String oldCenter = one.getCenterSelectedTitle().getText();
+        one.getCenterDropdown().clickDropdown().selectValue(centerToSelect);
+        one.clickNextStepButton();
+        edit.getStepTwoContainer().clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
+
+        profilePage = new ProfilePage(driver);
+        clubCard = profilePage.getClubCardByName("Club With Center");
+        ClubPage clubPage =  clubCard.clickDetailsButton();
+        String newCenter = clubPage.getClubCenterName();
+
+        softAssert.assertNotEquals(oldCenter, newCenter);
+        softAssert.assertEquals(newCenter, centerToSelect);
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-48")
     public void checkContactTabUI() {
         String clubName = getClubName();

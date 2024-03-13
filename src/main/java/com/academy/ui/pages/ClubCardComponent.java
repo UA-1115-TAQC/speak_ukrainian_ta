@@ -103,6 +103,8 @@ public class ClubCardComponent extends BaseComponent {
 
     public ClubPage clickDetailsButton() {
         getDetailsButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("club"));
         return new ClubPage(driver);
     }
 

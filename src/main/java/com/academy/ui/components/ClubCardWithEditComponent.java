@@ -4,6 +4,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.pages.ApplicationPage;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ProfilePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 
 public class ClubCardWithEditComponent extends ClubCardComponent {
 

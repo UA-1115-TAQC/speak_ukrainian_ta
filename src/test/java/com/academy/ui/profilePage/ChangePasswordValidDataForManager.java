@@ -15,7 +15,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-//change to LoginWithManagerTestRunner
 public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunner{
     private EditProfilePopUp editProfilePopUpComponent;
     SoftAssert softAssert;
@@ -47,11 +46,11 @@ public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunne
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getNewPasswordInput(),newPassword);
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getConfirmPasswordInput(),newPassword);
         editProfilePopUpComponent.clickSubmitButton();
-        //verify that password is changed - appearing window
+        //verify that password is changed - appearing window //todo
         System.out.println(newPassword);
         configProperties.setManagerPassword(newPassword); // why isn't it is set??
 
-        //+ Verify whether user's password is changed in the DB - it seems to me that there is a bug - the pwd remains the same
+        //+ Verify whether user's password is changed in the DB - it seems to me that there is a bug - the pwd remains the same //todo
         softAssert.assertAll();
     }
     private void clearInputField(WebElement inputField){

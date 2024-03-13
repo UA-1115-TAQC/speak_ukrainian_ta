@@ -14,11 +14,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.List;
 
 public class HeaderComponentTest extends BaseTestRunner {
     private HeaderComponent header;
     private SoftAssert softAssert;
+    public static final String DEFAULT_CITY = "Київ";
 
     @BeforeMethod
     private void headerPreconditions(){
@@ -213,4 +213,23 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-23")
+    @Issue("TUA-23")
+    public void testVerifyKyivIsShownByDefaultCity() {
+        softAssert.assertTrue(header.getLocationIcon().isDisplayed());
+        softAssert.assertEquals(header.getClubsLocationButton().getText(), DEFAULT_CITY,
+                "Київ must be shown as the default");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-311")
+    public void testVerifyLocationItem() {
+        softAssert.assertTrue(header.getLocationIcon().isDisplayed());
+        softAssert.assertEquals(header.getClubsLocationButton().getText(), DEFAULT_CITY,
+                "Київ must be shown as the default");
+        header.openCityMenu();
+        header.waitUntilCityMenuNodeDisplayed(20);
+        softAssert.assertTrue(header.getCityMenuNode().isDisplayed(), "List of city doesn't display");
+        softAssert.assertAll();
+    }
 }

@@ -71,6 +71,11 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = "//span[@class=\"add-club-upload\"]")
     private WebElement uploadPhotoLink;
 
+    @FindBy(xpath = "//input[@id=\"edit_urlLogo\"]")
+    protected WebElement uploadUserPhotoInput;
+    @FindBy(xpath = "./descendant::span[@class=\"ant-upload-list-item-name\"]")
+    protected WebElement uploadPhotoNameUserPhoto;
+
     @FindBy(xpath = ".//span[@class=\"ant-upload-list-item-name\"]")
     private WebElement uploadPictureTitle;
 
@@ -113,6 +118,7 @@ public class EditProfilePopUp extends BasePopUp {
     private EditProfileInputElement newPasswordElement;
     private EditProfileInputElement confirmPasswordElement;
     private EditProfileInputElement emailElement;
+    WebDriverWait wait;
 
     public EditProfilePopUp(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -123,6 +129,7 @@ public class EditProfilePopUp extends BasePopUp {
         newPasswordElement = new EditProfileInputElement(driver, newPassword);
         confirmPasswordElement = new EditProfileInputElement(driver, confirmPassword);
         emailElement = new EditProfileInputElement(driver, email);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
     public InputWithIconElement getCurrentPasswordInput(){
         return new InputWithIconElement(driver, getCurrentPasswordInputNode());
@@ -167,6 +174,9 @@ public class EditProfilePopUp extends BasePopUp {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.invisibilityOf(getWebElement()));
         return new ProfilePage(driver);
+    }
+    public void waitUntilElementIsVisible(WebElement el){
+        wait.until(ExpectedConditions.visibilityOf(el));
     }
 
     /*кнопки 'видалити аватар' немає на попапі, якщо заходити вже із встановленим аватаром(хоча має бути згідно із вимогами).

@@ -29,13 +29,9 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     @Test (description = "TUA-154")
     public void test(){
         checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration();
-        WebElement inputField = driver.findElement(By.xpath("//input[@id=\"edit_password\"]"));
-       enterInvalidNewPasswordAndVerifyField("qwer", inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
+        WebElement inputField = driver.findElement(By.xpath("//input[@id=\"edit_password\"]")); //todo fix selector
+        enterInvalidNewPasswordAndVerifyField("qwer", inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
-        //clear
-        //  editProfilePopUpComponent.getEnterNewPasswordInput().clearInput(); doesn't work on mac - mac versions are obsolete in mac enum (no mac ventura)
-
-        //for the 2nd time - wrong field - wrong selector on page - better via id
         enterInvalidNewPasswordAndVerifyField("qwertyu",inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
         enterInvalidNewPasswordAndVerifyField("123456789101234567899",inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
@@ -57,15 +53,13 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
         softAssert.assertEquals(editProfilePopUpComponent.getPhoneElement().getInput().getAttribute("value"), configProperties.getUserPhone(),
                 "The shown phone doesn't match the last name, which was entered by a user during registration");
 
-        //assert email !!! - now unaccessible
+        //assert email !!! - now unaccessible //todo
        // softAssert.assertEquals(editProfilePopUpComponent.getEmailTitle().getAttribute("value"), configProperties.getUserEmail());
     }
     private void enterInvalidNewPasswordAndVerifyField(String pwd, WebElement inputField, String errorMessage){
 
         inputField.sendKeys(pwd);
        // editProfilePopUpComponent.enterNewPassword(pwd); - use this method later
-
-        //fix
        List<WebElement> errorMessages= driver.findElements(By.xpath("//div[contains(@class,\"explain-error\")]"));
        boolean HasMessageFlag =false;
         for(WebElement error:errorMessages){

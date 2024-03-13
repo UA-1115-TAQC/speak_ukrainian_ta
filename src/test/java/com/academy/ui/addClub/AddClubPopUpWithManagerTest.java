@@ -6,16 +6,26 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
+import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
@@ -27,11 +37,16 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String VALID_DESCRIPTION = "Lorem ipsum dolor sit amet orci aliquam.";
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+    private String image1FileName= "image.png";
+    private String image2FileName= "image2.png";
+    private WebDriverWait wait;
+
     private AddClubPopUpSider sider;
 
     @BeforeMethod
@@ -142,6 +157,26 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+    }
+
+    @Test(description = "TUA-924")
+    public void checkManagerCanAddOnePhotoAsCoverInCertainSize() {
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image1FileName));
+        WebElement firstUploadedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertTrue(firstUploadedElement.getAttribute("title").contains(image1FileName),
+                "The first photo wasn't uploaded");
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image2FileName));
+        wait.until(ExpectedConditions.stalenessOf(firstUploadedElement));
+        WebElement refreshedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertEquals(stepThree.getAllUploadedElements().size(), 1,
+                "More than one photo could be added in the upload cover element");
+        softAssert.assertTrue(refreshedElement.getAttribute("title").contains(image2FileName),
+                "The second photo wasn't uploaded");
     }
 
     @Test(description = "TUA-123")
@@ -383,6 +418,142 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify error message for 'Адреса’ field of ‘Додати локацію’ pop-up when creating a club")
+    @Issue("TUA-250")
+    public void checkErrorForAddressAddLocation(String input){
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue("Lorem");
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue("Одеса");
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue("Малиновський");
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("Фонтан");
+
+        addLocation.getLocationAddressInputElement().setValue(input);
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0),
+                "Некоректна адреса"
+        );
+
+        addLocation.getLocationAddressInputElement().clearInput().setValue("");
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0)+
+                        System.lineSeparator()+
+                        addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(1),
+                "Це поле є обов'язковим"+System.lineSeparator()+"Некоректна адреса"
+        );
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-922")
+    public void testAddAndDeletePhotoInLogoAndCover() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(image1FileName));
+        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), image1FileName,
+                "Photo not added for Logo");
+        stepThree.getUploadedLogoImg().clickRemoveImg();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image2FileName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), image2FileName,
+                "Photo not added for Cover");
+
+        stepThree.getUploadedCoverImg().clickRemoveImg();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-925")
+    public void verify5PhotoCanBeAddedByManager() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
+
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Description("Verify that the icon of the main category is set by default for 'Лого' if it is not chosen")
+    @Issue("TUA-923")
+    public void checkIfDefaultIconIsSet(){
+        softAssert = new SoftAssert();
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        ProfilePage profilePage = stepThree.clickCompleteButton();
+
+        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
+        ClubCardWithEditComponent newClub = null;
+        for(ClubCardWithEditComponent club : list){
+            if(club.getClubName().equals(VALID_CLUB_NAME)){
+                newClub = club;
+            }
+        }
+
+        if(newClub == null){
+            softAssert.fail("Club was not added");
+            softAssert.assertAll();
+            return;
+        }
+
+        softAssert.assertNotEquals(newClub.getLogoSrc(), "");
+        softAssert.assertAll();
+    }
+
+    @Issue("TUA-178")
+    public void checkBanRussianLanguageOnDescription(){
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue("Опис, що включаэ російську букву в слові включає");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        int initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опис, що вклЫчає різні російські бüкви в декількох словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опыс, щö включає різні російські букви в декільüою словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
         softAssert.assertAll();
     }
 }

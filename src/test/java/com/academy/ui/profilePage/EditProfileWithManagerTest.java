@@ -51,8 +51,8 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
 
     @Test(description = "TUA-867")
     public void testUploadPhotoLinksAndTooltipIsDisplayed() {
-        homePage.header.openUserMenu().clickProfile();
-        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.waitPopUpOpen(5);
         softAssert.assertTrue(editProfile.getPhotoLink().isDisplayed());
 
         String actualResult = editProfile.getTooltipText();

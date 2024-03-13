@@ -9,8 +9,8 @@ import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.qameta.allure.Step;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -73,6 +73,8 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = ".//span[contains(@class,'avatarIfLogin')]/img")
+    protected WebElement avatarImage;
     @FindBy(xpath = "//span[@aria-label='environment']")
     protected WebElement locationIcon;
 
@@ -195,6 +197,12 @@ public class HeaderComponent extends BaseComponent {
     public WebElement openCityMenu() {
         clubsLocationButton.click();
         return cityMenuNode;
+    }
+
+    public HeaderComponent waitUntilCityMenuNodeDisplayed(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.visibilityOf(cityMenuNode));
+        return this;
     }
 
     public HeaderComponent moveToWebElement(WebElement webElement) {

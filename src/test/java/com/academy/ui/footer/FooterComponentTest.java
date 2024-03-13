@@ -3,6 +3,7 @@ package com.academy.ui.footer;
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -130,5 +131,17 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-
+    @Test
+    @Issue("TUA-944")
+    public void checkFacebookIconOpenCorrespondingFacebookPage(){
+        footerComponent.clickOnFacebookLink();
+        for (String windowHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(windowHandle);
+            if (driver.getTitle().contains("Facebook")) {
+                break;
+            }
+        }
+        softAssert.assertEquals(driver.getCurrentUrl(),"https://www.facebook.com/teach.in.ukrainian");
+        softAssert.assertAll();
+    }
 }

@@ -9,6 +9,8 @@ import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
+import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -134,12 +136,14 @@ public class HeaderComponent extends BaseComponent {
         return new ServicePage(driver);
     }
 
+    @Step("click button addClub")
     public AddClubPopUpComponent addClubButtonClick() {
         waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Open menu")
     public GuestMenuComponent openGuestMenu() {
         profileMenuButton.click();
         return new GuestMenuComponent(driver, profileMenuNode);

@@ -8,12 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class AddClubPopUpStepThree extends AddClubPopUpContainer{
+public class AddClubPopUpStepThree extends AddClubPopUpContainer {
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubLogoTitle;
@@ -45,7 +47,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]//input")
     private WebElement clubGalleryDownloadInput;
 
-    @FindBy(xpath = "./descendant::textarea[@id='basic_descriptionText']")
+    @FindBy(xpath = ".//textarea[contains(@id,'basic_description')]")
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")
@@ -125,6 +127,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         }
         return this;
     }
+
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
@@ -135,5 +138,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         } else {
             throw new RuntimeException("GalleryImg not found by index: " + index);
         }
+    }
+
+    public AddClubPopUpStepThree uploadImgToGallery(String pathToImage) {
+        int countImg = clubGalleryUploadedImgs.size();
+        clubGalleryDownloadInput.sendKeys(pathToImage);
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(d -> countImg < clubGalleryUploadedImgs.size());
+        return this;
     }
 }

@@ -47,7 +47,6 @@ private String stepOneSelectedCentre;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         profilePage = homePage.header.openUserMenu().clickProfile();
         profilePage.addButtonClick().get(0).click();
-        //fix the locator when the element is implemented
         addClubPopUpComponent = new AddClubPopUpComponent(driver);
         addClubPopUpSider = new AddClubPopUpSider(driver, addClubPopUpComponent.getSiderElement());
         addClubPopUpStepOne = addClubPopUpComponent.getStepOneContainer();

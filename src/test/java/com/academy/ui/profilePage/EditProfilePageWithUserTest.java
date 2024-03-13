@@ -2,7 +2,6 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
-
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -57,6 +56,26 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-421", dataProvider = "invalidPhone")
+    public void checkEditPhoneFieldWithInvalidData(String phone, String[] expectedErrorMsg) throws InterruptedException {
+
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+        softAssert.assertTrue(editProfilePopUp.getSubmitButton().isEnabled(),
+                "SubmitButton should be enabled");
+
+        var phoneElement = editProfilePopUp.getPhoneElement();
+        phoneElement.clearInput();
+
+        phoneElement.setValue(phone);
+        for (int i = 0; i < expectedErrorMsg.length; i++) {
+            softAssert.assertEquals(phoneElement.getErrorMessagesTextList().get(i), expectedErrorMsg[i]);
+            softAssert.assertNotEquals(profilePage.getPhoneUser().getText(), phone);
+        }
+
+        softAssert.assertAll();
+    }
+
     @DataProvider(name = "invalidFirstName")
     private Object[][] invalidFirstNameDataProvider() {
         return new Object[][] {
@@ -70,6 +89,17 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
                 {"Name ", "Ім'я не може містити спеціальні символи"},
                 {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
+        };
+    }
+
+    @DataProvider(name = "invalidPhone")
+    private Object[][] invalidPhoneDataProvider() {
+        return new Object[][] {
+                {"a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
+                {"-a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {";", new String[] {"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {"99999999999999999", new String[] {"Телефон не відповідає вказаному формату"}},
+                {" m", new String[] {"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
         };
     }
 

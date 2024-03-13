@@ -2,10 +2,15 @@ package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
 import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,10 +22,14 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     protected WebElement rightArrowButton;
     @FindBy(xpath = ".//ul[contains(@class,\"slick-dots\")]/li")
     protected List<WebElement> slickDots;
+    @FindBy(xpath = ".//ul[contains(@class,\"slick-dots\")]")
+    protected WebElement slickDotsContainer;
     @FindBy(xpath = ".//div[contains(@class,\"slick-slider\")]")
     protected WebElement sliderContainer;
+    protected  WebDriverWait wait;
     public BasicCarouselComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     public T clickLeftArrowButton() {
@@ -42,8 +51,11 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
 
     public T clickSlickDotByIndex(int index) {
         this.getSlickDotByIndex(index).click();
+        wait.until(ExpectedConditions.attributeContains(getSlickDotByIndex(index), "background", "rgb(250, 140, 22)"));
         return (T) this;
     }
+
+
 
     public WebElement getActiveSlickDot() {
         WebElement activeSlickDot = null;
@@ -58,6 +70,10 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     public T clickActiveSlickDot() {
         this.getActiveSlickDot().click();
         return (T) this;
+    }
+
+    public String getSlickDotColor(WebElement slickDot) {
+        return Color.fromString(slickDot.getCssValue("background-color")).asHex();
     }
 }
 

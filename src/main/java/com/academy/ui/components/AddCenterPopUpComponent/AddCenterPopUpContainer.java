@@ -18,6 +18,10 @@ public abstract class AddCenterPopUpContainer extends BaseComponent {
     @FindBy(xpath = "./descendant::button[contains(@class,'prev-btn')]")
     private WebElement prevStepButton;
 
+    @FindBy(xpath = "./descendant::button[contains(@class,'finish-btn')]")
+    private WebElement finishButton;
+
+
     public AddCenterPopUpContainer(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
@@ -29,6 +33,11 @@ public abstract class AddCenterPopUpContainer extends BaseComponent {
 
     public AddCenterPopUpContainer clickPreviousStepButton(){
         prevStepButton.click();
+        return this;
+    }
+
+    public AddCenterPopUpContainer clickFinishButton(){
+        finishButton.click();
         return this;
     }
 }

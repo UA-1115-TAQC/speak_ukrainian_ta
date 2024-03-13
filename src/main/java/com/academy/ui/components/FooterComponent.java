@@ -3,7 +3,9 @@ package com.academy.ui.components;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -156,6 +158,11 @@ public class FooterComponent extends BaseComponent {
     public boolean isDonateBlockIsDisplayed(){
         donateBlock.isDisplayed();
         return true;
+    }
+
+    public void moveTooltipToDonateButton() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(donateButton).perform();
     }
 
 }

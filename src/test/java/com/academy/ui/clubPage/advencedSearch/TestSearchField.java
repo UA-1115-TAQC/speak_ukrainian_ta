@@ -53,7 +53,6 @@ public class TestSearchField extends BaseTestRunner {
         return true;
     }
 
-    @Step("check if the club cards of the current ClubsPage contains the characters from the input field")
     private boolean containsInput(ClubsPage clubsPage){
         String input = clubsPage.getAdvancedSearchClubHeader()
                     .getTextSelectionSearchInputField();

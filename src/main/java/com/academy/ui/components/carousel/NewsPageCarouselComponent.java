@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class NewsPageCarouselComponent extends BasicCarouselComponent<NewsPageCarouselComponent> {
@@ -22,14 +23,15 @@ public class NewsPageCarouselComponent extends BasicCarouselComponent<NewsPageCa
 
     @Override
     public NewsPageCarouselComponent clickRightArrowButton() {
-        new WebDriverWait(driver, Duration.ofSeconds(1)).until(d -> rightArrow.isEnabled());
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOf(rightArrow));
         rightArrow.click();
         return this;
     }
 
     public NewsPageCarouselComponent clickLeftArrowButton() {
-        new WebDriverWait(driver, Duration.ofSeconds(1))
-                .until(d -> leftArrowButton.isEnabled());
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOf(leftArrowButton));
         return super.clickLeftArrowButton();
     }
 

@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -36,6 +37,7 @@ public class AddClubPopUpComponent extends BasePopUp {
         this.sider = new AddClubPopUpSider(driver, siderElement);
     }
 
+    @Step
     public AddClubPopUpStepOne getStepOneContainer() {
         if (activeStep.getAttribute("innerText").equals("1")) {
             stepOneContainer = new AddClubPopUpStepOne(driver, stepContainerElement);

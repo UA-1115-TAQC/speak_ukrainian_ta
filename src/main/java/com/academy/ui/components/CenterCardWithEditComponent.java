@@ -1,6 +1,6 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

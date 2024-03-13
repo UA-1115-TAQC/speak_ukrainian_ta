@@ -3,6 +3,7 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,7 +23,8 @@ public class TestChangePhotoByUser extends LogInWithUserTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "Verify that the user as 'Відвідувач' is able to choose the photo according to the validity rules")
+    @Test
+    @Description("Verify that the user as 'Відвідувач' is able to choose the photo according to the validity rules")
     @Issue("TUA-361")
     public void checkThatUserAbleToChangePhoto() {
         profilePage.editButtonClick();

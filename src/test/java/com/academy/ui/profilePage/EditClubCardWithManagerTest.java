@@ -537,6 +537,27 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test
+    @Issue("TUA-79")
+    public void checkUserCanEditDescriptionFieldWithInvalidData() {
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+
+        stepThree.clearDescriptionTextarea().setDescriptionValue("You will become better with us.");
+
+        softAssert.assertTrue(stepThree.getClubDescriptionTextarea().isDisplayed());
+        softAssert.assertFalse(stepThree.getErrorMessagesTextList().isEmpty());
+        softAssert.assertFalse(stepThree.getNextStepButton().isEnabled(),
+                "The 'Завершити' button is enabled");
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-58")
     public void verifyClubTitleCanNotBeChangedWithIncorrectName() {
         final String incorrectClubName = "#1 'München federală'";

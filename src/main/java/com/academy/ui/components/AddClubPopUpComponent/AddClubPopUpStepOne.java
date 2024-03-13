@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -49,8 +50,6 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[contains(@class,'add-club-age')]")
     private WebElement ageComponent;
 
-//    @FindBy(xpath = "./descendant::input[@id='basic_ageFrom']")
-//    private WebElement minAgeInput;
     @FindBy(xpath = "./descendant::input[contains(@id, 'ageFrom')]")
     private WebElement minAgeInput;
 
@@ -60,8 +59,6 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][1]")
     private WebElement minAgeDecreaseButton;
 
-//    @FindBy(xpath = "./descendant::input[@id='basic_ageTo']")
-//    private WebElement maxAgeInput;
     @FindBy(xpath = "./descendant::input[contains(@id, 'ageTo')]")
     private WebElement maxAgeInput;
 
@@ -88,6 +85,11 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
     private WebElement selectPlaceholder;
+
+    @FindBy(xpath = ".//span[text()='Приналежність до центру']/following-sibling::div")
+    @Getter(AccessLevel.NONE) private WebElement centerDropdown;
+
+    private DropdownElement centerDropdownElement;
 
     private AddClubInputElement clubNameInputElement;
 
@@ -138,9 +140,14 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    public AddClubPopUpStepOne clickCenterDropdown(){
+    public AddClubPopUpStepOne clickCenterDropdown() {
         centerSelect.click();
         return this;
+    }
+
+    public DropdownElement getCenterDropdown() {
+        this.centerDropdownElement = new DropdownElement(driver, centerDropdown);
+        return centerDropdownElement;
     }
 
 }

@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 import java.util.function.Supplier;
 
 public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
-    @Step("Performing common actions for checking 'Find Out' button on the Img Carousel")
+
     private <T> T performCommonActionsForCheckingFindOutButtonOnTheImgCarousel(String urlContains,
                                                                                Supplier<T> pageObjectSupplier,
                                                                                int rightArrowClicks) {

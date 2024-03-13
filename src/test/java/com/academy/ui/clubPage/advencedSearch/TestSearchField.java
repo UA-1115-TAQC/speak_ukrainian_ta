@@ -26,7 +26,6 @@ public class TestSearchField extends BaseTestRunner {
         assertTrue(enterCharacters(strings));
     }
 
-    @Step("Enter characters in search field on ClubsPage")
     private boolean enterCharacters(String[] strings) {
         ClubsPage clubsPage = homePage.getHeader().clickClubsPageButton();
         for(String str : strings){

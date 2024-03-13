@@ -74,7 +74,6 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         wait = new WebDriverWait(driver, Duration.ofSeconds(45));
     }
 
-    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
         stepOne.selectCategory(CATEGORY)
@@ -83,7 +82,6 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 .clickNextStepButton();
     }
 
-    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);

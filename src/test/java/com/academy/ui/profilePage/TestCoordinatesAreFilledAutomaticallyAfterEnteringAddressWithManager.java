@@ -25,7 +25,7 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
     String cityDropdownValue = "Київ";
     String address = "вул. Грушевського, 5";
     @BeforeMethod
-    @Step("Setting up preconditions for the test")
+
     public void precondition(){
         softAssert = new SoftAssert();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -44,20 +44,20 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
         verifyCoordinatesAreFilledAutomatically();
         softAssert.assertAll();
     }
-    @Step("Fill the location component with a center name: {0}, city: {1}, address: {2}")
+
     private void fillLocationComponent(String centerName, String cityDropdownValue, String address){
         addLocationPopUpComponent.getLocatioNameInputElement().setValue(centerName);
         addLocationPopUpComponent.getLocatioCityDropdownElement().clickDropdown();
         addLocationPopUpComponent.getLocatioCityDropdownElement().selectValue(cityDropdownValue);
         addLocationPopUpComponent.getLocationAddressInputElement().setValue(address);
     }
-    @Step("Verify that filled data is present in fields of location component")
+
     private void verifyTheFilledDataIsPresentInFieldsLocationComponent(String centerName, String cityDropdownValue, String address){
         softAssert.assertEquals(addLocationPopUpComponent.getLocatioNameInputElement().getInput().getAttribute("value"), centerName);
         softAssert.assertEquals(addLocationPopUpComponent.getLocatioCityDropdownElement().getSelectedItem().getText(), cityDropdownValue);
         softAssert.assertEquals(addLocationPopUpComponent.getLocationAddressInputElement().getInput().getAttribute("value"), address);
     }
-    @Step("Verify that coordinates are filled automatically")
+
     private void verifyCoordinatesAreFilledAutomatically(){
         if(!addLocationPopUpComponent.getLocationAddressInputElement().getInput().getAttribute("value").isEmpty()){
             softAssert.assertFalse(addLocationPopUpComponent.getLocationCoordinatesInputElement().getInput().getAttribute("value").isEmpty(),

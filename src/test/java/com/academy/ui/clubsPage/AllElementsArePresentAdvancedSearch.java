@@ -23,7 +23,6 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
     protected AdvancedSearchSiderComponent searchSiderComponent;
 
     @BeforeMethod
-    @Step("Setting up the test")
     public void setup() {
         homePage = new HomePage(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -54,7 +53,6 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
                 "The advanced search sider doesn't disappear after the second click on the advanced search icon in the header");
         softAssert.assertAll();
     }
-    @Step("Verify that the clubs page is loaded")
     private void verifyPageIsLoaded() {
         softAssert.assertTrue(clubsPage.getAdvancedSearchClubHeader().getAdvancedSearchTextHeading().getText().contains("Гуртки в місті"),
                 "The clubs page isn't opened");
@@ -62,7 +60,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
         searchSiderComponent = clubsPage.getSearchSider();
         wait.until(ExpectedConditions.visibilityOf(searchSiderComponent.getLabel()));
     }
-    @Step("Verify that search sider elements are displayed")
+
     private void verifySearchSiderElementsAreDisplayed() {
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getLabel());
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getDistrictTitle());
@@ -72,7 +70,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getAgeTitle());
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getAgeInput());
     }
-    @Step("Verify that search dropdowns are opened")
+
     private void verifySearchDropdownsAreOpened() {
         searchSiderComponent.clickCityDropDown();
         softAssert.assertTrue(searchSiderComponent.getSearchCityElement().getDropDownElement().getItemsList().get(0).isDisplayed(),
@@ -85,7 +83,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
         searchSiderComponent.clickMetroDropDown();
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getSearchMetroElement().getDropDownElement().getItemsList().get(0));
     }
-    @Step("Verify that additional elements are displayed on the search sider")
+
     private void verifyAdditionalElementsAreDisplayed() {
         verifyElementIsDisplayedAdvancedSearch(searchSiderComponent.getOnlineCheckBox());
         for (WebElement checkbox : searchSiderComponent.getDirectionsCheckBox()) {

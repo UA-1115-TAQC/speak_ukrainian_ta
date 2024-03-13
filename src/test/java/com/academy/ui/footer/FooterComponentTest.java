@@ -4,6 +4,7 @@ import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;

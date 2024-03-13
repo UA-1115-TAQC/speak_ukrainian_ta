@@ -10,8 +10,7 @@ package com.academy.ui.runners.randomvaluesgenerators;
         private static final String UPPERCASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static final String DIGITS = "0123456789";
         private static final String SPECIAL_SYMBOLS = "!@#$%^&*()-_+=<>?";
-        @Step("Generate a random password, which consists of alphanumeric and special characters, " +
-                "the possible length of which ranges from 8 to 20 characters")
+
         public String generateRandomPassword() {
             SecureRandom random = new SecureRandom();
             int passwordLength = random.nextInt(13) + 8;
@@ -37,7 +36,7 @@ package com.academy.ui.runners.randomvaluesgenerators;
 
             return new String(passwordArray);
         }
-        @Step("Get a random character from the given character set")
+
         private char getRandomChar(String characters, SecureRandom random) {
             int randomIndex = random.nextInt(characters.length());
             return characters.charAt(randomIndex);

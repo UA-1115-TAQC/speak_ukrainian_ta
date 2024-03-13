@@ -36,7 +36,6 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
     }
 
-    @Step("Check that user can do basic search by string: {string}")
     private void checkThatUserCanDoBasicSearchByString(String string){
         string = string.trim().toLowerCase();
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField(string);

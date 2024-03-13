@@ -358,6 +358,47 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test
+    @Issue("TUA-958")
+    public void checkChangeCoverPhoto() {
+        String imageName= "book.png";
+        String imageName2 = "image.png";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
+                "Image should be changed");
+
+        softAssert.assertTrue(stepThree
+                .getUploadedCoverImg()
+                .getImgTitle()
+                .isEnabled(),
+                "Cannot click on cover photo");
+
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertTrue(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCover()
+                        .getAttribute("style")
+                        .contains(imageName),
+                "Image should be changed to the " + imageName);
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-981")
     @Description("Verify that user can change center for the existing club with center")
     @Issue("TUA-981")

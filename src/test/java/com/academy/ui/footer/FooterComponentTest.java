@@ -2,15 +2,16 @@ package com.academy.ui.footer;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
+import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.assertEquals;
-import com.academy.ui.pages.challenges.BaseChallengePage;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+
+import static org.testng.Assert.assertEquals;
 
 public class FooterComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
@@ -128,6 +129,23 @@ public class FooterComponentTest extends BaseTestRunner {
         String title = driver.getTitle();
         softAssert.assertTrue(title.contains("Єдині"), "Instagram page 'Єдині' didn't open in a new tab");
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-949")
+    public void testDonateButtonLightsUp() {
+        homePage.scrollToFooter();
+
+        FooterComponent footer = homePage.getFooter();
+        softAssert.assertTrue(footer.isDonateBlockIsDisplayed());
+
+        WebElement footerButton = footerComponent.getDonateButton();
+        String expectedColor = "rgba(255, 169, 22, 1)";
+
+        footer.moveTooltipToDonateButton();
+
+        String buttonColor = footerButton.getCssValue("background-color");
+        Assert.assertNotEquals(buttonColor, expectedColor, "Button did not light up as expected");
         softAssert.assertAll();
     }
 

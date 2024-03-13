@@ -1,11 +1,6 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
@@ -24,6 +19,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.testng.Assert.assertTrue;
 
 
@@ -634,8 +633,25 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
-    
-    @Test(description = "TUA-312")
+
+    @Test(description = "TUA-765")
+    public void checkDescriptionWithLessThan40Symbols() {
+        String wrongDescriptionTest = "Short description";
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea().setDescriptionValue(wrongDescriptionTest);
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+
+        List<String> errors = Arrays.asList("Некоректний опис гуртка", "Опис гуртка може містити від 40 до 1500 символів.");
+        for(WebElement error: stepThree.getErrorMessagesTextarea()) {
+            softAssert.assertTrue(errors.contains(error.getAttribute("innerText")));
+        }
+    }
+
+
+        @Test(description = "TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());

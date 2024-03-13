@@ -5,6 +5,9 @@ import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationInputElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
@@ -123,6 +126,36 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
         softAssert.assertTrue(stepOne.getLocationsNameList().contains(VALID_LOCATION_NAME),
                 "List of location names should have " + VALID_LOCATION_NAME);
 
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Issue("TUA-160")
+    public void checkImpossibilityAddLocationIfAllMandatoryFieldsEmpty(){
+        AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
+        softAssert.assertTrue(addLocationPopUp.isOpen());
+        addLocationPopUp.clickAddLocationButton();
+        int sizeBeforeAdd = stepOne.getLocationsElementsList().size();
+
+        softAssert.assertTrue(addLocationPopUp.getAddLocationButton().isEnabled(), "Button is enabled");
+        softAssert.assertFalse(addLocationPopUp.getLocatioNameInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocatioNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocatioCityDropdownElement().getErrorMessage().getText().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocatioCityDropdownElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationAddressInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationAddressInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationCoordinatesInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationCoordinatesInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationTelephoneInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationTelephoneInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        addLocationPopUp.close();
+        stepOne = addCenterPopUp.getStepOneContainer();
+        softAssert.assertTrue(stepOne.getLocationsElementsList().size() == sizeBeforeAdd);
         softAssert.assertAll();
     }
 

@@ -2,12 +2,20 @@ package com.academy.ui.addClub;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
+import com.academy.ui.pages.ClubCardComponent;
+import com.academy.ui.pages.ClubsPage;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -17,6 +25,12 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
@@ -535,6 +549,66 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-929")
+    public void addingNewClubWithValidData(){
+        String description = "Дуже гарний і довгий опис, який повністю описує важливість цього для вас";
+        ProfilePage profilePage = new ProfilePage(driver);
+        SwitchPaginationComponent switchPaginationComponent = new SwitchPaginationComponent(driver, profilePage.getClubsSpace());
+        List<ClubCardComponent> clubCardComponentList;
+
+        stepOne = addClubPopUpComponent.getStepOneContainer();
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE);
+        softAssert.assertTrue(stepOne.getClubNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+
+        stepOne.clickNextStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue("0670694739");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+        stepTwo.clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(description);
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+        stepThree.clickCompleteButton();
+
+        softAssert.assertFalse(addClubPopUpComponent.getWebElement().getAttribute("style").contains("display: none;"), "Pop-up still opened");
+        softAssert.assertTrue(profilePage.getMyProfileTitle().isDisplayed(), "Profile page doesn't open");
+
+        if (switchPaginationComponent.isPaginationPresent()) {
+            switchPaginationComponent.getLastPage();
+        }
+
+        clubCardComponentList = profilePage.getClubsElements();
+        softAssert.assertTrue(clubCardComponentList.stream().anyMatch(item -> item.getDescription().getText().equals(description)), "There is no such element on page");
+        homePage.header.openUserMenu();
+        softAssert.assertAll();
+    }
+
+    @Test(description = "LVTEACH-23")
+    public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
+        final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
+                "123Qw*&#єЇ".repeat(10) + "o");
+        final var expectedErrorMessage = """
+                Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи""";
+
+        var clubNameInputElement = stepOne.getClubNameInputElement();
+        testData.forEach(data -> {
+            clubNameInputElement.setValue(data);
+
+            softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0), expectedErrorMessage,
+                    "Incorrect error message: ");
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+
+            clubNameInputElement.clearInput();
+
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+        });
         softAssert.assertAll();
     }
 

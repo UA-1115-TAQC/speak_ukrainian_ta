@@ -1,8 +1,8 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -76,6 +76,11 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
     private WebElement selectPlaceholder;
 
+    @FindBy(xpath = ".//span[text()='Приналежність до центру']/following-sibling::div")
+    @Getter(AccessLevel.NONE) private WebElement centerDropdown;
+
+    private DropdownElement centerDropdownElement;
+
     private AddClubInputElement clubNameInputElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
@@ -107,9 +112,15 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    public AddClubPopUpStepOne clickCenterDropdown(){
+//    does not work
+    public AddClubPopUpStepOne clickCenterDropdown() {
         centerSelect.click();
         return this;
+    }
+
+    public DropdownElement getCenterDropdown() {
+        this.centerDropdownElement = new DropdownElement(driver, centerDropdown);
+        return centerDropdownElement;
     }
 
 }

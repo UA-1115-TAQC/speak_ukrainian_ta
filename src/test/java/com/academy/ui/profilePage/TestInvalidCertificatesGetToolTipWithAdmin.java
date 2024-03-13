@@ -20,7 +20,6 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
     String maxValidValue = "999";
     WebDriverWait wait;
     @BeforeMethod
-    @Step("Open  adminGenerateCertificatePage precondition")
     public void setup(){
         softAssert = new SoftAssert();
         adminGenerateCertificatePage = homePage.header.openAdminMenu().openContentPopup().openCertificatesSubmenuPopup().clickGenerateCertificate();
@@ -36,7 +35,6 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
     }
 
     @Test(dataProvider = "invalidValues")
-    @Step("Test invalid certificates tooltip: {0} -> {1}")
     @Description("Test the behavior of the certificate tooltip with invalid values.")
     public void testInvalidCertificatesGetToolTip(String inputValue, String expectedValue){
         enterInValidValue(inputValue);
@@ -46,12 +44,12 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
                 "The duration input accepts an invalid value "+ inputValue);
         softAssert.assertAll();
     }
-    @Step("Clear input field")
+
     private void clearInputField(WebElement inputField){
         inputField.sendKeys(Keys.COMMAND + "a");
         inputField.sendKeys(Keys.DELETE);
     }
-    @Step("Enter invalid value: {0}")
+
     private void enterInValidValue(String value){
         WebElement studyDurationInput = adminGenerateCertificatePage.getStudyDurationInput();
         String currentValue = studyDurationInput.getAttribute("value");

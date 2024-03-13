@@ -70,4 +70,9 @@ public class ClubCardWithEditComponent extends ClubCardComponent {
     public WebElement getTitle() {
         return title;
     }
+
+    @Override
+    public String getClubName(){
+        return this.title.getText();
+    }
 }

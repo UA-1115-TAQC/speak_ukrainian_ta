@@ -16,8 +16,7 @@ import java.util.List;
 
 @Getter
 public class ClubCardComponent extends BaseComponent {
-
-    @FindBy(xpath = ".//div[@class='title']//img")
+    @FindBy(xpath = ".//div[@class ='title']//img")
     protected WebElement logo;
 
     @FindBy(xpath = ".//div[contains(@class,'title')]")
@@ -31,7 +30,6 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
-
 
     @FindBy(xpath = "./descendant::div[@class='club-online']")
     protected WebElement clubOnline;
@@ -80,6 +78,10 @@ public class ClubCardComponent extends BaseComponent {
         return getTitle().getText();
     }
 
+    public String getLogoSrc(){
+        return getLogo().getAttribute("src");
+    }
+
     public boolean clubNameContains(String text){
         return getClubName().toLowerCase().contains(text.toLowerCase());
     }
@@ -90,6 +92,8 @@ public class ClubCardComponent extends BaseComponent {
 
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
         return new ClubInfoPopUp(driver);
     }
 

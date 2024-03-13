@@ -13,7 +13,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
     public void checkThatUserCanDoBasicSearch(){
         checkThatUserCanDoBasicSearchByString("American Gymnastics Club");
         checkThatUserCanDoBasicSearchByString("Сфера");
-        //+Check the search result with DB
+        //+Check the search result with DB //todo
         softAssert.assertAll();
     }
     @Test(description = "TUA-43")
@@ -44,7 +44,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
             }
         }
         home.sleep(1000);
-        //+Check the search result with DB
+        //+Check the search result with DB //todo
         driver.get(configProperties.getBaseUrl());
         wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("clubs")));
     }

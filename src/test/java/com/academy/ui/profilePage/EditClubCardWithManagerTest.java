@@ -7,6 +7,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.WebElement;
@@ -596,5 +597,89 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "The 'Завершити' button is enabled");
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-58")
+    public void verifyClubTitleCanNotBeChangedWithIncorrectName() {
+        final String incorrectClubName = "#1 'München federală'";
+        final String expectedErrorMessage = "Некоректна назва гуртка";
+        final String expectedColor = "rgba(255, 77, 79, 1)";
+
+        softAssert.assertTrue(profilePage.getClubCardComponents()
+                        .stream()
+                        .noneMatch(c -> c.getTitle().getText().contains(incorrectClubName)),
+                "Club with incorrect club name ('%s') should not be present in manager's club list"
+                        .formatted(incorrectClubName));
+
+        AddClubPopUpStepOne stepOneContainer = profilePage.getClubCardComponents().get(0)
+                .clickMoreButton()
+                .clickEditClub().getStepOneContainer();
+        AddClubInputElement clubNameInputElement = (AddClubInputElement) stepOneContainer.getClubNameInputElement()
+                .clearInput().setValue(incorrectClubName);
+
+        softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0),
+                expectedErrorMessage, "'%s' should be present under the name input field"
+                        .formatted(expectedErrorMessage));
+        softAssert.assertEquals(clubNameInputElement.getErrorMessages()
+                .get(0).getCssValue("color"), expectedColor);
+        softAssert.assertFalse(stepOneContainer.getNextStepButton().isEnabled(),
+                "Submit button should not be enabled");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-957")
+    public void checkNewClubCardsLogoDisplayedOnProfilePage() {
+        final String initialLogoImage = "image.png";
+        final String newLogoImage = "book.png";
+
+        ClubCardWithEditComponent clubCardWithEditComponent = profilePage.getClubCardComponents().get(0);
+        AddClubPopUpComponent addClubPopUpComponent = clubCardWithEditComponent
+                .clickMoreButton()
+                .clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent
+                .getStepOneContainer()
+                .clickNextStepButton()
+                .clickNextStepButton();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        AddClubPopUpStepThree stepThreeContainer = addClubPopUpComponent.getStepThreeContainer();
+        stepThreeContainer
+                .getClubLogoDownloadInput()
+                .sendKeys(ConfigProperties.getImagePath(newLogoImage));
+
+        UploadedImgComponent uploadedLogoImg = stepThreeContainer.getUploadedLogoImg();
+        uploadedLogoImg.waitImageLoad(5);
+
+        softAssert.assertEquals(uploadedLogoImg.getImgTitle().getAttribute("title"),
+                newLogoImage, "Logo title should be '%s'".formatted(newLogoImage));
+
+        stepThreeContainer.clickCompleteButtonWithWait();
+        profilePage = new ProfilePage(driver);
+
+        softAssert.assertTrue(profilePage.getClubCardComponents().get(0)
+                .getLogo().getAttribute("src").contains(newLogoImage),
+                "Club card logo should contains '%s'".formatted(newLogoImage));
+        softAssert.assertAll();
+
+        setClubCardLogoToInitialConditions(initialLogoImage);
+    }
+
+    private void setClubCardLogoToInitialConditions(String initialLogoImage) {
+        AddClubPopUpComponent addClubPopUpComponent = profilePage.getClubCardComponents()
+                .get(0).clickMoreButton()
+                .clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+        addClubPopUpComponent.getStepOneContainer()
+                .clickNextStepButton()
+                .clickNextStepButton();
+        addClubPopUpComponent.waitPopUpOpen(5);
+        AddClubPopUpStepThree stepThreeContainer = addClubPopUpComponent.getStepThreeContainer();
+        stepThreeContainer.getClubLogoDownloadInput()
+                .sendKeys(ConfigProperties.getImagePath(initialLogoImage));
+        stepThreeContainer.getUploadedLogoImg()
+                .waitImageLoad(5);
+        stepThreeContainer.clickCompleteButton();
     }
 }

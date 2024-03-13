@@ -1,8 +1,6 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.*;
-import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
@@ -13,11 +11,12 @@ public class TestAddClubWithoutOptionalParameters extends LoginWithManagerTestRu
 
     private static final String CLUB_NAME = "Український гурток";
     private static final String CATEGORY_NAME = "Танці, хореографія";
-    private static final String  MIN_AGE = "6";
-    private static final String  MAX_AGE = "14";
-    private static final String  TELEPHONE_NUMBER = "0978585364";
+    private static final String MIN_AGE = "6";
+    private static final String MAX_AGE = "14";
+    private static final String TELEPHONE_NUMBER = "0978585364";
 
-    private static final String  DESCRIPTION_CLUB = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.";
+    private static final String DESCRIPTION_CLUB = "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.";
+    private static final String SUCCESSFUL_POPUP = "Гурток успішно створено";
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
@@ -34,7 +33,7 @@ public class TestAddClubWithoutOptionalParameters extends LoginWithManagerTestRu
 
     @Test(description = "Verify that a club without a center is created without filling optional parameters")
     @Issue("TUA-122")
-    public void checkThatClubCreatedWithoutFillingOptionalParameters(){
+    public void checkThatClubCreatedWithoutFillingOptionalParameters() {
         softAssert.assertTrue(stepOne.getClubNameInputElement().getInput().getAttribute("value").isEmpty());
         softAssert.assertTrue(stepOne.getCheckedCategoriesList().isEmpty());
         softAssert.assertTrue(stepOne.getMinAgeInput().getAttribute("value").isEmpty());
@@ -66,9 +65,7 @@ public class TestAddClubWithoutOptionalParameters extends LoginWithManagerTestRu
 
         stepThree.clickNextStepButton();
 
-        ProfilePage profilePage = new ProfilePage(driver);
-        String club = profilePage.getClubCardByName(CLUB_NAME).getClubName();
-        softAssert.assertTrue(club.equals(CLUB_NAME));
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP);
 
         softAssert.assertAll();
 

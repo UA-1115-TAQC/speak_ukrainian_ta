@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.ClubInfoPopUp;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -16,11 +17,14 @@ import java.util.List;
 
 @Getter
 public class ClubCardComponent extends BaseComponent {
-    @FindBy(xpath = ".//div[@class ='title']//img")
+
+    @FindBy(xpath = ".//div[@class='title']//img")
     protected WebElement logo;
 
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
+    @FindBy(xpath = ".//div[contains(@class,'name')]")
+    protected WebElement clubNameWithoutTitle;
 
     @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;
@@ -56,6 +60,7 @@ public class ClubCardComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Get list of the direction components on the club card")
     public List<DirectionTagComponent> getDirections() {
         directions = new ArrayList<>();
         for (WebElement tag : directionTags) {
@@ -64,6 +69,7 @@ public class ClubCardComponent extends BaseComponent {
         return directions;
     }
 
+    @Step("Check if the direction components of the club card contains {text}")
     public boolean directionsContains(String text){
         getDirections();
         for (DirectionTagComponent direction : directions) {
@@ -74,6 +80,7 @@ public class ClubCardComponent extends BaseComponent {
         return false;
     }
 
+    @Step("Get the club name from the club card")
     public String getClubName(){
         return getTitle().getText();
     }
@@ -82,14 +89,17 @@ public class ClubCardComponent extends BaseComponent {
         return getLogo().getAttribute("src");
     }
 
+    @Step("Check if club name contains {text} on the club card")
     public boolean clubNameContains(String text){
         return getClubName().toLowerCase().contains(text.toLowerCase());
     }
 
+    @Step("Check if the description of the club card contains {text}")
     public boolean descriptionContains(String text){
         return getDescription().getText().toLowerCase().contains(text.toLowerCase());
     }
 
+    @Step("Click on the title on the club card")
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -97,10 +107,12 @@ public class ClubCardComponent extends BaseComponent {
         return new ClubInfoPopUp(driver);
     }
 
+    @Step("Click on the address on the club card")
     public void clickAddress() {
         getAddress().click();
     }
 
+    @Step("Click on the 'Детальніше' button on the club card")
     public ClubPage clickDetailsButton() {
         getDetailsButton().click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
 import com.academy.ui.components.AddClubPopUpComponent.UploadedImgComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -66,21 +67,26 @@ public class AddCenterPopUpStepThree extends AddCenterPopUpContainer {
         uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
+    @Step("Set center description on the third step of Add/Edit center pop-up")
     public AddCenterPopUpStepThree setCenterDescriptionTextarea(String text) {
         centerDescriptionTextarea.sendKeys(text);
         return this;
     }
 
+    @Step("Click on the button 'Завершити' on the third step of Edit center pop-up")
     public void clickCompleteButton(){
         completeButton.click();
     }
 
+
+    @Step("Get list of error messages of center description on the third step of Add/Edit center pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessagesTextarea.stream()
                 .map(elem -> elem.getAttribute("innerText"))
                 .collect(Collectors.toList());
     }
 
+    @Step("Clear center description textarea on the third step of Add/Edit center pop-up")
     public AddCenterPopUpStepThree clearDescriptionTextarea(){
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {

@@ -7,16 +7,22 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
+
+import java.util.Objects;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
@@ -24,7 +30,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpSider sider;
 
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
@@ -72,7 +78,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-970")
+    @Test(description = "User can add locations of the club")
+    @Description("Verify that user can add locations of the club (for a club that is in the center)")
+    @Issue("TUA-970")
     public void checkUserCanAddLocationsOfTheClub() {
 
         final String VALID_LOCATION_NAME_1 = "ТестЛокація1";
@@ -165,7 +173,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         addLocationPopUp.clickAddLocationButton();
     }
 
-    @Test(description = "TUA-82")
+    @Test(description = "User can change photo while editing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window (for club that is in the center)")
+    @Issue("TUA-82")
     public void checkUserCanChangePhotoWhileEditClub() {
         final String IMAGE_NAME_1 = "image.png";
         final String IMAGE_NAME_2 = "book.png";
@@ -213,7 +223,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-967")
+    @Test
+    @Description("Verify that the user can add valid photo to the 'Логотип', 'Обкладинка', and 'Галерея' categories")
+    @Issue("TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
@@ -259,7 +271,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-85")
+    @Test
+    @Description("Verify that the icon of the main photo 'Обкладинка' is set by default if photo is not uploaded")
+    @Issue("TUA-85")
     public void checkDefaultCoverImg() {
         String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";
@@ -310,7 +324,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-78")
+    @Test
+    @Description("Verify that user can edit ‘Опис’ field with valid data, and save changes on the "
+            + "‘Опис’ tab of the ‘Редагувати гурток’ pop-up window")
+    @Issue("TUA-78")
     public void checkStepThreeEditDescriptionTextArea() {
         String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
                 + " We will teach you acting better than anyone else.";
@@ -354,6 +371,85 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         card = profilePage.getClubCardComponents().getFirst();
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
+
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Issue("TUA-57")
+    public void checkCorrectEditOfNameCategoryAge(){
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        clubCard.sleep(1000);
+        AddClubPopUpComponent editClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        editClubPopUpComponent.waitPopUpOpen(5);
+        AddClubPopUpStepOne editClubPopUpStepOne = editClubPopUpComponent.getStepOneContainer();
+
+        editClubPopUpStepOne.getClubNameInputElement().clearInput();
+        editClubPopUpStepOne.getClubNameInputElement().setValue("Harry 123&*? Potter");
+        softAssert.assertEquals(editClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value"), "Harry 123&*? Potter");
+
+        editClubPopUpStepOne.selectCategoryForEdit("Центр розвитку");
+        softAssert.assertTrue(editClubPopUpStepOne.getCheckedCategoriesListForEdit().stream().anyMatch(category -> category.getText().equals("Центр розвитку")), "Категорія не вибрана 1");
+
+        editClubPopUpStepOne.getMinAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        editClubPopUpStepOne.setMinAgeInput("2");
+        editClubPopUpStepOne.getMaxAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        editClubPopUpStepOne.setMaxAgeInput("6");
+        softAssert.assertEquals(editClubPopUpStepOne.getMinAgeInput().getAttribute("value"), "2");
+        softAssert.assertEquals(editClubPopUpStepOne.getMaxAgeInput().getAttribute("value"), "6");
+
+        editClubPopUpStepOne.clickNextStepButton();
+        editClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+        editClubPopUpComponent.getStepThreeContainer().clickCompleteButton();
+
+        profilePage = new ProfilePage(driver);
+        clubCard = profilePage.getClubCardComponents().getFirst();
+        ClubPage clubPage = clubCard.clickDetailsButton();
+
+        softAssert.assertEquals(clubPage.getClubName().getText(), "Harry 123&*? Potter");
+        softAssert.assertTrue(clubPage.getCategoriesClubName().stream().anyMatch(category -> Objects.equals(category.getText(), "Центр розвитку")), "Категорія не вибрана 2");
+        softAssert.assertTrue(clubPage.getAgeOfTheAudienceClub().getText().contains("2"));
+        softAssert.assertTrue(clubPage.getAgeOfTheAudienceClub().getText().contains("6"));
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-958")
+    public void checkChangeCoverPhoto() {
+        String imageName= "book.png";
+        String imageName2 = "image.png";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
+                "Image should be changed");
+
+        softAssert.assertTrue(stepThree
+                .getUploadedCoverImg()
+                .getImgTitle()
+                .isEnabled(),
+                "Cannot click on cover photo");
+
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertTrue(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCover()
+                        .getAttribute("style")
+                        .contains(imageName),
+                "Image should be changed to the " + imageName);
 
         softAssert.assertAll();
     }
@@ -556,4 +652,184 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-955")
+    public void checkValidPhoneInput() {
+        final String PHONE_TEST_VALUE = "0661782312";
+        final String FACEBOOK_TEST_VALUE = "facebook1user";
+        final String WHATSAPP_TEST_VALUE = "username";
+        final String SITE_TEST_VALUE = "exampleuser";
+        final String SKYPE_TEST_VALUE = "skypeuser1";
+        final String EMAIL_TEST_VALUE = "email@email.com";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(2);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo addLocationPopUp = editClubPopUp.getStepTwoContainer();
+
+        AddClubInputElement phone = addLocationPopUp.getTelephoneInputElement();
+        validateAddClubInputElement(phone, PHONE_TEST_VALUE);
+
+        AddClubInputElement facebook = addLocationPopUp.getFacebookInputElement();
+        validateAddClubInputElement(facebook, FACEBOOK_TEST_VALUE);
+
+        AddClubInputElement whatsapp = addLocationPopUp.getWhatsappInputElement();
+        validateAddClubInputElement(whatsapp, WHATSAPP_TEST_VALUE);
+
+        AddClubInputElement email = addLocationPopUp.getEmailInputElement();
+        validateAddClubInputElement(email, EMAIL_TEST_VALUE);
+
+        AddClubInputElement skype = addLocationPopUp.getSkypeInputElement();
+        validateAddClubInputElement(skype, SKYPE_TEST_VALUE);
+
+        AddClubInputElement site = addLocationPopUp.getSiteInputElement();
+        validateAddClubInputElement(site, SITE_TEST_VALUE);
+
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+
+        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+
+        driver.navigate().refresh();
+
+
+        String newClubName = getClubName();
+        ClubCardWithEditComponent newClubCardByName = profilePage.getClubCardByName(newClubName);
+        AddClubPopUpComponent newEditClubPopUp = newClubCardByName.clickMoreButton().clickEditClub();
+        newEditClubPopUp.waitPopUpOpen(5);
+        newEditClubPopUp.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo newAddLocationPopUp = newEditClubPopUp.getStepTwoContainer();
+
+        softAssert.assertEquals(newAddLocationPopUp.getTelephoneInputElement().getInput().getAttribute("value"), PHONE_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getFacebookInputElement().getInput().getAttribute("value"), FACEBOOK_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getWhatsappInputElement().getInput().getAttribute("value"), WHATSAPP_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getSkypeInputElement().getInput().getAttribute("value"), SKYPE_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getEmailInputElement().getInput().getAttribute("value"), EMAIL_TEST_VALUE);
+        softAssert.assertEquals(newAddLocationPopUp.getSiteInputElement().getInput().getAttribute("value"), SITE_TEST_VALUE);
+        softAssert.assertAll();
+    }
+
+    private void validateAddClubInputElement(AddClubInputElement element, String testValue) {
+        element.clearInput();
+        element.setValue(testValue);
+        softAssert.assertEquals(element.getErrorMessagesTextList(), List.of());
+
+        WebElement parentOfCircleIcon = element.getValidationCircleIcon().findElement(By.xpath(".."));
+        softAssert.assertTrue(parentOfCircleIcon.getAttribute("class").contains("ant-form-item-feedback-icon-success"));
+    }
+
+
+    @Test(description = "TUA-58")
+    public void verifyClubTitleCanNotBeChangedWithIncorrectName() {
+        final String incorrectClubName = "#1 'München federală'";
+        final String expectedErrorMessage = "Некоректна назва гуртка";
+        final String expectedColor = "rgba(255, 77, 79, 1)";
+
+        softAssert.assertTrue(profilePage.getClubCardComponents()
+                        .stream()
+                        .noneMatch(c -> c.getTitle().getText().contains(incorrectClubName)),
+                "Club with incorrect club name ('%s') should not be present in manager's club list"
+                        .formatted(incorrectClubName));
+
+        AddClubPopUpStepOne stepOneContainer = profilePage.getClubCardComponents().get(0)
+                .clickMoreButton()
+                .clickEditClub().getStepOneContainer();
+        AddClubInputElement clubNameInputElement = (AddClubInputElement) stepOneContainer.getClubNameInputElement()
+                .clearInput().setValue(incorrectClubName);
+
+        softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0),
+                expectedErrorMessage, "'%s' should be present under the name input field"
+                        .formatted(expectedErrorMessage));
+        softAssert.assertEquals(clubNameInputElement.getErrorMessages()
+                .get(0).getCssValue("color"), expectedColor);
+        softAssert.assertFalse(stepOneContainer.getNextStepButton().isEnabled(),
+                "Submit button should not be enabled");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-957")
+    public void checkNewClubCardsLogoDisplayedOnProfilePage() {
+        final String initialLogoImage = "image.png";
+        final String newLogoImage = "book.png";
+
+        ClubCardWithEditComponent clubCardWithEditComponent = profilePage.getClubCardComponents().get(0);
+        AddClubPopUpComponent addClubPopUpComponent = clubCardWithEditComponent
+                .clickMoreButton()
+                .clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        addClubPopUpComponent
+                .getStepOneContainer()
+                .clickNextStepButton()
+                .clickNextStepButton();
+        addClubPopUpComponent.waitPopUpOpen(5);
+
+        AddClubPopUpStepThree stepThreeContainer = addClubPopUpComponent.getStepThreeContainer();
+        stepThreeContainer
+                .getClubLogoDownloadInput()
+                .sendKeys(ConfigProperties.getImagePath(newLogoImage));
+
+        UploadedImgComponent uploadedLogoImg = stepThreeContainer.getUploadedLogoImg();
+        uploadedLogoImg.waitImageLoad(5);
+
+        softAssert.assertEquals(uploadedLogoImg.getImgTitle().getAttribute("title"),
+                newLogoImage, "Logo title should be '%s'".formatted(newLogoImage));
+
+        stepThreeContainer.clickCompleteButtonWithWait();
+        profilePage = new ProfilePage(driver);
+
+        softAssert.assertTrue(profilePage.getClubCardComponents().get(0)
+                .getLogo().getAttribute("src").contains(newLogoImage),
+                "Club card logo should contains '%s'".formatted(newLogoImage));
+        softAssert.assertAll();
+
+        setClubCardLogoToInitialConditions(initialLogoImage);
+    }
+
+    private void setClubCardLogoToInitialConditions(String initialLogoImage) {
+        AddClubPopUpComponent addClubPopUpComponent = profilePage.getClubCardComponents()
+                .get(0).clickMoreButton()
+                .clickEditClub();
+        addClubPopUpComponent.waitPopUpOpen(5);
+        addClubPopUpComponent.getStepOneContainer()
+                .clickNextStepButton()
+                .clickNextStepButton();
+        addClubPopUpComponent.waitPopUpOpen(5);
+        AddClubPopUpStepThree stepThreeContainer = addClubPopUpComponent.getStepThreeContainer();
+        stepThreeContainer.getClubLogoDownloadInput()
+                .sendKeys(ConfigProperties.getImagePath(initialLogoImage));
+        stepThreeContainer.getUploadedLogoImg()
+                .waitImageLoad(5);
+        stepThreeContainer.clickCompleteButton();
+    }
+
+    @Test(description = "Center is added")
+    @Description("Verify that user can add center for the existing club without center")
+    @Issue("TUA-980")
+    public void checkStepOneEditCenter() {
+        String centerName = "Академія талановитих дітей";
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickCenterDropdown().selectCenter(centerName);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        editClubPopUp.getStepTwoContainer().clickNextStepButton();
+        editClubPopUp.getStepThreeContainer().clickCompleteButton();
+
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
+
+        softAssert.assertEquals(clubCardUpdated
+                        .clickDetailsButton()
+                        .getClubCenter()
+                        .getText()
+                        .trim(),
+                centerName);
+
+        softAssert.assertAll();
+    }
+
 }

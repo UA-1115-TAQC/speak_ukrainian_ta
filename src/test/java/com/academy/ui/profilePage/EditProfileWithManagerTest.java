@@ -4,6 +4,9 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -24,11 +27,10 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void SetUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
-
     }
   
   @DataProvider(name = "invalidFirstName")
@@ -63,7 +65,9 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-840")
+    @Test(description = "Error messages are shown and button becomes disabled with invalid data in telephone field while editing profile")
+    @Description("Verify that error messages are shown and 'Зберегти зміни' button becomes disabled while entering invalid data for the 'Телефон' field. The user as 'Керівник'")
+    @Issue("TUA-840")
     public void checkErrorMessagesShowAndButtonDisablesWithInvalidData() {
         final String TELEPHONE_LESS_THAN_13 = "06895";
         final String TELEPHONE_MORE_THAN_13 = "6593859632586";
@@ -111,7 +115,9 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-904")
+    @Test(description = "Close button on edit profile doesn't store entered data")
+    @Description("Verify that 'X' icon doesn't store any entered data to the database and returns a user to the \"Мій профіль\" page. User as a 'Керівник'")
+    @Issue("TUA-904")
     public void checkCloseButtonOnEditProfileDoesntStoreEnteredData() {
         final String NAME = "Петро";
         final String TELEPHONE = "0956874567";
@@ -141,7 +147,9 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-906")
+    @Test
+    @Description("Verify Password Hiding. User as a 'Керівник'")
+    @Issue("TUA-906")
     public void checkPasswordIsHiding() {
         EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(5);
@@ -219,7 +227,9 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
   
-    @Test(description = "TUA-843")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Керівник'")
+    @Issue("TUA-843")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
@@ -448,8 +458,10 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-836", dataProvider = "invalidLastNameInput",
+    @Test(dataProvider = "invalidLastNameInput",
             dataProviderClass = EditProfileWithManagerDataProvider.class)
+    @Description("Verify that error messages are shown and 'Зберегти зміни' button becomes disabled while entering invalid data into the 'Прізвище' field")
+    @Issue("TUA-836")
     public void checkErrorInvalidLastName(String lastName, String errorMsg){
         softAssert = new SoftAssert();
 
@@ -465,4 +477,14 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    //кнопки видалити аватар немає якщо заходити із кастомним аватаром
+    @Test(description = "TUA-920")
+    public void verifyUserCanDeleteExistingAvatar() {
+        editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+        softAssert.assertFalse(editProfilePopUp.deleteUserAvatar().clickSubmitButton()
+                .header.getAvatar().getCssValue("class")
+                .contains("ant-avatar-image"), "Default avatar should be displayed");
+        softAssert.assertAll();
+    }
 }

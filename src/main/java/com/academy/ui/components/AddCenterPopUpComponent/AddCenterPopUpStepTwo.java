@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Getter
-public class AddCenterPopUpStepTwo extends AddCenterPopUpContainer{
+public class AddCenterPopUpStepTwo extends AddCenterPopUpContainer {
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')]")
     private WebElement centerInputsTitle;

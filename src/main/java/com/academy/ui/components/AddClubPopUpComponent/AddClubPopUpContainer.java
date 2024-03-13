@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,12 +23,14 @@ public abstract class AddClubPopUpContainer extends BaseComponent {
         super(driver, rootElement);
     }
 
-    public AddClubPopUpContainer clickNextStepButton(){
+    @Step("Get next step button on the Add/Edit club pop-up")
+    public AddClubPopUpContainer clickNextStepButton() {
         nextStepButton.click();
         return this;
     }
 
-    public AddClubPopUpContainer clickPreviousStepButton(){
+    @Step("Get previous step button on the Add/Edit club pop-up")
+    public AddClubPopUpContainer clickPreviousStepButton() {
         prevStepButton.click();
         return this;
     }

@@ -2,6 +2,7 @@ package com.academy.ui.components.carousel;
 
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ClubsPage;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,10 +28,12 @@ public class ClubDirectionCard extends BaseComponent {
     public ClubDirectionCard(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
+    @Step("Click the club card button")
     public ClubsPage clickClubCardButton() {
         this.getClubCardButton().click();
         return new ClubsPage(driver).waitClubsPageWithSiderLoaded(30);
     }
+    @Step("Click the club card button pointer")
     public ClubsPage clickClubCardButtonPointer() {
         this.getClubCardButtonPointer().click();
         return new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);

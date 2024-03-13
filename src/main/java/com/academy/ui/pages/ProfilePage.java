@@ -7,6 +7,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -31,10 +32,10 @@ public class ProfilePage extends BasePage {
 
     @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
-    @Getter
+
     @FindBy(xpath="//span[contains(@class, 'user-avatar')]/img")
     protected WebElement userAvatarImage;
-    @Getter
+
     @FindBy(xpath = ".//div[@class='user-name']")
     private WebElement userName;
 
@@ -70,8 +71,10 @@ public class ProfilePage extends BasePage {
 
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
+
     @FindBy(xpath = "//div[contains(@class, 'user-club-content')]//div[contains(@class, 'space-item')]")
     private List<WebElement> myClubsList;
+
     @FindBy(xpath = "//div[contains(@class, 'user-club-content')]")
     private WebElement clubsSpace;
 
@@ -106,18 +109,18 @@ public class ProfilePage extends BasePage {
         selectWhatCardsToShow();
     }
 
-    public void dropDownClick() {
-        myLessonsOrCentersDropDown.click();
-    }
 
+    @Step("Click edit button 'Додати' on the Profile page")
     public void editButtonClick() {
         editProfileButton.click();
     }
 
+    @Step("Click on My Centers on drop down")
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
 
+    @Step("Click add button 'Додати' on the Profile page")
     public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
@@ -128,32 +131,36 @@ public class ProfilePage extends BasePage {
         return addButtonDropdown;
     }
 
+    @Step("Get xpath by name {name} for add button 'Додати' dropdown options on the Profile page")
     private String getAddButtonOptionStringPath(String name) {
         return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
-
     }
 
+    @Step("Hover add button 'Додати' on the Profile page")
     public void hoverAddButton() {
         Actions actions = new Actions(driver);
         actions.moveToElement(addButton).perform();
     }
-
-    public AddClubPopUpComponent lessonsDropDownClick() {
+    @Step("Click on add club button on drop down")
+    public AddClubPopUpComponent clubDropDownClick() {
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Click edit button 'Додати' on the Profile page")
     public AddCenterPopUpComponent centerDropDownClick() {
         addCenterButton.click();
         return new AddCenterPopUpComponent(driver);
     }
 
+    @Step("Click edit button 'Редагувати профіль' on the Profile page")
     public EditProfilePopUp openEditUserProfile() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(editProfileButton)).click();
         return new EditProfilePopUp(driver, editUserModalForm);
     }
 
+    @Step("Get list of club cards on the Profile page")
     public List<ClubCardWithEditComponent> getClubCardComponents() {
         clubCardComponentsList = new ArrayList<>();
         if (!clubCardsListWebElements.isEmpty()) {
@@ -166,6 +173,7 @@ public class ProfilePage extends BasePage {
         return clubCardComponentsList;
     }
 
+    @Step("Get clubs card by name {name} on the Profile page")
     public ClubCardWithEditComponent getClubCardByName(String name) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {
@@ -177,11 +185,19 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
+    @Step("Click add club button 'Додати гурток' on the Profile page")
     public AddClubPopUpComponent openAddClubPopUp() {
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Click add center button 'Додати центр' on the Profile page")
+    public AddCenterPopUpComponent openAddCenterPopUp() {
+        addButtonClick().get(1).click();
+        return new AddCenterPopUpComponent(driver);
+    }
+
+    @Step("Get list of center cards on the Profile page")
     public List<CenterCardWithEditComponent> getCenterCardComponents() {
         centerCardComponentsList = new ArrayList<>();
         if (!centerCardsListWebElements.isEmpty()) {
@@ -194,23 +210,27 @@ public class ProfilePage extends BasePage {
         return centerCardComponentsList;
     }
 
+    @Step("Click on dropdown 'Мої гуртки, центри' on the Profile page")
     public ProfilePage clickMyClubsAndCentersOnDropdown() {
         myLessonsOrCentersDropDown.click();
         return this;
     }
 
+    @Step("Click 'Мої центри' option on dropdown on the Profile page")
     public void clickMyCentersOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
         getCenterCardComponents();
     }
 
+    @Step("Click 'Мої гуртки' option on dropdown on the Profile page")
     public void clickMyClubsOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();
         getClubCardComponents();
     }
 
+    @Step("Get center card by name {name} on the Profile page")
     public CenterCardWithEditComponent getCenterCardByName(String name) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (CenterCardWithEditComponent card : centerCardComponentsList) {
@@ -222,6 +242,7 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
+    @Step("Select center or club cards to show on the Profile page")
     private void selectWhatCardsToShow() {
         if (myLessonsOrCentersDropDown.getAttribute("innerText").equals("гуртки")) {
             getClubCardComponents();

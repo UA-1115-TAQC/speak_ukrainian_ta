@@ -1,5 +1,7 @@
 package com.academy.ui.components.carousel;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -25,6 +27,7 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
         actions = new Actions(driver);
         wait = new WebDriverWait(driver, Duration.ofMinutes(1));
     }
+    @Step("Get carousel image cards")
     public HashMap<Integer, WebElement>getCarouselImgCards(){
         if(switchingCarouselImgCards == null){
             switchingCarouselImgCards = new HashMap<>();
@@ -38,6 +41,7 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
         }
         return switchingCarouselImgCards;
     }
+    @Step("Get carousel image card by data index: {dataIndex}")
     public CarouselImgCard getCarouselImgCardByDataIndex(int dataIndex){
         if(dataIndex >= 0 && dataIndex < getCarouselImgCards().size()) {
             WebElement imgCard = this.getCarouselImgCards().get(dataIndex);
@@ -46,6 +50,7 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
         }
         throw new IllegalArgumentException("The index must be in the range from 0 to "+(getCarouselImgCards().size()-1)+", inclusive.");
     }
+    @Step("Get active CarouselImgCard")
     public CarouselImgCard getActiveCarouselImgCard() {
         int dataIndex = findActiveCarouselImgCardIndex();
         if (activeCarouselImgCard == null) {
@@ -56,6 +61,7 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
             return activeCarouselImgCard = new CarouselImgCard(driver, getCarouselImgCards().get(dataIndex));
         }
     }
+    @Step("Find the index of the active CarouselImgCard")
     public int findActiveCarouselImgCardIndex() {
         for (int i = 0; i < getCarouselImgCards().size(); i++) {
             if (getCarouselImgCards().get(i).getAttribute("class").contains("active")) {

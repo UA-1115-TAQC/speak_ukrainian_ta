@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -26,6 +27,7 @@ public class AddCenterPopUpStepFour extends AddCenterPopUpContainer {
 
     }
 
+    @Step("Get clubs components on the fourth step of Add center pop-up")
     public void getClubCheckboxLogoNameComponents() {
         clubCheckboxLogoNameComponents = new ArrayList<>();
         for (WebElement club : clubWebElementsList) {
@@ -33,17 +35,18 @@ public class AddCenterPopUpStepFour extends AddCenterPopUpContainer {
         }
     }
 
+    @Step("Click on club by name {name} on the fourth step of Add center pop-up")
     public void clickOnClubCheckBoxByName(String name) {
         clubCheckboxLogoNameComponents.stream()
                 .filter(club -> club.getClubName().getAttribute("innerText").equals(name))
                 .forEach(club -> club.getClubCheckbox().click());
     }
 
+    @Step("Get list of checked clubs on the fourth step of Add center pop-up")
     public List<ClubCheckboxLogoNameComponent> getListOfCheckedClubComponents() {
         return clubCheckboxLogoNameComponents.stream()
                 .filter(club -> club.getClubCheckbox().isSelected())
                 .collect(Collectors.toList());
     }
-
 
 }

@@ -3,12 +3,10 @@ package com.academy.ui.components.AddClubPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -121,6 +119,12 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     public List<String> getErrorMessagesTextList() {
         return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+    }
+
+    public void waitNewError(int initialErrorCount){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until((ExpectedCondition<Boolean>) webDriver ->
+                errorMessagesTextarea.size() > initialErrorCount);
     }
 
     public AddClubPopUpStepThree clearDescriptionTextarea(){

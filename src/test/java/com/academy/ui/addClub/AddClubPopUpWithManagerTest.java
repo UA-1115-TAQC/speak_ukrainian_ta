@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
@@ -520,4 +521,39 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Issue("TUA-178")
+    public void checkBanRussianLanguageOnDescription(){
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue("Опис, що включаэ російську букву в слові включає");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        int initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опис, що вклЫчає різні російські бüкви в декількох словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опыс, щö включає різні російські букви в декільüою словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea()
+                                        .stream()
+                                        .anyMatch(message -> Objects.equals(
+                                                                    message.getText(),
+                                                                "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+        softAssert.assertAll();
+    }
 }

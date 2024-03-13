@@ -4,6 +4,7 @@ import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
 import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.runners.BaseTestRunner;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,7 +44,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
     @BeforeMethod
     public void registrationSetUp(Method method) {
-        if (method.getAnnotation(Test.class).description().equals("TUA-876")) {
+        if(method.getAnnotation(Test.class).description().equals("TUA-876")){
             return;
         }
         guestMenuComponent = homePage.header.openGuestMenu();
@@ -148,7 +149,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         // user touches input, but doesn't enter anything
         registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);
-        ;
         errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
         softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
         softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
@@ -164,8 +164,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         registrationPopupComponent.clickSetManagerButton();
 
         // user touches input, but doesn't enter anything
-        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);
-        ;
+        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);;
         errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
         softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
         softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
@@ -178,7 +177,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         }
         softAssert.assertAll();
     }
-
+  
     @Test(description = "TUA-243")
     public void checkNewUserCanBeRegisteredWithValidData() {
         final String firstName = "John";
@@ -316,6 +315,64 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-15")
+    public void verifyBanRegistrationIfOneNecessaryFiledEmpty(){
+        registrationPopupComponent.clickSetUserButton();
+        registrationPopupComponent.getLastNameInput().setValue("");
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+
+        registrationPopupComponent.getFirstNameInput().setValue("Name");
+        registrationPopupComponent.getPhoneInput().setValue("0953775167");
+        registrationPopupComponent.getEmailInput().setValue("blabla@gmail.com");
+        registrationPopupComponent.getPasswordInput().setValue("Qwerty@123");
+        registrationPopupComponent.getPasswordConfirmationInput().setValue("Qwerty@123");
+
+        softAssert.assertEquals(registrationPopupComponent.getFirstNameInput().getInput().getAttribute("value"), "Name");
+        softAssert.assertEquals(registrationPopupComponent.getPhoneInput().getInput().getAttribute("value"), "0953775167");
+        softAssert.assertEquals(registrationPopupComponent.getEmailInput().getInput().getAttribute("value"), "blabla@gmail.com");
+
+        softAssert.assertTrue(registrationPopupComponent.getPasswordInput().getInput().getAttribute("type").contains("password"));
+        softAssert.assertTrue(registrationPopupComponent.getPasswordConfirmationInput().getInput().getAttribute("type").contains("password"));
+
+        registrationPopupComponent.getLastNameInput().setValue(" ");
+        registrationPopupComponent.clickRegisterButton();
+        String hex = Color.fromString(registrationPopupComponent.getLastNameInput().getWholeInputElement().getCssValue("border-color")).asHex();
+        softAssert.assertEquals(hex, "#ff4d4f");
+
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+
+        registrationPopupComponent.getFirstNameInput().clearInput();
+        registrationPopupComponent.getPhoneInput().clearInput();
+        registrationPopupComponent.getEmailInput().clearInput();
+        registrationPopupComponent.getPasswordInput().clearInput();
+        registrationPopupComponent.getPasswordConfirmationInput().clearInput();
+
+        // the same, but for manager
+
+        registrationPopupComponent = registrationPopupComponent.clickSetManagerButton();
+        registrationPopupComponent.getLastNameInput().setValue("");
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+
+        registrationPopupComponent.getFirstNameInput().setValue("Name");
+        registrationPopupComponent.getPhoneInput().setValue("0953775167");
+        registrationPopupComponent.getEmailInput().setValue("blabla@gmail.com");
+        registrationPopupComponent.getPasswordInput().setValue("Qwerty@123");
+        registrationPopupComponent.getPasswordConfirmationInput().setValue("Qwerty@123");
+
+        softAssert.assertEquals(registrationPopupComponent.getFirstNameInput().getInput().getAttribute("value"), "Name");
+        softAssert.assertEquals(registrationPopupComponent.getPhoneInput().getInput().getAttribute("value"), "0953775167");
+        softAssert.assertEquals(registrationPopupComponent.getEmailInput().getInput().getAttribute("value"), "blabla@gmail.com");
+
+        softAssert.assertTrue(registrationPopupComponent.getPasswordInput().getInput().getAttribute("type").contains("password"));
+        softAssert.assertTrue(registrationPopupComponent.getPasswordConfirmationInput().getInput().getAttribute("type").contains("password"));
+
+        registrationPopupComponent.clickRegisterButton();
+        hex = Color.fromString(registrationPopupComponent.getLastNameInput().getWholeInputElement().getCssValue("border-color")).asHex();
+        softAssert.assertEquals(hex, "#ff4d4f");
+        softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-875")
     public void checkTheCorrespondingMessage() {
         final String VALID_FIRST_NAME_USER = "Гаррі";
@@ -378,7 +435,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-
     @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
     public void checkIfErrorMessagesAreShownForInvalidDataUser() {
         List<String> errorMessagesActual;
@@ -466,9 +522,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-
+  
     @Test(description = "TUA-876")
-    public void checkRedirectionAfterRegistrationCanceled() {
+    public void checkRedirectionAfterRegistrationCanceled(){
         HeaderComponent header = homePage.getHeader();
         header.newsButtonClick();
         String url = driver.getCurrentUrl();
@@ -484,5 +540,3 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
 }
-
-

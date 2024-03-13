@@ -70,6 +70,10 @@ public class ProfilePage extends BasePage {
 
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]//div[contains(@class, 'space-item')]")
+    private List<WebElement> myClubsList;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]")
+    private WebElement clubsSpace;
 
     @FindBy(xpath = ".//div[contains(@class, 'menu-component')]")
     private WebElement leftSideRoot;
@@ -91,6 +95,9 @@ public class ProfilePage extends BasePage {
     protected List<ClubCardWithEditComponent> clubCardComponentsList;
     protected ClubsPaginationComponent switchPagination;
     protected List<CenterCardWithEditComponent> centerCardComponentsList;
+    public List<ClubCardComponent> getClubsElements(){
+        return myClubsList.stream().map(el -> new ClubCardComponent(driver, el)).collect(Collectors.toList());
+    }
 
     public ProfilePage(WebDriver driver) {
         super(driver);

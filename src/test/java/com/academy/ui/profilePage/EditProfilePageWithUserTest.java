@@ -56,6 +56,26 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-421", dataProvider = "invalidPhone")
+    public void checkEditPhoneFieldWithInvalidData(String phone, String[] expectedErrorMsg) throws InterruptedException {
+
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+        softAssert.assertTrue(editProfilePopUp.getSubmitButton().isEnabled(),
+                "SubmitButton should be enabled");
+
+        var phoneElement = editProfilePopUp.getPhoneElement();
+        phoneElement.clearInput();
+
+        phoneElement.setValue(phone);
+        for (int i = 0; i < expectedErrorMsg.length; i++) {
+            softAssert.assertEquals(phoneElement.getErrorMessagesTextList().get(i), expectedErrorMsg[i]);
+            softAssert.assertNotEquals(profilePage.getPhoneUser().getText(), phone);
+        }
+
+        softAssert.assertAll();
+    }
+
     @DataProvider(name = "invalidFirstName")
     private Object[][] invalidFirstNameDataProvider() {
         return new Object[][] {
@@ -69,6 +89,17 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
                 {"Name ", "Ім'я не може містити спеціальні символи"},
                 {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
+        };
+    }
+
+    @DataProvider(name = "invalidPhone")
+    private Object[][] invalidPhoneDataProvider() {
+        return new Object[][] {
+                {"a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
+                {"-a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {";", new String[] {"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {"99999999999999999", new String[] {"Телефон не відповідає вказаному формату"}},
+                {" m", new String[] {"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
         };
     }
 
@@ -321,7 +352,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     public void checkEditLastNameFieldWithInvalidData(String lastName, String expectedErrorMsg) {
         final String emptyFieldErrorMsg = "Будь ласка введіть Ваше прізвище";
 
-        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
 
         editProfile.getLastNameElement().clearInput().setValue(lastName);
         softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);
@@ -365,6 +396,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
         softAssert.assertAll();
     }
+  
     private void editUserWithData(EditProfilePopUp editProfile, String firstName, String lastName, String phone, String password, boolean withPassword) {
         final String updateSuccessMessage = withPassword ? "Профіль змінено успішно" : "Ви успішно залогувалися!";
 
@@ -387,5 +419,67 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 "Successful registration message should appear");
     }
 
+    @Test(description = "TUA-171", dataProvider = "userValidPassword")
+    public void checkUserCanChangeOldPassword(String userPassword, String password,
+                                              String expectedColor, String expectedSuccessMessage) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+        editProfilePopUp = editProfilePopUp.clickCheckBox();
 
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(userPassword);
+        softAssert.assertEquals(currentPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var newPasswordInput = editProfilePopUp.getNewPasswordInput();
+        newPasswordInput.clearInput();
+        newPasswordInput.setValue(password);
+        softAssert.assertEquals(newPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        softAssert.assertEquals(repeatPassword.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        profilePage = editProfilePopUp.clickSubmitButton();
+        softAssert.assertTrue(profilePage.getSuccessEditMessage().contains(expectedSuccessMessage),
+                "Message '%s' should be visible".formatted(expectedSuccessMessage));
+
+        tearDownUser(password, userPassword);
+        softAssert.assertAll();
+    }
+
+    @DataProvider
+    private Object[][] userValidPassword() {
+        return new Object[][]{
+                {configProperties.getUserPassword(), "Dictionary13?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "Qwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "QwertyQwertyQwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"}
+        };
+    }
+
+    //для того, щоб повернути юсера у першопочатковий стан (такий як у конфіг-проперті)
+    private void tearDownUser(String oldPassword, String password) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(oldPassword);
+
+        var newPassword = editProfilePopUp.getNewPasswordInput();
+        newPassword.clearInput();
+        newPassword.setValue(password);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        profilePage = editProfilePopUp.clickSubmitButton();
+    }
 }

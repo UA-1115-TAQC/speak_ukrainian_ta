@@ -3,6 +3,7 @@ package com.academy.ui.components;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.pages.ApplicationPage;
 import com.academy.ui.pages.ClubCardComponent;
+import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

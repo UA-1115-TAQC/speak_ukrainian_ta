@@ -112,6 +112,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         return new ProfilePage(driver);
     }
 
+    public void clickCompleteButtonWithWait() {
+        getNextStepButton()
+                .click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfAllElements(getNextStepButton()));
+    }
+
     public AddClubPopUpStepThree setDescriptionValue(String value) {
         clubDescriptionTextarea.sendKeys(value);
         return this;

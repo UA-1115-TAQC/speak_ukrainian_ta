@@ -207,6 +207,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";

@@ -6,12 +6,13 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import com.academy.ui.runners.utils.ConfigProperties;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -53,7 +54,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     private void fillStepOneWithValidDataPreconditions() {
@@ -420,6 +420,36 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify error message for 'Адреса’ field of ‘Додати локацію’ pop-up when creating a club")
+    @Issue("TUA-250")
+    public void checkErrorForAddressAddLocation(String input){
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue("Lorem");
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue("Одеса");
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue("Малиновський");
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("Фонтан");
+
+        addLocation.getLocationAddressInputElement().setValue(input);
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0),
+                "Некоректна адреса"
+        );
+
+        addLocation.getLocationAddressInputElement().clearInput().setValue("");
+        softAssert.assertEquals(
+                addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0)+
+                        System.lineSeparator()+
+                        addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(1),
+                "Це поле є обов'язковим"+System.lineSeparator()+"Некоректна адреса"
+        );
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-922")
     public void testAddAndDeletePhotoInLogoAndCover() {
         fillStepOneWithValidDataPreconditions();
@@ -441,7 +471,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
-  
+
     @Test(description = "TUA-925")
     public void verify5PhotoCanBeAddedByManager() {
         fillStepOneWithValidDataPreconditions();

@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class AddClubPopUpStepThree extends AddClubPopUpContainer {
+public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubLogoTitle;
@@ -105,8 +107,11 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return this;
     }
 
-    public void clickCompleteButton(){
+    public ProfilePage clickCompleteButton(){
         getNextStepButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("user"));
+        return new ProfilePage(driver);
     }
 
     public AddClubPopUpStepThree setDescriptionValue(String value) {

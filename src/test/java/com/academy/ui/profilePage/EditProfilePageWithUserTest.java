@@ -381,6 +381,44 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         };
     }
 
+    @Test(description = "TUA-113")
+    public void editUserWithValidData() {
+        final String firstName = "John";
+        final String lastName = "Doe";
+        final String phone = "0987654321";
+        final String password = "Password1;";
+
+        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, false);
+
+        editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, true);
+
+        softAssert.assertAll();
+    }
+  
+    private void editUserWithData(EditProfilePopUp editProfile, String firstName, String lastName, String phone, String password, boolean withPassword) {
+        final String updateSuccessMessage = withPassword ? "Профіль змінено успішно" : "Ви успішно залогувалися!";
+
+        editProfile.waitPopUpOpen(5);
+        editProfile.clickUserButton();
+        editProfile.getPhoneElement().clearInput().setValue(phone);
+        editProfile.getFirstNameElement().clearInput().setValue(firstName);
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+
+        if (withPassword) {
+            editProfile.clickCheckBox();
+            editProfile.getCurrentPasswordElement().clearInput().setValue(configProperties.getUserPassword());
+            editProfile.getNewPasswordInput().clearInput().setValue(password);
+            editProfile.getConfirmPasswordInput().clearInput().setValue(password);
+        }
+
+        editProfile.clickSubmitButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), updateSuccessMessage,
+                "Successful registration message should appear");
+    }
+
     @Test(description = "TUA-171", dataProvider = "userValidPassword")
     public void checkUserCanChangeOldPassword(String userPassword, String password,
                                               String expectedColor, String expectedSuccessMessage) {

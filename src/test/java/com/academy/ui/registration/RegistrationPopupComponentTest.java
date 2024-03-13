@@ -19,7 +19,20 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private static final String ERROR_MESSAGE_LASTNAME_WITH_DIGITS = "Прізвище не може містити цифри";
     private static final String ERROR_MESSAGE_LASTNAME_WITH_SPECIAL_SYMBOLS = "Прізвище не може містити спеціальні символи";
     public static final String ERROR_MESSAGE_LASTNAME_STARTS = "Прізвище повинно починатися і закінчуватися літерою";
-
+    private static final String EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD = "Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
+    final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
+    private static final String INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS = "Qa#1234";
+    private static final String INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS = "TeachUA#QC-572LV/devs";
+    final String VALID_FIRST_NAME_USER = "Петро";
+    final String VALID_LAST_NAME_USER = "Поліщук";
+    final String VALID_TELEPHONE_USER = "0987654321";
+    final String VALID_EMAIL_USER = "petxdr@mailna.co";
+    final String VALID_PASSWORD = "Qwerty8!";
+    final String VALID_CONFIRM_PASSWORD = "Qwerty8!";
+    final String VALID_FIRST_NAME_MANAGER = "Микола";
+    final String VALID_LAST_NAME_MANAGER = "Ткачук";
+    final String VALID_TELEPHONE_MANAGER = "0987654322";
+    final String VALID_EMAIL_MANAGER = "petrzdz2@mailna.co";
     public static final String ERROR_MESSAGE_EMAIl_FORMAT = "Некоректний формат email";
     public static final String ERROR_MESSAGE_EMAIl_EMPTY = "Введіть email";
 
@@ -27,9 +40,10 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
 
+
     @BeforeMethod
     public void registrationSetUp(Method method) {
-        if(method.getAnnotation(Test.class).description().equals("TUA-876")){
+        if (method.getAnnotation(Test.class).description().equals("TUA-876")) {
             return;
         }
         guestMenuComponent = homePage.header.openGuestMenu();
@@ -127,13 +141,14 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         registrationPopupComponent.waitPopUpOpen(5);
 
         List<String> errorMessagesTextList;
-        String[] inputValues = new String[]{ "ddd", "\\\\\\;R", "000@"};
+        String[] inputValues = new String[]{"ddd", "\\\\\\;R", "000@"};
 
         // User mode
         registrationPopupComponent.clickSetUserButton();
 
         // user touches input, but doesn't enter anything
-        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);;
+        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);
+        ;
         errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
         softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
         softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
@@ -149,7 +164,8 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         registrationPopupComponent.clickSetManagerButton();
 
         // user touches input, but doesn't enter anything
-        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);;
+        registrationPopupComponent.getEmailInput().clearInput().setKey(Keys.SPACE).setKey(Keys.BACK_SPACE);
+        ;
         errorMessagesTextList = registrationPopupComponent.getEmailInput().getErrorMessagesTextList();
         softAssert.assertEquals(errorMessagesTextList.get(0), ERROR_MESSAGE_EMAIl_EMPTY);
         softAssert.assertFalse(registrationPopupComponent.getRegistrationButton().isEnabled());
@@ -162,7 +178,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         }
         softAssert.assertAll();
     }
-  
+
     @Test(description = "TUA-243")
     public void checkNewUserCanBeRegisteredWithValidData() {
         final String firstName = "John";
@@ -192,15 +208,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
     @Test(description = "TUA-7 USER")
     public void checkNewUserCanRegisterWithValidDataForEachRoleUserAndManager() {
-
-        final String VALID_FIRST_NAME_USER = "Петро";
-        final String VALID_LAST_NAME_USER = "Поліщук";
-        final String VALID_TELEPHONE_USER = "0987654321";
-        final String VALID_EMAIL_USER = "petxdr@mailna.co";
-        final String VALID_PASSWORD = "Qwerty8!";
-        final String VALID_CONFIRM_PASSWORD = "Qwerty8!";
-        final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
-
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetUserButton();
 
@@ -256,15 +263,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
     @Test(description = "TUA-7 MANAGER")
     public void checkNewUserCanRegisterWithValidDataForEachRoleManager() {
-
-        final String VALID_FIRST_NAME_MANAGER = "Микола";
-        final String VALID_LAST_NAME_MANAGER = "Ткачук";
-        final String VALID_TELEPHONE_MANAGER = "0987654322";
-        final String VALID_EMAIL_MANAGER = "petrzdz2@mailna.co";
-        final String VALID_PASSWORD = "Qwerty8!";
-        final String VALID_CONFIRM_PASSWORD = "Qwerty8!";
-        final String SUCCESSFUL_REGISTRATION_MESSAGE = "Ви успішно зареєструвалися! Вам на пошту відправлено лист з лінком для підтвердження реєстрації";
-
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetManagerButton();
 
@@ -366,7 +364,6 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
                         .getInput()
                         .getAttribute("value"),
                 VALID_PASSWORD);
-
         registrationPopupComponent.getPasswordConfirmationInput().clearInput().setValue(VALID_CONFIRM_PASSWORD);
         softAssert.assertEquals(registrationPopupComponent
                         .getPasswordConfirmationInput()
@@ -381,9 +378,97 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-  
+
+    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    public void checkIfErrorMessagesAreShownForInvalidDataUser() {
+        List<String> errorMessagesActual;
+
+        registrationPopupComponent.clickSetUserButton();
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getFirstNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_FIRST_NAME_USER);
+
+        registrationPopupComponent.getLastNameInput().clearInput().setValue(VALID_LAST_NAME_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getLastNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_LAST_NAME_USER);
+
+        registrationPopupComponent.getPhoneInput().clearInput().setValue(VALID_TELEPHONE_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPhoneInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_TELEPHONE_USER);
+
+        registrationPopupComponent.getEmailInput().clearInput().setValue(VALID_EMAIL_USER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getEmailInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_EMAIL_USER);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    public void checkIfErrorMessagesAreShownForInvalidDataManager() {
+        List<String> errorMessagesActual;
+
+        registrationPopupComponent.clickSetManagerButton();
+        registrationPopupComponent.getFirstNameInput().clearInput().setValue(VALID_FIRST_NAME_MANAGER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getFirstNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_FIRST_NAME_MANAGER);
+
+        registrationPopupComponent.getLastNameInput().clearInput().setValue(VALID_LAST_NAME_MANAGER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getLastNameInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_LAST_NAME_MANAGER);
+
+        registrationPopupComponent.getPhoneInput().clearInput().setValue(VALID_TELEPHONE_MANAGER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getPhoneInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_TELEPHONE_MANAGER);
+
+        registrationPopupComponent.getEmailInput().clearInput().setValue(VALID_EMAIL_MANAGER);
+        softAssert.assertEquals(registrationPopupComponent
+                        .getEmailInput()
+                        .getInput()
+                        .getAttribute("value"),
+                VALID_EMAIL_MANAGER);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_LESS_THAN_EIGHT_CHARACTERS);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        registrationPopupComponent.getPasswordInput().clearInput().setValue(INVALID_PASSWORD_MORE_THAN_TWENTY_CHARACTERS);
+        errorMessagesActual = registrationPopupComponent.getPasswordInput().getErrorMessagesTextList();
+        softAssert.assertEquals(errorMessagesActual.get(0), EXPECTED_ERROR_MESSAGE_FOR_INVALID_PASSWORD);
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-876")
-    public void checkRedirectionAfterRegistrationCanceled(){
+    public void checkRedirectionAfterRegistrationCanceled() {
         HeaderComponent header = homePage.getHeader();
         header.newsButtonClick();
         String url = driver.getCurrentUrl();
@@ -399,3 +484,5 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
 }
+
+

@@ -6,7 +6,12 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import com.academy.ui.runners.utils.ConfigProperties;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -30,6 +35,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String VALID_DESCRIPTION = "Lorem ipsum dolor sit amet orci aliquam.";
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
@@ -44,6 +50,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
         addClubPopUpComponent = homePage.header.addClubButtonClick();
+        addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -432,6 +439,54 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree.getUploadedCoverImg().clickRemoveImg();
 
+        softAssert.assertAll();
+    }
+  
+    @Test(description = "TUA-925")
+    public void verify5PhotoCanBeAddedByManager() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
+
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Description("Verify that the icon of the main category is set by default for 'Лого' if it is not chosen")
+    @Issue("TUA-923")
+    public void checkIfDefaultIconIsSet(){
+        softAssert = new SoftAssert();
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        ProfilePage profilePage = stepThree.clickCompleteButton();
+
+        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
+        ClubCardWithEditComponent newClub = null;
+        for(ClubCardWithEditComponent club : list){
+            if(club.getClubName().equals(VALID_CLUB_NAME)){
+                newClub = club;
+            }
+        }
+
+        if(newClub == null){
+            softAssert.fail("Club was not added");
+            softAssert.assertAll();
+            return;
+        }
+
+        softAssert.assertNotEquals(newClub.getLogoSrc(), "");
         softAssert.assertAll();
     }
 

@@ -10,6 +10,8 @@ import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Step;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -65,6 +67,8 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = ".//span[contains(@class,'avatarIfLogin')]/img")
+    protected WebElement avatarImage;
     @FindBy(xpath = "//span[@aria-label='environment']")
     protected WebElement locationIcon;
 
@@ -73,7 +77,6 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//ul[contains(@class, 'ant-dropdown-menu')]/descendant::li[@role='menuitem']")
     protected List<WebElement> citiesLocationOfClubs;
-
     @FindBy(xpath = "//div[contains(@class,\"logo\")]")
     protected WebElement teachInUkrainianLogo;
 
@@ -133,12 +136,14 @@ public class HeaderComponent extends BaseComponent {
         return new ServicePage(driver);
     }
 
+    @Step("click button addClub")
     public AddClubPopUpComponent addClubButtonClick() {
         waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Open menu")
     public GuestMenuComponent openGuestMenu() {
         profileMenuButton.click();
         return new GuestMenuComponent(driver, profileMenuNode);

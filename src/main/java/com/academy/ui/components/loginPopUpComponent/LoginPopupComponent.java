@@ -3,6 +3,7 @@ package com.academy.ui.components.loginPopUpComponent;
 import com.academy.ui.components.BasePopUp;
 import com.academy.ui.components.elements.BaseInputElement;
 import com.academy.ui.components.elements.InputWithIconElement;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -53,6 +54,7 @@ public class LoginPopupComponent extends BasePopUp {
         return labelOr.getText();
     }
 
+    @Step("Click login button")
     public LoginPopupComponent clickSubmitButton() {
         submitButton.click();
         return this;
@@ -67,10 +69,12 @@ public class LoginPopupComponent extends BasePopUp {
         return getRestorationPasswordComponent();
     }
 
+    @Step("set email: {email}")
     public BaseInputElement enterEmail(String email) {
         return emailInputElement.setValue(email);
     }
 
+    @Step("set email: {password}")
     public BaseInputElement enterPassword(String password) {
         return passwordInputElement.setValue(password);
     }

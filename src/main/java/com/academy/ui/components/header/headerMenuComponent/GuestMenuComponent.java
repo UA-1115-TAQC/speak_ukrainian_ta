@@ -3,6 +3,7 @@ package com.academy.ui.components.header.headerMenuComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.components.RegistrationPopup.RegistrationPopupComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,6 +30,7 @@ public class GuestMenuComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Click login")
     public LoginPopupComponent openLoginForm() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(login)).click();

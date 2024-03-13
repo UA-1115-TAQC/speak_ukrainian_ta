@@ -23,6 +23,8 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
+    @FindBy(xpath = ".//div[contains(@class,'name')]")
+    protected WebElement clubNameWithoutTitle;
 
     @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;
@@ -32,7 +34,6 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class,'address')]")
     protected WebElement address;
-
 
     @FindBy(xpath = "./descendant::div[@class='club-online']")
     protected WebElement clubOnline;
@@ -84,6 +85,10 @@ public class ClubCardComponent extends BaseComponent {
         return getTitle().getText();
     }
 
+    public String getLogoSrc(){
+        return getLogo().getAttribute("src");
+    }
+
     @Step("Check if club name contains {text} on the club card")
     public boolean clubNameContains(String text){
         return getClubName().toLowerCase().contains(text.toLowerCase());
@@ -97,6 +102,8 @@ public class ClubCardComponent extends BaseComponent {
     @Step("Click on the title on the club card")
     public ClubInfoPopUp clickTitle() {
         getTitle().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(popUpWebElement));
         return new ClubInfoPopUp(driver);
     }
 
@@ -108,6 +115,8 @@ public class ClubCardComponent extends BaseComponent {
     @Step("Click on the 'Детальніше' button on the club card")
     public ClubPage clickDetailsButton() {
         getDetailsButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("club"));
         return new ClubPage(driver);
     }
 

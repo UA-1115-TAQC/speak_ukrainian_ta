@@ -36,7 +36,6 @@ public class AdvancedSearchHeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[@aria-label=\"close-circle\"]")
     protected WebElement selectionSearchCloseButton;
 
-
     public AdvancedSearchHeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

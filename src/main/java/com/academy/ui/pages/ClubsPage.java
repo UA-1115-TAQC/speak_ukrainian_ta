@@ -119,7 +119,7 @@ public class ClubsPage extends BasePage {
     }
 
     @Step("Check if the is no club cards on the Clubs page")
-    public boolean isClubsPageEmpty() {
+    public boolean isClubsPageEmpty(){
         return clubCards.isEmpty();
     }
 

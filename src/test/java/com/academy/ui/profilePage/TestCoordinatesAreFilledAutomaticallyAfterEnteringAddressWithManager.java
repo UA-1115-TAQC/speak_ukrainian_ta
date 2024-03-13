@@ -17,9 +17,9 @@ import java.time.Duration;
 public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManager extends LoginWithManagerTestRunner {
     protected SoftAssert softAssert;
     protected ProfilePage profilePage;
-    WebDriverWait wait;
-    AddCenterPopUpComponent addCenterPopUpComponent;
-    AddCenterPopUpStepOne addClubPopUpStepOne;
+    protected WebDriverWait wait;
+    protected AddCenterPopUpComponent addCenterPopUpComponent;
+    protected AddCenterPopUpStepOne addClubPopUpStepOne;
     AddLocationPopUpComponent addLocationPopUpComponent;
     String testLocationName ="ТестЛокація";
     String cityDropdownValue = "Київ";

@@ -35,6 +35,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         home.sleep(1000);
         softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
     }
+
     @Step("Check that user can do basic search by string: {string}")
     private void checkThatUserCanDoBasicSearchByString(String string){
         string = string.trim().toLowerCase();
@@ -52,6 +53,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
                                 " doesn't contain the search query " + string);
             }
         }
+        home.sleep(1000);
         //+Check the search result with DB //todo
         driver.get(configProperties.getBaseUrl());
         wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("clubs")));

@@ -1,29 +1,31 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.utils.ConfigProperties;
-import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
-    private static final String VALID_CLUB_NAME = "Add club name";
+    private static final String VALID_CLUB_NAME = "Add club name 2";
     private static final String CATEGORY = "Спортивні секції";
     private static final String VALID_MIN_AGE = "5";
     private static final String VALID_MAX_AGE = "8";
@@ -31,11 +33,30 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
+    private static final String VALID_DESCRIPTION = "Lorem ipsum dolor sit amet orci aliquam.";
+    private static final Map<String, String> VALID_LOCATION = new HashMap<>() {{
+        put("name", "main location");
+        put("city", "Київ");
+        put("district", "Деснянський");
+        put("metro", "Академмістечко");
+        put("address", "бульвар Академіка Вернадського, 10");
+        put("coordinates", "50.459261, 30.378982");
+    }};
+
+    private static final String SUCCESSFUL_POPUP = "Гурток успішно створено";
+
+    private static final String VALID_CENTER_NAME = "Курси програмування IT-stat";
+
+
     private AddClubPopUpComponent addClubPopUpComponent;
     private AddClubPopUpStepOne stepOne;
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+    private final String image1FileName = "image.png";
+    private final String image2FileName = "image2.png";
+    private WebDriverWait wait;
+
     private AddClubPopUpSider sider;
     private ConfigProperties properties;
 
@@ -47,16 +68,11 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Step("Fill mandatory fields with valid data at the first step of Add club pop-up")
     private void fillStepOneWithValidDataPreconditions() {
         stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
-        stepOne.selectCategory(CATEGORY)
-                .setMinAgeInput(VALID_MIN_AGE)
-                .setMaxAgeInput(VALID_MAX_AGE)
-                .clickNextStepButton();
+        stepOne.selectCategory(CATEGORY).setMinAgeInput(VALID_MIN_AGE).setMaxAgeInput(VALID_MAX_AGE).clickNextStepButton();
     }
 
-    @Step("Fill mandatory fields with valid data at the second step of Add club pop-up")
     private void fillStepTwoWithValidDataPreconditions() {
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
@@ -155,6 +171,24 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-924")
+    public void checkManagerCanAddOnePhotoAsCoverInCertainSize() {
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubCoverDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
+        WebElement firstUploadedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertTrue(firstUploadedElement.getAttribute("title").contains(image1FileName), "The first photo wasn't uploaded");
+        stepThree.getClubCoverDownloadInput().sendKeys(ConfigProperties.getImagePath(image2FileName));
+        wait.until(ExpectedConditions.stalenessOf(firstUploadedElement));
+        WebElement refreshedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertEquals(stepThree.getAllUploadedElements().size(), 1, "More than one photo could be added in the upload cover element");
+        softAssert.assertTrue(refreshedElement.getAttribute("title").contains(image2FileName), "The second photo wasn't uploaded");
         softAssert.assertAll();
     }
 
@@ -348,7 +382,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Step("Check step three description elements are present")
     private void checkStepThreeDescriptionElementsPresent() {
         softAssert.assertTrue(sider.getFirstStepIcon().isDisplayed(),
                 "Step One icon should be displayed");
@@ -406,6 +439,162 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 stepThree.getClubDescriptionValidationMark().getCssValue("color"),
                 "rgba(82, 196, 26, 1)");
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty());
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "invalidAddress", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Description("Verify error message for 'Адреса’ field of ‘Додати локацію’ pop-up when creating a club")
+    @Issue("TUA-250")
+    public void checkErrorForAddressAddLocation(String input) {
+        softAssert = new SoftAssert();
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue("Lorem");
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue("Одеса");
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue("Малиновський");
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("Фонтан");
+
+        addLocation.getLocationAddressInputElement().setValue(input);
+        softAssert.assertEquals(addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0), "Некоректна адреса");
+
+        addLocation.getLocationAddressInputElement().clearInput().setValue("");
+        softAssert.assertEquals(addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(0) + System.lineSeparator() + addLocation.getLocationAddressInputElement().getErrorMessagesTextList().get(1), "Це поле є обов'язковим" + System.lineSeparator() + "Некоректна адреса");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-922")
+    public void testAddAndDeletePhotoInLogoAndCover() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubLogoDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
+        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), image1FileName, "Photo not added for Logo");
+        stepThree.getUploadedLogoImg().clickRemoveImg();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(ConfigProperties.getImagePath(image2FileName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), image2FileName, "Photo not added for Cover");
+
+        stepThree.getUploadedCoverImg().clickRemoveImg();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-925")
+    public void verify5PhotoCanBeAddedByManager() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
+
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Description("Verify that the icon of the main category is set by default for 'Лого' if it is not chosen")
+    @Issue("TUA-923")
+    public void checkIfDefaultIconIsSet() {
+        softAssert = new SoftAssert();
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        ProfilePage profilePage = stepThree.clickCompleteButton();
+
+        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
+        ClubCardWithEditComponent newClub = null;
+        for (ClubCardWithEditComponent club : list) {
+            if (club.getClubName().equals(VALID_CLUB_NAME)) {
+                newClub = club;
+            }
+        }
+
+        if (newClub == null) {
+            softAssert.fail("Club was not added");
+            softAssert.assertAll();
+            return;
+        }
+
+        softAssert.assertNotEquals(newClub.getLogoSrc(), "");
+        softAssert.assertAll();
+    }
+
+    @Issue("TUA-178")
+    public void checkBanRussianLanguageOnDescription() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+
+        stepThree.setDescriptionValue("Опис, що включаэ російську букву в слові включає");
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().stream().anyMatch(message -> Objects.equals(message.getText(), "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        int initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опис, що вклЫчає різні російські бüкви в декількох словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().stream().anyMatch(message -> Objects.equals(message.getText(), "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+
+        initialErrorCount = stepThree.getErrorMessagesTextarea().size();
+        stepThree.setDescriptionValue("Опыс, щö включає різні російські букви в декільüою словäх");
+        stepThree.waitNewError(initialErrorCount);
+        softAssert.assertTrue(stepThree.getErrorMessagesTextarea().stream().anyMatch(message -> Objects.equals(message.getText(), "Опис гуртка не може містити російські літери")));
+        stepThree.clearDescriptionTextarea();
+        softAssert.assertAll();
+    }
+
+
+    @Test(description = "TUA-978")
+    public void verifyAddingLocationWithoutCenter() {
+        fillStepOneWithValidDataPreconditions();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue(VALID_LOCATION.get("name"));
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("city"));
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("district"));
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("metro"));
+        addLocation.getLocationAddressInputElement().setValue(VALID_LOCATION.get("address"));
+        addLocation.getLocationCoordinatesInputElement().setValue(VALID_LOCATION.get("coordinates"));
+        addLocation.getLocationTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        addLocation.clickAddLocationButton();
+
+        LocationListElement newLocation = stepTwo.getListOfLocationElements().getFirst();
+        softAssert.assertEquals(newLocation.getLocationItemTitle(), VALID_LOCATION.get("name"));
+        softAssert.assertEquals(newLocation.getDescriptionTitle(), VALID_LOCATION.get("address"));
+
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubDescriptionTextarea().sendKeys(VALID_DESCRIPTION);
+        stepThree.clickCompleteButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP, "Successful club creation popup message should appear");
+    }
+
+    @Test(description = "TUA-135")
+    public void verifyAddingLocationWithCenterWithoutOptionalParams() {
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
+        stepOne.selectCategory(CATEGORY).setMinAgeInput(VALID_MIN_AGE).setMaxAgeInput(VALID_MAX_AGE);
+        stepOne.clickCenterDropdown().selectCenter(VALID_CENTER_NAME);
+        stepOne.clickNextStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(VALID_DESCRIPTION);
+        stepThree.clickCompleteButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP, "Successful club creation popup message should appear");
         softAssert.assertAll();
     }
 }

@@ -64,8 +64,8 @@ public class BaseDropdownElement extends BaseComponent {
 
     @Step("Set dropdown value {value}")
     public BaseDropdownElement selectValue(String value) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOf(dropdownBox));
+        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(getDropdown()));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollTop = 0", dropdownBox);
         while (true) {

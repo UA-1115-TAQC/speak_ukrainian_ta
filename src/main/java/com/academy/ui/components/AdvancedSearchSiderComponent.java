@@ -57,6 +57,11 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     @FindBy(xpath = ".//span[contains(@class,'ant-radio-checked')]/following-sibling::span")
     protected WebElement checkedRadioButton;
 
+    @FindBy(xpath = ".//span[@id='basic_age']")
+    private WebElement years;
+
+    @FindBy(xpath = ".//div[@class='ant-layout-sider-children']")
+    private WebElement siderBox;
 
     protected LocationSearchSiderElement searchCityElement;
     protected LocationSearchSiderElement searchDistrictElement;

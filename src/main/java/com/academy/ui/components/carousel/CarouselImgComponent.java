@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,8 +20,12 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
     protected HashMap<Integer, WebElement> switchingCarouselImgCards;
     @Getter(AccessLevel.NONE)
     protected CarouselImgCard activeCarouselImgCard;
+    protected Actions actions;
+    protected WebDriverWait wait;
     public  CarouselImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
+        actions = new Actions(driver);
+        wait = new WebDriverWait(driver, Duration.ofMinutes(1));
     }
     @Step("Get carousel image cards")
     public HashMap<Integer, WebElement>getCarouselImgCards(){
@@ -40,7 +45,6 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
     public CarouselImgCard getCarouselImgCardByDataIndex(int dataIndex){
         if(dataIndex >= 0 && dataIndex < getCarouselImgCards().size()) {
             WebElement imgCard = this.getCarouselImgCards().get(dataIndex);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofMinutes(1));
             wait.until(ExpectedConditions.visibilityOf(imgCard));
             return new CarouselImgCard(driver, imgCard);
         }
@@ -53,7 +57,6 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
             return activeCarouselImgCard = new CarouselImgCard(driver, getCarouselImgCards().get(dataIndex));
         } else {
             CarouselImgCard oldCard = activeCarouselImgCard;
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
             wait.until(ExpectedConditions.invisibilityOf(oldCard.getCardHeading()));
             return activeCarouselImgCard = new CarouselImgCard(driver, getCarouselImgCards().get(dataIndex));
         }
@@ -66,5 +69,14 @@ public class CarouselImgComponent extends BasicCarouselComponent <CarouselImgCom
             }
         }
         return 0;
+    }
+    public void waitUntilTheCardIsDisplayedByIndex(int i){
+        if (!getCarouselImgCardByDataIndex(i).getCardButton().isDisplayed()) {
+            wait.until(ExpectedConditions.visibilityOf(getCarouselImgCardByDataIndex(i).getCardButton()));
+        }
+    }
+    public void hoverOverCardButton(int i){
+        actions.moveToElement(getCarouselImgCardByDataIndex(i).getCardButtonText());
+        actions.build().perform();
     }
 }

@@ -2,6 +2,7 @@ package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.CarouselImgComponent;
+import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
 import io.qameta.allure.Description;
@@ -77,6 +78,49 @@ public class HomePageWithoutLoginTest extends BaseTestRunner {
                 .getCardHeading().getText().contains("Навчай Українською"));
         actions.release().perform();
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-346")
+    public void verifyNewsButtonRedirectsToAllNewsPage() {
+        final String underlineBorderColor = "255, 255, 255";
+        HeaderComponent header = homePage.header;
+
+        softAssert.assertFalse(header.getNewsButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor));
+
+        header.moveToWebElement(header.getNewsButtonContainer());
+        softAssert.assertTrue(header.getNewsButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor));
+
+        header.newsButtonClick();
+        softAssert.assertTrue(driver.getCurrentUrl().contains("/news"));
+
+        header.clickTeachInUkrainianLogo();
+        softAssert.assertFalse(header.getNewsButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor));
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-310")
+    public void verifyServiceButtonRedirectsToServicePage() {
+        final String underlineBorderColor = "255, 255, 255";
+        HeaderComponent header = homePage.header;
+
+        softAssert.assertFalse(header.getServiceButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor), "Service button should not be underlined by default");
+
+        header.moveToWebElement(header.getServiceButtonContainer());
+        softAssert.assertTrue(header.getServiceButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor), "Service button should be underlined after hover");
+
+        header.clickServiceButton();
+        softAssert.assertTrue(driver.getCurrentUrl().contains("/service"),
+                "Service page should be opened after service button was clicked");
+
+        header.clickTeachInUkrainianLogo();
+        softAssert.assertFalse(header.getServiceButtonContainer().getCssValue("border-bottom-color")
+                .contains(underlineBorderColor), "Service button should not be underlined by default");
         softAssert.assertAll();
     }
 }

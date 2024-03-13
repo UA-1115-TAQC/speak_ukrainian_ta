@@ -4,7 +4,6 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -23,7 +22,6 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     private SoftAssert softAssert;
     private WebDriverWait wait;
     @BeforeMethod
-    @Step("Setting up preconditions for the test")
     public void setup(){
         softAssert= new SoftAssert();
         homePage.header.openUserMenu().clickProfile().editButtonClick();
@@ -50,12 +48,10 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
         enterInvalidNewPasswordAndVerifyField(configProperties.getUserPassword(), inputField,THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR);
         softAssert.assertAll();
     }
-    @Step("Clear the input field")
     private void clearInputField(WebElement inputField){
         inputField.sendKeys(Keys.COMMAND + "a");
         inputField.sendKeys(Keys.DELETE);
     }
-    @Step("Check that all fields are filled with the same data as during registration")
     private void checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration(){
         softAssert.assertEquals(editProfilePopUpComponent.getLastNameElement().getInput().getAttribute("value"), configProperties.getUserLastname(),
                 "The shown last name doesn't match the last name, which was entered by a user during registration");
@@ -66,19 +62,20 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
         softAssert.assertEquals(editProfilePopUpComponent.getEmailElement().getInput().getAttribute("value"), configProperties.getUserEmail(),
                 "The shown email doesn't match the email, which was entered by a user during registration");
     }
-    @Step("Enter invalid new password: {0} and verify field with the error message {2}")
+
     private void enterInvalidNewPasswordAndVerifyField(String pwd, WebElement inputField, String errorMessage){
+
         inputField.sendKeys(pwd);
-        wait.until(driver -> editProfilePopUpComponent.getNewPasswordInput().getInput().getAttribute("value").contains(pwd));
-       boolean HasMessageFlag =false;
-        for(WebElement error:editProfilePopUpComponent.getErrorMessages()){
-            System.out.println(error.getText());
-            if(!error.getText().contains(errorMessage)){
+        // editProfilePopUpComponent.enterNewPassword(pwd); - use this method later
+        List<WebElement> errorMessages= driver.findElements(By.xpath("//div[contains(@class,\"explain-error\")]"));
+        boolean HasMessageFlag =false;
+        for(WebElement error:errorMessages){
+            if(!error.getText().equals(errorMessage)){
                 continue;
             }else{
                 HasMessageFlag =true;
             }
         }
-        softAssert.assertTrue(HasMessageFlag, "The corresponding error message " + errorMessage + " isn't displayed");
+        softAssert.assertTrue(HasMessageFlag, "The corresponding error message " + errorMessage + "isn't displayed");
     }
 }

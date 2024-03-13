@@ -125,4 +125,12 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "TUA-162")
+    public void checkDistrictEmptyIfCityEmpty() {
+        AddLocationPopUpComponent addLocation = stepOne.clickAddLocationButton();
+        softAssert.assertTrue(addLocation.getLocatioCityDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
+        addLocation.getLocatioCityDropdownElement().clickDropdown(); // click again to remove dropdown
+        softAssert.assertTrue(addLocation.getLocationDistrictDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
+    }
 }

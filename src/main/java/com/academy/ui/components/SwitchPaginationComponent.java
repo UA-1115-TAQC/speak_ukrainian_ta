@@ -5,6 +5,7 @@ import com.academy.ui.pages.ClubsPage;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -108,6 +109,23 @@ public class SwitchPaginationComponent extends BaseComponent {
             pagItem.click();
         }
         return new ClubsPage(driver);
+    }
+
+    @Step("Scroll until the element of the pagination component is in view")
+    public void scrollIntoView(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", element);
+    }
+
+    public ClubsPage getLastPage(){
+        while (!isNextDisabled()){
+            clickNext();
+        }
+        return new ClubsPage(driver);
+    }
+
+    public boolean isPaginationPresent() {
+        return !paginationItems.isEmpty();
     }
 
 }

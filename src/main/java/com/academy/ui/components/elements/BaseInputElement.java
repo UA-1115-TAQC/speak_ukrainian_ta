@@ -9,6 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.function.Function;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 
 
 @Getter
@@ -41,6 +48,8 @@ public class BaseInputElement extends BaseComponent {
         } else {
             input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(driver -> getInput().getAttribute("value").equals(""));
         return this;
     }
 

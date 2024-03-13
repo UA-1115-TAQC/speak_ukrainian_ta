@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
+import com.academy.ui.components.AddClubPopUpComponent.LocationListElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
@@ -41,6 +42,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @FindBy(xpath = "./descendant::button[contains(@class,'add-location-btn')]")
     private WebElement addLocationButton;
 
+    @FindBy(xpath = "./descendant::span[@class='add-club-location']")
+    private WebElement addLocationButtonInEditCenter;
+
     @FindBy(xpath = "./descendant::div[@id='basic_locations_help']")
     private WebElement noDataLocationElement;
 
@@ -62,6 +66,15 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
 
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
+
+    @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
+    private List<WebElement> locationList;
+
+    @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][2]")
+    private WebElement locationTitle;
+
+    @Getter(AccessLevel.NONE)
+    private List<LocationListElement> listOfLocationElements;
 
     public AddCenterPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -107,4 +120,12 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return list;
     }
 
+    @Step("Get list of locations on the second step of Add/Edit club pop-up")
+    public List<LocationListElement> getListOfLocationElements() {
+        listOfLocationElements = new ArrayList<>();
+        if (!locationList.isEmpty()) {
+            locationList.forEach(location -> listOfLocationElements.add(new LocationListElement(driver, location)));
+        }
+        return listOfLocationElements;
+    }
 }

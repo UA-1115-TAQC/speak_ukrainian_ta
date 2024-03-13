@@ -32,7 +32,7 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
     private WebElement previewIcon;
 
-    @FindBy(xpath = "./descendant::button[(@type='button') and (@aria-label='Close')][3]")
+    @FindBy(xpath = "//descendant::button[(@type='button') and (@aria-label='Close')][3]")
     private WebElement closeButton;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-upload-list-item-done')]")

@@ -23,6 +23,8 @@ public class InputWithIconElement extends BaseInputElement {
     private WebElement passwordTittle;
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;
+    @FindBy(xpath = ".//span[contains(@class, 'registration-box')]")
+    private WebElement wholeInputElement;
 
     public InputWithIconElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);

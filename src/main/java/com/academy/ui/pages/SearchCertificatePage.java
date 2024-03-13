@@ -1,5 +1,6 @@
 package com.academy.ui.pages;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,16 +31,19 @@ public class SearchCertificatePage extends BasePage {
         super(driver);
     }
 
+    @Step("Set data {text} for searching certificates")
     public SearchCertificatePage setTextSelectionSearchInputField(String text) {
         selectionSearchInputField.sendKeys(text);
         return this;
     }
 
+    @Step("Click search button")
     public SearchCertificatePage clickSearchCertificate() {
         searchButton.click();
         return this;
     }
 
+    @Step("Clear searching text")
     public SearchCertificatePage clearSearchingText() {
         clearSearchingTextButton.click();
         return this;

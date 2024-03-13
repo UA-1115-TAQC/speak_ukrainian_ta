@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,7 +19,7 @@ public class DirectionTagComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
-
+    @Step("Get the name of the direction in String format")
     public String getNameText(){
         return name.getText();
     }

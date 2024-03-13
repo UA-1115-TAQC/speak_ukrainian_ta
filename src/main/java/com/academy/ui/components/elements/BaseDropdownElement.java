@@ -1,6 +1,7 @@
 package com.academy.ui.components.elements;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -38,13 +39,15 @@ public class BaseDropdownElement extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Click on the dropdown")
     public BaseDropdownElement clickDropdown() {
         dropdown.click();
         return this;
     }
 
+    @Step("Get list of the dropdown text options")
     public Set<String> getTextDropdownOptionsList() {
-        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOf(dropdownBox));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollTop = 0", dropdownBox);
@@ -59,9 +62,10 @@ public class BaseDropdownElement extends BaseComponent {
         return set;
     }
 
+    @Step("Set dropdown value {value}")
     public BaseDropdownElement selectValue(String value) {
         WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOf(dropdownBox));
+        wait.until(ExpectedConditions.visibilityOf(getDropdown()));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollTop = 0", dropdownBox);
         while (true) {

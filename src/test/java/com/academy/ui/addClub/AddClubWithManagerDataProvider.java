@@ -12,4 +12,16 @@ public class AddClubWithManagerDataProvider {
                 {"!\\\"Lorem!#$%&'()*+ipsum,-./:;<=>?@dolor[]^_`{}~"},
         };
     }
+
+    @DataProvider(name = "invalidAddress")
+    private Object[][] addressInvalidInput(){
+        return new String[][]{
+                {"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean ma"},
+                {"абвг"},
+                {"абвгдъ"},
+                {"абвгдё"},
+                {"абвгдэ"},
+                {"абвгды"},
+        };
+    }
 }

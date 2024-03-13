@@ -9,10 +9,12 @@ import com.academy.ui.components.header.headerMenuComponent.UserMenuComponent;
 import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.*;
 import com.academy.ui.pages.challenges.BaseChallengePage;
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.qameta.allure.Step;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,14 +37,20 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = ".//a[contains(@href,'news')]")
     protected WebElement newsButton;
 
+    @FindBy(xpath = ".//li[.//a[contains(@href, '/news')]]")
+    private WebElement newsButtonContainer;
+
     @FindBy(xpath = ".//a[contains(@href,'clubs')]")
     protected WebElement clubsButton;
-  
+
     @FindBy(xpath = ".//a[contains(@href,'about')]")
     protected WebElement aboutUsButton;
 
     @FindBy(xpath = "//li[contains(@data-menu-id,'about')]")
     protected WebElement aboutUsButtonContainer;
+
+    @FindBy(xpath = ".//li[.//a[contains(@href, '/service')]]")
+    private WebElement serviceButtonContainer;
 
     @FindBy(xpath = ".//a[contains(@href,'service')]")
     protected WebElement serviceButton;
@@ -65,6 +73,8 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//span[contains(@class,'avatarIfLogin')]")
     private WebElement isLoggedIn;
 
+    @FindBy(xpath = ".//span[contains(@class,'avatarIfLogin')]/img")
+    protected WebElement avatarImage;
     @FindBy(xpath = "//span[@aria-label='environment']")
     protected WebElement locationIcon;
 
@@ -83,6 +93,18 @@ public class HeaderComponent extends BaseComponent {
 
     @FindBy(xpath = "//li[contains(@data-menu-id, 'profile')]")
     private WebElement profilePageButton;
+
+    @FindBy(xpath = "//header[contains(@class, 'header')]")
+    private WebElement headerBox;
+
+    @FindBy(xpath = "//div[@class='left-side-menu']")
+    private WebElement leftBlock;
+
+    @FindBy(xpath = "//div[@class='center-side']")
+    private WebElement centerBlock;
+
+    @FindBy(xpath = "//div[@class='right-side-menu']")
+    private WebElement rightBlock;
 
     public HeaderComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -133,12 +155,14 @@ public class HeaderComponent extends BaseComponent {
         return new ServicePage(driver);
     }
 
+    @Step("click button addClub")
     public AddClubPopUpComponent addClubButtonClick() {
         waitUntilIsLoggedIn(10);
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Open menu")
     public GuestMenuComponent openGuestMenu() {
         profileMenuButton.click();
         return new GuestMenuComponent(driver, profileMenuNode);
@@ -149,6 +173,7 @@ public class HeaderComponent extends BaseComponent {
         return new AdminMenuComponent(driver, profileMenuNode);
     }
 
+    @Step("Open user menu")
     public UserMenuComponent openUserMenu() {
         profileMenuButton.click();
         return new UserMenuComponent(driver, profileMenuNode);
@@ -170,11 +195,13 @@ public class HeaderComponent extends BaseComponent {
 
     }
 
+    @Step("Click city location button")
     public HeaderComponent clickCityLocation() {
         clubsLocationButton.click();
         return this;
     }
 
+    @Step("Select city {city} location of clubs")
     public ClubsPage selectClubsCityLocation(String city) {
         citiesLocationOfClubs.stream()
                 .filter(currentCity -> currentCity.getText().equals(city))
@@ -185,6 +212,20 @@ public class HeaderComponent extends BaseComponent {
     public WebElement openCityMenu() {
         clubsLocationButton.click();
         return cityMenuNode;
+    }
+
+    public HeaderComponent waitUntilCityMenuNodeDisplayed(int seconds){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        wait.until(ExpectedConditions.visibilityOf(cityMenuNode));
+        return this;
+    }
+
+    public HeaderComponent moveToWebElement(WebElement webElement) {
+        new Actions(driver)
+                .moveToElement(webElement)
+                .pause(5)
+                .perform();
+        return this;
     }
 
 }

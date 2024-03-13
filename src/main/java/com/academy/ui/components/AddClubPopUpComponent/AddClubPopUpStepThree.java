@@ -1,19 +1,22 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.pages.ProfilePage;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class AddClubPopUpStepThree extends AddClubPopUpContainer{
+public class AddClubPopUpStepThree extends AddClubPopUpContainer {
 
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][1]")
     private WebElement clubLogoTitle;
@@ -45,7 +48,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
     @FindBy(xpath = "./descendant::span[(@class='ant-upload') and (@role='button')][3]//input")
     private WebElement clubGalleryDownloadInput;
 
-    @FindBy(xpath = "./descendant::textarea[@id='basic_description']")
+    @FindBy(xpath = "./descendant::textarea[(@id='basic_descriptionText') or (@id='basic_description')]")
     private WebElement clubDescriptionTextarea;
 
     @FindBy(xpath = ".//span[contains(@class, 'ant-form-item-feedback-icon')]")
@@ -89,34 +92,58 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         uploadedLogoImg = new UploadedImgComponent(driver, uploadedLogoImgContainer);
     }
 
-    public AddClubPopUpStepThree clickClubLogoDownloadButton(){
+    @Step("Click on the button 'Завантажити лого' on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubLogoDownloadButton() {
         clubLogoDownloadButton.click();
         return this;
     }
-    public AddClubPopUpStepThree clickClubGalleryDownloadButton(){
+
+    @Step("Click on the button 'Додати' to add image to Gallery on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubGalleryDownloadButton() {
         clubGalleryDownloadButton.click();
         return this;
     }
 
-    public AddClubPopUpStepThree clickClubCoverDownloadButton(){
+    @Step("Click on the button 'Завантажити обкладинку' on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clickClubCoverDownloadButton() {
         clubCoverDownloadButton.click();
         return this;
     }
 
-    public void clickCompleteButton(){
+    @Step("Click on the button 'Завершити' on the third step of Add/Edit club pop-up")
+    public ProfilePage clickCompleteButton(){
         getNextStepButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("user"));
+        return new ProfilePage(driver);
     }
 
+    public void clickCompleteButtonWithWait() {
+        getNextStepButton()
+                .click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfAllElements(getNextStepButton()));
+    }
+
+    @Step("Set club description on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree setDescriptionValue(String value) {
         clubDescriptionTextarea.sendKeys(value);
         return this;
     }
 
+    @Step("Get list of error messages of club description on the third step of Add/Edit club pop-up")
     public List<String> getErrorMessagesTextList() {
         return errorMessagesTextarea.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
     }
 
-    public AddClubPopUpStepThree clearDescriptionTextarea(){
+    public void waitNewError(int initialErrorCount){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until((ExpectedCondition<Boolean>) webDriver ->
+                errorMessagesTextarea.size() > initialErrorCount);
+    }
+
+    @Step("Clear club description textarea on the third step of Add/Edit club pop-up")
+    public AddClubPopUpStepThree clearDescriptionTextarea() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
             clubDescriptionTextarea.sendKeys(Keys.COMMAND + "a", Keys.DELETE);
@@ -125,15 +152,26 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         }
         return this;
     }
+
+    @Step("Get all uploaded items on the third step of Add/Edit club pop-up")
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
 
+    @Step("Get uploaded Gallery image by index {index} on the third step of Add/Edit club pop-up")
     public UploadedImgComponent getUploadedGalleryImg(int index) {
         if (index >= 0 && index < clubGalleryUploadedImgs.size()) {
             return new UploadedImgComponent(driver, clubGalleryUploadedImgs.get(index));
         } else {
             throw new RuntimeException("GalleryImg not found by index: " + index);
         }
+    }
+
+    public AddClubPopUpStepThree uploadImgToGallery(String pathToImage) {
+        int countImg = clubGalleryUploadedImgs.size();
+        clubGalleryDownloadInput.sendKeys(pathToImage);
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(d -> countImg < clubGalleryUploadedImgs.size());
+        return this;
     }
 }

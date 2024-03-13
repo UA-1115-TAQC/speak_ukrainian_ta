@@ -4,6 +4,8 @@ import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -47,12 +49,12 @@ private String stepOneSelectedCentre;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         profilePage = homePage.header.openUserMenu().clickProfile();
         profilePage.addButtonClick().get(0).click();
-        //fix the locator when the element is implemented
         addClubPopUpComponent = new AddClubPopUpComponent(driver);
         addClubPopUpSider = new AddClubPopUpSider(driver, addClubPopUpComponent.getSiderElement());
         addClubPopUpStepOne = addClubPopUpComponent.getStepOneContainer();
     }
     @Test(description = "TUA-127")
+    @Issue("TUA-127")
     public void verifyAllEnteredValuesAreSavedClubPopUpWithoutCenter(){
         verifyAllParametersAreEmptyByDefaultStepOne();
         fillStepOneComponentWithValidData(validClubName, validMinAge, validMaxAge, checkboxToCheckIndex);
@@ -75,6 +77,7 @@ private String stepOneSelectedCentre;
       verifyStepOneIsFilledWithEnteredData(validClubName, validMinAge, validMaxAge, checkboxToCheckIndex,false);
         softAssert.assertAll();
     }
+
     private void verifyAllParametersAreEmptyByDefaultStepOne(){
         softAssert.assertTrue(addClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value").isEmpty(),
                 "The name of the club isn't empty by default");
@@ -87,6 +90,7 @@ private String stepOneSelectedCentre;
                 "The minimum age input isn't empty by default");
 
     }
+
     private void fillStepOneComponentWithValidData(String validClubName, String validMinAge, String validMaxAge, int checkboxToCheckIndex){
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getClubNameInputElement().getInput()));
         addClubPopUpStepOne.getClubNameInputElement().getInput().sendKeys(validClubName);
@@ -97,6 +101,7 @@ private String stepOneSelectedCentre;
         addClubPopUpStepOne.getCentersList().get(checkboxToCheckIndex).click();
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterSelectedTitle()));
     }
+
     private void verifyStepOneIsFilledWithEnteredData(String validClubName, String validMinAge, String validMaxAge, int checkboxToCheckIndex, boolean runForThe1stTime){
         softAssert.assertEquals(addClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value")
                 ,validClubName, "The club name input doesn't contain the entered value");
@@ -115,6 +120,7 @@ private String stepOneSelectedCentre;
             softAssert.assertEquals(stepOneSelectedCentre,  addClubPopUpStepOne.getCenterSelectedTitle().getText());
         }
     }
+
     private void verifyAllParametersAreEmptyByDefaultStepTwo(){
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepTwo.getClubLocationsTitle()));
         wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(addClubPopUpSider.getSecondStepIconBackground(),"border-color", "rgba(255, 255, 255, 1)")));
@@ -135,6 +141,7 @@ private String stepOneSelectedCentre;
         softAssert.assertTrue(addClubPopUpStepTwo.getSiteInputElement().getInput().getAttribute("value").isEmpty(),
                 "The site input element isn't empty by default");
     }
+
     private void fillStepTwoWithValidData(String phone, String facebook, String whatsapp, String email,
                                           String skype, String site){
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepTwo.getClubLocationsTitle()));
@@ -147,6 +154,7 @@ private String stepOneSelectedCentre;
         addLocationPopUpComponent= addClubPopUpStepTwo.clickAddLocationButton();
         addLocation(locationName, locationCity, address, coordinates, phone);
     }
+
     private void verifyStepTwoIsFilledWithEnteredData(String phone, String facebook, String whatsapp, String email,
                                                       String skype, String site, String locationName){
         softAssert.assertTrue(addClubPopUpStepTwo.getTelephoneInputElement().getInput().getAttribute("value").contains(phone),
@@ -156,8 +164,9 @@ private String stepOneSelectedCentre;
         softAssert.assertEquals(addClubPopUpStepTwo.getEmailInputElement().getInput().getAttribute("value"),email);
         softAssert.assertEquals(addClubPopUpStepTwo.getSkypeInputElement().getInput().getAttribute("value"),skype);
         softAssert.assertEquals(addClubPopUpStepTwo.getSiteInputElement().getInput().getAttribute("value"),site);
-        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationTitle().getText(), locationName);
+        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationItemTitle().getText(), locationName);
     }
+
     private void addLocation(String locationName,String locationCity, String address, String coordinates, String phone){
         addLocationPopUpComponent.getLocatioNameInputElement().setValue(locationName);
         softAssert.assertEquals(addLocationPopUpComponent.getLocatioNameInputElement().getInput().getAttribute("value"), locationName,
@@ -176,6 +185,7 @@ private String stepOneSelectedCentre;
                 "The phone input doesn't contain the entered value");
         addLocationPopUpComponent.getAddLocationButton().click();
     }
+
     private void verifyAllParametersAreEmptyStepThree(){
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepThree.getClubLogoTitle()));
         softAssert.assertTrue(addClubPopUpStepThree.getClubDescriptionTextarea().getText().isEmpty(), "The text area isn't empty by default");
@@ -186,11 +196,13 @@ private String stepOneSelectedCentre;
         softAssert.assertTrue(addClubPopUpStepThree.getClubGalleryDownloadInput().getAttribute("value").isEmpty(),
                 "The club gallery download input isn't empty");
     }
+
     private void fillStepThreeWithValidData(String logoPath, String coverPath, String description){
         addClubPopUpStepThree.setDescriptionValue(description);
         addClubPopUpStepThree.getClubLogoDownloadInput().sendKeys(logoPath);
         addClubPopUpStepThree.getClubCoverDownloadInput().sendKeys(coverPath);
     }
+
     private void verifyStepThreeIsFilledWithEnteredData(String logoPath, String coverPath, String description){
         softAssert.assertEquals(addClubPopUpStepThree.getClubDescriptionTextarea().getText(), description,
                 "The entered description doesn't match the description shown in the text area");

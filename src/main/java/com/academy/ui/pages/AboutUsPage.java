@@ -1,6 +1,7 @@
 package com.academy.ui.pages;
 
 import com.academy.ui.SocialInfoComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -99,7 +100,6 @@ public class AboutUsPage extends BasePageWithAdvancedSearch{
     @FindBy(xpath = ".//div[text()='Відгуки учасників челенджу']/ancestor::div[@class='content']/following-sibling::div[@class='content']//p")
     private List<WebElement> listOfChallengeComments;
 
-
     private SocialInfoComponent socialInfoComponent;
 
     public AboutUsPage(WebDriver driver) {
@@ -107,10 +107,12 @@ public class AboutUsPage extends BasePageWithAdvancedSearch{
         this.socialInfoComponent = new SocialInfoComponent(driver, socialInfoXpath);
     }
 
+    @Step("Click on the button 'Допомогти проєкту'")
     public void clickHelpProjectButton() {
         helpProjectButton.click();
     }
 
+    @Step("Get list of challenge comments")
     public List<String> getListTextOfChallengeComments() {
         List<String> list = new ArrayList<>();
         listOfChallengeComments.forEach(comment -> list.add(comment.getText()));

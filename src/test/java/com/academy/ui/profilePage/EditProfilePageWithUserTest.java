@@ -2,32 +2,32 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
-
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import java.time.Duration;
 
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 
-    @Test(description = "TUA-358")
+    @Test(description = "Edit profile button is present and direct to edit Profile page")
+    @Description("Verify that the ‘Редагувати профіль’ link is present and direct to the ‘Редагувати профіль’ page")
+    @Issue("TUA-358")
     public void checkEditProfileLinkIsPresentAndDirectToEditProfilePage() {
         softAssert.assertTrue(profilePage.getEditProfileButton().isDisplayed(),
                 "EditProfile should be link present");
@@ -38,8 +38,11 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-328", dataProvider = "invalidFirstName")
-    public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
+    @Test(dataProvider = "invalidFirstName")
+    @Parameters({"IncorrectFirstName", "ExpectedErrorMessage"})
+    @Description("Verify name field on Edit Profile PopUp doesn't accept incorrect data and error messages are shown")
+    @Issue("TUA-328")
+    public void checkEditNameFieldWithInvalidData(String incorrectFirstNameData, String expectedErrorMsg) {
         final var emptyFieldErrorMsg = "Введіть Ваше ім'я";
 
         var editProfilePopUp = profilePage.openEditUserProfile();
@@ -53,10 +56,30 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
 
-        firstNameElement.setValue(firstName);
+        firstNameElement.setValue(incorrectFirstNameData);
         softAssert.assertEquals(firstNameElement.getErrorMessagesTextList().get(0), expectedErrorMsg);
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-421", dataProvider = "invalidPhone")
+    public void checkEditPhoneFieldWithInvalidData(String phone, String[] expectedErrorMsg) throws InterruptedException {
+
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+        softAssert.assertTrue(editProfilePopUp.getSubmitButton().isEnabled(),
+                "SubmitButton should be enabled");
+
+        var phoneElement = editProfilePopUp.getPhoneElement();
+        phoneElement.clearInput();
+
+        phoneElement.setValue(phone);
+        for (int i = 0; i < expectedErrorMsg.length; i++) {
+            softAssert.assertEquals(phoneElement.getErrorMessagesTextList().get(i), expectedErrorMsg[i]);
+            softAssert.assertNotEquals(profilePage.getPhoneUser().getText(), phone);
+        }
 
         softAssert.assertAll();
     }
@@ -77,7 +100,21 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         };
     }
 
-    @Test(description = "TUA-866")
+    @DataProvider(name = "invalidPhone")
+    private Object[][] invalidPhoneDataProvider() {
+        return new Object[][] {
+                {"a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
+                {"-a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {";", new String[] {"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {"99999999999999999", new String[] {"Телефон не відповідає вказаному формату"}},
+                {" m", new String[] {"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+        };
+    }
+    @Test
+    @Description("""
+            Verify User as 'Відвідувач' can see 'Завантажити фото' text link
+            under the 'Фото' link and tooltip message appears""")
+    @Issue("TUA-866")
     public void checkVisibilityOfUploadPhotoLink() {
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
@@ -92,7 +129,9 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-360")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Відвідувач'")
+    @Issue("TUA-360")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
@@ -326,7 +365,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     public void checkEditLastNameFieldWithInvalidData(String lastName, String expectedErrorMsg) {
         final String emptyFieldErrorMsg = "Будь ласка введіть Ваше прізвище";
 
-        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
 
         editProfile.getLastNameElement().clearInput().setValue(lastName);
         softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);
@@ -353,5 +392,131 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 {"Lastname-", "Прізвище повинно починатися та закінчуватися літерою"},
                 {"Lastname'", "Прізвище повинно починатися та закінчуватися літерою"}
         };
+    }
+
+    @Issue("TUA-905")
+    @Test()
+    public void checkIsPasswordHide(){
+        editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(10);
+
+        editProfilePopUp.getCheckboxChangePassword().click();
+        editProfilePopUp.getCurrentPasswordInput().setValue("1qaz@Xsw");
+        softAssert.assertTrue(editProfilePopUp.getCurrentPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getCurrentPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getCurrentPasswordInput().getWebElement().getAttribute("type"), "text");
+
+        editProfilePopUp.getNewPasswordInput().setValue("1qaz@Xsw2");
+        softAssert.assertTrue(editProfilePopUp.getNewPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getNewPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getNewPasswordInput().getWebElement().getAttribute("type"), "text");
+
+        editProfilePopUp.getConfirmPasswordInput().setValue("1qaz@Xsw2");
+        softAssert.assertTrue(editProfilePopUp.getConfirmPasswordInput().getValidationCircleIcon().isDisplayed());
+        editProfilePopUp.getConfirmPasswordInput().clickPasswordVisibilityIcon();
+        softAssert.assertEquals(editProfilePopUp.getConfirmPasswordInput().getWebElement().getAttribute("type"), "text");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-113")
+    public void editUserWithValidData() {
+        final String firstName = "John";
+        final String lastName = "Doe";
+        final String phone = "0987654321";
+        final String password = "Password1;";
+
+        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, false);
+
+        editProfile = new ProfilePage(driver).openEditUserProfile();
+        editUserWithData(editProfile, firstName, lastName, phone, password, true);
+
+        softAssert.assertAll();
+    }
+
+    private void editUserWithData(EditProfilePopUp editProfile, String firstName, String lastName, String phone, String password, boolean withPassword) {
+        final String updateSuccessMessage = withPassword ? "Профіль змінено успішно" : "Ви успішно залогувалися!";
+
+        editProfile.waitPopUpOpen(5);
+        editProfile.clickUserButton();
+        editProfile.getPhoneElement().clearInput().setValue(phone);
+        editProfile.getFirstNameElement().clearInput().setValue(firstName);
+        editProfile.getLastNameElement().clearInput().setValue(lastName);
+
+        if (withPassword) {
+            editProfile.clickCheckBox();
+            editProfile.getCurrentPasswordElement().clearInput().setValue(configProperties.getUserPassword());
+            editProfile.getNewPasswordInput().clearInput().setValue(password);
+            editProfile.getConfirmPasswordInput().clearInput().setValue(password);
+        }
+
+        editProfile.clickSubmitButton();
+
+        softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), updateSuccessMessage,
+                "Successful registration message should appear");
+    }
+
+    @Test(description = "TUA-171", dataProvider = "userValidPassword")
+    public void checkUserCanChangeOldPassword(String userPassword, String password,
+                                              String expectedColor, String expectedSuccessMessage) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+        editProfilePopUp = editProfilePopUp.clickCheckBox();
+
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(userPassword);
+        softAssert.assertEquals(currentPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var newPasswordInput = editProfilePopUp.getNewPasswordInput();
+        newPasswordInput.clearInput();
+        newPasswordInput.setValue(password);
+        softAssert.assertEquals(newPasswordInput.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        softAssert.assertEquals(repeatPassword.getValidationCircleIcon()
+                .getCssValue("color"), expectedColor);
+
+        profilePage = editProfilePopUp.clickSubmitButton();
+        softAssert.assertTrue(profilePage.getSuccessEditMessage().contains(expectedSuccessMessage),
+                "Message '%s' should be visible".formatted(expectedSuccessMessage));
+
+        tearDownUser(password, userPassword);
+        softAssert.assertAll();
+    }
+
+    @DataProvider
+    private Object[][] userValidPassword() {
+        return new Object[][]{
+                {configProperties.getUserPassword(), "Dictionary13?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "Qwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"},
+                {configProperties.getUserPassword(), "QwertyQwertyQwerty1?",
+                        "rgba(82, 196, 26, 1)", "Профіль змінено успішно"}
+        };
+    }
+
+    //для того, щоб повернути юсера у першопочатковий стан (такий як у конфіг-проперті)
+    private void tearDownUser(String oldPassword, String password) {
+        var editProfilePopUp = profilePage.openEditUserProfile();
+        editProfilePopUp.waitPopUpOpen(5);
+
+        var currentPasswordInput = editProfilePopUp.getCurrentPasswordInput();
+        currentPasswordInput.clearInput();
+        currentPasswordInput.setValue(oldPassword);
+
+        var newPassword = editProfilePopUp.getNewPasswordInput();
+        newPassword.clearInput();
+        newPassword.setValue(password);
+
+        var repeatPassword = editProfilePopUp.getConfirmPasswordInput();
+        repeatPassword.clearInput();
+        repeatPassword.setValue(password);
+        profilePage = editProfilePopUp.clickSubmitButton();
     }
 }

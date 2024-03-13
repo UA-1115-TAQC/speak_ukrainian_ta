@@ -322,7 +322,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     public void checkEditLastNameFieldWithInvalidData(String lastName, String expectedErrorMsg) {
         final String emptyFieldErrorMsg = "Будь ласка введіть Ваше прізвище";
 
-        EditProfilePopUp editProfile = new ProfilePage(driver).openEditUserProfile();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
 
         editProfile.getLastNameElement().clearInput().setValue(lastName);
         softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);

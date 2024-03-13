@@ -8,6 +8,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
@@ -374,7 +375,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Step Submit Button should be displayed");
     }
 
-    @Test(description = "TUA-173", dataProvider = "validDescription", dataProviderClass = AddClubWithManagerDataProvider.class)
+    @Test(description = "TUA-173", dataProvider = "validDescription",dataProviderClass = AddClubWithManagerDataProvider.class)
     public void checkDescriptionValidData(String input){
         softAssert = new SoftAssert();
         fillStepOneWithValidDataPreconditions();
@@ -416,6 +417,24 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 "Це поле є обов'язковим"+System.lineSeparator()+"Некоректна адреса"
         );
 
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-925")
+    public void verify5PhotoCanBeAddedByManager() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
+
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+                .uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();
     }
 }

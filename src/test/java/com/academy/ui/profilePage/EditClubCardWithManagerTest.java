@@ -211,8 +211,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
-        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
-        AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+       ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+       AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
         addClubPopUpComponent.waitPopUpOpen(5);
 
         addClubPopUpComponent.getStepOneContainer().clickNextStepButton();

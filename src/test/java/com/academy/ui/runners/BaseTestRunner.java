@@ -46,6 +46,7 @@ public abstract class BaseTestRunner {
         if (ITestResult.FAILURE == result.getStatus()) {
             ScreenShotUtil.captureScreenshot(driver, result.getName());
         }
+
         if (driver != null) {
             driver.quit();
         }

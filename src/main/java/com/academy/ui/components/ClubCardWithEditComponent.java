@@ -18,7 +18,7 @@ public class ClubCardWithEditComponent extends ClubCardComponent {
     @FindBy(xpath = ".//div[@class='title-name']")
     protected WebElement title;
 
-    @FindBy(xpath = "//span[@aria-label='more']")
+    @FindBy(xpath = ".//span[@aria-label='more']")
     private WebElement moreButton;
 
     @FindBy(xpath = "//ul[contains(@class,'update-menu')]")

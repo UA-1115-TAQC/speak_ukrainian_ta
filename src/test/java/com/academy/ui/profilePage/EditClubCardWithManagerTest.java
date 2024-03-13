@@ -6,11 +6,15 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.util.List;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
@@ -207,13 +211,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-
     @Test(description = "TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
-       ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
-       AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        AddClubPopUpComponent addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
         addClubPopUpComponent.waitPopUpOpen(5);
 
         addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
@@ -352,7 +355,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertAll();
     }
-
     @Test(description = "TUA-48")
     public void checkContactTabUI() {
         String clubName = getClubName();
@@ -457,6 +459,49 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepTwo.getNextStepButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on Next Step Button");
 
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "invalidTelephone", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Description("Verify user cannot save invalid data in Telephone field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
+    @Issue("TUA-961")
+    public void checkInvalidTelephoneInput(String input, String expectedErrorMsg){
+        softAssert = new SoftAssert();
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
+        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(10);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo two = edit.getStepTwoContainer();
+
+        two.getTelephoneInputElement().setValue(input);
+        String errorMsg = "";
+        List<String> errorList= two.getTelephoneInputElement().getErrorMessagesTextList();
+        for(String str : errorList){
+            errorMsg = errorMsg + str + " ";
+        }
+
+        softAssert.assertEquals(errorMsg, expectedErrorMsg);
+        softAssert.assertFalse(two.getNextStepButton().isEnabled());
+        softAssert.assertAll();
+    }
+
+    @Test(dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
+    @Description("Verify user cannot save invalid data in Email field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
+    @Issue("TUA-961")
+    public void checkInvalidEmailInput(String input){
+        softAssert = new SoftAssert();
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
+        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(10);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo two = edit.getStepTwoContainer();
+
+        two.getEmailInputElement().setValue(input);
+        softAssert.assertEquals(
+                two.getEmailInputElement().getErrorMessagesTextList().get(0),
+                "Некоректний формат email"
+        );
+        softAssert.assertFalse(two.getNextStepButton().isEnabled());
         softAssert.assertAll();
     }
 }

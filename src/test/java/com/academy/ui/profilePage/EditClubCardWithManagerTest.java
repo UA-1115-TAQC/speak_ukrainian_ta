@@ -21,6 +21,8 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
+import java.util.Objects;
+
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
@@ -358,6 +360,44 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         clubPage = card.clickDetailsButton();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
 
+        softAssert.assertAll();
+    }
+
+    @Test()
+    @Issue("TUA-57")
+    public void checkCorrectEditOfNameCategoryAge(){
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
+        clubCard.sleep(1000);
+        AddClubPopUpComponent editClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
+        editClubPopUpComponent.waitPopUpOpen(5);
+        AddClubPopUpStepOne editClubPopUpStepOne = editClubPopUpComponent.getStepOneContainer();
+
+        editClubPopUpStepOne.getClubNameInputElement().clearInput();
+        editClubPopUpStepOne.getClubNameInputElement().setValue("Harry 123&*? Potter");
+        softAssert.assertEquals(editClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value"), "Harry 123&*? Potter");
+
+        editClubPopUpStepOne.selectCategoryForEdit("Центр розвитку");
+        softAssert.assertTrue(editClubPopUpStepOne.getCheckedCategoriesListForEdit().stream().anyMatch(category -> category.getText().equals("Центр розвитку")), "Категорія не вибрана 1");
+
+        editClubPopUpStepOne.getMinAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        editClubPopUpStepOne.setMinAgeInput("2");
+        editClubPopUpStepOne.getMaxAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        editClubPopUpStepOne.setMaxAgeInput("6");
+        softAssert.assertEquals(editClubPopUpStepOne.getMinAgeInput().getAttribute("value"), "2");
+        softAssert.assertEquals(editClubPopUpStepOne.getMaxAgeInput().getAttribute("value"), "6");
+
+        editClubPopUpStepOne.clickNextStepButton();
+        editClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+        editClubPopUpComponent.getStepThreeContainer().clickCompleteButton();
+
+        profilePage = new ProfilePage(driver);
+        clubCard = profilePage.getClubCardComponents().getFirst();
+        ClubPage clubPage = clubCard.clickDetailsButton();
+
+        softAssert.assertEquals(clubPage.getClubName().getText(), "Harry 123&*? Potter");
+        softAssert.assertTrue(clubPage.getCategoriesClubName().stream().anyMatch(category -> Objects.equals(category.getText(), "Центр розвитку")), "Категорія не вибрана 2");
+        softAssert.assertTrue(clubPage.getAgeOfTheAudienceClub().getText().contains("2"));
+        softAssert.assertTrue(clubPage.getAgeOfTheAudienceClub().getText().contains("6"));
         softAssert.assertAll();
     }
 

@@ -43,6 +43,9 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "./descendant::div[@class='tags ']//span[@class='name']")
     private WebElement categoryClubName;
 
+    @FindBy(xpath = "./descendant::div[@class='tags ']//span[@class='name']")
+    private List<WebElement> categoriesClubName;
+
     @FindBy(xpath = "./descendant::span[@class='text']")
     private WebElement addressClub;
 

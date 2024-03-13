@@ -41,7 +41,6 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
-
     private String image1FileName= "image.png";
     private String image2FileName= "image2.png";
     private WebDriverWait wait;
@@ -421,6 +420,28 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-922")
+    public void testAddAndDeletePhotoInLogoAndCover() {
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(image1FileName));
+        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedLogoImg().getImgTitle().getText(), image1FileName,
+                "Photo not added for Logo");
+        stepThree.getUploadedLogoImg().clickRemoveImg();
+
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image2FileName));
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), image2FileName,
+                "Photo not added for Cover");
+
+        stepThree.getUploadedCoverImg().clickRemoveImg();
+
+        softAssert.assertAll();
+    }
+  
     @Test(description = "TUA-925")
     public void verify5PhotoCanBeAddedByManager() {
         fillStepOneWithValidDataPreconditions();

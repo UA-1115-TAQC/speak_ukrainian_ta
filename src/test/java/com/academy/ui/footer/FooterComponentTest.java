@@ -4,6 +4,7 @@ import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -129,6 +130,20 @@ public class FooterComponentTest extends BaseTestRunner {
         String title = driver.getTitle();
         softAssert.assertTrue(title.contains("Єдині"), "Instagram page 'Єдині' didn't open in a new tab");
 
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-944")
+    public void checkFacebookIconOpenCorrespondingFacebookPage(){
+        footerComponent.clickOnFacebookLink();
+        for (String windowHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(windowHandle);
+            if (driver.getTitle().contains("Facebook")) {
+                break;
+            }
+        }
+        softAssert.assertEquals(driver.getCurrentUrl(),"https://www.facebook.com/teach.in.ukrainian");
         softAssert.assertAll();
     }
 

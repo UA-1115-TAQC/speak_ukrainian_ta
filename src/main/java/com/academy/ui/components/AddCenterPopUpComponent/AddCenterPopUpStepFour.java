@@ -15,7 +15,8 @@ public class AddCenterPopUpStepFour extends AddCenterPopUpContainer {
 
     @FindBy(xpath = ".//div[@class='checkbox-item']")
     private List<WebElement> clubWebElementsList;
-
+    @FindBy(xpath = "//form[contains(@class,\"clubsOfCenter\")]/span")
+    private WebElement selectAClubText;
     @Getter(AccessLevel.NONE)
     List<ClubCheckboxLogoNameComponent> clubCheckboxLogoNameComponents;
 

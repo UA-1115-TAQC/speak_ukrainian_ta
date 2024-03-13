@@ -21,6 +21,8 @@ public class ClubCardComponent extends BaseComponent {
 
     @FindBy(xpath = ".//div[contains(@class,'title')]")
     protected WebElement title;
+    @FindBy(xpath = ".//div[contains(@class,'name')]")
+    protected WebElement clubNameWithoutTitle;
 
     @FindBy(xpath = ".//p[contains(@class,'description')]")
     protected WebElement description;

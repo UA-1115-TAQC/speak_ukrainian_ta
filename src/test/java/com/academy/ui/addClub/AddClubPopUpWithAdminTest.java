@@ -2,17 +2,17 @@ package com.academy.ui.addClub;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
 import com.academy.ui.pages.ClubCardComponent;
-import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,6 +22,9 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
 import java.util.List;
+
+
+import java.time.Duration;
 
 import static org.testng.Assert.assertTrue;
 
@@ -43,6 +46,11 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String TEXT_50_SYMBOLS = "Abcd ".repeat(10);
     private static final String TEXT_1000_SYMBOLS = "Abcd ".repeat(200);
     private static final String TEXT_1500_SYMBOLS = "Abcde ".repeat(250);
+    private String validClubDescriptionSample="Welcome to the cutting-edge realm of Automated Testing Club, where precision meets innovation! " +
+            " Unleash the power of code and algorithms in our state-of-the-art facility. " +
+            "Explore the depths of test automation, where every line of code is a testament to efficiency and accuracy. " +
+            "Join a community of tech enthusiasts, QA experts, and automation wizards who strive for perfection in the digital testing landscape. " +
+            "Elevate your skills, share insights, and collaborate on projects that push the boundaries of automated testing. ";
     private static final String VALID_CIRCLE_ICON = "check-circle";
     private static final String INVALID_CIRCLE_ICON = "close-circle";
     private AddClubPopUpComponent addClubPopUpComponent;
@@ -51,6 +59,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+    private ProfilePage profilePage;
+    protected WebDriverWait wait;
+    protected String uniqueClubName;
 
     @BeforeMethod
     public void addClubPopUpTestPrecondition() {
@@ -58,6 +69,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepOne = addClubPopUpComponent.getStepOneContainer();
         addClubPopUpComponent.waitPopUpOpen(10);
         softAssert = new SoftAssert();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(45));
     }
 
     private void fillStepOneWithValidDataPreconditions() {
@@ -651,9 +663,112 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     }
 
 
-        @Test(description = "TUA-312")
+    @Test(description = "TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());
+    }
+
+    @Test(description = "LVTEACH-22")
+    @Issue("LVTEACH-22")
+    public void verifyAddingANewClubWithValidData(){
+        softAssert.assertTrue(stepOne.getClubTitle().getText().contains("Додати гурток"),
+                "The the AddClub component isn't displayed");
+        softAssert.assertTrue(stepOne.getClubNameInputElement().getInput().isDisplayed(),
+                "The first step of the AddClub component isn't displayed");
+        sider = addClubPopUpComponent.getSider();
+        verifyIconOnTheSiderIsActive(sider.getFirstStepTitle(), "Основна інформація",
+                sider.getFirstStepIcon(), sider.getFirstStepIconBackground());
+        uniqueClubName = RandomAlphanumericStringGenerator.generateRandomString(8, 15, 3);
+        fillStepOneWithValidData(uniqueClubName);
+        verifyGreenChecksOnStepOne();
+        stepOne.clickNextStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        sider = addClubPopUpComponent.getSider();
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getInput().isDisplayed(),
+                "The second step of the AddClub component isn't displayed");
+        verifyIconOnTheSiderIsActive(sider.getSecondStepTitle(), "Контакти",
+                sider.getSecondStepIcon(), sider.getSecondStepIconBackground());
+        fillStepTwoWithValidData();
+        verifyGreenChecksOnStepTwo();
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        sider = addClubPopUpComponent.getSider();
+        softAssert.assertTrue(stepThree.getClubDescriptionTextarea().isDisplayed(),
+                "The third step of the AddClub component isn't displayed");
+        verifyIconOnTheSiderIsActive(sider.getThirdStepTitle(), "Опис",
+                sider.getThirdStepIcon(), sider.getThirdStepIconBackground());
+        stepThree.setDescriptionValue(validClubDescriptionSample);
+        verifyGreenChecksOnStepThree();
+        wait.until(driver -> stepThree.getClubDescriptionTextarea().getText().contains(validClubDescriptionSample));
+        stepThree.clickCompleteButton();
+        profilePage = new ProfilePage(driver);
+        driver.getCurrentUrl();
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+        wait.until(ExpectedConditions.visibilityOf(profilePage.getPhoneUser()));
+        profilePage.clickMyClubsAndCentersOnDropdown();
+        profilePage.clickMyClubsOnDropdown();
+        softAssert.assertTrue(getARecentlyAddedClubCardByClubName(uniqueClubName).getClubNameWithoutTitle().isDisplayed(),
+                "The added club isn't displayed  in my profile");
+        softAssert.assertTrue(getARecentlyAddedClubCardByClubName(uniqueClubName).getClubNameWithoutTitle().getText().contains(uniqueClubName),
+                "The added card isn't displayed  in my profile");
+
+
+        //Check DB - that club was added //todo
+        softAssert.assertAll();
+    }
+
+    private ClubCardWithEditComponent getARecentlyAddedClubCardByClubName(String clubName){
+        SwitchPaginationComponent switchPagination = profilePage.getSwitchPagination();
+        switchPagination.scrollIntoView(driver, switchPagination.getWebElement());
+
+        switchPagination.getPaginationItems().get((profilePage.getSwitchPagination().getPaginationItems().size() - 1)).click();
+        for(ClubCardWithEditComponent card : profilePage.getClubCardComponents()){
+            if(card.getClubNameWithoutTitle().isDisplayed() && card.getClubNameWithoutTitle().getText().contains(clubName)){
+                return card;
+            }
+        }
+        return null;
+    }
+
+    private void verifyIconOnTheSiderIsActive(WebElement title,  String stepTitleText, WebElement icon, WebElement iconBackground){
+        softAssert.assertEquals(title.getText(), stepTitleText,
+                "The sider doesn't contain the '"+stepTitleText+"' text describing the current step of the club addition process");
+        softAssert.assertTrue(icon.getCssValue("color").contains( "rgba(255, 255, 255, 1)"),
+                "The color of the current icon on the sider isn't white to show that it is active");
+        softAssert.assertFalse(iconBackground.getCssValue("background").contains("rgb(232, 232, 232)"),
+                "The background of the current icon on the sider isn't highlighted in orange to show that it is active");
+    }
+
+    private void verifyGreenChecksOnStepOne(){
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
+        softAssert.assertTrue(stepOne.getClubNameInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
+    }
+
+    private void fillStepOneWithValidData(String uniqueClubName){
+        stepOne.getClubNameInputElement().setValue( uniqueClubName);
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE);
+    }
+
+    private void fillStepTwoWithValidData(){
+        stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
+    }
+
+    private void verifyGreenChecksOnStepTwo(){
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement()
+                .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
+    }
+
+    private void verifyGreenChecksOnStepThree(){
+        softAssert.assertTrue(stepThree
+                        .getValidationTextareaCircleIcon()
+                        .getAttribute("class")
+                        .contains(VALID_CIRCLE_ICON),
+                "Green circle check icon should appear");
     }
 }

@@ -155,7 +155,7 @@ public class HeaderComponentTest extends BaseTestRunner {
         String headerPadding = header.getHeaderBox().getCssValue("padding-right");
         String advancedSearchPadding = advancedSearchHeader
                 .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchBox()
+                .getAdvancedSearchIcon()
                 .getCssValue("padding-right");
 
         softAssert.assertEquals(advancedSearchPadding, headerPadding, "Padding-right values are not equal!");

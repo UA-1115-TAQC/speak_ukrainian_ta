@@ -5,6 +5,7 @@ import com.academy.ui.pages.BasePage;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUnited;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -26,11 +27,15 @@ public class CarouselImgCard extends BaseComponent {
     protected WebElement cardText;
     @FindBy(xpath = ".//a/button")
     protected WebElement cardButton;
+    @FindBy(xpath = ".//a/button/span")
+    protected WebElement cardButtonText;
     @FindBy(xpath = ".//a")
     protected WebElement cardLink;
+    @Step("Get the text in the href attribute of the card link")
     public String getCardLinkText(){
        return this.getCardLink().getAttribute("href");
     }
+    @Step("Click the button on the carousel img card")
     public void clickCardButton(){
         this.getCardButton().click();
     }

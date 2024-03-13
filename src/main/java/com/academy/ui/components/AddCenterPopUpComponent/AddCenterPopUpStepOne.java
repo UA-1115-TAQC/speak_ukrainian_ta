@@ -1,6 +1,8 @@
 package com.academy.ui.components.AddCenterPopUpComponent;
 
+import com.academy.ui.components.AddClubPopUpComponent.LocationListElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
@@ -40,6 +42,9 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     @FindBy(xpath = "./descendant::button[contains(@class,'add-location-btn')]")
     private WebElement addLocationButton;
 
+    @FindBy(xpath = "./descendant::span[@class='add-club-location']")
+    private WebElement addLocationButtonInEditCenter;
+
     @FindBy(xpath = "./descendant::div[@id='basic_locations_help']")
     private WebElement noDataLocationElement;
 
@@ -56,22 +61,34 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
     private List<WebElement> checkedLocationsList;
 
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')]")
-    @Getter(AccessLevel.NONE) private WebElement locationPopUp;
+    @Getter(AccessLevel.NONE)
+    private WebElement locationPopUp;
 
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
+
+    @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
+    private List<WebElement> locationList;
+
+    @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][2]")
+    private WebElement locationTitle;
+
+    @Getter(AccessLevel.NONE)
+    private List<LocationListElement> listOfLocationElements;
 
     public AddCenterPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
+    @Step("Click on the button 'Додати локацію' on the first step of Add/Edit center pop-up")
     public AddLocationPopUpComponent clickAddLocationButton() {
-        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addLocationButton)).click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
         return addLocationPopUpComponent;
     }
 
+    @Step("Click on location checkbox by name {name} on the first step of Add/Edit center pop-up")
     public AddCenterPopUpStepOne clickLocationCheckboxByName(String name) {
         locationsElementsList.stream()
                 .filter(location -> (location.getAttribute("innerText").equals(name)))
@@ -79,11 +96,13 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return this;
     }
 
-    public AddCenterPopUpStepOne setCenterName(String value){
-        centerNameInput.sendKeys(value);
+    @Step("Set center name {name} input on the first step of Add/Edit center pop-up")
+    public AddCenterPopUpStepOne setCenterName(String name) {
+        centerNameInput.sendKeys(name);
         return this;
     }
 
+    @Step("Clear center name input on the first step of Add/Edit center pop-up")
     public AddCenterPopUpStepOne clearNameInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
@@ -94,10 +113,19 @@ public class AddCenterPopUpStepOne extends AddCenterPopUpContainer {
         return this;
     }
 
-    public List<String> getLocationsNameList(){
+    @Step("Get list of locations on the first step of Add/Edit center pop-up")
+    public List<String> getLocationsNameList() {
         List<String> list = new ArrayList<>();
         locationsElementsList.forEach(location -> list.add(location.getText()));
         return list;
     }
 
+    @Step("Get list of locations on the second step of Add/Edit club pop-up")
+    public List<LocationListElement> getListOfLocationElements() {
+        listOfLocationElements = new ArrayList<>();
+        if (!locationList.isEmpty()) {
+            locationList.forEach(location -> listOfLocationElements.add(new LocationListElement(driver, location)));
+        }
+        return listOfLocationElements;
+    }
 }

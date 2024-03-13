@@ -1,6 +1,9 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 public class LocationListElement extends BaseComponent {
 
     @FindBy(xpath = "./descendant::h4[@class='ant-list-item-meta-title']")
-    private WebElement locationTitle;
+    private WebElement locationItemTitle;
 
     @FindBy(xpath = "./descendant::div[@class='ant-list-item-meta-description']")
     private WebElement descriptionTitle;
@@ -36,26 +39,34 @@ public class LocationListElement extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-popover-inner-content']/descendant::button[contains(@class,'popConfirm-ok-button')]")
     private WebElement popConfirmOkButton;
 
+    @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
+    @Getter(AccessLevel.NONE)
+    private WebElement locationPopUp;
+
     public LocationListElement(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }
 
-    public LocationListElement clickEditIcon(){
+    @Step("Click on the Edit-icon to edit location on the second step of Add/Edit club pop-up")
+    public AddLocationPopUpComponent clickEditIcon() {
         editIcon.click();
-        return this;
+        return new AddLocationPopUpComponent(driver, locationPopUp);
     }
 
-    public LocationListElement clickDeleteIcon(){
+    @Step("Click on the Delete-icon to delete location on the second step of Add/Edit club pop-up")
+    public LocationListElement clickDeleteIcon() {
         deleteIcon.click();
         return this;
     }
 
-    public LocationListElement clickPopConfirmCancelButton(){
+    @Step("Click on 'Cancel' button on deleting location confirmation pop-up the second step of Add/Edit club pop-up")
+    public LocationListElement clickPopConfirmCancelButton() {
         popConfirmCancelButton.click();
         return this;
     }
 
-    public LocationListElement clickPopConfirmOkButton(){
+    @Step("Click on 'OK' button on deleting location confirmation pop-up the second step of Add/Edit club pop-up")
+    public LocationListElement clickPopConfirmOkButton() {
         popConfirmOkButton.click();
         return this;
     }

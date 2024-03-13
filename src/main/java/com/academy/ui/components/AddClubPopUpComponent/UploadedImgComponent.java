@@ -1,6 +1,7 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,7 +32,7 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
     private WebElement previewIcon;
 
-    @FindBy(xpath = "./descendant::button[(@type='button') and (@aria-label='Close')][3]")
+    @FindBy(xpath = "//descendant::button[(@type='button') and (@aria-label='Close')][3]")
     private WebElement closeButton;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-upload-list-item-done')]")
@@ -41,30 +42,36 @@ public class UploadedImgComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Get error message text of the loaded image on the third step of Add/Edit club pop-up")
     public String getUploadErrorMessage() {
         return uploadError.getAttribute("innerText");
     }
 
+    @Step("Click on the Remove-icon to delete image on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickRemoveImg() {
         removeImgButton.click();
         return this;
     }
 
+    @Step("Click on the Preview-icon to preview image on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickPreviewFile() {
         previewFile.click();
         return this;
     }
 
+    @Step("Click 'X' button to close image preview on the third step of Add/Edit club pop-up")
     public UploadedImgComponent clickClosePreviewWindow() {
         closeButton.click();
         return this;
     }
 
+    @Step("Wait for {timeout} seconds until image is loaded on the third step of Add/Edit club pop-up")
     public void waitImageLoad(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(ExpectedConditions.visibilityOf(uploadDone));
     }
 
+    @Step("Wait {timeout} seconds until loaded image is changed to the new one on the third step of Add/Edit club pop-up")
     public void waitImageChanged(String prevImage, long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(e -> !imgTitle.getText().equals(prevImage));

@@ -18,13 +18,13 @@ public abstract class BaseTestRunner {
 
     protected HomePage homePage;
 
-    @BeforeSuite(alwaysRun = true)
+    @BeforeSuite(alwaysRun = true, description = "Precondition of setup WebDriver")
     public void setUpWebDriver() {
         WebDriverManager.chromedriver().setup();
         configProperties = new ConfigProperties();
     }
 
-    @BeforeMethod
+    @BeforeMethod(description = "Web browser configuration")
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -33,7 +33,7 @@ public abstract class BaseTestRunner {
         homePage = new HomePage(driver);
     }
 
-    @AfterMethod
+    @AfterMethod(description = "Post Condition of closing every associated window")
     public void tearDown() {
         if (driver != null) {
             driver.quit();

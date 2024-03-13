@@ -1,5 +1,7 @@
 package com.academy.ui.runners.randomvaluesgenerators;
 
+    import io.qameta.allure.Step;
+
     import java.security.SecureRandom;
 
     public class RandomPasswordGenerator {

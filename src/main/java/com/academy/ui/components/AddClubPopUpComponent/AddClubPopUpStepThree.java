@@ -132,6 +132,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         }
         return this;
     }
+
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
@@ -142,5 +143,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         } else {
             throw new RuntimeException("GalleryImg not found by index: " + index);
         }
+    }
+
+    public AddClubPopUpStepThree uploadImgToGallery(String pathToImage) {
+        int countImg = clubGalleryUploadedImgs.size();
+        clubGalleryDownloadInput.sendKeys(pathToImage);
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(d -> countImg < clubGalleryUploadedImgs.size());
+        return this;
     }
 }

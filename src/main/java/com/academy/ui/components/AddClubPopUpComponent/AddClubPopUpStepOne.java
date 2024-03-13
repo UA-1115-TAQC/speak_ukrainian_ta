@@ -68,20 +68,17 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::div[@id='basic_ageTo_help']/div")
     private WebElement maxAgeInputError;
 
-    @FindBy(xpath = "./descendant::input[@id='basic_centerId']")
+    @FindBy(xpath = "./descendant::input[contains(@id,'centerId')]")
     private WebElement centerSelect;
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "//div[@class='ant-select-item ant-select-item-option']")
+    @FindBy(xpath = "//div[contains(@Class,'ant-select-item ant-select-item-option')]")
     private List<WebElement> centersList;
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
     private WebElement selectPlaceholder;
-
-    @FindBy(xpath = "./descendant::div[contains(@class, ' add-club-select')]")
-    private WebElement centerSelectedInEditClub;
 
     @FindBy(xpath = "//div[@class='rc-virtual-list-holder']")
     private WebElement centersDropdownListForm;
@@ -111,8 +108,10 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     }
 
     public AddClubPopUpStepOne selectCenter(String value) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfAllElements(centersDropdownListForm));
         centersList.stream()
-                .filter(center -> (center.getAttribute("innerText").equals(value)))
+                .filter(center -> (center.getAttribute("title").equals(value)))
                 .forEach(WebElement::click);
         return this;
     }
@@ -122,19 +121,4 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         return this;
     }
 
-    @Step("Click on the dropdown with a list of centers")
-    public AddClubPopUpStepOne clickEditCenterDropdown(){
-        centerSelectedInEditClub.click();
-        return this;
-    }
-
-    @Step("Select new center for club")
-    public AddClubPopUpStepOne changeCenterForClub(String value) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(centersDropdownListForm));
-        centersList.stream()
-                .filter(center -> (center.getAttribute("title").equals(value)))
-                .forEach(WebElement::click);
-        return this;
-    }
 }

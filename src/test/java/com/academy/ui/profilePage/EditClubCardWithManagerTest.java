@@ -362,7 +362,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
         editClubPopUp.waitPopUpOpen(5);
-        editClubPopUp.getStepOneContainer().clickEditCenterDropdown().changeCenterForClub(centerName);
+        editClubPopUp.getStepOneContainer().clickCenterDropdown().selectCenter(centerName);
         editClubPopUp.getStepOneContainer().clickNextStepButton();
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         editClubPopUp.getStepThreeContainer().clickCompleteButton();

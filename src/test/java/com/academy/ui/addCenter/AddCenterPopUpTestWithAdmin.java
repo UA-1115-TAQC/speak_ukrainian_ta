@@ -7,9 +7,6 @@ import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpCompo
 import com.academy.ui.runners.LoginWithAdminTestRunner;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
-import io.qameta.allure.Description;
-import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

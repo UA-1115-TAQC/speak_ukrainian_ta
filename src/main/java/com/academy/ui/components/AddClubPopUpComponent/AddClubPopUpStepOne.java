@@ -4,6 +4,7 @@ import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -157,5 +158,8 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         this.centerDropdownElement = new DropdownElement(driver, centerDropdown);
         return centerDropdownElement;
     }
-
+    public void scrollIntoView(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", element);
+    }
 }

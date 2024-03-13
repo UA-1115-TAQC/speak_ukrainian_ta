@@ -1,20 +1,18 @@
 package com.academy.ui.profilePage;
 
+import com.academy.ui.components.AddCenterPopUpComponent.*;
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -27,7 +25,19 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
     private AddClubPopUpSider sider;
-
+   private   String validClubName;
+    private String initialCentre;
+   private String validMinAge;
+    private String validMaxAge;
+    private  String validPhone = "0".repeat(10);
+    private  String validDescription;
+    private  AddClubPopUpComponent addClubPopUpComponent;
+    private String validCenterName;
+    private String validLocationName;
+    private String validAddress;
+    private String validCoordinates ="50.56, 5.08";
+    private AddCenterPopUpComponent addCenterPopUp;
+    private int initialIndex;
 
     @BeforeMethod
     public void editProfilePageWithUserTest_setUp() {
@@ -106,6 +116,110 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         checkLocationInList(editClubPopUp, VALID_LOCATION_NAME_5);
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-89")
+    @Issue("TUA-89")
+    public void checkThatLocationsChangeForAclubWhenChangingCenters(){
+       if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+           refreshProfilePage();
+        }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyCentersOnDropdown();
+       if(profilePage.getCenterCardComponentsList().isEmpty() || profilePage.getCenterCardComponentsList().size() == 1){
+           addARandomCenter();
+           refreshProfilePage();
+       }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        String initialLocation = profilePage.getClubCardComponents().get(0).getAddressLocationName().getText();
+        setANewCentreInAClub(2);
+        refreshProfilePage();
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        if (!Objects.equals(initialLocation, "Онлайн") && !Objects.equals(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText(), "Онлайн")){
+            softAssert.assertFalse(initialLocation.equals(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText()),
+                    "The location wasn't modified after changing a centre");
+        }
+        setANewCentreInAClub(initialIndex);
+        softAssert.assertAll();
+    }
+    private void refreshProfilePage(){
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+    }
+    private void setANewCentreInAClub(int index){
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        addClubPopUpComponent= profilePage.getClubCardComponents().get(0).clickMoreButton().clickEditClub();
+        AddClubPopUpStepOne stepOne = addClubPopUpComponent.getStepOneContainer();
+        initialCentre= stepOne.getCenterSelectedTitle().getText();
+        stepOne.scrollIntoView(driver, stepOne.getCenterSelectedTitle());
+        stepOne.getCenterSelectedTitle().click();
+        for( int i =0; i<stepOne.getCentersList().size(); i++){
+            if(stepOne.getCentersList().get(i).getText().equals(initialCentre)){
+                initialIndex=i;
+            }
+        }
+        stepOne.scrollIntoView(driver, stepOne.getCentersList().get(index));
+        stepOne.getCentersList().get(index).click();
+        String newCentre= stepOne.getCenterSelectedTitle().getText();
+        softAssert.assertFalse(newCentre.equals(initialCentre),
+                "The centre wasn't changed");
+        stepOne.clickNextStepButton();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+    }
+    private void addNewRandomClubAddedWithCorrectData() {
+        validClubName = RandomAlphanumericStringGenerator.generateRandomString(8, 12,2);
+        validMinAge = RandomAlphanumericStringGenerator.generateRandomString(2, 4,1);
+        validMaxAge = RandomAlphanumericStringGenerator.generateRandomString(5, 17,1);
+        validDescription = RandomAlphanumericStringGenerator.generateRandomString(40, 50,3);
+
+        AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
+        addClubPopUp.waitPopUpOpen(5);
+        AddClubPopUpStepOne stepOne = addClubPopUp.getStepOneContainer();
+
+        stepOne.getClubNameInputElement().setValue(validClubName);
+        stepOne.getCategoriesCheckboxList().get(0).click();
+        stepOne.setMinAgeInput(validMinAge);
+        stepOne.setMaxAgeInput(validMaxAge);
+        WebElement initialCenterElement = stepOne.clickCenterDropdown().getCentersList().get(1);
+        initialCentre= initialCenterElement.getText();
+        initialCenterElement.click();
+        stepOne.clickNextStepButton();
+        addClubPopUp.getStepTwoContainer()
+                .getTelephoneInputElement()
+                .setValue(validPhone);
+        addClubPopUp.getStepTwoContainer().clickNextStepButton();
+
+        addClubPopUp.getStepThreeContainer().setDescriptionValue(validDescription);
+        addClubPopUp.getStepThreeContainer().clickCompleteButton();
+    }
+   private void addARandomCenter(){
+        addCenterPopUp= profilePage.header.openUserMenu().openAddCentreForm();
+        validCenterName = RandomAlphanumericStringGenerator.generateRandomString(8,12,2);
+        validDescription = RandomAlphanumericStringGenerator.generateRandomString(40,50,3);
+        AddCenterPopUpStepOne stepOne = addCenterPopUp.getStepOneContainer();
+        stepOne.setCenterName(validCenterName);
+        validLocationName =RandomAlphanumericStringGenerator.generateRandomString(8,12,2);
+        AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
+        addLocationPopUp.getLocatioNameInputElement().setValue(validLocationName);
+        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue("Київ");
+        validAddress = RandomAlphanumericStringGenerator.generateRandomString(8,15,3);
+        addLocationPopUp.getLocationAddressInputElement().setValue(validAddress);
+        addLocationPopUp.getLocationCoordinatesInputElement().setValue(validCoordinates);
+        addLocationPopUp.getLocationTelephoneInputElement().setValue(validPhone);
+        addLocationPopUp.clickAddLocationButton();
+        stepOne.clickLocationCheckboxByName(validLocationName);
+        stepOne.clickNextStepButton();
+        AddCenterPopUpStepTwo stepTwo = addCenterPopUp.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue(validPhone);
+        stepTwo.clickNextStepButton();
+        AddCenterPopUpStepThree stepThree = addCenterPopUp.getStepThreeContainer();
+        stepThree.setCenterDescriptionTextarea(validDescription);
+        stepThree.clickNextStepButton();
+        AddCenterPopUpStepFour stepFour = addCenterPopUp.getStepFourContainer();
+        stepFour.clickFinishButton();
     }
 
     private void checkLocationInList(AddClubPopUpComponent editClubPopUp, String name) {

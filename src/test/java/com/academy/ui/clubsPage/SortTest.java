@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class SortTest extends BaseTestRunner {
     private ClubsPage clubsPage;
 
-    @BeforeMethod(description = "Precondition: open clubsPage")
+    @BeforeMethod
     public void openClubsPageWithAdvancedSearch() {
         clubsPage = homePage.getAdvancedSearchHeaderComponent().clickAdvancedSearchIcon();
     }
@@ -43,8 +43,6 @@ public class SortTest extends BaseTestRunner {
         assertEquals(names, sorted);
     }
 
-
-    @Step("Get the list of all clubs on the clubsPage")
     private List<String> getAllClubsNames(){
         List<ClubCardComponent> cards = null;
         List<String> clubNames = new ArrayList<>();

@@ -2,7 +2,6 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
@@ -14,9 +13,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -839,7 +837,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-87/63/")
+//    Delete icon in location Element does not work
+//    (click on it invoke popup element that is covered by Add club popup element)
+    @Ignore
+    @Test(description = "TUA-87/63")
+    @Description("(63 duplicates)Verify that ‘Доступний онлайн’ checkbox is checked automatically if no location is checked (for a club that is not in the center)")
+    @Issue("TUA-87")
     public void isOnlineCheckboxCheckedAutomatically(){
         softAssert = new SoftAssert();
         profilePage = new ProfilePage(driver);

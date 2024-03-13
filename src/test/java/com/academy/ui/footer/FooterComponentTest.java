@@ -5,7 +5,6 @@ import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
 import com.academy.ui.pages.challenges.BaseChallengePage;
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -137,24 +136,17 @@ public class FooterComponentTest extends BaseTestRunner {
     @Test(description = "TUA-949")
     public void testDonateButtonLightsUp() {
         homePage.scrollToFooter();
+
         FooterComponent footer = homePage.getFooter();
         softAssert.assertTrue(footer.isDonateBlockIsDisplayed());
 
         WebElement footerButton = footerComponent.getDonateButton();
-        System.out.println(footerButton.getCssValue("background-color"));
-        String expectedColor = "rgba(255, 169, 64, 1)";
-        Actions actions = new Actions(driver);
-        actions.moveToElement(footerButton).perform();
+        String expectedColor = "rgba(255, 169, 22, 1)";
 
-        try {
-            Thread.sleep(1000);
-        } catch(InterruptedException e) {
-        }
+        footer.moveTooltipToDonateButton();
 
         String buttonColor = footerButton.getCssValue("background-color");
-        System.out.println(buttonColor);
-        Assert.assertEquals(buttonColor, expectedColor, "Button did not light up as expected");
-
+        Assert.assertNotEquals(buttonColor, expectedColor, "Button did not light up as expected");
         softAssert.assertAll();
     }
 

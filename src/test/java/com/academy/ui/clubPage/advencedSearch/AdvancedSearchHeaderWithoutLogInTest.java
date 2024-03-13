@@ -3,6 +3,7 @@ package com.academy.ui.clubPage.advencedSearch;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchTooltip;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
@@ -49,6 +50,21 @@ public class AdvancedSearchHeaderWithoutLogInTest extends BaseTestRunner {
         }
         searchInput.sendKeys(Keys.BACK_SPACE);
         softAssert.assertEquals(searchPlaceholder.getText(), PLACEHOLDER);
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-315")
+    public void checkRightLocationOfAdvancedSearch(){
+        int advancedSearchX = advancedSearchHeaderComponent.getAdvancedSearchIcon().getLocation().getX();
+        int searchFieldX = advancedSearchHeaderComponent.getSelectionSearchInputField().getLocation().getX();
+
+        int distance = Math.abs(searchFieldX - advancedSearchX);
+        int threshold = 280; // Threshold indicating that elements are next to each other
+        softAssert.assertTrue(distance <= threshold, "Advanced search item is not located near the search field.");
+
+        // Check if the "Advanced search" element is located to the right of the search element
+        softAssert.assertTrue(advancedSearchX > searchFieldX, "Advanced search item is not located to the right of the search field.");
         softAssert.assertAll();
     }
 }

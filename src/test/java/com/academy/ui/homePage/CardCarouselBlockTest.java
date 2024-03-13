@@ -39,14 +39,12 @@ public class CardCarouselBlockTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Step("Go back to Home Page")
     private HomePage backToHomePage(){
         driver.navigate().back();
         homePage.waitUntilHomePageIsLoaded();
         return new HomePage(driver);
     }
 
-    @Step("Get direction card by it's index on home page carousel")
     private ClubDirectionCard getDirectionCard(int index){
         CarouselCardComponent carousel = homePage.getCarouselCardComponent();
         while(!carousel.checkThatTheClubDirectionCardObtainedByIndexIsActive(index)){

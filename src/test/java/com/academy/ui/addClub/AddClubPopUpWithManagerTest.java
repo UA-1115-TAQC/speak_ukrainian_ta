@@ -15,11 +15,14 @@ import com.academy.ui.runners.utils.ConfigProperties;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
+import java.time.Duration;
 import java.util.List;
 
 public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
@@ -38,6 +41,11 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     private AddClubPopUpStepTwo stepTwo;
     private AddClubPopUpStepThree stepThree;
     private SoftAssert softAssert;
+
+    private String image1FileName= "image.png";
+    private String image2FileName= "image2.png";
+    private WebDriverWait wait;
+
     private AddClubPopUpSider sider;
 
     @BeforeMethod
@@ -46,6 +54,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     private void fillStepOneWithValidDataPreconditions() {
@@ -148,6 +157,26 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getErrorMessagesTextList().get(0).equals("Некоректний опис гуртка"));
         softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+    }
+
+    @Test(description = "TUA-924")
+    public void checkManagerCanAddOnePhotoAsCoverInCertainSize() {
+        fillStepOneWithValidDataPreconditions();
+        stepOne.clickNextStepButton();
+        fillStepTwoWithValidDataPreconditions();
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image1FileName));
+        WebElement firstUploadedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertTrue(firstUploadedElement.getAttribute("title").contains(image1FileName),
+                "The first photo wasn't uploaded");
+        stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(image2FileName));
+        wait.until(ExpectedConditions.stalenessOf(firstUploadedElement));
+        WebElement refreshedElement = wait.until(ExpectedConditions.visibilityOf(stepThree.getAllUploadedElements().get(0)));
+        softAssert.assertEquals(stepThree.getAllUploadedElements().size(), 1,
+                "More than one photo could be added in the upload cover element");
+        softAssert.assertTrue(refreshedElement.getAttribute("title").contains(image2FileName),
+                "The second photo wasn't uploaded");
     }
 
     @Test(description = "TUA-123")

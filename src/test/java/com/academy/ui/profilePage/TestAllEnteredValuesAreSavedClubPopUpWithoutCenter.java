@@ -47,7 +47,6 @@ private String stepOneSelectedCentre;
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         profilePage = homePage.header.openUserMenu().clickProfile();
         profilePage.addButtonClick().get(0).click();
-        //fix the locator when the element is implemented
         addClubPopUpComponent = new AddClubPopUpComponent(driver);
         addClubPopUpSider = new AddClubPopUpSider(driver, addClubPopUpComponent.getSiderElement());
         addClubPopUpStepOne = addClubPopUpComponent.getStepOneContainer();
@@ -156,7 +155,7 @@ private String stepOneSelectedCentre;
         softAssert.assertEquals(addClubPopUpStepTwo.getEmailInputElement().getInput().getAttribute("value"),email);
         softAssert.assertEquals(addClubPopUpStepTwo.getSkypeInputElement().getInput().getAttribute("value"),skype);
         softAssert.assertEquals(addClubPopUpStepTwo.getSiteInputElement().getInput().getAttribute("value"),site);
-        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationTitle().getText(), locationName);
+        softAssert.assertEquals(addClubPopUpStepTwo.getListOfLocationElements().get(checkboxToCheckIndex).getLocationItemTitle().getText(), locationName);
     }
     private void addLocation(String locationName,String locationCity, String address, String coordinates, String phone){
         addLocationPopUpComponent.getLocatioNameInputElement().setValue(locationName);

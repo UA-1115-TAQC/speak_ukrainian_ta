@@ -1,21 +1,18 @@
 package com.academy.ui.addClub;
 
-import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpSider;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepThree;
-import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
+import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
+import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.elements.BaseDropdownElement;
+import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
-import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,10 +20,20 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 import java.time.Duration;
 
 import static org.testng.Assert.assertTrue;
 
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
@@ -557,6 +564,66 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "TUA-929")
+    public void addingNewClubWithValidData(){
+        String description = "Дуже гарний і довгий опис, який повністю описує важливість цього для вас";
+        ProfilePage profilePage = new ProfilePage(driver);
+        SwitchPaginationComponent switchPaginationComponent = new SwitchPaginationComponent(driver, profilePage.getClubsSpace());
+        List<ClubCardComponent> clubCardComponentList;
+
+        stepOne = addClubPopUpComponent.getStepOneContainer();
+        stepOne.getClubNameInputElement().setValue(VALID_CLUB_NAME);
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE);
+        softAssert.assertTrue(stepOne.getClubNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+
+        stepOne.clickNextStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue("0670694739");
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+        stepTwo.clickNextStepButton();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.setDescriptionValue(description);
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("class").contains("anticon-check-circle"));
+        stepThree.clickCompleteButton();
+
+        softAssert.assertFalse(addClubPopUpComponent.getWebElement().getAttribute("style").contains("display: none;"), "Pop-up still opened");
+        softAssert.assertTrue(profilePage.getMyProfileTitle().isDisplayed(), "Profile page doesn't open");
+
+        if (switchPaginationComponent.isPaginationPresent()) {
+            switchPaginationComponent.getLastPage();
+        }
+
+        clubCardComponentList = profilePage.getClubsElements();
+        softAssert.assertTrue(clubCardComponentList.stream().anyMatch(item -> item.getDescription().getText().equals(description)), "There is no such element on page");
+        homePage.header.openUserMenu();
+        softAssert.assertAll();
+    }
+
+    @Test(description = "LVTEACH-23")
+    public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
+        final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
+                "123Qw*&#єЇ".repeat(10) + "o");
+        final var expectedErrorMessage = """
+                Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи""";
+
+        var clubNameInputElement = stepOne.getClubNameInputElement();
+        testData.forEach(data -> {
+            clubNameInputElement.setValue(data);
+
+            softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0), expectedErrorMessage,
+                    "Incorrect error message: ");
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+
+            clubNameInputElement.clearInput();
+
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+        });
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
     public void checkValidClubNameInput(String input){
         softAssert = new SoftAssert();
@@ -578,12 +645,30 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
-    
+
+    @Test(description = "TUA-765")
+    public void checkDescriptionWithLessThan40Symbols() {
+        String wrongDescriptionTest = "Short description";
+
+        fillStepOneWithValidDataPreconditions();
+        fillStepTwoWithValidDataPreconditions();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clearDescriptionTextarea().setDescriptionValue(wrongDescriptionTest);
+        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(INVALID_CIRCLE_ICON));
+
+        List<String> errors = Arrays.asList("Некоректний опис гуртка", "Опис гуртка може містити від 40 до 1500 символів.");
+        for(WebElement error: stepThree.getErrorMessagesTextarea()) {
+            softAssert.assertTrue(errors.contains(error.getAttribute("innerText")));
+        }
+    }
+
+
     @Test(description = "TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();
         assertTrue(element.isDisplayed());
     }
+
     @Test(description = "LVTEACH-22")
     @Issue("LVTEACH-22")
     public void verifyAddingANewClubWithValidData(){
@@ -633,7 +718,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         //Check DB - that club was added //todo
         softAssert.assertAll();
     }
-    @Step("Get a recently added club card by club name: {0}")
+
     private ClubCardWithEditComponent getARecentlyAddedClubCardByClubName(String clubName){
         SwitchPaginationComponent switchPagination = profilePage.getSwitchPagination();
         switchPagination.scrollIntoView(driver, switchPagination.getWebElement());
@@ -646,7 +731,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         }
         return null;
     }
-    @Step("Verify the active icon on the sider")
+
     private void verifyIconOnTheSiderIsActive(WebElement title,  String stepTitleText, WebElement icon, WebElement iconBackground){
         softAssert.assertEquals(title.getText(), stepTitleText,
                 "The sider doesn't contain the '"+stepTitleText+"' text describing the current step of the club addition process");
@@ -655,30 +740,30 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertFalse(iconBackground.getCssValue("background").contains("rgb(232, 232, 232)"),
                 "The background of the current icon on the sider isn't highlighted in orange to show that it is active");
     }
-    @Step("Verify green checks on step one")
+
     private void verifyGreenChecksOnStepOne(){
         softAssert.assertTrue(stepOne.getClubNameInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
         softAssert.assertTrue(stepOne.getClubNameInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
     }
-    @Step("Fill step one with valid data")
+
     private void fillStepOneWithValidData(String uniqueClubName){
         stepOne.getClubNameInputElement().setValue( uniqueClubName);
         stepOne.selectCategory(CATEGORY)
                 .setMinAgeInput(VALID_MIN_AGE)
                 .setMaxAgeInput(VALID_MAX_AGE);
     }
-    @Step("Fill step two with valid data")
+
     private void fillStepTwoWithValidData(){
         stepTwo.getTelephoneInputElement().setValue(VALID_TELEPHONE_NUMBER);
     }
-    @Step("Verify green checks on step two")
+
     private void verifyGreenChecksOnStepTwo(){
         softAssert.assertTrue(stepTwo.getTelephoneInputElement()
                 .getValidationCircleIcon().getAttribute("aria-label").equals(VALID_CIRCLE_ICON));
     }
-    @Step("Verify green checks on step three")
+
     private void verifyGreenChecksOnStepThree(){
         softAssert.assertTrue(stepThree
                         .getValidationTextareaCircleIcon()

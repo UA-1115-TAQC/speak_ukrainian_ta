@@ -7,9 +7,9 @@ import org.testng.annotations.Test;
 public class Homepage_Button_AllClubs extends LogInWithUserTestRunner {
 
     @Test(description = "TUA-862")
-    public void testbuttonAllClubs(){
+    public void testButtonAllClubs(){
         homePage.scrollToAllClubsButton();
-        homePage.carouselCardComponent.clickCarouselCardAllClubsButton().waitUntilClubsPageIsLoaded(15);
+        homePage.carouselCardComponent.clickCarouselCardAllClubsButton();
         Assert.assertTrue(driver.getCurrentUrl().contains("clubs"));
     }
 }

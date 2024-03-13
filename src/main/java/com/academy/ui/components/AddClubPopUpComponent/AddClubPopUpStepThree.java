@@ -1,5 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
+import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
@@ -103,8 +104,11 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         return this;
     }
 
-    public void clickCompleteButton(){
+    public ProfilePage clickCompleteButton(){
         getNextStepButton().click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.urlContains("user"));
+        return new ProfilePage(driver);
     }
 
     public AddClubPopUpStepThree setDescriptionValue(String value) {
@@ -131,6 +135,7 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         }
         return this;
     }
+
     public List<WebElement> getAllUploadedElements() {
         return getUploadedElementsListNode();
     }
@@ -141,5 +146,13 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         } else {
             throw new RuntimeException("GalleryImg not found by index: " + index);
         }
+    }
+
+    public AddClubPopUpStepThree uploadImgToGallery(String pathToImage) {
+        int countImg = clubGalleryUploadedImgs.size();
+        clubGalleryDownloadInput.sendKeys(pathToImage);
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(d -> countImg < clubGalleryUploadedImgs.size());
+        return this;
     }
 }

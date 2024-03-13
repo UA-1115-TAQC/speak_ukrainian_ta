@@ -25,12 +25,16 @@ import java.util.stream.Collectors;
 @Getter
 public class ProfilePage extends BasePage {
     public LeftSideProfileComponent leftSideProfileComponent;
+
     @FindBy(xpath = ".//div[@class='content-title']")
     private WebElement myProfileTitle;
 
     @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
-
+    @Getter
+    @FindBy(xpath="//span[contains(@class, 'user-avatar')]/img")
+    protected WebElement userAvatarImage;
+    @Getter
     @FindBy(xpath = ".//div[@class='user-name']")
     private WebElement userName;
 
@@ -225,6 +229,14 @@ public class ProfilePage extends BasePage {
             getCenterCardComponents();
         }
     }
+
+    //може бути декілька меседжів одночасно: наприклад, коли змінюєш пароль: Профіль змінено успішно та Пароль змінено успішно.
+    //Збираю ці меседжи колектором у стрінгу із сепаратором ';', щоб потім assertTrue("msg".contains(expectedMessage))
+    public String getSuccessEditMessage() {
+        return driver.findElements(By
+                .xpath("//div[contains(@class, 'notice-wrapper')]//span[contains(., 'змінено успішно')]"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.joining(";"));
+    }
 }
-
-

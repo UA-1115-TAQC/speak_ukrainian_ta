@@ -26,6 +26,8 @@ public class CarouselImgCard extends BaseComponent {
     protected WebElement cardText;
     @FindBy(xpath = ".//a/button")
     protected WebElement cardButton;
+    @FindBy(xpath = ".//a/button/span")
+    protected WebElement cardButtonText;
     @FindBy(xpath = ".//a")
     protected WebElement cardLink;
     public String getCardLinkText(){

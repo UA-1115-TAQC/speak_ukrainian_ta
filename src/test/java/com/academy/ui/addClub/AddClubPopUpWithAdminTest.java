@@ -591,6 +591,28 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
+    @Test(description = "LVTEACH-23")
+    public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
+        final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
+                "123Qw*&#єЇ".repeat(10) + "o");
+        final var expectedErrorMessage = """
+                Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи""";
+
+        var clubNameInputElement = stepOne.getClubNameInputElement();
+        testData.forEach(data -> {
+            clubNameInputElement.setValue(data);
+
+            softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0), expectedErrorMessage,
+                    "Incorrect error message: ");
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+
+            clubNameInputElement.clearInput();
+
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+        });
+        softAssert.assertAll();
+    }
+
     @Test(description = "TUA-931", dataProvider = "validClubName", dataProviderClass = AddClubWithAdminDataProvider.class)
     public void checkValidClubNameInput(String input){
         softAssert = new SoftAssert();
@@ -612,7 +634,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
 
         softAssert.assertAll();
     }
-
+    
     @Test(description = "TUA-312")
     public void checkAddClubPopUpIsDisplayed(){
         WebElement element = stepOne.getNextStepButton();

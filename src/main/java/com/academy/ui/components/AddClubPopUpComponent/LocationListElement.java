@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class LocationListElement extends BaseComponent {
 
     @FindBy(xpath = "./descendant::h4[@class='ant-list-item-meta-title']")
-    private WebElement locationTitle;
+    private WebElement locationItemTitle;
 
     @FindBy(xpath = "./descendant::div[@class='ant-list-item-meta-description']")
     private WebElement descriptionTitle;

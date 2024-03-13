@@ -49,6 +49,9 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = "./descendant::div[@class='age']")
     private WebElement ageOfTheAudienceClub;
 
+    @FindBy(xpath = ".//div[@class='center']/span[@class='name']")
+    private WebElement clubCenter;
+
     @FindBy(xpath = ".//a[contains(@href,'com.ua/')]")
     private WebElement siteOfTheClub;
 
@@ -131,6 +134,10 @@ public class ClubPage extends BasePage {
     public LeaveCommentPopUpComponent openLeaveCommentPopUpComponent() {
         leaveCommentButton.click();
         return new LeaveCommentPopUpComponent(driver, leaveCommentButton);
+    }
+
+    public String getClubCenterName(){
+        return clubCenter.getText();
     }
 
 

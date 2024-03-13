@@ -19,6 +19,8 @@ import org.testng.asserts.SoftAssert;
 import static org.testng.Assert.assertTrue;
 
 
+import java.util.List;
+
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";
     private static final String VALID_CLUB_NAME = "Add club name";
@@ -521,21 +523,25 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
                 getValidationCircleIcon().getAttribute("aria-label").equals(INVALID_CIRCLE_ICON));
     }
 
-    @Test(description = "TUA-172")
-    public void checkValidationIconWithValidDataForDescriptionField() {
-        fillStepOneWithValidDataPreconditions();
-        fillStepTwoWithValidDataPreconditions();
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
+    @Test(description = "LVTEACH-23")
+    public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
+        final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
+                "123Qw*&#єЇ".repeat(10) + "o");
+        final var expectedErrorMessage = """
+                Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи""";
 
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_40_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+        var clubNameInputElement = stepOne.getClubNameInputElement();
+        testData.forEach(data -> {
+            clubNameInputElement.setValue(data);
 
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1000_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+            softAssert.assertEquals(clubNameInputElement.getErrorMessagesTextList().get(0), expectedErrorMessage,
+                    "Incorrect error message: ");
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
 
-        stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+            clubNameInputElement.clearInput();
 
+            softAssert.assertTrue(clubNameInputElement.getValidationCircleIcon().isDisplayed());
+        });
         softAssert.assertAll();
     }
 

@@ -101,4 +101,15 @@ public class SwitchPaginationComponent extends BaseComponent {
         return new ClubsPage(driver);
     }
 
+    public ClubsPage getLastPage(){
+        while (!isNextDisabled()){
+            clickNext();
+        }
+        return new ClubsPage(driver);
+    }
+
+    public boolean isPaginationPresent() {
+        return !paginationItems.isEmpty();
+    }
+
 }

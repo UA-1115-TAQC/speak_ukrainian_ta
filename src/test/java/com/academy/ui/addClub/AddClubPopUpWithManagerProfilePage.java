@@ -24,15 +24,19 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-116")
-    public void checkDifferentWaysToAddClub() {
+    @Test(description = "TUA-116_1")
+    public void checkAddClubPopUpHomePage() {
         AddClubPopUpComponent addClubPopUpComponent= homePage.header.addClubButtonClick();
         addClubPopUpComponent.waitPopUpOpen(10);
         softAssert.assertTrue(addClubPopUpComponent.isOpen(),
                 "PopUp not opened clicking the button 'Add club' in HomePage");
 
         addClubPopUpComponent.getCloseButton().click();
+        softAssert.assertAll();
+    }
 
+    @Test(description = "TUA-116_2")
+    public void checkAddClubPopUpProfilePage() {
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
         softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(),

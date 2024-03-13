@@ -7,6 +7,7 @@ import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.LeftSideProfileComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -20,16 +21,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class ProfilePage extends BasePage {
     public LeftSideProfileComponent leftSideProfileComponent;
+
     @FindBy(xpath = ".//div[@class='content-title']")
     private WebElement myProfileTitle;
 
     @FindBy(xpath = ".//span[contains(@class, 'user-avatar')]")
     private WebElement userAvatar;
-
+    @Getter
+    @FindBy(xpath="//span[contains(@class, 'user-avatar')]/img")
+    protected WebElement userAvatarImage;
+    @Getter
     @FindBy(xpath = ".//div[@class='user-name']")
     private WebElement userName;
 
@@ -65,6 +71,10 @@ public class ProfilePage extends BasePage {
 
     @FindBy(xpath = "//div[contains(@class,'ant-dropdown')]/child::*[1]//div[text()='Додати центр']")
     private WebElement addCenterButton;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]//div[contains(@class, 'space-item')]")
+    private List<WebElement> myClubsList;
+    @FindBy(xpath = "//div[contains(@class, 'user-club-content')]")
+    private WebElement clubsSpace;
 
     @FindBy(xpath = ".//div[contains(@class, 'menu-component')]")
     private WebElement leftSideRoot;
@@ -86,6 +96,9 @@ public class ProfilePage extends BasePage {
     protected List<ClubCardWithEditComponent> clubCardComponentsList;
     protected ClubsPaginationComponent switchPagination;
     protected List<CenterCardWithEditComponent> centerCardComponentsList;
+    public List<ClubCardComponent> getClubsElements(){
+        return myClubsList.stream().map(el -> new ClubCardComponent(driver, el)).collect(Collectors.toList());
+    }
 
     public ProfilePage(WebDriver driver) {
         super(driver);
@@ -94,18 +107,23 @@ public class ProfilePage extends BasePage {
         selectWhatCardsToShow();
     }
 
-    public void dropDownClick() {
+    @Step("Click on drop down with my lessons or my centers buttons")
+    public ProfilePage clickMyClubsAndCentersOnDropdown() {
         myLessonsOrCentersDropDown.click();
+        return this;
     }
 
+    @Step("Click on edit button")
     public void editButtonClick() {
         editProfileButton.click();
     }
 
+    @Step("Click on My Centers on drop down")
     public void centersDropDownClick() {
         myCentersDropDown.click();
     }
 
+    @Step("Click on add button")
     public List<WebElement> addButtonClick() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(addButton)).click();
@@ -118,24 +136,27 @@ public class ProfilePage extends BasePage {
 
     private String getAddButtonOptionStringPath(String name) {
         return "//li[contains(@data-menu-id,\"add_" + name + "_admin\")]";
-
     }
 
+    @Step("Hover on add button")
     public void hoverAddButton() {
         Actions actions = new Actions(driver);
         actions.moveToElement(addButton).perform();
     }
 
-    public AddClubPopUpComponent lessonsDropDownClick() {
+    @Step("Click on add club button on drop down")
+    public AddClubPopUpComponent clubDropDownClick() {
         addClubButton.click();
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Click on add center button on drop down")
     public AddCenterPopUpComponent centerDropDownClick() {
         addCenterButton.click();
         return new AddCenterPopUpComponent(driver);
     }
 
+    @Step("Open pop-up Edit user profile")
     public EditProfilePopUp openEditUserProfile() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(editProfileButton)).click();
@@ -165,6 +186,7 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
+    @Step("Open add club pop-up")
     public AddClubPopUpComponent openAddClubPopUp() {
         addButtonClick().get(0).click();
         return new AddClubPopUpComponent(driver);
@@ -182,17 +204,14 @@ public class ProfilePage extends BasePage {
         return centerCardComponentsList;
     }
 
-    public ProfilePage clickMyClubsAndCentersOnDropdown() {
-        myLessonsOrCentersDropDown.click();
-        return this;
-    }
-
+    @Step("Click on My Centers on drop down")
     public void clickMyCentersOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myCentersDropDown)).click();
         getCenterCardComponents();
     }
 
+    @Step("Click on My Lessons on drop down")
     public void clickMyClubsOnDropdown() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(myLessonsDropDown)).click();
@@ -217,6 +236,14 @@ public class ProfilePage extends BasePage {
             getCenterCardComponents();
         }
     }
+
+    //може бути декілька меседжів одночасно: наприклад, коли змінюєш пароль: Профіль змінено успішно та Пароль змінено успішно.
+    //Збираю ці меседжи колектором у стрінгу із сепаратором ';', щоб потім assertTrue("msg".contains(expectedMessage))
+    public String getSuccessEditMessage() {
+        return driver.findElements(By
+                .xpath("//div[contains(@class, 'notice-wrapper')]//span[contains(., 'змінено успішно')]"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.joining(";"));
+    }
 }
-
-

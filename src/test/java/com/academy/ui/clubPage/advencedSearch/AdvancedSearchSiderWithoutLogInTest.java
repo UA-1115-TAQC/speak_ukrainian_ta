@@ -2,7 +2,6 @@ package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.ClubInfoPopUp;
-import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
@@ -249,6 +248,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
     }
 
     @Test
+    @Description("Check advanced search page UI")
     @Issue("TUA-238")
     public void checkAdvancedSearchUI() {
         softAssert.assertTrue(advancedSearchSider.getWebElement().isDisplayed(),
@@ -377,54 +377,14 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
         softAssert.assertEquals(advancedSearchSider.getYears().getCssValue("font-size"), "14px");
 
         Actions actions = new Actions(driver);
-        WebElement startingElement = advancedSearchSider.getCenterOrClubRadioButton().getFirst();
+        WebElement startingElement = advancedSearchSider.getOnlineInputCheckBox();
         startingElement.click();
         actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(advancedSearchSider.getSearchCityElement().getInputContent().getAttribute("title").equals(driver.switchTo().activeElement().getAttribute("title")),
-//                "Focus should be on city dropdown");
-//        actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(advancedSearchSider.getSearchDistrictElement().getInputContent().getText().equals(driver.switchTo().activeElement().getText()),
-//                "Focus should be on district dropdown");
-//        actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(advancedSearchSider.getSearchMetroElement().getInputContent().getText().equals(driver.switchTo().activeElement().getText()),
-//                "Focus should be on search metro dropdown");
-//        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getOnlineCheckBox().equals(driver.switchTo().activeElement()),
-                "Focus should be on online checkbox");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(0).equals(driver.switchTo().activeElement()),
-                "Focus should be on 1 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(1).equals(driver.switchTo().activeElement()),
-                "Focus should be on 2 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(2).equals(driver.switchTo().activeElement()),
-                "Focus should be on 3 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(3).equals(driver.switchTo().activeElement()),
-                "Focus should be on 4 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(4).equals(driver.switchTo().activeElement()),
-                "Focus should be on 5 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(5).equals(driver.switchTo().activeElement()),
-                "Focus should be on 6 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(6).equals(driver.switchTo().activeElement()),
-                "Focus should be on 7 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(7).equals(driver.switchTo().activeElement()),
-                "Focus should be on 8 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(8).equals(driver.switchTo().activeElement()),
-                "Focus should be on 9 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(9).equals(driver.switchTo().activeElement()),
-                "Focus should be on 10 direction");
-        actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(advancedSearchSider.getDirectionsCheckBox().get(10).equals(driver.switchTo().activeElement()),
-                "Focus should be on 11 direction");
-        actions.sendKeys(Keys.TAB).perform();
+        for (int i = 0; i < advancedSearchSider.getDirectionsInputCheckBox().size(); i++) {
+            softAssert.assertTrue(advancedSearchSider.getDirectionsInputCheckBox().get(i).equals(driver.switchTo().activeElement()),
+                    "Focus should be on direction " + (i + 1));
+            actions.sendKeys(Keys.TAB).perform();
+        }
         softAssert.assertTrue(advancedSearchSider.getAgeInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on age input");
 

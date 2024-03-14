@@ -1,6 +1,5 @@
 package com.academy.ui.components;
 
-import com.academy.ui.components.elements.BaseInputElement;
 import com.academy.ui.components.elements.LocationSearchSiderElement;
 import com.academy.ui.pages.ClubsPage;
 import lombok.AccessLevel;
@@ -38,8 +37,14 @@ public class AdvancedSearchSiderComponent extends BaseComponent{
     protected List<WebElement> centerOrClubRadioButton;
     @FindBy(xpath = ".//div[@id='basic_isOnline']")
     protected WebElement onlineCheckBox;
+    @FindBy(xpath = ".//div[@id='basic_isOnline']//span[contains(@class, 'ant-wave-target')]")
+    protected WebElement onlineInputCheckBox;
+
     @FindBy(xpath = ".//div[@id='basic_categoriesName']//label[contains(@class,'ant-checkbox-wrapper')]")
     protected List<WebElement> directionsCheckBox;
+    @FindBy(xpath = ".//div[@id='basic_categoriesName']//input")
+    protected List<WebElement> directionsInputCheckBox;
+
     @FindBy(xpath = ".//span[@id='basic_age']//input[contains(@class,'ant-input-number-input')]")
     protected WebElement ageInput;
     @FindBy(xpath = ".//div[contains(@class,'mobile-clear-button')]")

@@ -1,6 +1,7 @@
 package com.academy.ui.components;
 
 import com.academy.ui.pages.Base;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -24,6 +25,7 @@ public abstract class BaseComponent extends Base {
         return this.rootElement;
     }
 
+    @Step("Check visibility of the component's root element with wait")
     public boolean isComponentVisible() {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOf(rootElement));

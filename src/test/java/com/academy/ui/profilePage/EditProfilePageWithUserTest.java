@@ -86,7 +86,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidFirstName")
     private Object[][] invalidFirstNameDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
                 {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
@@ -102,14 +102,15 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidPhone")
     private Object[][] invalidPhoneDataProvider() {
-        return new Object[][] {
-                {"a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
-                {"-a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
-                {";", new String[] {"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
-                {"99999999999999999", new String[] {"Телефон не відповідає вказаному формату"}},
-                {" m", new String[] {"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+        return new Object[][]{
+                {"a", new String[]{"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
+                {"-a", new String[]{"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {";", new String[]{"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {"99999999999999999", new String[]{"Телефон не відповідає вказаному формату"}},
+                {" m", new String[]{"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
         };
     }
+
     @Test
     @Description("""
             Verify User as 'Відвідувач' can see 'Завантажити фото' text link
@@ -381,7 +382,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidLastName")
     private Object[][] invalidLastNameDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Прізвище не може містити більше, ніж 25 символів"},
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Прізвище не може містити більше, ніж 25 символів"},
                 {"!@#$%^&,", "Прізвище не може містити спеціальні символи"},
@@ -396,7 +397,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @Issue("TUA-905")
     @Test()
-    public void checkIsPasswordHide(){
+    public void checkIsPasswordHide() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
 
@@ -456,7 +457,15 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 "Successful registration message should appear");
     }
 
-    @Test(description = "TUA-171", dataProvider = "userValidPassword")
+    @Test(description = """
+            Check user can change old password with valid new one""",
+            dataProvider = "userValidPassword")
+    @Description("""
+            Check user as 'Відвідувач' can change the password
+            by inputting valid data in ‘New password field’""")
+    @Parameters({"oldUserPassword", "newUserPassword",
+            "validationCircleIconExpectedColor", "expectedSuccessMessage"})
+    @Issue("TUA-171")
     public void checkUserCanChangeOldPassword(String userPassword, String password,
                                               String expectedColor, String expectedSuccessMessage) {
         var editProfilePopUp = profilePage.openEditUserProfile();
@@ -501,7 +510,6 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         };
     }
 
-    //для того, щоб повернути юсера у першопочатковий стан (такий як у конфіг-проперті)
     private void tearDownUser(String oldPassword, String password) {
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(5);

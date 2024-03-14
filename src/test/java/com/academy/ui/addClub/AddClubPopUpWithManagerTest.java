@@ -484,7 +484,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-925")
+    @Test(description = "Verify from 1 to 5 photo can be added in gallery on the 'add club pop up'")
+    @Description("Verify 'Керівник' can add from 1 to 5 photos in 'Галерея' step of the add club pop up")
+    @Issue("TUA-925")
     public void verify5PhotoCanBeAddedByManager() {
         fillStepOneWithValidDataPreconditions();
         fillStepTwoWithValidDataPreconditions();

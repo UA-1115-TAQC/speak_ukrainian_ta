@@ -118,10 +118,11 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return new ProfilePage(driver);
     }
 
-    public void clickCompleteButtonWithWait() {
+    @Step("Click on complete button with {timeOut} seconds wait")
+    public void clickCompleteButtonWithWait(long timeOut) {
         getNextStepButton()
                 .click();
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        new WebDriverWait(driver, Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.invisibilityOfAllElements(getNextStepButton()));
     }
 

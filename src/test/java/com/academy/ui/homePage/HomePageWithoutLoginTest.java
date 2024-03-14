@@ -81,7 +81,11 @@ public class HomePageWithoutLoginTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-346")
+    @Test(description = "Verify news button on the header redirects to the All News page")
+    @Description("""
+            Verify that user is redirected to 'Новини' page
+            when clicking on it and its label is underlined""")
+    @Issue("TUA-346")
     public void verifyNewsButtonRedirectsToAllNewsPage() {
         final String underlineBorderColor = "255, 255, 255";
         HeaderComponent header = homePage.header;
@@ -102,7 +106,13 @@ public class HomePageWithoutLoginTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-310")
+    @Test(description = """
+            Verify news 'Послуги українською' button on the header
+            redirects to the 'Послуги українською" page""")
+    @Description("""
+            Verify that user is redirected to 'Послуги українською' page
+            when clicking on it and its label is underlined""")
+    @Issue("TUA-310")
     public void verifyServiceButtonRedirectsToServicePage() {
         final String underlineBorderColor = "255, 255, 255";
         HeaderComponent header = homePage.header;

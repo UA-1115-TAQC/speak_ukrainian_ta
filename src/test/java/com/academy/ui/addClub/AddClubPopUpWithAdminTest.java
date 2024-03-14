@@ -456,7 +456,9 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "LVTEACH-23")
+    @Test
+    @Description("Verify that 'Назва' field doesn't accept not allowed characters and error message appears")
+    @Issue("LVTEACH-23")
     public void checkFillInNameFieldWithInvalidData_ErrorMessage() {
         final var testData = List.of("ÄыЁЪùראפ", "ƻ®©¥¼µ€", "       ", "@fЙ8",
                 "123Qw*&#єЇ".repeat(10) + "o");
@@ -517,7 +519,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
             softAssert.assertTrue(errors.contains(error.getAttribute("innerText")));
         }
     }
-    
+
     @Test()
     @Description("Verify that pop-up 'Додати гурток' appears when clicking 'Додати гурток' button at 'Home' page")
     @Issue("TUA-312")

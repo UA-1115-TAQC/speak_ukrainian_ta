@@ -200,6 +200,7 @@ public class EditProfilePopUp extends BasePopUp {
 
     /*кнопки 'видалити аватар' немає на попапі, якщо заходити вже із встановленим аватаром(хоча має бути згідно із вимогами).
     вона з'являється тільки якщо добавляти аватар заново. Картинка на попапі видаляється, але сама аватарка залишається.*/
+    @Step("delete user avatar on the edit profile pop up")
     public EditProfilePopUp deleteUserAvatar() {
         new Actions(driver)
                 .moveToElement(uploadPictureTitle)

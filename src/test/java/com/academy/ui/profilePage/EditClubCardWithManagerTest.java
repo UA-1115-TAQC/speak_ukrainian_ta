@@ -13,11 +13,14 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -286,43 +289,87 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
             addNewRandomClubAddedWithCorrectData();
             refreshProfilePage();
         }
+        /*
+        deleteLocation();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent club = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME);
+        softAssert.assertEquals(club.getAddress().getText(), "Онлайн");
+        undoChanges();
+        softAssert.assertAll();
+        * */
         goToTheSecondStep();
-       AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
-       boolean hasLocation=false;
-       if(stepTwo.isSwitchButtonChecked()){
-           //add loca +uncheck
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        boolean hasLocation=false;
+       if(stepTwo.isSwitchButtonChecked() && stepTwo.getListOfLocationElements().isEmpty()){
+           addLocation(addClubPopUpComponent, "Sample location");
+           stepTwo.clickNextStepButton();
+           AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+           stepThree.clickCompleteButton();
+           refreshProfilePage();
+           goToTheSecondStep();
        }else{
            hasLocation=true;
-           //uncheck all
-           //softserve all are unchecked
        }
-       stepTwo.clickNextStepButton();
-       //assert contats tab is displayed
-        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.clickPreviousStepButton();
-        stepTwo = addClubPopUpComponent.getStepTwoContainer();
-        softAssert.assertTrue(stepTwo.isSwitchButtonChecked(), "not onl");
-        stepTwo.clickNextStepButton();
-        stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.clickCompleteButtonWithWait();
+       addClubPopUpComponent = new AddClubPopUpComponent(driver);
+       addClubPopUpComponent.sleep(1000);
+        deleteTheSetLocation(addClubPopUpComponent);
         refreshProfilePage();
-        softAssert.assertTrue(profilePage.getEmailUser().isDisplayed(), "profile p not disp");
+        softAssert.assertTrue(profilePage.getEmailUser().isDisplayed(), "The profile page wasn't displayed " +
+                "after successfully editing a club");
         softAssert.assertTrue(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText().contains("Онлайн"),
-                "not onl");
-
+                "The location text on the club card wasn't automatically changed to 'Online' after deleting all locations");
         if(hasLocation){
-            goToTheSecondStep();
-            stepTwo = addClubPopUpComponent.getStepTwoContainer();
-            //return locations
-
-            stepTwo.clickNextStepButton();
-            stepThree = addClubPopUpComponent.getStepThreeContainer();
-            stepThree.clickCompleteButtonWithWait();
+            undoChangesLocation();
         }
-
-
-
         softAssert.assertAll();
+    }
+    private void deleteTheSetLocation(AddClubPopUpComponent edit) {
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+        softAssert.assertTrue(twoEdit.getSwitchButton().isDisplayed());
+        LocationListElement locationElement = twoEdit.getListOfLocationElements().get(0);
+        AddLocationPopUpComponent location = locationElement.clickEditIcon();
+        deletedLocationName = location.getLocatioNameInputElement().getInput().getAttribute("value");
+        deletedCity = location.getLocatioCityDropdownElement().getSelectedItem().getText();
+        deletedDistrict = location.getLocationDistrictDropdownElement().getSelectedItem().getText();
+        deletedAddress = location.getLocationAddressInputElement().getInput().getAttribute("value");
+        deletedCoordinates = location.getLocationCoordinatesInputElement().getInput().getAttribute("value");
+        deletedTelephone = location.getLocationTelephoneInputElement().getInput().getAttribute("value");
+        location.clickAddLocationButton();
+        //    Delete icon in location Element does not work
+        //therefore  uncomment the try/catch construction, to see the result of the tests - soft asserts
+//try {
+    locationElement.clickDeleteIcon();
+//}catch (StaleElementReferenceException e) {
+    twoEdit.clickNextStepButton();
+    edit.getStepThreeContainer().clickPreviousStepButton();
+    softAssert.assertTrue(edit.getStepTwoContainer().getLocationList().isEmpty(),
+            "The previous location wasn't deleted");
+    softAssert.assertTrue(edit.getStepTwoContainer().isSwitchButtonChecked(),
+            "The club isn't displayed as an online club after deleting a location");
+    edit.getStepTwoContainer().clickNextStepButton();
+    edit.getStepThreeContainer().clickCompleteButton();
+//}
+    }
+
+    private void undoChangesLocation(){
+        profilePage = new ProfilePage(driver);
+        AddClubPopUpComponent edit = profilePage.getClubCardComponents().get(0)
+                .clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(20);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+
+        AddLocationPopUpComponent location = twoEdit.clickAddLocationButton();
+        location.getLocatioNameInputElement().setValue(deletedLocationName);
+        location.getLocatioCityDropdownElement().clickDropdown().selectValue(deletedCity);
+        location.getLocationDistrictDropdownElement().clickDropdown().selectValue(deletedDistrict);
+        location.getLocationAddressInputElement().setValue(deletedAddress);
+        location.getLocationCoordinatesInputElement().setValue(deletedCoordinates);
+        location.getLocationTelephoneInputElement().setValue(deletedTelephone);
+        location.clickAddLocationButton();
+
+        twoEdit.clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
     }
     @Test(description = "TUA-973")
     @Issue("TUA-973")
@@ -349,7 +396,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepTwo.clickNextStepButton();
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.uploadImgToCover(ConfigProperties.getImagePath(image), image);
-       // stepThree.sleep(1000);
         stepThree.clickCompleteButton();
     }
     private void deleteExistingCover(String cover){

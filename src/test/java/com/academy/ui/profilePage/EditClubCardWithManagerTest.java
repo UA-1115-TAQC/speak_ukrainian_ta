@@ -1206,4 +1206,13 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         edit.getStepThreeContainer().clickCompleteButton();
     }
 
+    @Test
+    @Issue("TUA-965")
+    public void checkEditClubButtonIsDisplayed(){
+        ClubCardWithEditComponent clubCard = profilePage.getClubCardComponentsList().getFirst();
+        AddClubPopUpComponent editClubPopUp = clubCard.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        softAssert.assertTrue(editClubPopUp.isOpen());
+        softAssert.assertAll();
+    }
 }

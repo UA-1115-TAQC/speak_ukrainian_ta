@@ -7,6 +7,7 @@ import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import org.openqa.selenium.By;
 import io.qameta.allure.Step;
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
+@Getter
 public class ClubCardWithEditComponent extends ClubCardComponent {
 
     @FindBy(xpath = ".//div[@class='title-name']")

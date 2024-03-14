@@ -109,6 +109,9 @@ public class ProfilePage extends BasePage {
         selectWhatCardsToShow();
     }
 
+    public void dropDownClick() {
+        myLessonsOrCentersDropDown.click();
+    }
 
     @Step("Click edit button 'Додати' on the Profile page")
     public void editButtonClick() {
@@ -141,6 +144,7 @@ public class ProfilePage extends BasePage {
         Actions actions = new Actions(driver);
         actions.moveToElement(addButton).perform();
     }
+
     @Step("Click on add club button on drop down")
     public AddClubPopUpComponent clubDropDownClick() {
         addClubButton.click();
@@ -255,9 +259,12 @@ public class ProfilePage extends BasePage {
     //Збираю ці меседжи колектором у стрінгу із сепаратором ';', щоб потім assertTrue("msg".contains(expectedMessage))
     public String getSuccessEditMessage() {
         return driver.findElements(By
-                .xpath("//div[contains(@class, 'notice-wrapper')]//span[contains(., 'змінено успішно')]"))
+                        .xpath("//div[contains(@class, 'notice-wrapper')]//span[contains(., 'змінено успішно')]"))
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.joining(";"));
     }
+
 }
+
+

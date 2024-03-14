@@ -13,8 +13,8 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -23,6 +23,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
+    private final String CLUB_WITH_LOCATION_NAME = "Club With Location";
+    private String deletedLocationName = "";
+    private String deletedCity = "";
+    private String deletedDistrict = "";
+    private String deletedAddress = "";
+    private String deletedCoordinates = "";
+    private String deletedTelephone = "";
     private SoftAssert softAssert;
     private ProfilePage profilePage;
     private AddClubPopUpSider sider;
@@ -1128,6 +1135,68 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 centerName);
 
         softAssert.assertAll();
+    }
+
+//    Delete icon in location Element does not work
+//    (click on it invoke popup element that is covered by Add club popup element)
+    @Ignore
+    @Test(description = "TUA-87/63")
+    @Description("(63 duplicates)Verify that ‘Доступний онлайн’ checkbox is checked automatically if no location is checked (for a club that is not in the center)")
+    @Issue("TUA-87")
+    public void isOnlineCheckboxCheckedAutomatically(){
+        softAssert = new SoftAssert();
+        profilePage = new ProfilePage(driver);
+        deleteLocation();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent club = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME);
+        softAssert.assertEquals(club.getAddress().getText(), "Онлайн");
+        undoChanges();
+        softAssert.assertAll();
+    }
+
+    private void deleteLocation() {
+        profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME)
+                .clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = new AddClubPopUpComponent(driver);
+        edit.waitPopUpOpen(20);
+        edit.getStepOneContainer().clickNextStepButton();
+
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+        LocationListElement locationElement = twoEdit.getListOfLocationElements().get(0);
+
+        AddLocationPopUpComponent location = locationElement.clickEditIcon();
+        deletedLocationName = location.getLocatioNameInputElement().getInput().getAttribute("value");
+        deletedCity = location.getLocatioCityDropdownElement().getSelectedItem().getText();
+        deletedDistrict = location.getLocationDistrictDropdownElement().getSelectedItem().getText();
+        deletedAddress = location.getLocationAddressInputElement().getInput().getAttribute("value");
+        deletedCoordinates = location.getLocationCoordinatesInputElement().getInput().getAttribute("value");
+        deletedTelephone = location.getLocationTelephoneInputElement().getInput().getAttribute("value");
+        location.clickAddLocationButton();
+
+        locationElement.clickDeleteIcon();
+        twoEdit.clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
+    }
+
+    private void undoChanges(){
+        profilePage = new ProfilePage(driver);
+        AddClubPopUpComponent edit = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME)
+                .clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(20);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+
+        AddLocationPopUpComponent location = twoEdit.clickAddLocationButton();
+        location.getLocatioNameInputElement().setValue(deletedLocationName);
+        location.getLocatioCityDropdownElement().clickDropdown().selectValue(deletedCity);
+        location.getLocationDistrictDropdownElement().clickDropdown().selectValue(deletedDistrict);
+        location.getLocationAddressInputElement().setValue(deletedAddress);
+        location.getLocationCoordinatesInputElement().setValue(deletedCoordinates);
+        location.getLocationTelephoneInputElement().setValue(deletedTelephone);
+        location.clickAddLocationButton();
+
+        twoEdit.clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
     }
 
 }

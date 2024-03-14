@@ -289,14 +289,6 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
             addNewRandomClubAddedWithCorrectData();
             refreshProfilePage();
         }
-        /*
-        deleteLocation();
-        profilePage = new ProfilePage(driver);
-        ClubCardWithEditComponent club = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME);
-        softAssert.assertEquals(club.getAddress().getText(), "Онлайн");
-        undoChanges();
-        softAssert.assertAll();
-        * */
         goToTheSecondStep();
         AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
         boolean hasLocation=false;

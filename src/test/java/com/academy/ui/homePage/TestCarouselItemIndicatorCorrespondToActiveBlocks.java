@@ -2,6 +2,8 @@ package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.ClubDirectionCard;
 import com.academy.ui.runners.HomePageTestRunner;
+import io.qameta.allure.Issue;
+import jdk.jfr.Description;
 import org.openqa.selenium.support.Color;
 import org.testng.annotations.Test;
 
@@ -13,7 +15,9 @@ public class TestCarouselItemIndicatorCorrespondToActiveBlocks extends HomePageT
     private static final String EXPECTED_ACTIVE_HEX_COLOR = "#fa8c16";
     private static final String EXPECTED_INACTIVE_HEX_COLOR = "#c4c4c4";
 
-    @Test(description = "TUA-829")
+    @Test
+    @Description("[Home page] [The user is not logged in] Verify that active carousel item indicator with suggested clubs correspond to the active blocks on the carousel")
+    @Issue("TUA-829")
     public void checkThatCarouselIndicatorWithSuggestedClubsCorrespondToActiveBlocks() {
         homePage.carouselCardComponent.clickSlickDotByIndex(0);
         String activeDot = homePage.carouselCardComponent.getActiveSlickDot().getCssValue("background-color");

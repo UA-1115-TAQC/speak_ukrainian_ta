@@ -444,7 +444,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataUser() {
         List<String> errorMessagesActual;
 
@@ -488,7 +490,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataManager() {
         List<String> errorMessagesActual;
 

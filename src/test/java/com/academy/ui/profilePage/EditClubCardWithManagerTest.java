@@ -13,8 +13,8 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -707,11 +707,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "User can change 'Фото' for the existing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window")
     @Issue("TUA-958")
     public void checkChangeCoverPhoto() {
-        String imageName= "book.png";
-        String imageName2 = "image.png";
+        String imageName= "image.png";
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
@@ -776,7 +776,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-48")
+    @Test(description = "Check the 'Контакти' tab with UI")
+    @Description("Check the ‘Контакти’ tab on the ‘Редагувати гурток’ pop-up window (UI)")
+    @Issue("TUA-48")
     public void checkContactTabUI() {
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
@@ -810,67 +812,67 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("font-size"), "19px");
 
         softAssert.assertEquals(stepTwo.getAddLocationButton().getText(), "Додати локацію");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(250, 140, 22, 1)");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "17px",
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(254, 119, 41, 1)");
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "14px",
                 "location button");
 
-        softAssert.assertTrue(stepTwo.getSwitchButton().isSelected());
+        softAssert.assertTrue(stepTwo.getSwitchButton().isDisplayed());
 
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().getErrorMessages().isEmpty());
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().getStaticIcon().isDisplayed());
 
         softAssert.assertTrue(stepTwo.getNextStepButton().isDisplayed());
-        softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наструпний крок");
-        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наступний крок");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(255, 255, 255, 1)");
 
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getPrevStepButton().getText(),"Назад");
         softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.TAB).perform();
+        WebElement startingElement = stepTwo.getSwitchButton();
+        startingElement.click();
         softAssert.assertTrue(stepTwo.getSwitchButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on Switch Button");
         actions.sendKeys(Keys.TAB).perform();
-
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(0).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(0).equals(driver.switchTo().activeElement()),
                 "Focus should be on Monday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(1).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(1).equals(driver.switchTo().activeElement()),
                 "Focus should be on Tuesday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(2).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(2).equals(driver.switchTo().activeElement()),
                 "Focus should be on Wednesday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(3).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(3).equals(driver.switchTo().activeElement()),
                 "Focus should be on Thursday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(4).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(4).equals(driver.switchTo().activeElement()),
                 "Focus should be on Friday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(5).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(5).equals(driver.switchTo().activeElement()),
                 "Focus should be on Saturday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(6).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(6).equals(driver.switchTo().activeElement()),
                 "Focus should be on Sunday checkbox");
         actions.sendKeys(Keys.TAB).perform();
 
-        softAssert.assertTrue(stepTwo.getTelephoneInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Telephone Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getFacebookInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getFacebookInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Facebook Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getWhatsappInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWhatsappInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Whatsapp Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getEmailInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getEmailInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Email Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getSkypeInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getSkypeInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Skype Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getSiteInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getSiteInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Site Input");
         actions.sendKeys(Keys.TAB).perform();
 
@@ -926,7 +928,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "user can edit 'Опис' with invalid data")
+    @Description("Verify that user can edit ‘Опис’ field with invalid data, " +
+            "and changes will not be saved on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window ")
     @Issue("TUA-79")
     public void checkUserCanEditDescriptionFieldWithInvalidData() {
         String clubName = getClubName();
@@ -1098,7 +1102,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThreeContainer.clickCompleteButton();
     }
 
-    @Test(description = "Center is added")
+    @Test(description = "User can add center")
     @Description("Verify that user can add center for the existing club without center")
     @Issue("TUA-980")
     public void checkStepOneEditCenter() {

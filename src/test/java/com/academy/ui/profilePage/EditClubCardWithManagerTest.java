@@ -1,16 +1,17 @@
 package com.academy.ui.profilePage;
 
+import com.academy.ui.components.AddCenterPopUpComponent.*;
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ClubPage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
@@ -25,7 +26,19 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private SoftAssert softAssert;
     private ProfilePage profilePage;
     private AddClubPopUpSider sider;
-
+   private   String validClubName;
+    private String initialCentre;
+   private String validMinAge;
+    private String validMaxAge;
+    private  String validPhone = "0".repeat(10);
+    private  String validDescription;
+    private  AddClubPopUpComponent addClubPopUpComponent;
+    private String validCenterName;
+    private String validLocationName;
+    private String validAddress;
+    private String validCoordinates ="50.56, 5.08";
+    private AddCenterPopUpComponent addCenterPopUp;
+    private int initialIndex;
 
     @BeforeMethod(description = "Preconditions: Get profilePage, make softAssert object")
     public void editProfilePageWithUserTest_setUp() {
@@ -106,6 +119,290 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         checkLocationInList(editClubPopUp, VALID_LOCATION_NAME_5);
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-89")
+    @Issue("TUA-89")
+    public void checkThatLocationsChangeForAclubWhenChangingCenters(){
+       if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+           refreshProfilePage();
+        }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyCentersOnDropdown();
+       if(profilePage.getCenterCardComponentsList().isEmpty() || profilePage.getCenterCardComponentsList().size() == 1){
+           addARandomCenter();
+           refreshProfilePage();
+       }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        String initialLocation = profilePage.getClubCardComponents().get(0).getAddressLocationName().getText();
+        setANewCentreInAClub(2);
+        refreshProfilePage();
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        if (!Objects.equals(initialLocation, "Онлайн") && !Objects.equals(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText(), "Онлайн")){
+            softAssert.assertFalse(initialLocation.equals(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText()),
+                    "The location wasn't modified after changing a centre");
+        }
+        setANewCentreInAClub(initialIndex);
+        softAssert.assertAll();
+    }
+    @Test(description = "TUA-66")
+    @Issue("TUA-66")
+    public void verifyUserCanEditOptionalFieldsEditClubCardStepThree(){
+        if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+            refreshProfilePage();
+        }
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        String initialPhone = getValueFromField(stepTwo.getTelephoneInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getTelephoneInputElement().getInput());
+
+        String initialFacebook = getValueFromField(stepTwo.getFacebookInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+
+        String initialWhatsapp = getValueFromField(stepTwo.getWhatsappInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+
+        String initialEmail = getValueFromField(stepTwo.getEmailInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+
+        String initialSkype = getValueFromField(stepTwo.getSkypeInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+
+        String initialSite = getValueFromField(stepTwo.getSiteInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        editOptionalFieldsEditClubCardStepTwo(stepTwo,
+                RandomAlphanumericStringGenerator.generateRandomString(10,10,1),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                (RandomAlphanumericStringGenerator.generateRandomString(5,6,3)+"@mail.com"),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3)
+                );
+        if(initialPhone != null){
+            softAssert.assertFalse(stepTwo.getTelephoneInputElement().getInput().getAttribute("value").contains(initialPhone),
+                    "The phone number wasn't changed on the second step after editing it");
+        }
+        if(initialFacebook != null){
+            softAssert.assertFalse(stepTwo.getFacebookInputElement().getInput().getAttribute("value").contains(initialFacebook),
+                    "The facebook value wasn't changed on the second step after editing it");
+        }
+        if(initialWhatsapp != null){
+            softAssert.assertFalse(stepTwo.getWhatsappInputElement().getInput().getAttribute("value").contains(initialWhatsapp),
+                    "The whatsapp value wasn't changed on the second step after editing it");
+        }
+        if(initialEmail != null){
+            softAssert.assertFalse(stepTwo.getEmailInputElement().getInput().getAttribute("value").contains(initialEmail),
+                    "The email wasn't changed on the second step after editing it");
+        }
+        if(initialSkype != null){
+            softAssert.assertFalse(stepTwo.getSkypeInputElement().getInput().getAttribute("value").contains(initialSkype),
+                    "The skype value wasn't changed on the second step after editing it");
+        }
+        if(initialSite != null){
+            softAssert.assertFalse(stepTwo.getSiteInputElement().getInput().getAttribute("value").contains(initialSite),
+                    "The site wasn't changed on the second step after editing it");
+        }
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+        refreshProfilePage();
+        goToTheSecondStep();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getTelephoneInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        editOptionalFieldsEditClubCardStepTwo(stepTwo, initialPhone, initialFacebook, initialWhatsapp, initialEmail, initialSkype, initialSite);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+        softAssert.assertAll();
+    }
+    private String getValueFromFieldStepTwo(WebElement element) {
+        String value = element.getAttribute("value");
+        return value != null ? value : "";
+    }
+    private void clearFieldsIfNotEmptyStepTwo(AddClubPopUpStepTwo stepTwo, WebElement field){
+        if(!field.getAttribute("value").isEmpty()){
+            field.sendKeys(Keys.COMMAND + "a");
+            field.sendKeys(Keys.DELETE);
+        }
+    }
+    private void editOptionalFieldsEditClubCardStepTwo(AddClubPopUpStepTwo stepTwo, String phone, String facebook,
+                                                       String whatsapp, String email, String skype, String site){
+        stepTwo.getTelephoneInputElement()
+                .setValue(phone);
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getInput().getAttribute("value").equals(phone),
+                "The phone value: "+phone+" wasn't set");
+        if(facebook != null){
+            stepTwo.getFacebookInputElement().setValue(facebook);
+            softAssert.assertTrue(stepTwo.getFacebookInputElement().getInput().getAttribute("value").equals(facebook),
+                    "The facebook value: "+facebook+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+        }
+        if(whatsapp != null){
+            stepTwo.getWhatsappInputElement().setValue(whatsapp);
+            softAssert.assertTrue(stepTwo.getWhatsappInputElement().getInput().getAttribute("value").equals(whatsapp),
+                    "The whatsapp value: "+whatsapp+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+        }
+        if(email != null){
+            stepTwo.getEmailInputElement().setValue(email);
+            softAssert.assertTrue(stepTwo.getEmailInputElement().getInput().getAttribute("value").equals(email),
+                    "The email value: "+email+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+        }
+        if(skype != null){
+            stepTwo.getSkypeInputElement().setValue(skype);
+            softAssert.assertTrue(stepTwo.getSkypeInputElement().getInput().getAttribute("value").equals(skype),
+                    "The skype value: "+skype+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+        }
+        if(site != null){
+            stepTwo.getSiteInputElement().setValue(site);
+            softAssert.assertTrue(stepTwo.getSiteInputElement().getInput().getAttribute("value").equals(site),
+                    "The site value: "+site+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        }
+    }
+    @Test(description = "TUA-973")
+    @Issue("TUA-973")
+    public void checkDefaultClubCover(){
+        String initialCover = "image.png";
+        if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+            refreshProfilePage();
+        }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        setClubCover(initialCover);
+        refreshProfilePage();
+        deleteExistingCover(initialCover);
+        refreshProfilePage();
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        ClubPage clubPage = profilePage.getClubCardComponents().get(0).clickDetailsButton();
+        softAssert.assertFalse(clubPage.getClubCover().getAttribute("style").contains(initialCover),
+                "The default photo isn't displayed");
+        softAssert.assertAll();
+    }
+    private void setClubCover(String image){
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.uploadImgToCover(ConfigProperties.getImagePath(image), image);
+       // stepThree.sleep(1000);
+        stepThree.clickCompleteButton();
+    }
+    private void deleteExistingCover(String cover){
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        softAssert.assertTrue(stepThree.getClubCoverDownloadInput().getAttribute("title").contains(cover),
+                "It is impossible to delete an old cover, as it isn't displayed as uploaded");
+        //todo - add delete an old cover action when it is implemented
+       // softAssert.assertTrue(stepThree.getUploadedCoverImg().clickRemoveImg().isComponentVisible(),
+             //   "The delete button for the old image isn't displayed, so it is impossible to delete an old cover");
+        stepThree.clickCompleteButton();
+    }
+    private String getValueFromField(WebElement field){
+        if(!field.getAttribute("value").isEmpty()){
+            return field.getAttribute("value");
+        }
+        return null;
+    }
+    private void goToTheSecondStep(){
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        addClubPopUpComponent= profilePage.getClubCardComponents().get(0).clickMoreButton().clickEditClub();
+        AddClubPopUpStepOne stepOne = addClubPopUpComponent.getStepOneContainer();
+        stepOne.clickNextStepButton();
+    }
+    private void refreshProfilePage(){
+        driver.navigate().refresh();
+        profilePage = new ProfilePage(driver);
+    }
+    private void setANewCentreInAClub(int index){
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        addClubPopUpComponent= profilePage.getClubCardComponents().get(0).clickMoreButton().clickEditClub();
+        AddClubPopUpStepOne stepOne = addClubPopUpComponent.getStepOneContainer();
+        initialCentre= stepOne.getCenterSelectedTitle().getText();
+        stepOne.scrollIntoView(driver, stepOne.getCenterSelectedTitle());
+        stepOne.getCenterSelectedTitle().click();
+        for( int i =0; i<stepOne.getCentersList().size(); i++){
+            if(stepOne.getCentersList().get(i).getText().equals(initialCentre)){
+                initialIndex=i;
+            }
+        }
+        stepOne.scrollIntoView(driver, stepOne.getCentersList().get(index));
+        stepOne.getCentersList().get(index).click();
+        String newCentre= stepOne.getCenterSelectedTitle().getText();
+        softAssert.assertFalse(newCentre.equals(initialCentre),
+                "The centre wasn't changed");
+        stepOne.clickNextStepButton();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+    }
+    private void addNewRandomClubAddedWithCorrectData() {
+        validClubName = RandomAlphanumericStringGenerator.generateRandomString(8, 12,2);
+        validMinAge = RandomAlphanumericStringGenerator.generateRandomString(2, 4,1);
+        validMaxAge = RandomAlphanumericStringGenerator.generateRandomString(5, 17,1);
+        validDescription = RandomAlphanumericStringGenerator.generateRandomString(40, 50,3);
+
+        AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
+        addClubPopUp.waitPopUpOpen(5);
+        AddClubPopUpStepOne stepOne = addClubPopUp.getStepOneContainer();
+
+        stepOne.getClubNameInputElement().setValue(validClubName);
+        stepOne.getCategoriesCheckboxList().get(0).click();
+        stepOne.setMinAgeInput(validMinAge);
+        stepOne.setMaxAgeInput(validMaxAge);
+        WebElement initialCenterElement = stepOne.clickCenterDropdown().getCentersList().get(1);
+        initialCentre= initialCenterElement.getText();
+        initialCenterElement.click();
+        stepOne.clickNextStepButton();
+        addClubPopUp.getStepTwoContainer()
+                .getTelephoneInputElement()
+                .setValue(validPhone);
+        addClubPopUp.getStepTwoContainer().clickNextStepButton();
+
+        addClubPopUp.getStepThreeContainer().setDescriptionValue(validDescription);
+        addClubPopUp.getStepThreeContainer().clickCompleteButton();
+    }
+   private void addARandomCenter(){
+        addCenterPopUp= profilePage.header.openUserMenu().openAddCentreForm();
+        validCenterName = RandomAlphanumericStringGenerator.generateRandomString(8,12,2);
+        validDescription = RandomAlphanumericStringGenerator.generateRandomString(40,50,3);
+        AddCenterPopUpStepOne stepOne = addCenterPopUp.getStepOneContainer();
+        stepOne.setCenterName(validCenterName);
+        validLocationName =RandomAlphanumericStringGenerator.generateRandomString(8,12,2);
+        AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
+        addLocationPopUp.getLocatioNameInputElement().setValue(validLocationName);
+        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue("Київ");
+        validAddress = RandomAlphanumericStringGenerator.generateRandomString(8,15,3);
+        addLocationPopUp.getLocationAddressInputElement().setValue(validAddress);
+        addLocationPopUp.getLocationCoordinatesInputElement().setValue(validCoordinates);
+        addLocationPopUp.getLocationTelephoneInputElement().setValue(validPhone);
+        addLocationPopUp.clickAddLocationButton();
+        stepOne.clickLocationCheckboxByName(validLocationName);
+        stepOne.clickNextStepButton();
+        AddCenterPopUpStepTwo stepTwo = addCenterPopUp.getStepTwoContainer();
+        stepTwo.getTelephoneInputElement().setValue(validPhone);
+        stepTwo.clickNextStepButton();
+        AddCenterPopUpStepThree stepThree = addCenterPopUp.getStepThreeContainer();
+        stepThree.setCenterDescriptionTextarea(validDescription);
+        stepThree.clickNextStepButton();
+        AddCenterPopUpStepFour stepFour = addCenterPopUp.getStepFourContainer();
+        stepFour.clickFinishButton();
     }
 
     private void checkLocationInList(AddClubPopUpComponent editClubPopUp, String name) {

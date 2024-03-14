@@ -1,15 +1,15 @@
 package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
+import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
@@ -17,13 +17,15 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private ProfilePage profilePage;
     private EditProfilePopUp editProfilePopUp;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make new softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 
-    @Test(description = "TUA-358")
+    @Test(description = "Edit profile button is present and direct to edit Profile page")
+    @Description("Verify that the ‘Редагувати профіль’ link is present and direct to the ‘Редагувати профіль’ page")
+    @Issue("TUA-358")
     public void checkEditProfileLinkIsPresentAndDirectToEditProfilePage() {
         softAssert.assertTrue(profilePage.getEditProfileButton().isDisplayed(),
                 "EditProfile should be link present");
@@ -34,8 +36,11 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-328", dataProvider = "invalidFirstName")
-    public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
+    @Test(dataProvider = "invalidFirstName")
+    @Parameters({"IncorrectFirstName", "ExpectedErrorMessage"})
+    @Description("Verify name field on Edit Profile PopUp doesn't accept incorrect data and error messages are shown")
+    @Issue("TUA-328")
+    public void checkEditNameFieldWithInvalidData(String incorrectFirstNameData, String expectedErrorMsg) {
         final var emptyFieldErrorMsg = "Введіть Ваше ім'я";
 
         var editProfilePopUp = profilePage.openEditUserProfile();
@@ -49,7 +54,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
 
-        firstNameElement.setValue(firstName);
+        firstNameElement.setValue(incorrectFirstNameData);
         softAssert.assertEquals(firstNameElement.getErrorMessagesTextList().get(0), expectedErrorMsg);
         softAssert.assertFalse(editProfilePopUp.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");
@@ -79,7 +84,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidFirstName")
     private Object[][] invalidFirstNameDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
                 {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
@@ -95,16 +100,20 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidPhone")
     private Object[][] invalidPhoneDataProvider() {
-        return new Object[][] {
-                {"a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
-                {"-a", new String[] {"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
-                {";", new String[] {"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
-                {"99999999999999999", new String[] {"Телефон не відповідає вказаному формату"}},
-                {" m", new String[] {"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+        return new Object[][]{
+                {"a", new String[]{"Телефон не може містити літери", "Телефон не відповідає вказаному формату"}},
+                {"-a", new String[]{"Телефон не може містити літери", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {";", new String[]{"Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
+                {"99999999999999999", new String[]{"Телефон не відповідає вказаному формату"}},
+                {" m", new String[]{"Телефон не може містити літери", "Телефон не може містити пробіли", "Телефон не відповідає вказаному формату", "Телефон не може містити спеціальні символи"}},
         };
     }
 
-    @Test(description = "TUA-866")
+    @Test
+    @Description("""
+            Verify User as 'Відвідувач' can see 'Завантажити фото' text link
+            under the 'Фото' link and tooltip message appears""")
+    @Issue("TUA-866")
     public void checkVisibilityOfUploadPhotoLink() {
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
@@ -119,7 +128,9 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-360")
+    @Test
+    @Description("Check 'Редагувати профіль' page UI. The user as 'Відвідувач'")
+    @Issue("TUA-360")
     public void checkEditProfileUI() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
@@ -369,7 +380,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @DataProvider(name = "invalidLastName")
     private Object[][] invalidLastNameDataProvider() {
-        return new Object[][] {
+        return new Object[][]{
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Прізвище не може містити більше, ніж 25 символів"},
                 {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Прізвище не може містити більше, ніж 25 символів"},
                 {"!@#$%^&,", "Прізвище не може містити спеціальні символи"},
@@ -384,7 +395,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
     @Issue("TUA-905")
     @Test()
-    public void checkIsPasswordHide(){
+    public void checkIsPasswordHide() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);
 
@@ -405,7 +416,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertEquals(editProfilePopUp.getConfirmPasswordInput().getWebElement().getAttribute("type"), "text");
         softAssert.assertAll();
     }
-  
+
     @Test(description = "TUA-113")
     public void editUserWithValidData() {
         final String firstName = "John";
@@ -421,7 +432,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
         softAssert.assertAll();
     }
-  
+
     private void editUserWithData(EditProfilePopUp editProfile, String firstName, String lastName, String phone, String password, boolean withPassword) {
         final String updateSuccessMessage = withPassword ? "Профіль змінено успішно" : "Ви успішно залогувалися!";
 
@@ -444,7 +455,15 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
                 "Successful registration message should appear");
     }
 
-    @Test(description = "TUA-171", dataProvider = "userValidPassword")
+    @Test(description = """
+            Check user can change old password with valid new one""",
+            dataProvider = "userValidPassword")
+    @Description("""
+            Check user as 'Відвідувач' can change the password
+            by inputting valid data in ‘New password field’""")
+    @Parameters({"oldUserPassword", "newUserPassword",
+            "validationCircleIconExpectedColor", "expectedSuccessMessage"})
+    @Issue("TUA-171")
     public void checkUserCanChangeOldPassword(String userPassword, String password,
                                               String expectedColor, String expectedSuccessMessage) {
         var editProfilePopUp = profilePage.openEditUserProfile();
@@ -489,7 +508,6 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         };
     }
 
-    //для того, щоб повернути юсера у першопочатковий стан (такий як у конфіг-проперті)
     private void tearDownUser(String oldPassword, String password) {
         var editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(5);
@@ -507,4 +525,24 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         repeatPassword.setValue(password);
         profilePage = editProfilePopUp.clickSubmitButton();
     }
+
+//    input in email field is disabled
+    @Ignore
+    @Test(dataProvider = "invalidEmail", dataProviderClass = EditProfilePageWithUserDataProvider.class)
+    @Description("Verify that error message is shown and 'Зберегти зміни' button becomes disabled " +
+            "while entering invalid data for the ' Email' field. The user as 'Відвідувач'")
+    @Issue("TUA-355")
+    public void checkErrorMsgInvalidEmail(String input){
+        softAssert = new SoftAssert();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.getEmailElement().setValue(input);
+
+        softAssert.assertEquals(
+                editProfile.getEmailElement().getErrorMessagesTextList().get(0),
+                "Некоректний формат email"
+        );
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled());
+        softAssert.assertAll();
+    }
+
 }

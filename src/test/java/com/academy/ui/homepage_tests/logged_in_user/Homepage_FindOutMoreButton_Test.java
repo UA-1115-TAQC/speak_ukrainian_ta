@@ -1,6 +1,7 @@
 package com.academy.ui.homepage_tests.logged_in_user;
 
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -17,12 +18,13 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
    private SoftAssert softAssert;
    private Actions actions;
     @BeforeMethod
-    public void init(){
+    public void setup(){
         wait=new WebDriverWait(driver, Duration.ofSeconds(60));
         softAssert = new SoftAssert();
         actions = new Actions(driver);
     }
     @Test(description = "TUA-860")
+    @Issue("TUA-860")
     public void checkHoverEffects(){
         softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"),
                 "The button color isn't up to a mockup");
@@ -34,6 +36,7 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
     }
 
     @Test(description = "TUA-860")
+    @Issue("TUA-860")
     public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();
         softAssert.assertTrue(driver.getCurrentUrl().contains("challenge"),

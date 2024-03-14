@@ -1,6 +1,7 @@
 package com.academy.ui.components;
 
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 @Getter
-public class CenterCardWithEditComponent extends BaseComponent{
+public class CenterCardWithEditComponent extends BaseComponent {
 
     @FindBy(xpath = ".//img[@class='center-icon']")
     protected WebElement centerLogo;
@@ -45,13 +46,15 @@ public class CenterCardWithEditComponent extends BaseComponent{
         super(driver, rootElement);
     }
 
-    public AddCenterPopUpComponent clickEditCenter(){
+    @Step("Click on 'Редагувати Центр' on the center card on Profile page")
+    public AddCenterPopUpComponent clickEditCenter() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(editCenter)).click();
         return new AddCenterPopUpComponent(driver);
     }
 
-    public void clickDeleteCenter(){
+    @Step("Click on 'Видалити' on the center card on Profile page")
+    public void clickDeleteCenter() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(editCenter)).click();
     }

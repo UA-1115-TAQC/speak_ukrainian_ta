@@ -5,6 +5,8 @@ import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUnited;
 import com.academy.ui.runners.HomePageTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -13,6 +15,7 @@ import org.testng.annotations.Test;
 import java.util.function.Supplier;
 
 public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
+
     private <T> T performCommonActionsForCheckingFindOutButtonOnTheImgCarousel(String urlContains,
                                                                                Supplier<T> pageObjectSupplier,
                                                                                int rightArrowClicks) {
@@ -27,6 +30,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     }
 
     @Test(description = "TUA-21")
+    @Issue("TUA-21")
     public void verifyImgcarouselButton1() {
         ChallengeUnited challengeUnited = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/challenges/5", () -> new ChallengeUnited(driver),0);
         WebElement challengeImageText = challengeUnited.getChallengeImageText();
@@ -36,6 +40,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
     }
 
     @Test(description = "TUA-21")
+    @Issue("TUA-21")
     public void verifyImgcarouselButton2() {
         ClubsPage clubsPage = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/clubs", () -> new ClubsPage(driver),1)
                 .waitUntilClubsPageIsLoaded(15);
@@ -43,6 +48,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-21")
+    @Issue("TUA-21")
     public void verifyImgcarouselButton3() {
         ChallengeTeachInUkrainian challengeTeachInUkrainian = performCommonActionsForCheckingFindOutButtonOnTheImgCarousel("/about", () -> new ChallengeTeachInUkrainian(driver),2);
         WebElement challengeImageText=challengeTeachInUkrainian.getChallengeImageText();
@@ -51,6 +57,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         softAssert.assertAll();
     }
    @Test(description = "TUA-21")
+   @Issue("TUA-21")
    public void checkArrowButtons() {
        CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
        CarouselImgCard newActiveCard = home.carouselImgComponent.clickRightArrowButton().getActiveCarouselImgCard();
@@ -61,6 +68,7 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
    }
 
     @Test(description = "TUA-21")
+    @Issue("TUA-21")
     public void checkNavigationBySlickdots() {
         CarouselImgCard initialActiveCard = home.carouselImgComponent.getActiveCarouselImgCard();
         CarouselImgCard newActiveCard = home.carouselImgComponent.clickSlickDotByIndex(2).getActiveCarouselImgCard();
@@ -74,7 +82,6 @@ public class HomePage_ImgCarousel_Buttons_Test extends HomePageTestRunner {
         softAssert.assertNotEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText(),
                 "The card should change");
     }
-
     private void assertCardUnchanged(CarouselImgCard initialCard, CarouselImgCard newCard) {
         softAssert.assertEquals(newCard.getCardHeading().getText(), initialCard.getCardHeading().getText(),"The card should remain unchanged");
     }

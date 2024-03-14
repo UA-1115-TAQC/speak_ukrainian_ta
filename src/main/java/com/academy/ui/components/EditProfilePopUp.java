@@ -3,6 +3,7 @@ package com.academy.ui.components;
 import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.pages.ProfilePage;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 @Getter
 public class EditProfilePopUp extends BasePopUp {
@@ -89,8 +91,6 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = ".//div[@class=\"ant-upload-icon\"]")
     private WebElement paperClipForUploadUserPhoto;
 
-    //delete 3 lines below when the selectors for the 3 find by above are fixed
-
     @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[1]")
     protected WebElement currentPasswordInputNode;
     @FindBy(xpath = " (//div[contains(@class,\"item-control-input\")]/span[contains(@class,\"ant-input-password\") and not (contains(@class,\"login-box\"))])[2]")
@@ -115,6 +115,9 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = "./descendant::div[@class='ellipse'][2]")
     private WebElement managerIcon;
 
+    @FindBy(xpath = "//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
+    private List<WebElement> errorMessages;
+
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
     private EditProfileInputElement phoneElement;
@@ -135,31 +138,41 @@ public class EditProfilePopUp extends BasePopUp {
         emailElement = new EditProfileInputElement(driver, email);
         wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
+
+    @Step("Choose current password input")
     public InputWithIconElement getCurrentPasswordInput(){
         return new InputWithIconElement(driver, getCurrentPasswordInputNode());
     }
+
+    @Step("Choose new password input")
     public InputWithIconElement getNewPasswordInput(){
         return new InputWithIconElement(driver, getNewPasswordInputNode());
     }
 
+    @Step("Choose confirm password input")
     public InputWithIconElement getConfirmPasswordInput(){
         return new InputWithIconElement(driver, getConfirmPasswordInputNode());
     }
+
+    @Step("Click on User type button")
     public EditProfilePopUp clickUserButton() {
         userTypeButton.click();
         return this;
     }
 
+    @Step("Click on Manager type button")
     public EditProfilePopUp clickManagerButton() {
         managerTypeButton.click();
         return this;
     }
 
+    @Step("Click on the checkbox")
     public EditProfilePopUp clickCheckBox(){
         getCheckboxChangePassword().click();
         return this;
     }
 
+    @Step("Move to question circle for photo and wait for the tooltip")
     public String getTooltipText() {
         Actions actions = new Actions(driver);
         actions.moveToElement(questionCircleForPhoto).perform();
@@ -168,11 +181,13 @@ public class EditProfilePopUp extends BasePopUp {
         return tooltip.getText();
     }
 
+    @Step("Click on the download photo link")
     public EditProfilePopUp clickUploadPhoto() {
-        uploadPhotoLink.click();
+        downloadPhotoInput.click();
         return this;
     }
 
+    @Step("Click on the Submit button")
     public ProfilePage clickSubmitButton() {
         submitButton.click();
         new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -185,6 +200,7 @@ public class EditProfilePopUp extends BasePopUp {
 
     /*кнопки 'видалити аватар' немає на попапі, якщо заходити вже із встановленим аватаром(хоча має бути згідно із вимогами).
     вона з'являється тільки якщо добавляти аватар заново. Картинка на попапі видаляється, але сама аватарка залишається.*/
+    @Step("delete user avatar on the edit profile pop up")
     public EditProfilePopUp deleteUserAvatar() {
         new Actions(driver)
                 .moveToElement(uploadPictureTitle)

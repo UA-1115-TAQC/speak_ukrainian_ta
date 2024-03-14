@@ -1,6 +1,7 @@
 package com.academy.ui.components.carousel;
 
 import com.academy.ui.pages.ClubsPage;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -26,12 +27,12 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
     @FindBy(xpath = "//div[contains(@class,\"categories-header\")]/a/button")
     protected WebElement carouselCardAllClubsButton;
     protected List<ClubDirectionCard> activeCarouselCards;
-
+    @Step("Click the all clubs button on the carousel card")
     public ClubsPage clickCarouselCardAllClubsButton() {
         this.getCarouselCardAllClubsButton().click();
         return  new ClubsPage(driver).waitUntilClubsPageIsLoaded(30);
     }
-
+    @Step("Get all carousel cards")
     public List<ClubDirectionCard> getAllCarouselCards() {
         if (carouselCards == null) {
             carouselCards = new ArrayList<>();
@@ -42,16 +43,18 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         }
         return carouselCards;
     }
-
+    @Step("Get club direction card by index: {index}")
     public ClubDirectionCard getClubDirectionCardByIndex(int index) {
         if (index >= 0 && index <= (getAllCarouselCards().size() - 1)) {
             return getAllCarouselCards().get(index);
         }
         throw new IllegalArgumentException("The index must be in the range between 0 and " + (getAllCarouselCards().size() - 1) + ", inclusive");
     }
+    @Step("Check that the club direction card obtained by index is active: {index}")
     public boolean checkThatTheClubDirectionCardObtainedByIndexIsActive(int index) {
         return getClubDirectionCardByIndex(index).getClubCardHeading().isDisplayed();
     }
+    @Step("Get active carousel cards")
     public List<ClubDirectionCard> getActiveCarouselCards() {
         if (activeCarouselCards == null) {
             activeCarouselCards = filterDisplayedCards(getAllCarouselCards());
@@ -67,11 +70,13 @@ public class CarouselCardComponent extends BasicCarouselComponent  <CarouselCard
         }
         return activeCarouselCards;
     }
+    @Step("Filter displayed cards")
     private List<ClubDirectionCard> filterDisplayedCards(List<ClubDirectionCard> cards) {
         return cards.stream()
                 .filter(card -> card.getClubCardHeading().isDisplayed())
                 .collect(Collectors.toList());
     }
+    @Step("Get active carousel card by index: {index}")
     public ClubDirectionCard getActiveCarouselCardByIndex(int index){
         if (index >= 0 && index <= (getActiveCarouselCards().size() - 1)) {
             return getActiveCarouselCards().get(index);

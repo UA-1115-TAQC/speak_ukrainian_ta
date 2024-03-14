@@ -5,6 +5,8 @@ import com.academy.ui.components.header.HeaderComponent;
 import com.academy.ui.components.header.headerMenuComponent.GuestMenuComponent;
 import com.academy.ui.runners.BaseTestRunner;
 import org.openqa.selenium.support.Color;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -41,8 +43,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     private GuestMenuComponent guestMenuComponent;
     private SoftAssert softAssert;
 
-
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get guestMenu and registrationPopup components, make new softAssert object")
     public void registrationSetUp(Method method) {
         if(method.getAnnotation(Test.class).description().equals("TUA-876")){
             return;
@@ -53,6 +54,8 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
     @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Прізвище' field")
+    @Issue("TUA-13")
     public void registration_invalidInputOfLastNameErrorMessageShown_ok() {
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetUserButton();
@@ -138,6 +141,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-110")
+    @Description("Verify that error messages are shown for entering invalid data for the 'Email' field")
     public void registration_invalidInputOfEmailErrorMessageShown_ok() {
         registrationPopupComponent.waitPopUpOpen(5);
 
@@ -179,6 +183,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
   
     @Test(description = "TUA-243")
+    @Description("Verify that user can be registered with valid data")
     public void checkNewUserCanBeRegisteredWithValidData() {
         final String firstName = "John";
         final String lastName = "Doe";
@@ -205,8 +210,10 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-7 USER")
-    public void checkNewUserCanRegisterWithValidDataForEachRoleUserAndManager() {
+    @Test(description = "New user can register with valid data for User role")
+    @Description("Verify that new user is registered with valid data for each role (Відвідувач, Керівник) [DB].")
+    @Issue("TUA-7")
+    public void checkNewUserCanRegisterWithValidDataForEachRoleUser() {
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetUserButton();
 
@@ -260,7 +267,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-7 MANAGER")
+    @Test(description = "New user can register with valid data for Manager role")
+    @Description("Verify that new user is registered with valid data for each role (Відвідувач, Керівник) [DB].")
+    @Issue("TUA-7")
     public void checkNewUserCanRegisterWithValidDataForEachRoleManager() {
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetManagerButton();
@@ -435,7 +444,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataUser() {
         List<String> errorMessagesActual;
 
@@ -479,7 +490,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataManager() {
         List<String> errorMessagesActual;
 
@@ -524,6 +537,8 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     }
   
     @Test(description = "TUA-876")
+    @Description("Verify that the user is not redirected to another page after canceling the registration process")
+    @Issue("TUA-876")
     public void checkRedirectionAfterRegistrationCanceled(){
         HeaderComponent header = homePage.getHeader();
         header.newsButtonClick();

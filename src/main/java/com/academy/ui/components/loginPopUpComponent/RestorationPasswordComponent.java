@@ -2,6 +2,7 @@ package com.academy.ui.components.loginPopUpComponent;
 
 import com.academy.ui.components.BasePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -27,15 +28,18 @@ public class RestorationPasswordComponent extends BasePopUp {
         emailInputElement = new InputWithIconElement(driver, emailInput);
     }
 
+    @Step("Get title text of restoration form")
     public String getMenuHeader() {
         return restorationTittle.getText();
     }
 
+    @Step("Click submit button")
     public RestorationPasswordComponent clickSubmitButton() {
         submitButton.click();
         return this;
     }
 
+    @Step("Click close button for closing restoration password form")
     public RestorationPasswordComponent clickCloseButton() {
         closeButton.click();
         return this;

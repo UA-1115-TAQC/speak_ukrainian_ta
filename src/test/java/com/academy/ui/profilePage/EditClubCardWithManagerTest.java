@@ -14,14 +14,21 @@ import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
-
 import java.util.Objects;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
+    private final String CLUB_WITH_LOCATION_NAME = "Club With Location";
+    private String deletedLocationName = "";
+    private String deletedCity = "";
+    private String deletedDistrict = "";
+    private String deletedAddress = "";
+    private String deletedCoordinates = "";
+    private String deletedTelephone = "";
     private SoftAssert softAssert;
     private ProfilePage profilePage;
     private AddClubPopUpSider sider;
@@ -39,7 +46,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     private AddCenterPopUpComponent addCenterPopUp;
     private int initialIndex;
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get profilePage, make softAssert object")
     public void editProfilePageWithUserTest_setUp() {
         softAssert = new SoftAssert();
         profilePage = homePage.header.openUserMenu().clickProfile();
@@ -87,7 +94,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-970")
+    @Test(description = "User can add locations of the club")
+    @Description("Verify that user can add locations of the club (for a club that is in the center)")
+    @Issue("TUA-970")
     public void checkUserCanAddLocationsOfTheClub() {
 
         final String VALID_LOCATION_NAME_1 = "ТестЛокація1";
@@ -509,7 +518,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         addLocationPopUp.clickAddLocationButton();
     }
 
-    @Test(description = "TUA-82")
+    @Test(description = "User can change photo while editing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window (for club that is in the center)")
+    @Issue("TUA-82")
     public void checkUserCanChangePhotoWhileEditClub() {
         final String IMAGE_NAME_1 = "image.png";
         final String IMAGE_NAME_2 = "book.png";
@@ -557,7 +568,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-967")
+    @Test
+    @Description("Verify that the user can add valid photo to the 'Логотип', 'Обкладинка', and 'Галерея' categories")
+    @Issue("TUA-967")
     public void checkEditCartUploadPhotos() {
         String imagePath = "harrybean.jpg";
 
@@ -603,7 +616,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-85")
+    @Test
+    @Description("Verify that the icon of the main photo 'Обкладинка' is set by default if photo is not uploaded")
+    @Issue("TUA-85")
     public void checkDefaultCoverImg() {
         String testCoverImage = "image.png";
         String defaultCoverImage = "harrybean.jpg";
@@ -654,7 +669,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-78")
+    @Test
+    @Description("Verify that user can edit ‘Опис’ field with valid data, and save changes on the "
+            + "‘Опис’ tab of the ‘Редагувати гурток’ pop-up window")
+    @Issue("TUA-78")
     public void checkStepThreeEditDescriptionTextArea() {
         String defaultDescription = "We'll teach you to play much better than Daniel Radcliffe."
                 + " We will teach you acting better than anyone else.";
@@ -740,11 +758,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "User can change 'Фото' for the existing club")
+    @Description("Verify that user can change ‘Фото’ on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window")
     @Issue("TUA-958")
     public void checkChangeCoverPhoto() {
-        String imageName= "book.png";
-        String imageName2 = "image.png";
+        String imageName= "image.png";
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
         AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
@@ -789,7 +807,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         String centerToSelect = "Центр творчості дітей та юнацтва";
 
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
 
         AddClubPopUpStepOne one = edit.getStepOneContainer();
@@ -801,7 +819,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         profilePage = new ProfilePage(driver);
         clubCard = profilePage.getClubCardByName("Club With Center");
-        ClubPage clubPage =  clubCard.clickDetailsButton();
+        ClubPage clubPage = clubCard.clickDetailsButton();
         String newCenter = clubPage.getClubCenterName();
 
         softAssert.assertNotEquals(oldCenter, newCenter);
@@ -809,7 +827,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-48")
+    @Test(description = "Check the 'Контакти' tab with UI")
+    @Description("Check the ‘Контакти’ tab on the ‘Редагувати гурток’ pop-up window (UI)")
+    @Issue("TUA-48")
     public void checkContactTabUI() {
         String clubName = getClubName();
         ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
@@ -843,67 +863,67 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("font-size"), "19px");
 
         softAssert.assertEquals(stepTwo.getAddLocationButton().getText(), "Додати локацію");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(250, 140, 22, 1)");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "17px",
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(254, 119, 41, 1)");
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "14px",
                 "location button");
 
-        softAssert.assertTrue(stepTwo.getSwitchButton().isSelected());
+        softAssert.assertTrue(stepTwo.getSwitchButton().isDisplayed());
 
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().getErrorMessages().isEmpty());
         softAssert.assertTrue(stepTwo.getTelephoneInputElement().getStaticIcon().isDisplayed());
 
         softAssert.assertTrue(stepTwo.getNextStepButton().isDisplayed());
-        softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наструпний крок");
-        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наступний крок");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(255, 255, 255, 1)");
 
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getText(),"Назад");
+        softAssert.assertEquals(stepTwo.getPrevStepButton().getText(), "Назад");
         softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.TAB).perform();
+        WebElement startingElement = stepTwo.getSwitchButton();
+        startingElement.click();
         softAssert.assertTrue(stepTwo.getSwitchButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on Switch Button");
         actions.sendKeys(Keys.TAB).perform();
-
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(0).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(0).equals(driver.switchTo().activeElement()),
                 "Focus should be on Monday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(1).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(1).equals(driver.switchTo().activeElement()),
                 "Focus should be on Tuesday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(2).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(2).equals(driver.switchTo().activeElement()),
                 "Focus should be on Wednesday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(3).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(3).equals(driver.switchTo().activeElement()),
                 "Focus should be on Thursday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(4).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(4).equals(driver.switchTo().activeElement()),
                 "Focus should be on Friday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(5).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(5).equals(driver.switchTo().activeElement()),
                 "Focus should be on Saturday checkbox");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getCheckedWorkDaysList().get(6).equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWorkDaysCheckboxList().get(6).equals(driver.switchTo().activeElement()),
                 "Focus should be on Sunday checkbox");
         actions.sendKeys(Keys.TAB).perform();
 
-        softAssert.assertTrue(stepTwo.getTelephoneInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Telephone Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getFacebookInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getFacebookInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Facebook Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getWhatsappInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getWhatsappInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Whatsapp Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getEmailInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getEmailInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Email Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getSkypeInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getSkypeInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Skype Input");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepTwo.getSiteInputElement().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getSiteInputElement().getInput().equals(driver.switchTo().activeElement()),
                 "Focus should be on Site Input");
         actions.sendKeys(Keys.TAB).perform();
 
@@ -922,15 +942,15 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     public void checkInvalidTelephoneInput(String input, String expectedErrorMsg){
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
 
         two.getTelephoneInputElement().setValue(input);
         String errorMsg = "";
-        List<String> errorList= two.getTelephoneInputElement().getErrorMessagesTextList();
-        for(String str : errorList){
+        List<String> errorList = two.getTelephoneInputElement().getErrorMessagesTextList();
+        for (String str : errorList) {
             errorMsg = errorMsg + str + " ";
         }
 
@@ -942,10 +962,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Test(dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
     @Description("Verify user cannot save invalid data in Email field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
     @Issue("TUA-961")
-    public void checkInvalidEmailInput(String input){
+    public void checkInvalidEmailInput(String input) {
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
@@ -959,7 +979,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "user can edit 'Опис' with invalid data")
+    @Description("Verify that user can edit ‘Опис’ field with invalid data, " +
+            "and changes will not be saved on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window ")
     @Issue("TUA-79")
     public void checkUserCanEditDescriptionFieldWithInvalidData() {
         String clubName = getClubName();
@@ -1047,7 +1069,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-58")
+    @Test(description = "Verify club title can't be changed with incorrect data")
+    @Description("""
+            Verify invalid data in 'Назва' field can't be saved
+            on the ‘Основна інформація’ tab of the ‘Редагувати гурток’ pop-up""")
+    @Issue("TUA-58")
     public void verifyClubTitleCanNotBeChangedWithIncorrectName() {
         final String incorrectClubName = "#1 'München federală'";
         final String expectedErrorMessage = "Некоректна назва гуртка";
@@ -1075,7 +1101,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-957")
+    @Test(description = "Verify user can change logo of the club cards")
+    @Description("""
+            Verify user can change ‘Лого’ on the ‘Опис’ tab
+            of the ‘Редагувати гурток’ pop-up window""")
+    @Issue("TUA-957")
     public void checkNewClubCardsLogoDisplayedOnProfilePage() {
         final String initialLogoImage = "image.png";
         final String newLogoImage = "book.png";
@@ -1103,11 +1133,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(uploadedLogoImg.getImgTitle().getAttribute("title"),
                 newLogoImage, "Logo title should be '%s'".formatted(newLogoImage));
 
-        stepThreeContainer.clickCompleteButtonWithWait();
+        stepThreeContainer.clickCompleteButtonWithWait(10);
         profilePage = new ProfilePage(driver);
 
         softAssert.assertTrue(profilePage.getClubCardComponents().get(0)
-                .getLogo().getAttribute("src").contains(newLogoImage),
+                        .getLogo().getAttribute("src").contains(newLogoImage),
                 "Club card logo should contains '%s'".formatted(newLogoImage));
         softAssert.assertAll();
 
@@ -1131,7 +1161,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThreeContainer.clickCompleteButton();
     }
 
-    @Test(description = "Center is added")
+    @Test(description = "User can add center")
     @Description("Verify that user can add center for the existing club without center")
     @Issue("TUA-980")
     public void checkStepOneEditCenter() {
@@ -1157,6 +1187,68 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 centerName);
 
         softAssert.assertAll();
+    }
+
+//    Delete icon in location Element does not work
+//    (click on it invoke popup element that is covered by Add club popup element)
+    @Ignore
+    @Test(description = "TUA-87/63")
+    @Description("(63 duplicates)Verify that ‘Доступний онлайн’ checkbox is checked automatically if no location is checked (for a club that is not in the center)")
+    @Issue("TUA-87")
+    public void isOnlineCheckboxCheckedAutomatically(){
+        softAssert = new SoftAssert();
+        profilePage = new ProfilePage(driver);
+        deleteLocation();
+        profilePage = new ProfilePage(driver);
+        ClubCardWithEditComponent club = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME);
+        softAssert.assertEquals(club.getAddress().getText(), "Онлайн");
+        undoChanges();
+        softAssert.assertAll();
+    }
+
+    private void deleteLocation() {
+        profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME)
+                .clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = new AddClubPopUpComponent(driver);
+        edit.waitPopUpOpen(20);
+        edit.getStepOneContainer().clickNextStepButton();
+
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+        LocationListElement locationElement = twoEdit.getListOfLocationElements().get(0);
+
+        AddLocationPopUpComponent location = locationElement.clickEditIcon();
+        deletedLocationName = location.getLocatioNameInputElement().getInput().getAttribute("value");
+        deletedCity = location.getLocatioCityDropdownElement().getSelectedItem().getText();
+        deletedDistrict = location.getLocationDistrictDropdownElement().getSelectedItem().getText();
+        deletedAddress = location.getLocationAddressInputElement().getInput().getAttribute("value");
+        deletedCoordinates = location.getLocationCoordinatesInputElement().getInput().getAttribute("value");
+        deletedTelephone = location.getLocationTelephoneInputElement().getInput().getAttribute("value");
+        location.clickAddLocationButton();
+
+        locationElement.clickDeleteIcon();
+        twoEdit.clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
+    }
+
+    private void undoChanges(){
+        profilePage = new ProfilePage(driver);
+        AddClubPopUpComponent edit = profilePage.getClubCardByName(CLUB_WITH_LOCATION_NAME)
+                .clickMoreButton().clickEditClub();
+        edit.waitPopUpOpen(20);
+        edit.getStepOneContainer().clickNextStepButton();
+        AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
+
+        AddLocationPopUpComponent location = twoEdit.clickAddLocationButton();
+        location.getLocatioNameInputElement().setValue(deletedLocationName);
+        location.getLocatioCityDropdownElement().clickDropdown().selectValue(deletedCity);
+        location.getLocationDistrictDropdownElement().clickDropdown().selectValue(deletedDistrict);
+        location.getLocationAddressInputElement().setValue(deletedAddress);
+        location.getLocationCoordinatesInputElement().setValue(deletedCoordinates);
+        location.getLocationTelephoneInputElement().setValue(deletedTelephone);
+        location.clickAddLocationButton();
+
+        twoEdit.clickNextStepButton();
+        edit.getStepThreeContainer().clickCompleteButton();
     }
 
 }

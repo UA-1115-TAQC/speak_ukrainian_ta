@@ -1,8 +1,11 @@
 package com.academy.ui.clubPage.advencedSearch;
 
+import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,12 +22,15 @@ public class ClubPageWithoutLoginTest extends BaseTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-856")
+    @Test
+    @Description("Verify that 'Гурток' radiobutton set by default in 'Гурток/Центр' parameters")
+    @Issue("TUA-856")
     public void verifyRadioButtonSetByDefaultOnClub_ok() {
         ClubsPage clubsPage = advancedSearchHeaderComponent.clickAdvancedSearchIcon();
         softAssert.assertTrue(driver.getCurrentUrl().contains("clubs"));
-        WebElement clubRadioButtonElement = clubsPage.getSearchSider().getCenterOrClubRadioButton().get(0);
-        softAssert.assertTrue(clubRadioButtonElement.isSelected());
+        WebElement checkedRadioButton = clubsPage.getSearchSider().getCheckedRadioButton();
+        softAssert.assertTrue(checkedRadioButton.getText().equals("Гурток"));
+
         softAssert.assertAll();
     }
 }

@@ -5,6 +5,7 @@ import com.academy.ui.components.CenterCardComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchClubHeaderComponent;
 import com.academy.ui.components.ClubListControlComponent;
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -22,23 +23,28 @@ public class ClubsPage extends BasePage {
     @FindBy(xpath = "//aside[contains(@class,\"sider\")]")
     private WebElement searchSiderAsideNode;
 
-    @FindBy(xpath="//div[contains(@class, 'lower-header-box')]")
+    @FindBy(xpath = "//div[contains(@class, 'lower-header-box')]")
     private WebElement searchClubHeaderWebElement;
 
-    @FindBy(xpath="//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
-    @Getter(AccessLevel.NONE) private WebElement switchPaginationWebElement;
+    @FindBy(xpath = "//ul[contains(@class,'ant-pagination') and contains(@class,'pagination')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement switchPaginationWebElement;
 
-    @FindBy(xpath="//div[contains(@class, 'club-list-control')]")
-    @Getter(AccessLevel.NONE) private WebElement listControlWebElement;
+    @FindBy(xpath = "//div[contains(@class, 'club-list-control')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement listControlWebElement;
 
-    @FindBy(xpath="//div[contains(@class, '')]")
-    @Getter(AccessLevel.NONE) private WebElement searchSiderWebElement;
+    @FindBy(xpath = "//div[contains(@class, '')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement searchSiderWebElement;
 
-    @FindBy(xpath="//div[contains(@class,'content-clubs-list')]/child::div")
-    @Getter(AccessLevel.NONE) private List<WebElement> clubCardsWebElement;
+    @FindBy(xpath = "//div[contains(@class,'content-clubs-list')]/child::div")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> clubCardsWebElement;
 
-    @FindBy(xpath="//div[contains(@class,'content-center-list')]/child::div")
-    @Getter(AccessLevel.NONE) private List<WebElement> centerCardsWebElement;
+    @FindBy(xpath = "//div[contains(@class,'content-center-list')]/child::div")
+    @Getter(AccessLevel.NONE)
+    private List<WebElement> centerCardsWebElement;
 
     protected AdvancedSearchClubHeaderComponent advancedSearchClubHeader;
     protected SwitchPaginationComponent switchPagination;
@@ -57,6 +63,7 @@ public class ClubsPage extends BasePage {
         selectWhatCardsToShow();
     }
 
+    @Step("Create list of club components of the Clubs page")
     private List<ClubCardComponent> createClubComponents() {
         List<ClubCardComponent> clubs = new ArrayList<>();
         sleep(500);
@@ -70,6 +77,7 @@ public class ClubsPage extends BasePage {
         return clubs;
     }
 
+    @Step("Create list of center components of the Clubs page")
     private List<CenterCardComponent> createCenterComponents() {
         List<CenterCardComponent> centers = new ArrayList<>();
         sleep(500);
@@ -83,8 +91,9 @@ public class ClubsPage extends BasePage {
         return centers;
     }
 
-    public ClubsPage waitUntilClubsPageIsLoaded(int seconds){
-        if(seconds > 0) {
+    @Step("Wait till the Clubs page is loaded")
+    public ClubsPage waitUntilClubsPageIsLoaded(int seconds) {
+        if (seconds > 0) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
             wait.until(ExpectedConditions.urlContains("clubs"));
             wait.until(ExpectedConditions.visibilityOf(getAdvancedSearchClubHeader().getShowOnMapButton()));
@@ -93,26 +102,28 @@ public class ClubsPage extends BasePage {
         throw new Error("The number of seconds must be greater than 0 and an integer number");
     }
 
+    @Step("Enter text {input} in the search field in the header on the Clubs page")
     public ClubsPage setTextHeaderSearch(String input) {
         advancedSearchClubHeader.setTextSelectionSearchInputField(input);
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1500000));
         sleep(1000);
         clubCards = createClubComponents();
         return this;
     }
 
-
-    public ClubsPage waitClubsPageWithSiderLoaded(int seconds){
+    @Step("Wait till the left sider for advanced search is loaded on the Clubs page")
+    public ClubsPage waitClubsPageWithSiderLoaded(int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.urlContains("clubs"));
         wait.until(ExpectedConditions.visibilityOf(getSearchSider().getDirectionsCheckBox().get(0)));
         return this;
     }
 
+    @Step("Check if the is no club cards on the Clubs page")
     public boolean isClubsPageEmpty(){
         return clubCards.isEmpty();
     }
 
+    @Step("Check which type of cards (club or center) is loaded on the Clubs page")
     private void selectWhatCardsToShow() {
         if (isElementPresent(searchSiderAsideNode)) {
             if (searchSider.getCheckedRadioButton().getAttribute("innerText").equals("Гурток")) {

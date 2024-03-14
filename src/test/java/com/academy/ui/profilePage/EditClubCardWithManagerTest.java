@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
-
 import java.util.Objects;
 
 public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
@@ -763,7 +762,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         String centerToSelect = "Центр творчості дітей та юнацтва";
 
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
 
         AddClubPopUpStepOne one = edit.getStepOneContainer();
@@ -775,7 +774,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         profilePage = new ProfilePage(driver);
         clubCard = profilePage.getClubCardByName("Club With Center");
-        ClubPage clubPage =  clubCard.clickDetailsButton();
+        ClubPage clubPage = clubCard.clickDetailsButton();
         String newCenter = clubPage.getClubCenterName();
 
         softAssert.assertNotEquals(oldCenter, newCenter);
@@ -833,7 +832,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(255, 255, 255, 1)");
 
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getText(),"Назад");
+        softAssert.assertEquals(stepTwo.getPrevStepButton().getText(), "Назад");
         softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);
@@ -898,15 +897,15 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     public void checkInvalidTelephoneInput(String input, String expectedErrorMsg){
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
 
         two.getTelephoneInputElement().setValue(input);
         String errorMsg = "";
-        List<String> errorList= two.getTelephoneInputElement().getErrorMessagesTextList();
-        for(String str : errorList){
+        List<String> errorList = two.getTelephoneInputElement().getErrorMessagesTextList();
+        for (String str : errorList) {
             errorMsg = errorMsg + str + " ";
         }
 
@@ -918,10 +917,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Test(dataProvider = "invalidEmail", dataProviderClass = EditClubWithManagerDataProvider.class)
     @Description("Verify user cannot save invalid data in Email field on the 'Контакти' tab of the 'Редагувати гурток' pop-up window")
     @Issue("TUA-961")
-    public void checkInvalidEmailInput(String input){
+    public void checkInvalidEmailInput(String input) {
         softAssert = new SoftAssert();
         ClubCardWithEditComponent clubCard = profilePage.getClubCardByName("Club With Center");
-        AddClubPopUpComponent edit  = clubCard.clickMoreButton().clickEditClub();
+        AddClubPopUpComponent edit = clubCard.clickMoreButton().clickEditClub();
         edit.waitPopUpOpen(10);
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
@@ -1025,7 +1024,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
 
-    @Test(description = "TUA-58")
+    @Test(description = "Verify club title can't be changed with incorrect data")
+    @Description("""
+            Verify invalid data in 'Назва' field can't be saved
+            on the ‘Основна інформація’ tab of the ‘Редагувати гурток’ pop-up""")
+    @Issue("TUA-58")
     public void verifyClubTitleCanNotBeChangedWithIncorrectName() {
         final String incorrectClubName = "#1 'München federală'";
         final String expectedErrorMessage = "Некоректна назва гуртка";
@@ -1053,7 +1056,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-957")
+    @Test(description = "Verify user can change logo of the club cards")
+    @Description("""
+            Verify user can change ‘Лого’ on the ‘Опис’ tab
+            of the ‘Редагувати гурток’ pop-up window""")
+    @Issue("TUA-957")
     public void checkNewClubCardsLogoDisplayedOnProfilePage() {
         final String initialLogoImage = "image.png";
         final String newLogoImage = "book.png";
@@ -1081,11 +1088,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(uploadedLogoImg.getImgTitle().getAttribute("title"),
                 newLogoImage, "Logo title should be '%s'".formatted(newLogoImage));
 
-        stepThreeContainer.clickCompleteButtonWithWait();
+        stepThreeContainer.clickCompleteButtonWithWait(10);
         profilePage = new ProfilePage(driver);
 
         softAssert.assertTrue(profilePage.getClubCardComponents().get(0)
-                .getLogo().getAttribute("src").contains(newLogoImage),
+                        .getLogo().getAttribute("src").contains(newLogoImage),
                 "Club card logo should contains '%s'".formatted(newLogoImage));
         softAssert.assertAll();
 

@@ -121,6 +121,7 @@ public class HeaderComponent extends BaseComponent {
         return new HeaderChallengesDropdown(driver, getHeaderChallengeDropdownNode());
     }
 
+    @Step("Click on 'Новини' button")
     public AllNewsPage newsButtonClick() {
         newsButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -148,6 +149,7 @@ public class HeaderComponent extends BaseComponent {
         return new AboutUsPage(driver);
     }
 
+    @Step("Click on 'Послуги українською' button")
     public ServicePage clickServiceButton() {
         serviceButton.click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

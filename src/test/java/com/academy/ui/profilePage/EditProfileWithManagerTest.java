@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -477,8 +478,13 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    //кнопки видалити аватар немає якщо заходити із кастомним аватаром
-    @Test(description = "TUA-920")
+    //ignore так як немає кнопки видалити аватар коли заходиш із встановленою аватаркою
+    @Ignore
+    @Test(description = "Verify manager can delete existing avatar and default avatar will be visible")
+    @Description("""
+            Verify that 'Керівник' can delete an existing photo
+            in the 'Редагувати профіль' modal window and save changes""")
+    @Issue("TUA-920")
     public void verifyUserCanDeleteExistingAvatar() {
         editProfilePopUp = profilePage.openEditUserProfile();
         editProfilePopUp.waitPopUpOpen(10);

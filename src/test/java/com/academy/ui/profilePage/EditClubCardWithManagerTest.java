@@ -270,6 +270,51 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
             clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
         }
     }
+    @Test(description = "TUA-956")
+    @Issue("TUA-956")
+    public void checkClubIsOnlineWhenNoLocationsAreSelected(){
+        if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+            refreshProfilePage();
+        }
+        goToTheSecondStep();
+       AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+       boolean hasLocation=false;
+       if(stepTwo.isSwitchButtonChecked()){
+           //add loca +uncheck
+       }else{
+           hasLocation=true;
+           //uncheck all
+           //softserve all are unchecked
+       }
+       stepTwo.clickNextStepButton();
+       //assert contats tab is displayed
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickPreviousStepButton();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        softAssert.assertTrue(stepTwo.isSwitchButtonChecked(), "not onl");
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButtonWithWait();
+        refreshProfilePage();
+        softAssert.assertTrue(profilePage.getEmailUser().isDisplayed(), "profile p not disp");
+        softAssert.assertTrue(profilePage.getClubCardComponents().get(0).getAddressLocationName().getText().contains("Онлайн"),
+                "not onl");
+
+        if(hasLocation){
+            goToTheSecondStep();
+            stepTwo = addClubPopUpComponent.getStepTwoContainer();
+            //return locations
+
+            stepTwo.clickNextStepButton();
+            stepThree = addClubPopUpComponent.getStepThreeContainer();
+            stepThree.clickCompleteButtonWithWait();
+        }
+
+
+
+        softAssert.assertAll();
+    }
     @Test(description = "TUA-973")
     @Issue("TUA-973")
     public void checkDefaultClubCover(){

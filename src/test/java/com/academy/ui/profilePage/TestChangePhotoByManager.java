@@ -3,6 +3,7 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -18,7 +19,8 @@ public class TestChangePhotoByManager extends LoginWithManagerTestRunner {
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
 
-    @Test(description = "Verify that the user as 'Керівник' is able to choose the photo according to the validity rules")
+    @Test
+    @Description("Verify that the user as 'Керівник' is able to choose the photo according to the validity rules")
     @Issue("TUA-844")
     public void checkThatManagerAbleToChangePhoto() {
         profilePage.editButtonClick();

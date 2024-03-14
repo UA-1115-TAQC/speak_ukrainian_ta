@@ -213,7 +213,7 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
     @Test(description = "New user can register with valid data for User role")
     @Description("Verify that new user is registered with valid data for each role (Відвідувач, Керівник) [DB].")
     @Issue("TUA-7")
-    public void checkNewUserCanRegisterWithValidDataForEachRoleUserAndManager() {
+    public void checkNewUserCanRegisterWithValidDataForEachRoleUser() {
         registrationPopupComponent.waitPopUpOpen(5);
         registrationPopupComponent.clickSetUserButton();
 
@@ -444,7 +444,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataUser() {
         List<String> errorMessagesActual;
 
@@ -488,7 +490,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = " TUA-77 Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Test
+    @Description("Verify that error messages are shown for entering invalid data for the 'Пароль' field")
+    @Issue("TUA-77")
     public void checkIfErrorMessagesAreShownForInvalidDataManager() {
         List<String> errorMessagesActual;
 

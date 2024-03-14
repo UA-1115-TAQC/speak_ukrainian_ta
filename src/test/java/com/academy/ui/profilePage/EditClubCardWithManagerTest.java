@@ -13,7 +13,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -270,6 +269,46 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         }else{
             clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
         }
+    }
+    @Test(description = "TUA-973")
+    @Issue("TUA-973")
+    public void checkDefaultClubCover(){
+        String initialCover = "image.png";
+        if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+            refreshProfilePage();
+        }
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        setClubCover(initialCover);
+        refreshProfilePage();
+        deleteExistingCover(initialCover);
+        refreshProfilePage();
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        ClubPage clubPage = profilePage.getClubCardComponents().get(0).clickDetailsButton();
+        softAssert.assertFalse(clubPage.getClubCover().getAttribute("style").contains(initialCover),
+                "The default photo isn't displayed");
+        softAssert.assertAll();
+    }
+    private void setClubCover(String image){
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.uploadImgToCover(ConfigProperties.getImagePath(image), image);
+       // stepThree.sleep(1000);
+        stepThree.clickCompleteButton();
+    }
+    private void deleteExistingCover(String cover){
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        softAssert.assertTrue(stepThree.getClubCoverDownloadInput().getAttribute("title").contains(cover),
+                "It is impossible to delete an old cover, as it isn't displayed as uploaded");
+        //todo - add delete an old cover action when it is implemented
+       // softAssert.assertTrue(stepThree.getUploadedCoverImg().clickRemoveImg().isComponentVisible(),
+             //   "The delete button for the old image isn't displayed, so it is impossible to delete an old cover");
+        stepThree.clickCompleteButton();
     }
     private String getValueFromField(WebElement field){
         if(!field.getAttribute("value").isEmpty()){

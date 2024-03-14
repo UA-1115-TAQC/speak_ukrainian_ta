@@ -4,6 +4,7 @@ import com.academy.ui.pages.ProfilePage;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -81,7 +82,8 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
     private WebElement selectPlaceholder;
-
+    @FindBy(xpath = "//div[contains(@class,\"upload-icon\")]/span[contains(@class,\"paper-clip\")]")
+    private WebElement paperClipIcon;
     private final UploadedImgComponent uploadedLogoImg;
     private final UploadedImgComponent uploadedCoverImg;
 
@@ -161,6 +163,14 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer{
         clubGalleryDownloadInput.sendKeys(pathToImage);
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(d -> countImg < clubGalleryUploadedImgs.size());
+        return this;
+    }
+    public AddClubPopUpStepThree uploadImgToCover(String pathToimage, String fileName){
+        getClubCoverDownloadInput().sendKeys(pathToimage);
+        new WebDriverWait(driver, Duration.ofSeconds(60))
+                .until(driver -> getUploadedCoverImg().getImgTitle().getAttribute("title").contains(fileName));
+        new WebDriverWait(driver, Duration.ofSeconds(60))
+                .until(driver -> getPaperClipIcon().isDisplayed()); //todo - fix icon selector when the ability to view old images is implemented
         return this;
     }
 }

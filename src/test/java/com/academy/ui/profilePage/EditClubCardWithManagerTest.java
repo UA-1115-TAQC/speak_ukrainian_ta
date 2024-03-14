@@ -13,6 +13,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -141,6 +142,146 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         }
         setANewCentreInAClub(initialIndex);
         softAssert.assertAll();
+    }
+    @Test(description = "TUA-66")
+    @Issue("TUA-66")
+    public void verifyUserCanEditOptionalFieldsEditClubCardStepThree(){
+        if(profilePage.getClubCardComponents().isEmpty()){
+            addNewRandomClubAddedWithCorrectData();
+            refreshProfilePage();
+        }
+        goToTheSecondStep();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        String initialPhone = getValueFromField(stepTwo.getTelephoneInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getTelephoneInputElement().getInput());
+
+        String initialFacebook = getValueFromField(stepTwo.getFacebookInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+
+        String initialWhatsapp = getValueFromField(stepTwo.getWhatsappInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+
+        String initialEmail = getValueFromField(stepTwo.getEmailInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+
+        String initialSkype = getValueFromField(stepTwo.getSkypeInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+
+        String initialSite = getValueFromField(stepTwo.getSiteInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        editOptionalFieldsEditClubCardStepTwo(stepTwo,
+                RandomAlphanumericStringGenerator.generateRandomString(10,10,1),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                (RandomAlphanumericStringGenerator.generateRandomString(5,6,3)+"@mail.com"),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3),
+                RandomAlphanumericStringGenerator.generateRandomString(10,15,3)
+                );
+        if(initialPhone != null){
+            softAssert.assertFalse(stepTwo.getTelephoneInputElement().getInput().getAttribute("value").contains(initialPhone),
+                    "The phone number wasn't changed on the second step after editing it");
+        }
+        if(initialFacebook != null){
+            softAssert.assertFalse(stepTwo.getFacebookInputElement().getInput().getAttribute("value").contains(initialFacebook),
+                    "The facebook value wasn't changed on the second step after editing it");
+        }
+        if(initialWhatsapp != null){
+            softAssert.assertFalse(stepTwo.getWhatsappInputElement().getInput().getAttribute("value").contains(initialWhatsapp),
+                    "The whatsapp value wasn't changed on the second step after editing it");
+        }
+        if(initialEmail != null){
+            softAssert.assertFalse(stepTwo.getEmailInputElement().getInput().getAttribute("value").contains(initialEmail),
+                    "The email wasn't changed on the second step after editing it");
+        }
+        if(initialSkype != null){
+            softAssert.assertFalse(stepTwo.getSkypeInputElement().getInput().getAttribute("value").contains(initialSkype),
+                    "The skype value wasn't changed on the second step after editing it");
+        }
+        if(initialSite != null){
+            softAssert.assertFalse(stepTwo.getSiteInputElement().getInput().getAttribute("value").contains(initialSite),
+                    "The site wasn't changed on the second step after editing it");
+        }
+        stepTwo.clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+        refreshProfilePage();
+        goToTheSecondStep();
+        stepTwo = addClubPopUpComponent.getStepTwoContainer();
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getTelephoneInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+        clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        editOptionalFieldsEditClubCardStepTwo(stepTwo, initialPhone, initialFacebook, initialWhatsapp, initialEmail, initialSkype, initialSite);
+        stepTwo.clickNextStepButton();
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.clickCompleteButton();
+        softAssert.assertAll();
+    }
+    private String getValueFromFieldStepTwo(WebElement element) {
+        String value = element.getAttribute("value");
+        return value != null ? value : "";
+    }
+    private void clearFieldsIfNotEmptyStepTwo(AddClubPopUpStepTwo stepTwo, WebElement field){
+        if(!field.getAttribute("value").isEmpty()){
+            field.sendKeys(Keys.COMMAND + "a");
+            field.sendKeys(Keys.DELETE);
+        }
+    }
+    private void editOptionalFieldsEditClubCardStepTwo(AddClubPopUpStepTwo stepTwo, String phone, String facebook,
+                                                       String whatsapp, String email, String skype, String site){
+        stepTwo.getTelephoneInputElement()
+                .setValue(phone);
+        softAssert.assertTrue(stepTwo.getTelephoneInputElement().getInput().getAttribute("value").equals(phone),
+                "The phone value: "+phone+" wasn't set");
+        if(facebook != null){
+            stepTwo.getFacebookInputElement().setValue(facebook);
+            softAssert.assertTrue(stepTwo.getFacebookInputElement().getInput().getAttribute("value").equals(facebook),
+                    "The facebook value: "+facebook+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getFacebookInputElement().getInput());
+        }
+        if(whatsapp != null){
+            stepTwo.getWhatsappInputElement().setValue(whatsapp);
+            softAssert.assertTrue(stepTwo.getWhatsappInputElement().getInput().getAttribute("value").equals(whatsapp),
+                    "The whatsapp value: "+whatsapp+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getWhatsappInputElement().getInput());
+        }
+        if(email != null){
+            stepTwo.getEmailInputElement().setValue(email);
+            softAssert.assertTrue(stepTwo.getEmailInputElement().getInput().getAttribute("value").equals(email),
+                    "The email value: "+email+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getEmailInputElement().getInput());
+        }
+        if(skype != null){
+            stepTwo.getSkypeInputElement().setValue(skype);
+            softAssert.assertTrue(stepTwo.getSkypeInputElement().getInput().getAttribute("value").equals(skype),
+                    "The skype value: "+skype+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSkypeInputElement().getInput());
+        }
+        if(site != null){
+            stepTwo.getSiteInputElement().setValue(site);
+            softAssert.assertTrue(stepTwo.getSiteInputElement().getInput().getAttribute("value").equals(site),
+                    "The site value: "+site+" wasn't set");
+        }else{
+            clearFieldsIfNotEmptyStepTwo(stepTwo, stepTwo.getSiteInputElement().getInput());
+        }
+    }
+    private String getValueFromField(WebElement field){
+        if(!field.getAttribute("value").isEmpty()){
+            return field.getAttribute("value");
+        }
+        return null;
+    }
+    private void goToTheSecondStep(){
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyClubsOnDropdown();
+        addClubPopUpComponent= profilePage.getClubCardComponents().get(0).clickMoreButton().clickEditClub();
+        AddClubPopUpStepOne stepOne = addClubPopUpComponent.getStepOneContainer();
+        stepOne.clickNextStepButton();
     }
     private void refreshProfilePage(){
         driver.navigate().refresh();

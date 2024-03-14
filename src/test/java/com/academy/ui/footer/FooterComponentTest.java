@@ -92,6 +92,7 @@ public class FooterComponentTest extends BaseTestRunner {
     }
 
     @Test(description = "TUA-974")
+    @Description("[Footer] Verify that clicking on the 'Навчай українською' logo in the upper left corner reloads the page")
     @Issue("TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");

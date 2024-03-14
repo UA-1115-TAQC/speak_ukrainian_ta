@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
 
     @Test(description = "TUA-44")
+    @Description("Verify that user can perform basic search by whole words")
     @Issue("TUA-44")
     public void checkThatUserCanDoBasicSearch(){
         checkThatUserCanDoBasicSearchByString("American Gymnastics Club");

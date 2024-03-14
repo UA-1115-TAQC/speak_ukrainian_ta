@@ -5,6 +5,7 @@ import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,6 +37,8 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterNameInput()));
     }
     @Test(description = "TUA-164")
+    @Description("Verify that the 'Географічні координати' field is filled automatically " +
+            "after a 'Керівник' filled in the ‘Адреса’ field")
     @Issue("TUA-164")
     public void testCoordinatesAreFilledAutomaticallyAfterEnteringAddress(){
         addLocationPopUpComponent = addClubPopUpStepOne.clickAddLocationButton();

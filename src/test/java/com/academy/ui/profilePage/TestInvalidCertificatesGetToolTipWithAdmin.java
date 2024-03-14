@@ -35,7 +35,8 @@ public class TestInvalidCertificatesGetToolTipWithAdmin extends LoginWithAdminTe
     }
 
     @Test(dataProvider = "invalidValues")
-    @Description("Test the behavior of the certificate tooltip with invalid values.")
+    @Description("Verify that the Admin can't continue generating certificates with an invalid value " +
+            "in the 'Тривалість навчання' field and will receive a tooltip")
     public void testInvalidCertificatesGetToolTip(String inputValue, String expectedValue){
         enterInValidValue(inputValue);
         adminGenerateCertificatePage.getStudyDurationLabel().click();

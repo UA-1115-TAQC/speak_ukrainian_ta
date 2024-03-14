@@ -175,6 +175,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
     }
 
     @Test(description = "TUA-924")
+    @Description("[Додати гурток] Verify that Керівник can only one photo " +
+            "added in 'Обкладинка' photo in JPEG/PNG format and desired photo size 1268*840")
+    @Issue("TUA-924")
     public void checkManagerCanAddOnePhotoAsCoverInCertainSize() {
         fillStepOneWithValidDataPreconditions();
         stepOne.clickNextStepButton();

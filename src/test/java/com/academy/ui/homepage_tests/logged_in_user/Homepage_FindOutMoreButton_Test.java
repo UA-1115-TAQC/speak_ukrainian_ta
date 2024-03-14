@@ -1,6 +1,7 @@
 package com.academy.ui.homepage_tests.logged_in_user;
 
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -24,6 +25,8 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
         actions = new Actions(driver);
     }
     @Test(description = "TUA-860")
+    @Description("[Home page] [The user is logged in] Verify the \"Дізнатись більше\" button" +
+            " on the block about suggested challenge")
     @Issue("TUA-860")
     public void checkHoverEffects(){
         softAssert.assertTrue(homePage.getChallengeFindOutMoreButton().getCssValue("background").contains("rgb(250, 140, 22)"),
@@ -36,6 +39,8 @@ public class Homepage_FindOutMoreButton_Test extends LogInWithUserTestRunner {
     }
 
     @Test(description = "TUA-860")
+    @Description("[Home page] [The user is logged in] Verify the \"Дізнатись більше\" button" +
+            " on the block about suggested challenge")
     @Issue("TUA-860")
     public void checkFindOutMoreButtonOnTheBody(){
        WebElement challengeImageText = homePage.clickChallengeFindOutMoreButton().getChallengeImageText();

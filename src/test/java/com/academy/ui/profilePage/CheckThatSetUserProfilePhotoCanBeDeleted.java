@@ -3,6 +3,8 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import com.academy.ui.pages.ProfilePage;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,6 +28,9 @@ public class CheckThatSetUserProfilePhotoCanBeDeleted extends LogInWithUserTestR
         editProfilePopUpComponent.clickUserButton();
     }
     @Test (description = "TUA-919")
+    @Description("Verify that user (as 'Відвідувач')can delete an existing photo in" +
+            " the 'Редагувати профіль' modal window and save changes")
+    @Issue("TUA-919")
     public void checkThatSetUserProfilePhotoCanBeDeleted(){
         editProfilePopUpComponent.getUploadUserPhotoInput().sendKeys(configProperties.getImagePath("image.png"));
         editProfilePopUpComponent.waitUntilElementIsVisible(editProfilePopUpComponent.getUploadPhotoNameUserPhoto());

@@ -128,6 +128,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     }
 
     @Test(description = "TUA-89")
+    @Description("Verify that locations of the previous center are removed from the club, " +
+            "and locations of a new center are added automatically (for a club that is in the center)")
     @Issue("TUA-89")
     public void checkThatLocationsChangeForAclubWhenChangingCenters(){
        if(profilePage.getClubCardComponents().isEmpty()){
@@ -152,6 +154,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-66")
+    @Description("Verify that user can edit ‘Контакти’ fields (for a club that is not in the center) " +
+            "with valid data, and save changes on the ‘Контакти’ tab of the ‘Редагувати гурток’ pop-up window")
     @Issue("TUA-66")
     public void verifyUserCanEditOptionalFieldsEditClubCardStepThree(){
         if(profilePage.getClubCardComponents().isEmpty()){
@@ -280,6 +284,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         }
     }
     @Test(description = "TUA-973")
+    @Description("Verify that the icon of the main photo 'Обкладинка' is set " +
+            "by default if photo is not uploaded (for a club that is in the center)")
     @Issue("TUA-973")
     public void checkDefaultClubCover(){
         String initialCover = "image.png";

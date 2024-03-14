@@ -521,6 +521,7 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     }
 
     @Test(description = "LVTEACH-22")
+    @Description("Verify adding new club with valid data")
     @Issue("LVTEACH-22")
     public void verifyAddingANewClubWithValidData(){
         softAssert.assertTrue(stepOne.getClubTitle().getText().contains("Додати гурток"),

@@ -4,6 +4,7 @@ import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -54,6 +55,8 @@ private String stepOneSelectedCentre;
         addClubPopUpStepOne = addClubPopUpComponent.getStepOneContainer();
     }
     @Test(description = "TUA-127")
+    @Description("Verify that all entered values are saved after clicking " +
+            "'Наступний крок' button on 'Додати гурток' pop-up if a club is without a center")
     @Issue("TUA-127")
     public void verifyAllEnteredValuesAreSavedClubPopUpWithoutCenter(){
         verifyAllParametersAreEmptyByDefaultStepOne();

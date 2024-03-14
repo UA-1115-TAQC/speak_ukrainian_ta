@@ -5,6 +5,8 @@ import com.academy.ui.pages.HomePage;
 import com.academy.ui.pages.challenges.ChallengeTeachInUkrainian;
 import com.academy.ui.pages.challenges.ChallengeUnited;
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,11 +30,15 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         wait.until(driver -> homePage.header.isLoggedIn());
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkThatSlickDotsContainerIsCentered(){
         softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotsContainer().getCssValue("justify-content").contains("center"));
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkSizeOfImagesInCarousel(){
         for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++){
             verifyImgCardSize(i);
@@ -47,6 +53,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
                 "The active image height doesn't equal 400 in the card with data index "+i);
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkColoringOfActiveOrInactiveIndicatorUnderCarousel(){
         homePage.carouselImgComponent.clickSlickDotByIndex(0);
         softAssert.assertTrue(homePage.carouselImgComponent.getSlickDotByIndex(0).getCssValue("background").contains("rgb(250, 140, 22)"),
@@ -57,11 +65,15 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkThatCarouselIsCentered(){
         softAssert.assertTrue(homePage.carouselImgComponent.getWebElement().getCssValue("align-items").contains("center"));
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkThatTextOnCarouselImgCardIsCentered(){
         for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
             softAssert.assertTrue(homePage.carouselImgComponent.getCarouselImgCardByDataIndex(i).getCardHeading().getCssValue("text-align").contains("center"));
@@ -72,6 +84,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkThatAllElementsArePresentImgCarouselAccordingToMockup(){
         softAssert.assertTrue(homePage.carouselImgComponent.getLeftArrowButton().isDisplayed());
         softAssert.assertTrue(homePage.carouselImgComponent.getRightArrowButton().isDisplayed());
@@ -85,6 +99,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void checkHoverEffectsFindOutMoreButton(){
         for(int i = 0; i<homePage.carouselImgComponent.getCarouselImgCards().size(); i++) {
             homePage.carouselImgComponent.waitUntilTheCardIsDisplayedByIndex(i);
@@ -100,6 +116,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void verifyImgcarouselButton1() {
         homePage.carouselImgComponent.getCarouselImgCardByDataIndex(0).clickCardButton();
         ChallengeUnited challengeUnited = new ChallengeUnited(driver);
@@ -110,6 +128,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
     }
 
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void verifyImgcarouselButton2() {
         homePage.carouselImgComponent.clickRightArrowButton();
         homePage.carouselImgComponent.getCarouselImgCardByDataIndex(1).clickCardButton();
@@ -118,6 +138,8 @@ public class ImgCarouselLogedInTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-845")
+    @Description("[Home page] [user is logged in] Verify that the carousel is match to mock-up")
+    @Issue("TUA-845")
     public void verifyImgcarouselButton3() {
         homePage.carouselImgComponent.clickRightArrowButton();
         homePage.carouselImgComponent.clickRightArrowButton();

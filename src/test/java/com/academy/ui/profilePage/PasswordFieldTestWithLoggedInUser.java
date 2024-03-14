@@ -3,6 +3,7 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -32,6 +33,8 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
     }
     @Test (description = "TUA-154")
+    @Description("Check if the error message appears after user as 'Відвідувач' inputs " +
+            "invalid data in the ‘New password’ field")
     @Issue("TUA-154")
     public void test(){
         checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration();

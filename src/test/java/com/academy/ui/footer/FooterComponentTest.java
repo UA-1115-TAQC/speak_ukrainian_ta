@@ -116,7 +116,9 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-946")
+    @Test
+    @Description("[Footer] Verify that clicking the Instagram icon opens the corresponding page")
+    @Issue("TUA-946")
     public void testInstagramIconClickOpensCorrespondingPage() {
         homePage.scrollToFooter();
         FooterComponent footer = homePage.getFooter();

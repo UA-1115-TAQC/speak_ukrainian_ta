@@ -4,10 +4,16 @@ import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpCompo
 import com.academy.ui.components.BaseComponent;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
 
 @Getter
 public class LocationListElement extends BaseComponent {
@@ -50,6 +56,8 @@ public class LocationListElement extends BaseComponent {
     @Step("Click on the Edit-icon to edit location on the second step of Add/Edit club pop-up")
     public AddLocationPopUpComponent clickEditIcon() {
         editIcon.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOf(locationPopUp));
         return new AddLocationPopUpComponent(driver, locationPopUp);
     }
 

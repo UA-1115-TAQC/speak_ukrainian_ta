@@ -4,6 +4,7 @@ import com.academy.ui.components.AddCenterPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -40,9 +41,10 @@ public class TestAddLocationToCenterPopUp extends LoginWithManagerTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "Verify that a 'Керівник' can add a location of a center")
+    @Test
+    @Description("Verify that a 'Керівник' can add a location of a center")
     @Issue("TUA-247")
-    public void addLocationOfACenterTest() throws InterruptedException {
+    public void addLocationOfACenterTest() {
 
         stepOne.setCenterName(CENTER);
         AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();

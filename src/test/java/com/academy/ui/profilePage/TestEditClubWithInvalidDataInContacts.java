@@ -5,13 +5,12 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.List;
 
 public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestRunner {
 
@@ -34,7 +33,8 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
 
     }
 
-    @Test(description = "Verify that user cannot save invalid data in the ‘Контакти’ fields (for a club that is not in the center) on the ‘Контакти’ tab of the ‘Редагувати гурток’ pop-up window")
+    @Test
+    @Description("Verify that user cannot save invalid data in the ‘Контакти’ fields (for a club that is not in the center) on the ‘Контакти’ tab of the ‘Редагувати гурток’ pop-up window")
     @Issue("TUA-76")
     public void checkThatUserCannotSavedInvalidDataForAClub() {
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();

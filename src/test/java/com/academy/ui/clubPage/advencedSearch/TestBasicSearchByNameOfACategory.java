@@ -4,6 +4,8 @@ package com.academy.ui.clubPage.advencedSearch;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,7 +13,9 @@ import java.util.List;
 
 public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
 
-    @Test(description = "TUA-227- Verify that user can perform basic search by name of a category")
+    @Test
+    @Description("Verify that user can perform basic search by name of a category")
+    @Issue("TUA-227")
     public void checkBasicSearchByNameOfCategory() {
         homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField("хореографія");
         homePage.advancedSearchHeaderComponent.clickSelectionSearchInputField();
@@ -26,7 +30,9 @@ public class TestBasicSearchByNameOfACategory extends LoginWithAdminTestRunner {
         Assert.assertTrue(containsExpectedText);
     }
 
-    @Test(description = "TUA-883-Verify that the system shows online clubs when the user chooses 'інше' in the categories")
+    @Test
+    @Description("Verify that the system shows online clubs when the user chooses 'інше' in the categories")
+    @Issue("TUA-883")
     public void checkBasicSearchByNameOfCategoryOther() {
         homePage.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Інше");
         homePage.advancedSearchHeaderComponent.clickSelectionSearchInputField();

@@ -1,6 +1,7 @@
 package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
+import com.academy.ui.components.editProfileElement.EditProfileInputElement;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import io.qameta.allure.Description;
@@ -8,10 +9,7 @@ import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
@@ -527,4 +525,24 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         repeatPassword.setValue(password);
         profilePage = editProfilePopUp.clickSubmitButton();
     }
+
+//    input in email field is disabled
+    @Ignore
+    @Test(dataProvider = "invalidEmail", dataProviderClass = EditProfilePageWithUserDataProvider.class)
+    @Description("Verify that error message is shown and 'Зберегти зміни' button becomes disabled " +
+            "while entering invalid data for the ' Email' field. The user as 'Відвідувач'")
+    @Issue("TUA-355")
+    public void checkErrorMsgInvalidEmail(String input){
+        softAssert = new SoftAssert();
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.getEmailElement().setValue(input);
+
+        softAssert.assertEquals(
+                editProfile.getEmailElement().getErrorMessagesTextList().get(0),
+                "Некоректний формат email"
+        );
+        softAssert.assertFalse(editProfile.getSubmitButton().isEnabled());
+        softAssert.assertAll();
+    }
+
 }

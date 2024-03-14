@@ -4,6 +4,7 @@ import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -77,13 +78,13 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::div[@id='basic_ageTo_help']/div")
     private WebElement maxAgeInputError;
 
-    @FindBy(xpath = "./descendant::input[contains(@id,'centerId')]")
+    @FindBy(xpath = "./descendant::div[contains(@class, ' add-club-select')]")
     private WebElement centerSelect;
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
-    @FindBy(xpath = "//div[contains(@Class,'ant-select-item ant-select-item-option')]")
+    @FindBy(xpath = "//div[contains(@class,'ant-select-item ant-select-item-option')]")
     private List<WebElement> centersList;
 
     @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
@@ -162,5 +163,8 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
         this.centerDropdownElement = new DropdownElement(driver, centerDropdown);
         return centerDropdownElement;
     }
-
+    public void scrollIntoView(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", element);
+    }
 }

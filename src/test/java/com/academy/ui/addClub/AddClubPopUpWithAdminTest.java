@@ -10,11 +10,9 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
-import io.qameta.allure.Issue;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,12 +28,6 @@ import java.time.Duration;
 
 import static org.testng.Assert.assertTrue;
 
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
 public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
     private static final String DEFAULT_INPUT = "qwerty";

@@ -600,32 +600,36 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-926")
+    @Test
+    @Description("Verify that Керівник can preview and delete photos in 'Галерея' step and not add any photos")
+    @Issue("TUA-926")
     public void testGalleryUploadAndDeletePhoto() {
-        fillStepOneWithValidDataPreconditions();
+        stepOne.getClubNameInputElement().setValue("Lazy club");
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE)
+                .clickNextStepButton();
         fillStepTwoWithValidDataPreconditions();
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.getClubGalleryDownloadInput().sendKeys(imagePath);
-        stepThree.sleep(2000);
-
+        stepThree.getClubGalleryDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
+        stepThree.getUploadedGalleryImg(0).waitImageLoad(5);
         softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
-        //не можу достукатись до тайтла картинки
-//        softAssert.assertEquals(stepThree.getUploadedGalleryImg(0).getImgTitle().getText(),
-//                "image.png", "1 step fail");
-
         stepThree.getUploadedGalleryImg(0).clickPreviewFile();
-        softAssert.assertEquals(stepThree.getUploadedGalleryImg(0).getModalFormTitleImg().getText(),
-                "image.png", "2 step fail");
+        softAssert.assertEquals(stepThree
+                        .getUploadedGalleryImg(0)
+                        .getModalFormTitleImg()
+                        .getText(),
+                image1FileName,
+                "Uploaded different photo");
 
-        //не можу достукатись до кнопки
-//        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow();
-
-        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
-
+        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow().clickRemoveImg();
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
+        stepThree.getClubDescriptionTextarea().sendKeys("Спорт - це для кожного (за певних умов).");
+        stepThree.clickCompleteButton();
+        softAssert.assertTrue(homePage.getTopNoticeMessage().isDisplayed());
         softAssert.assertAll();
     }
 }

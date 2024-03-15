@@ -3,20 +3,24 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.time.Duration;
 import java.util.List;
 
 public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     private EditProfilePopUp editProfilePopUpComponent;
     private final String TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR ="Пароль не може бути коротшим, ніж 8 та довшим, ніж 20 символів";
-    private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Новий пароль не може бути таким самим як попередній";
-    SoftAssert softAssert;
+    private final String THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR="Значення поля ‘Новий пароль’ має відрізнятися від значення поля ‘Старий пароль’";
+    private SoftAssert softAssert;
+    private WebDriverWait wait;
     @BeforeMethod
     public void setup(){
         softAssert= new SoftAssert();
@@ -25,23 +29,22 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
                 driver.findElement(By.xpath("./descendant::div[contains(@class, \"ant-modal css-13m256z user-edit\")]//div[@class=\"ant-modal-content\"]")));
         editProfilePopUpComponent.clickUserButton();
         editProfilePopUpComponent.clickCheckBox();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
     }
     @Test (description = "TUA-154")
+    @Issue("TUA-154")
     public void test(){
         checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration();
-        WebElement inputField = driver.findElement(By.xpath("//input[@id=\"edit_password\"]"));
+        WebElement inputField = editProfilePopUpComponent.getNewPasswordInput().getInput();
        enterInvalidNewPasswordAndVerifyField("qwer", inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
-        //clear
-        //  editProfilePopUpComponent.getEnterNewPasswordInput().clearInput(); doesn't work on mac - mac versions are obsolete in mac enum (no mac ventura)
-
-        //for the 2nd time - wrong field - wrong selector on page - better via id
         enterInvalidNewPasswordAndVerifyField("qwertyu",inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
         enterInvalidNewPasswordAndVerifyField("123456789101234567899",inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
         enterInvalidNewPasswordAndVerifyField("123456789123456789123",inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
         clearInputField(inputField);
+        editProfilePopUpComponent.getCurrentPasswordElement().setValue(configProperties.getUserPassword());
         enterInvalidNewPasswordAndVerifyField(configProperties.getUserPassword(), inputField,THE_NEW_PASSWORD_CANT_BE_THE_SAME_AS_EXISTING_ERROR);
         softAssert.assertAll();
     }
@@ -56,18 +59,16 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
                 "The shown first name doesn't match the last name, which was entered by a user during registration");
         softAssert.assertEquals(editProfilePopUpComponent.getPhoneElement().getInput().getAttribute("value"), configProperties.getUserPhone(),
                 "The shown phone doesn't match the last name, which was entered by a user during registration");
-
-        //assert email !!! - now unaccessible
-       // softAssert.assertEquals(editProfilePopUpComponent.getEmailTitle().getAttribute("value"), configProperties.getUserEmail());
+        softAssert.assertEquals(editProfilePopUpComponent.getEmailElement().getInput().getAttribute("value"), configProperties.getUserEmail(),
+                "The shown email doesn't match the email, which was entered by a user during registration");
     }
+
     private void enterInvalidNewPasswordAndVerifyField(String pwd, WebElement inputField, String errorMessage){
 
         inputField.sendKeys(pwd);
-       // editProfilePopUpComponent.enterNewPassword(pwd); - use this method later
-
-        //fix
-       List<WebElement> errorMessages= driver.findElements(By.xpath("//div[contains(@class,\"explain-error\")]"));
-       boolean HasMessageFlag =false;
+        // editProfilePopUpComponent.enterNewPassword(pwd); - use this method later
+        List<WebElement> errorMessages= driver.findElements(By.xpath("//div[contains(@class,\"explain-error\")]"));
+        boolean HasMessageFlag =false;
         for(WebElement error:errorMessages){
             if(!error.getText().equals(errorMessage)){
                 continue;

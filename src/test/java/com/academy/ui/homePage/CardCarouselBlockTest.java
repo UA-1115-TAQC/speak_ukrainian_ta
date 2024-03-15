@@ -2,37 +2,24 @@ package com.academy.ui.homePage;
 
 import com.academy.ui.components.carousel.CarouselCardComponent;
 import com.academy.ui.components.carousel.ClubDirectionCard;
-import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.HomePage;
-import com.academy.ui.runners.BaseTestRunner;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
+import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Step;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class CardCarouselBlockTest extends BaseTestRunner {
+public class CardCarouselBlockTest extends LoginWithManagerTestRunner {
 
-    private SoftAssert softAssert;
-
-    @BeforeTest
-    private void initializeSoftAssert(){
-        softAssert = new SoftAssert();
-    }
-
-    @BeforeMethod
-    private void login(){
-        LoginPopupComponent loginForm = homePage.getHeader().openGuestMenu().openLoginForm();
-        loginForm.enterEmail(configProperties.getUserEmail());
-        loginForm.enterPassword(configProperties.getUserPassword());
-        loginForm.clickSubmitButton();
-        homePage.waitUntilHomePageIsVisible();
-    }
-
-    @Test(description = "TUA-863")
+    @Test
+    @Description("[logged in] Verify that clickable is all block and the 'Переглянути' button on the carousel with suggested clubs")
+    @Issue("TUA-863")
     public void checkLoggedInClickableBlockAndButton(){
+        SoftAssert softAssert = new SoftAssert();
         List<ClubDirectionCard> directionCards = homePage.getCarouselCardComponent().getAllCarouselCards();
         ClubDirectionCard directionCard;
         ClubsPage clubsPage;
@@ -49,6 +36,7 @@ public class CardCarouselBlockTest extends BaseTestRunner {
             softAssert.assertTrue(clubsPage.getSearchSider().isDirectionBoxChecked(directionName));
             homePage = backToHomePage();
         }
+        softAssert.assertAll();
     }
 
     private HomePage backToHomePage(){

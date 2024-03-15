@@ -1,10 +1,11 @@
 package com.academy.ui.components.header.headerMenuComponent;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.BaseComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.pages.SearchCertificatePage;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,26 +35,31 @@ public class UserMenuComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Open add club form")
     public AddClubPopUpComponent openAddClubForm() {
         clickElement(driver, addClub);
         return new AddClubPopUpComponent(driver);
     }
 
+    @Step("Open add centre form")
     public AddCenterPopUpComponent openAddCentreForm() {
         clickElement(driver, addCentre);
         return new AddCenterPopUpComponent(driver);
     }
 
+    @Step("Open search certificate page")
     public SearchCertificatePage clickSearchCertificate() {
         clickElement(driver, searchCertificates);
         return new SearchCertificatePage(driver);
     }
 
+    @Step("Open profile page")
     public ProfilePage clickProfile() {
         clickElement(driver, profile);
         return new ProfilePage(driver);
     }
 
+    @Step("Click logout")
     public UserMenuComponent clickLogout() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(logout)).click();

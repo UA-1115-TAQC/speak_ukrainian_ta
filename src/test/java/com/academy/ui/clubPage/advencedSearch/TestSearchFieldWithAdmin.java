@@ -2,6 +2,8 @@ package com.academy.ui.clubPage.advencedSearch;
 
 import com.academy.ui.components.advancedSearchHeader.AdvancedSearchHeaderComponent;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -14,7 +16,9 @@ public class TestSearchFieldWithAdmin extends LoginWithAdminTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-142")
+    @Test
+    @Description("Checks that the basic search UI matches to the mock-up")
+    @Issue("TUA-142")
     public void checkBasicSearchFieldUi() {
         var searchComponent = homePage.getAdvancedSearchHeaderComponent();
         final var expectedInputWidth = "252px";

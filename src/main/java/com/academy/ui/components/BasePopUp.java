@@ -1,5 +1,6 @@
 package com.academy.ui.components;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,15 +19,19 @@ public abstract class BasePopUp extends BaseComponent {
         super(driver, rootElement);
 
     }
+
+    @Step("Wait {timeout} seconds until pop-up opens")
     public void waitPopUpOpen(long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.until(e -> rootElement.isDisplayed());
     }
 
+    @Step("Check pop-up is open")
     public boolean isOpen() {
         return rootElement.isDisplayed();
     }
 
+    @Step("Click on close 'X' button")
     public void close() {
         getCloseButton().click();
     }

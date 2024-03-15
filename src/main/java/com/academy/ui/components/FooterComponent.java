@@ -1,9 +1,12 @@
 package com.academy.ui.components;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,79 +86,101 @@ public class FooterComponent extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Click on logo")
     public void clickOnLogo() {
         logo.click();
     }
 
+    @Step("Get the list of all social links")
     public List<String> getFooterSocialLinks() {
         return socialLinks.stream()
                 .map(link -> link.getAttribute("href"))
                 .collect(Collectors.toList());
     }
 
+    @Step("Get the list of all sponsors links")
     public List<String> getFooterSponsorsLinks() {
         return sponsorsLinks.stream()
                 .map(link -> link.getAttribute("href"))
                 .collect(Collectors.toList());
     }
 
+    @Step("Click on the donate button")
     public void clickOnDonateButton() {
         donateButton.click();
     }
 
+    @Step("Click on the Facebook link")
     public void clickOnFacebookLink() {
         facebookLink.click();
     }
 
+    @Step("Click on the YouTube link")
     public void clickOnYouTubeLink() {
         youTubeLink.click();
     }
 
+    @Step("Click on the Instagram link")
     public void clickOnInstagramLink() {
         instagramLink.click();
     }
 
+    @Step("Click on the SoftServe link")
     public void clickOnSoftServeLink() {
         softServeLink.click();
     }
 
+    @Step("Click on the MovaObyednue link")
     public void clickOnMovaObyednueLink() {
         movaObyednueLink.click();
     }
 
+    @Step("Click on the Edera link")
     public void clickOnEderaLink() {
         ederaLink.click();
     }
 
+    @Step("Click on the EMova link")
     public void clickOneEMovaLink() {
         eMovaLink.click();
     }
 
+    @Step("Click on the KrainaFM link")
     public void clickOnKrainaFMLink() {
         krainaFMLink.click();
     }
 
+    @Step("Click on the UCF link")
     public void clickOnUcfLink() {
         ucfLink.click();
     }
 
+    @Step("Click on the ProstirSvobodi link")
     public void clickOnProstirSvobodiLink() {
         prostirSvobodiLink.click();
     }
 
+    @Step("Check Social block is displayed")
     public boolean isSocialBlockIsDisplayed(){
         socialBlock.isDisplayed();
         return true;
     }
 
+    @Step("Check partner block is displayed")
     public boolean isPartnerBlockIsDisplayed(){
         partnersBlock.isDisplayed();
         return true;
     }
 
+    @Step("Check donate block is displayed")
     public boolean isDonateBlockIsDisplayed(){
         donateBlock.isDisplayed();
         return true;
+    }
+
+    public void moveTooltipToDonateButton() {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(donateButton).perform();
     }
 
 }

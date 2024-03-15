@@ -5,6 +5,8 @@ import com.academy.ui.components.NewsCardComponent;
 import com.academy.ui.components.SwitchPaginationComponent;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
@@ -42,16 +44,19 @@ public class AllNewsPage extends BasePageWithAdvancedSearch {
         pagination = new SwitchPaginationComponent(driver, paginationRoot);
     }
 
+    @Step("Click on the right arrow button of the pagination on the 'AllNewsPage'")
     public AllNewsPage clickNextPage() {
         pagination.clickNext();
         return this;
     }
 
+    @Step("Click on the left arrow button of the pagination on the 'AllNewsPage'")
     public AllNewsPage clickPreviousPage() {
         pagination.clickPrevious();
         return this;
     }
 
+    @Step("Get club-sider title")
     public String getClubSiderTitle() {
         return clubSiderTitle.getText();
     }

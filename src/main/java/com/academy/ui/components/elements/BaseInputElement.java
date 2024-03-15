@@ -1,6 +1,7 @@
 package com.academy.ui.components.elements;
 
 import com.academy.ui.components.BaseComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.Platform;
@@ -8,6 +9,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.function.Function;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.textToBe;
 
 
 @Getter
@@ -19,11 +27,19 @@ public class BaseInputElement extends BaseComponent {
         super(driver, rootElement);
     }
 
+    @Step("Set input String value {value}")
     public BaseInputElement setValue(String value) {
         input.sendKeys(value);
         return this;
     }
 
+    @Step("Set input Key value {key}")
+    public BaseInputElement setKey(Keys key) {
+        input.sendKeys(key);
+        return this;
+    }
+
+    @Step("Clear input")
     public BaseInputElement clearInput() {
         Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
         if (currentPlatform.is(Platform.MAC)) {
@@ -32,6 +48,8 @@ public class BaseInputElement extends BaseComponent {
         } else {
             input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(driver -> getInput().getAttribute("value").equals(""));
         return this;
     }
 

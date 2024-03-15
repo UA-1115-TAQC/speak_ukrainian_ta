@@ -1,5 +1,6 @@
 package com.academy.ui.components;
 
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,15 +27,19 @@ public class CenterCardComponent extends BaseComponent{
         super(driver, rootElement);
     }
 
+    @Step("Click on the tittle of the center card")
     public void clickTitle() {
         getTitle().click();
     }
 
+    @Step("Click on the address of the center card")
     public void clickAddress() {
         getAddress().click();
     }
 
+    @Step("Click on the 'Детальніше' button of the center card")
     public void clickDetailsButton() {
         getDetailsButton().click();
     }
+
 }

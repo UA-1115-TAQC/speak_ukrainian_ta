@@ -1,10 +1,12 @@
 package com.academy.ui.addCenter;
 
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpComponent;
-import com.academy.ui.components.AddCenterPopUPComponent.AddCenterPopUpStepOne;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
+import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpStepOne;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationInputElement;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Issue;
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -16,7 +18,7 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
     private SoftAssert softAssert;
     private final String VALID_CENTER_NAME = "Center Name";
 
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get addCenterPopUp and stepOne components, make softAssert object")
     public void addClubPopUpTestPrecondition() {
         addCenterPopUp = homePage.header.openAdminMenu().openAddCentreForm();
         addCenterPopUp.waitPopUpOpen(10);
@@ -24,7 +26,9 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
         softAssert = new SoftAssert();
     }
 
-    @Test(description = "TUA-262")
+    @Test(description = "Error message is shown for name field for add location while creating a center")
+    @Description("Verify error message for ‘Назва’ field of ‘Додати локацію’ pop-up when creating a center")
+    @Issue("TUA-262")
     public void checkErrorMessageForNameFieldInAddLocationForCenter() {
         final String INVALID_CENTER_NAME = "Ы, э, Ѩ, Ѭ,";
         final String ERROR_SYMBOLS_MESSAGE = "Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи";
@@ -58,7 +62,9 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-158")
+    @Test(description = "Manager can add location with valid data to list while creating a center")
+    @Description("Verify that a 'Керівник' can add location to the list of locations after filling in all mandatory and all optional fields with valid data")
+    @Issue("TUA-158")
     public void checkAddingLocationWithValidToList() {
         final String VALID_LOCATION_NAME = "ТестЛокація4";
         final String VALID_CITY_NAME = "Київ";
@@ -118,5 +124,43 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
                 "List of location names should have " + VALID_LOCATION_NAME);
 
         softAssert.assertAll();
+    }
+
+    @Test()
+    @Issue("TUA-160")
+    public void checkImpossibilityAddLocationIfAllMandatoryFieldsEmpty(){
+        AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
+        softAssert.assertTrue(addLocationPopUp.isOpen());
+        addLocationPopUp.clickAddLocationButton();
+        int sizeBeforeAdd = stepOne.getLocationsElementsList().size();
+
+        softAssert.assertTrue(addLocationPopUp.getAddLocationButton().isEnabled(), "Button is enabled");
+        softAssert.assertFalse(addLocationPopUp.getLocatioNameInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocatioNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocatioCityDropdownElement().getErrorMessage().getText().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocatioCityDropdownElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationAddressInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationAddressInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationCoordinatesInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationCoordinatesInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        softAssert.assertFalse(addLocationPopUp.getLocationTelephoneInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationTelephoneInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+
+        addLocationPopUp.close();
+        stepOne = addCenterPopUp.getStepOneContainer();
+        softAssert.assertTrue(stepOne.getLocationsElementsList().size() == sizeBeforeAdd);
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-162")
+    public void checkDistrictEmptyIfCityEmpty() {
+        AddLocationPopUpComponent addLocation = stepOne.clickAddLocationButton();
+        softAssert.assertTrue(addLocation.getLocatioCityDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
+        addLocation.getLocatioCityDropdownElement().clickDropdown(); // click again to remove dropdown
+        softAssert.assertTrue(addLocation.getLocationDistrictDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
     }
 }

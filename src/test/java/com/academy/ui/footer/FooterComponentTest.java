@@ -2,14 +2,18 @@ package com.academy.ui.footer;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.pages.BasePageWithoutHeaderAndFooter;
-import com.academy.ui.runners.BaseTestRunner;
-import org.openqa.selenium.JavascriptExecutor;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import static org.testng.Assert.assertEquals;
 import com.academy.ui.pages.challenges.BaseChallengePage;
+import com.academy.ui.runners.BaseTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+
+import static org.testng.Assert.assertEquals;
 
 public class FooterComponentTest extends BaseTestRunner {
     private SoftAssert softAssert;
@@ -19,20 +23,11 @@ public class FooterComponentTest extends BaseTestRunner {
     private BasePageWithoutHeaderAndFooter basePageWithoutHeaderAndFooter;
     private FooterComponent footerComponent;
   
-    @BeforeMethod
+    @BeforeMethod(description = "Preconditions: Get footer and make new basePageWithoutHeaderAndFooter and softAssert objects")
     public void footerPrecondition() {
         footerComponent = homePage.getFooter();
         basePageWithoutHeaderAndFooter = new BasePageWithoutHeaderAndFooter(driver);
-    }
-
-    @BeforeTest
-    public void createAssert() {
         softAssert = new SoftAssert();
-    }
-
-    @AfterTest
-    public void deleteAssert() {
-        softAssert = null;
     }
 
     private void checkFooterElements(FooterComponent footer, String pageNme) {
@@ -60,7 +55,9 @@ public class FooterComponentTest extends BaseTestRunner {
                 "Donate Button should be displayed on the Footer on the " + pageNme);
     }
 
-    @Test(description = "TUA-943")
+    @Test(description = "Footer remains same across all pages")
+    @Description("[Footer] Verify that the footer remains the same across all pages.")
+    @Issue("TUA-943")
     public void verifyFooterRemainsSameAcrossAllPages() {
 
         final String MESSAGE = "Footer should be displayed on the ";
@@ -93,7 +90,9 @@ public class FooterComponentTest extends BaseTestRunner {
 
         softAssert.assertAll();
     }
+
     @Test(description = "TUA-974")
+    @Issue("TUA-974")
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");
         String initialTitle = driver.getTitle();
@@ -103,17 +102,23 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
   
-    @Test(description = "TUA-945")
-    public void click_on_youTube_icon_ok() {
+    @Test
+    @Description("Verify that clicking the YouTube icon opens the corresponding page")
+    @Issue("TUA-945")
+    public void clickYouTubeIcon() {
         String expected = footerComponent.getFooterSocialLinks().get(YOUTUBE_URL);
         footerComponent.getYouTubeLink().click();
         basePageWithoutHeaderAndFooter.getTabHandles();
         basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(YOUTUBE_URL);
         String actual = driver.getCurrentUrl();
-        assertEquals(expected, actual);
+        softAssert.assertEquals(expected, actual);
+
+        softAssert.assertAll();
     }
 
-    @Test(description = "TUA-946")
+    @Test
+    @Description("[Footer] Verify that clicking the Instagram icon opens the corresponding page")
+    @Issue("TUA-946")
     public void testInstagramIconClickOpensCorrespondingPage() {
         homePage.scrollToFooter();
         FooterComponent footer = homePage.getFooter();
@@ -130,5 +135,94 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
+    @Test
+    @Issue("TUA-944")
+    public void checkFacebookIconOpenCorrespondingFacebookPage(){
+        footerComponent.clickOnFacebookLink();
+        for (String windowHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(windowHandle);
+            if (driver.getTitle().contains("Facebook")) {
+                break;
+            }
+        }
+        softAssert.assertEquals(driver.getCurrentUrl(),"https://www.facebook.com/teach.in.ukrainian");
+        softAssert.assertAll();
+    }
 
+    @Test(description = "TUA-949")
+    public void testDonateButtonLightsUp() {
+        homePage.scrollToFooter();
+
+        FooterComponent footer = homePage.getFooter();
+        softAssert.assertTrue(footer.isDonateBlockIsDisplayed());
+
+        WebElement footerButton = footerComponent.getDonateButton();
+        String expectedColor = "rgba(255, 169, 22, 1)";
+
+        footer.moveTooltipToDonateButton();
+
+        String buttonColor = footerButton.getCssValue("background-color");
+        Assert.assertNotEquals(buttonColor, expectedColor, "Button did not light up as expected");
+        softAssert.assertAll();
+    }
+
+    @Test(description = "TUA-982", dataProvider = "window extension")
+    public void checkUIAscrossDifferentMobile(int width, int height) {
+        Dimension dimension = new Dimension(width, height);
+        driver.manage().window().setSize(dimension);
+        checkFooterElements(footerComponent, "Home Page");
+        checkTextSizeAndColorAllElements();
+        softAssert.assertAll();
+    }
+
+    @DataProvider(name = "window extension")
+    private Object[][] windowExtension() {
+        return new Object[][] {
+                {320, 667},
+                {414, 896},
+                {425, 915}
+        };
+    }
+
+    private void checkTextSizeAndColorAllElements() {
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getText(),
+                "Наші партнери");
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("font-size"),
+                "20px");
+
+        softAssert.assertEquals(footerComponent.getDonateTitle().getText(),
+                "Як допомогти проєкту?");
+        softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("font-size"),
+                "20px");
+
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getText(),
+                "Ініціатива потребує постійної фінансової підтримки, аби покривати щоденні витрати на роботу.");
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("font-size"),
+                "14px");
+
+        softAssert.assertEquals(footerComponent.getDonateButton().getText(),
+                "Допомогти проєкту");
+        softAssert.assertEquals(footerComponent.getDonateButton().getCssValue("color"),
+                "rgba(250, 140, 22, 1)");
+
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getText(),
+                "Нам небайдуже майбутнє дітей та української мови");
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getMottoUnderLogo().getCssValue("font-size"),
+                "12px");
+
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getText(),
+                "©2021-2022 Design by Qubstudio & Development by SoftServe");
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getCssValue("color"),
+                "rgba(45, 76, 104, 1)");
+        softAssert.assertEquals(footerComponent.getCopyrightNotice().getCssValue("font-size"),
+                "12px");
+    }
 }

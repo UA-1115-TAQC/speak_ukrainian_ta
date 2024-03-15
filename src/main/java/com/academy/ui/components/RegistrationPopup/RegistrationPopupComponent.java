@@ -2,6 +2,7 @@ package com.academy.ui.components.RegistrationPopup;
 
 import com.academy.ui.components.BasePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -80,6 +81,7 @@ public class RegistrationPopupComponent extends BasePopUp {
         return registrationHeader.getAttribute("innerText");
     }
 
+    @Step("Select user type (USER/MANAGER)")
     public void selectUserType(String userType) {
         if (userType.equalsIgnoreCase("ROLE_USER")) {
             userTypeButton.click();
@@ -91,16 +93,18 @@ public class RegistrationPopupComponent extends BasePopUp {
         }
     }
 
+    @Step("Click on 'User' button")
     public RegistrationPopupComponent clickSetUserButton() {
         userTypeButton.click();
         return this;
     }
-
+    @Step("Click on 'Manager' button")
     public RegistrationPopupComponent clickSetManagerButton() {
         managerTypeButton.click();
         return this;
     }
 
+    @Step("Click on 'Registration' button")
     public RegistrationPopupComponent clickRegisterButton() {
         registrationButton.click();
         return this;

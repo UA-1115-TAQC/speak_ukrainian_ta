@@ -1,6 +1,7 @@
 package com.academy.ui.components.editProfileElement;
 
 import com.academy.ui.components.AddClubPopUpComponent.AddClubInputElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,12 +26,14 @@ public class EditProfileInputElement extends AddClubInputElement {
 
     }
 
+    @Step("Click on the password visibility icon")
     public EditProfileInputElement clickPasswordVisibilityIcon() {
         passwordVisibilityIcon.click();
         return this;
     }
 
-    public String getTitle() {
+    @Step("Get title text for the element")
+    public String getTitleText() {
         return title.getText();
     }
 

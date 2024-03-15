@@ -11,6 +11,7 @@ import com.academy.ui.runners.LoginWithAdminTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -421,6 +422,66 @@ public class EditCenterCardWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertEquals(stepThree.getCompleteButton().getSize(),
                 new Dimension(190, 40));
 
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-396")
+    @Description("Verify that user can edit 'Опис' textfield with invalid data, " +
+            "and changes won't be saved on the 'Опис' tab of the 'Редагувати Центр' pop-up window")
+    public void checkInvalidDescriptionTextfieldEditing() {
+        profilePage.clickMyClubsAndCentersOnDropdown().clickMyCentersOnDropdown();
+        CenterCardWithEditComponent centerCard = profilePage.getCenterCardComponentsList().getFirst();
+        centerCard.getMoreButton().click();
+        AddCenterPopUpComponent editCenterPopUp = centerCard.clickEditCenter();
+        editCenterPopUp.waitPopUpOpen(5);
+
+        editCenterPopUp.getStepOneContainer().clickNextStepButton();
+        editCenterPopUp.getStepTwoContainer().clickNextStepButton();
+
+        editCenterPopUp.getStepThreeContainer().clearDescriptionTextarea();
+        editCenterPopUp.getStepThreeContainer().setCenterDescriptionTextarea("Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd");
+
+        softAssert.assertEquals(editCenterPopUp.getStepThreeContainer()
+                                                .getCenterDescriptionTextarea()
+                                                .getCssValue("border-color"), "rgb(255, 77, 79)");
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer()
+                                            .getErrorMessagesTextarea()
+                                            .getFirst().getText().contains("Опис центру може містити від 40 до 1500 символів."));
+
+        editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().getText().isEmpty());
+        editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().sendKeys("Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd Abcd " +
+                "Abcd Abcd A");
+
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer()
+                                            .getErrorMessagesTextarea()
+                                            .getFirst().getText().contains("Опис центру може містити від 40 до 1500 символів."));
+
+        editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().getText().isEmpty());
+
+        editCenterPopUp.getStepThreeContainer().getCenterDescriptionTextarea().sendKeys("Довгий і цікавий опис цього центру, що включаэ росіыъ букви");
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer()
+                .getErrorMessagesTextarea()
+                .getFirst().getText().contains("Опис гуртка не може містити російські літери"));
+
+        editCenterPopUp.getStepThreeContainer().clickCompleteButton();
+        softAssert.assertTrue(editCenterPopUp.getStepThreeContainer().getCompleteButton().isEnabled(), "No");
         softAssert.assertAll();
     }
 }

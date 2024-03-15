@@ -6,6 +6,8 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -25,6 +27,8 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     }
 
     @Test(description = "TUA-116_1")
+    @Description("Verify that 'Додати гурток' pop-up can be opened by clicking the button 'Add club' in Home Page")
+    @Issue("TUA-116")
     public void checkAddClubPopUpHomePage() {
         AddClubPopUpComponent addClubPopUpComponent= homePage.header.addClubButtonClick();
         addClubPopUpComponent.waitPopUpOpen(10);
@@ -36,6 +40,8 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     }
 
     @Test(description = "TUA-116_2")
+    @Description("Verify that 'Додати гурток' pop-up can be opened by clicking the button 'Add club' in Profile Page")
+    @Issue("TUA-116")
     public void checkAddClubPopUpProfilePage() {
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
@@ -45,7 +51,9 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-249")
+    @Test(description = "The error messages appeared for the name field when creating a club with incorrect data")
+    @Description("Verify error message for ‘Назва’ field of ‘Додати локацію’ pop-up when creating a club")
+    @Issue("TUA-249")
     public void CheckErrorMessagesForNameLocationField() {
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();

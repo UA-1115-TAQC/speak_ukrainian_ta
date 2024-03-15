@@ -166,7 +166,10 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-982", dataProvider = "window extension")
+    @Test(dataProvider = "window extension")
+    @Parameters({"WindowWidth", "WindowHeight"})
+    @Description("Check the UI of all tabs in the 'Footer' section across different mobile devices")
+    @Issue("TUA-982")
     public void checkUIAscrossDifferentMobile(int width, int height) {
         Dimension dimension = new Dimension(width, height);
         driver.manage().window().setSize(dimension);

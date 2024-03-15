@@ -11,10 +11,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
@@ -51,7 +48,10 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     }
   
 
-    @Test(description = "TUA-867")
+    @Test
+    @Description("Verify that the user as 'Керівник' see 'Завантажити фото' text link " +
+            "under the 'Фото' link and tooltip message appears")
+    @Issue("TUA-867")
     public void testUploadPhotoLinksAndTooltipIsDisplayed() {
         EditProfilePopUp editProfile = profilePage.openEditUserProfile();
         editProfile.waitPopUpOpen(5);
@@ -210,7 +210,12 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-835", dataProvider = "invalidFirstName")
+    @Test(description = "The submit button is disabled while entering invalid data into the first name field",
+            dataProvider = "invalidFirstName")
+    @Parameters({"IncorrectFirstName", "ExpectedErrorMessage"})
+    @Description("Verify that error messages are shown and 'Зберегти зміни' button " +
+            "becomes disabled while entering invalid data into the 'Ім'я' field as 'Керівник'")
+    @Issue("TUA-835")
     public void checkEditNameFieldWithInvalidData(String firstName, String expectedErrorMsg) {
         final String emptyFieldErrorMsg = "Введіть Ваше ім'я";
         EditProfilePopUp editProfile = profilePage.openEditUserProfile();

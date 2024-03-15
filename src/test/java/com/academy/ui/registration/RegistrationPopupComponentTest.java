@@ -382,7 +382,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-875")
+    @Test(description = "The corresponding message appears after completing the registration")
+    @Description("Verify that the corresponding message appears after completing the registration")
+    @Issue("TUA-875")
     public void checkTheCorrespondingMessage() {
         final String VALID_FIRST_NAME_USER = "Гаррі";
         final String VALID_LAST_NAME_USER = "Поттер";

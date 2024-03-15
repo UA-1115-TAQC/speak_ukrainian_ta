@@ -360,7 +360,11 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-343", dataProvider = "invalidLastName")
+    @Test(description = "The user as 'Відвідувач'", dataProvider = "invalidLastName")
+    @Parameters({"IncorrectLastName", "ExpectedErrorMessage"})
+    @Description("Verify that error messages are shown and 'Зберегти зміни' button" +
+            " becomes disabled while entering invalid data into the 'Прізвище' field")
+    @Issue("TUA-343")
     public void checkEditLastNameFieldWithInvalidData(String lastName, String expectedErrorMsg) {
         final String emptyFieldErrorMsg = "Будь ласка введіть Ваше прізвище";
 

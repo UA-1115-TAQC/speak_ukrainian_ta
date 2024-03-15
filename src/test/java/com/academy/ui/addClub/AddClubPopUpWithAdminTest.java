@@ -392,7 +392,10 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-172")
+    @Test(description = "The valid circle icon appeared after entering valid data into the description field")
+    @Description("Verify that the ‘Опис’ text field is filled in " +
+            "with valid data when a user enters from 40 to 1500 symbols into the field")
+    @Issue("TUA-172")
     public void checkValidationIconWithValidDataForDescriptionField() {
         fillStepOneWithValidDataPreconditions();
         fillStepTwoWithValidDataPreconditions();

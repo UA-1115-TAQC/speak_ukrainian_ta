@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
+import java.util.Objects;
 
 public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
     private static final String VALID_CIRCLE_ICON = "check-circle";
@@ -491,6 +492,45 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertFalse(editProfilePopUp.deleteUserAvatar().clickSubmitButton()
                 .header.getAvatar().getCssValue("class")
                 .contains("ant-avatar-image"), "Default avatar should be displayed");
+        softAssert.assertAll();
+    }
+
+    @Test
+    @Issue("TUA-841")
+    public void verifyErrorMessagesForEmptyFieldsInChangePassword(){
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.waitPopUpOpen(100);
+        editProfile.clickCheckBox();
+        editProfile.getCurrentPasswordInput().setValue("Blabla");
+        editProfile.getNewPasswordInput().setValue("BlablA@123");
+        editProfile.getSubmitButton().click();
+
+        editProfile.waitUntilElementIsVisible(editProfile.getConfirmPasswordElement().getErrorMessages().getFirst());
+        String borderColor = editProfile.getConfirmPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getConfirmPasswordElement().getErrorMessages()
+                .getFirst().getText().equals("Будь ласка, підтвердіть пароль"), "No error message");
+        softAssert.assertFalse(Objects.equals(editProfile.getSubmitButton().getAttribute("disabled"), "disabled"));
+
+
+        editProfile.getConfirmPasswordInput().setValue("BlablA@123");
+        editProfile.getNewPasswordInput().clearInput();
+        editProfile.waitUntilElementIsVisible(editProfile.getNewPasswordElement().getErrorMessages().getFirst());
+        borderColor = editProfile.getNewPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getNewPasswordElement().getErrorMessages()
+                .getFirst().getText().equals("Будь ласка, введіть новий пароль"), "No error message");
+        softAssert.assertFalse(Objects.equals(editProfile.getSubmitButton().getAttribute("disabled"), "disabled"));
+
+        editProfile.getNewPasswordInput().setValue("BlablA@123");
+        editProfile.getCurrentPasswordInput().clearInput();
+        editProfile.waitUntilElementIsVisible(editProfile.getCurrentPasswordElement().getErrorMessages().getFirst());
+        borderColor = editProfile.getCurrentPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getCurrentPasswordElement().getErrorMessages()
+                .getFirst().getText().equals("Введіть старий пароль"), "No error message");
+        softAssert.assertFalse(Objects.equals(editProfile.getSubmitButton().getAttribute("disabled"), "disabled"));
+
         softAssert.assertAll();
     }
 }

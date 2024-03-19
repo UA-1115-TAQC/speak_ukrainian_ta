@@ -604,4 +604,37 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(homePage.getTopNoticeMessage().getText(), SUCCESSFUL_POPUP, "Successful club creation popup message should appear");
         softAssert.assertAll();
     }
+
+    @Test
+    @Description("Verify that Керівник can preview and delete photos in 'Галерея' step and not add any photos")
+    @Issue("TUA-926")
+    public void testGalleryUploadAndDeletePhoto() {
+        stepOne.getClubNameInputElement().setValue("Lazy club");
+        stepOne.selectCategory(CATEGORY)
+                .setMinAgeInput(VALID_MIN_AGE)
+                .setMaxAgeInput(VALID_MAX_AGE)
+                .clickNextStepButton();
+        fillStepTwoWithValidDataPreconditions();
+
+        stepThree = addClubPopUpComponent.getStepThreeContainer();
+        stepThree.getClubGalleryDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
+        stepThree.getUploadedGalleryImg(0).waitImageLoad(5);
+        softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
+
+        stepThree.getUploadedGalleryImg(0).clickPreviewFile();
+        softAssert.assertEquals(stepThree
+                        .getUploadedGalleryImg(0)
+                        .getModalFormTitleImg()
+                        .getText(),
+                image1FileName,
+                "Uploaded different photo");
+
+        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow().clickRemoveImg();
+        softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().isEmpty());
+
+        stepThree.getClubDescriptionTextarea().sendKeys("Спорт - це для кожного (за певних умов).");
+        stepThree.clickCompleteButton();
+        softAssert.assertTrue(homePage.getTopNoticeMessage().isDisplayed());
+        softAssert.assertAll();
+    }
 }

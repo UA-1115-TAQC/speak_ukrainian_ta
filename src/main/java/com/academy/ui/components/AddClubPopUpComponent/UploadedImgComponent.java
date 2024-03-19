@@ -38,6 +38,9 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'ant-upload-list-item-done')]")
     private WebElement uploadDone;
 
+    @FindBy(xpath = "//div[@class=\"ant-modal-title\"]")
+    private WebElement modalFormTitleImg;
+
     public UploadedImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
     }

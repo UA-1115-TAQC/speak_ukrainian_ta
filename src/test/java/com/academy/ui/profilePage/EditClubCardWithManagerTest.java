@@ -993,7 +993,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
 
-        two.getTelephoneInputElement().setValue(input);
+        two.getTelephoneInputElement().clearInput().setValue(input);
         String errorMsg = "";
         List<String> errorList = two.getTelephoneInputElement().getErrorMessagesTextList();
         for (String str : errorList) {
@@ -1016,7 +1016,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         edit.getStepOneContainer().clickNextStepButton();
         AddClubPopUpStepTwo two = edit.getStepTwoContainer();
 
-        two.getEmailInputElement().setValue(input);
+        two.getEmailInputElement().clearInput().setValue(input);
         softAssert.assertEquals(
                 two.getEmailInputElement().getErrorMessagesTextList().get(0),
                 "Некоректний формат email"

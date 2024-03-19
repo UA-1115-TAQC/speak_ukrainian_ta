@@ -3,6 +3,8 @@ package com.academy.ui.addClub;
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.utils.ConfigProperties;
@@ -519,13 +521,12 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickCompleteButton();
         ProfilePage profilePage = new ProfilePage(driver);
 
-        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
-        ClubCardWithEditComponent newClub = null;
-        for (ClubCardWithEditComponent club : list) {
-            if (club.getClubName().equals(VALID_CLUB_NAME)) {
-                newClub = club;
-            }
+        SwitchPaginationComponent pagination = profilePage.getSwitchPagination();
+        if(pagination != null){
+            pagination.getPaginationItems().get(pagination.getPaginationItems().size() - 1).click();
+            profilePage = new ProfilePage(driver);
         }
+        ClubCardWithEditComponent newClub = profilePage.getClubCardByName(VALID_CLUB_NAME);
 
         if (newClub == null) {
             softAssert.fail("Club was not added");

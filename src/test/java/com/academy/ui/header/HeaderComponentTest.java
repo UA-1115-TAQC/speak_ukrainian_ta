@@ -31,7 +31,7 @@ public class HeaderComponentTest extends BaseTestRunner {
     @Description("Verify that on 'Про нас', 'Новини' and “Послуги українською” pages lower part of header is not displayed")
     @Issue("TUA-972")
     public void checkLowerPartOfHeaderOnPages(){
-        SoftAssert softAssert = new SoftAssert();
+        softAssert = new SoftAssert();
 
         ClubsPage clubs = header.clickClubsPageButton();
         softAssert.assertTrue(clubs.getSearchClubHeaderWebElement().isDisplayed());

@@ -547,9 +547,9 @@ public class RegistrationPopupComponentTest extends BaseTestRunner {
         String url = driver.getCurrentUrl();
 
         registrationPopupComponent = header.openGuestMenu().openRegistrationForm();
-        registrationPopupComponent.getLastNameInput().clearInput().setValue("Qwerty");
-        registrationPopupComponent.getFirstNameInput().clearInput().setValue("Qwerty");
-        registrationPopupComponent.getPhoneInput().clearInput().setValue("0123456789");
+        registrationPopupComponent.getLastNameInput().setValue("Qwerty");
+        registrationPopupComponent.getFirstNameInput().setValue("Qwerty");
+        registrationPopupComponent.getPhoneInput().setValue("0123456789");
         registrationPopupComponent.close();
 
         String currentUrl = driver.getCurrentUrl();

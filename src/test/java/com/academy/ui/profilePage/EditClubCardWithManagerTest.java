@@ -877,13 +877,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Description("Check the ‘Контакти’ tab on the ‘Редагувати гурток’ pop-up window (UI)")
     @Issue("TUA-48")
     public void checkContactTabUI() {
-        String clubName = getClubName();
-        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
-        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
-        editClubPopUp.waitPopUpOpen(5);
-        editClubPopUp.getStepOneContainer().clickNextStepButton();
+        profilePage.getClubCardWithCenter();
+        AddClubPopUpComponent addClubPopUpComponent = new AddClubPopUpComponent(driver);
 
-        sider = editClubPopUp.getSider();
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+
+        sider = addClubPopUpComponent.getSider();
         softAssert.assertEquals(sider.getFirstStepIcon().getText(), "");
         softAssert.assertEquals(sider.getFirstStepTitle().getText(), "Основна інформація");
         softAssert.assertEquals(sider.getSecondStepIcon().getText(), "2");
@@ -891,27 +890,36 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(sider.getThirdStepIcon().getText(), "3");
         softAssert.assertEquals(sider.getThirdStepTitle().getText(), "Опис");
 
-        AddClubPopUpStepTwo stepTwo = editClubPopUp.getStepTwoContainer();
+        AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
         softAssert.assertEquals(stepTwo.getClubLocationsTitle().getText(), "Локації");
-        softAssert.assertEquals(stepTwo.getClubLocationsTitle().getCssValue("color"), "rgba(109, 109, 109, 1)");
-        softAssert.assertEquals(stepTwo.getClubLocationsTitle().getCssValue("font-size"), "19px");
+        softAssert.assertEquals(stepTwo.getClubLocationsTitle().getCssValue("color"),
+                "rgba(109, 109, 109, 1)");
+        softAssert.assertEquals(stepTwo.getClubLocationsTitle().getCssValue("font-size"),
+                "19px");
 
         softAssert.assertEquals(stepTwo.getClubAvailableOnlineTitle().getText(), "Доступний онлайн");
-        softAssert.assertEquals(stepTwo.getClubAvailableOnlineTitle().getCssValue("color"), "rgba(109, 109, 109, 1)");
-        softAssert.assertEquals(stepTwo.getClubAvailableOnlineTitle().getCssValue("font-size"), "19px");
+        softAssert.assertEquals(stepTwo.getClubAvailableOnlineTitle().getCssValue("color"),
+                "rgba(109, 109, 109, 1)");
+        softAssert.assertEquals(stepTwo.getClubAvailableOnlineTitle().getCssValue("font-size"),
+                "19px");
 
         softAssert.assertEquals(stepTwo.getClubWorkHoursTitle().getText(), "Години роботи");
-        softAssert.assertEquals(stepTwo.getClubWorkHoursTitle().getCssValue("color"), "rgba(109, 109, 109, 1)");
-        softAssert.assertEquals(stepTwo.getClubWorkHoursTitle().getCssValue("font-size"), "19px");
+        softAssert.assertEquals(stepTwo.getClubWorkHoursTitle().getCssValue("color"),
+                "rgba(109, 109, 109, 1)");
+        softAssert.assertEquals(stepTwo.getClubWorkHoursTitle().getCssValue("font-size"),
+                "19px");
 
         softAssert.assertEquals(stepTwo.getClubContactsTitle().getText(), "Контакти");
-        softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("color"), "rgba(109, 109, 109, 1)");
-        softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("font-size"), "19px");
+        softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("color"),
+                "rgba(109, 109, 109, 1)");
+        softAssert.assertEquals(stepTwo.getClubContactsTitle().getCssValue("font-size"),
+                "19px");
 
         softAssert.assertEquals(stepTwo.getAddLocationButton().getText(), "Додати локацію");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),"rgba(254, 119, 41, 1)");
-        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"), "14px",
-                "location button");
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("color"),
+                "rgba(254, 119, 41, 1)");
+        softAssert.assertEquals(stepTwo.getAddLocationButton().getCssValue("font-size"),
+                "14px");
 
         softAssert.assertTrue(stepTwo.getSwitchButton().isDisplayed());
 
@@ -920,11 +928,13 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepTwo.getNextStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getNextStepButton().getText(), "Наступний крок");
-        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"), "rgba(255, 255, 255, 1)");
+        softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"),
+                "rgba(255, 255, 255, 1)");
 
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getPrevStepButton().getText(), "Назад");
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"), "rgba(250, 140, 22, 1)");
+        softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"),
+                "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);
         WebElement startingElement = stepTwo.getSwitchButton();

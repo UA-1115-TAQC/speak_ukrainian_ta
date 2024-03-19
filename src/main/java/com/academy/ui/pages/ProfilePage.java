@@ -281,6 +281,29 @@ public class ProfilePage extends BasePage {
         return null;
     }
 
+    public ClubCardWithEditComponent getClubCardWithCenter() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        int index = 0;
+        while (index < clubCardComponentsList.size()) {
+            ClubCardWithEditComponent card = clubCardComponentsList.get(index);
+            wait.until(e -> card.getWebElement().isDisplayed());
+            AddClubPopUpComponent chooseCard = card.clickMoreButton().clickEditClub();
+            String center = chooseCard
+                    .getStepOneContainer()
+                    .getCenterSelectedTitle()
+                    .getAttribute("title")
+                    .toString();
+            if (!center.equals("- центр не вказано")) {
+                chooseCard.close();
+                return card;
+            } else {
+                chooseCard.close();
+                index++;
+            }
+        }
+        return null;
+    }
+
 }
 
 

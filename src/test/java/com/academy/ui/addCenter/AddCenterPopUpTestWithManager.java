@@ -6,6 +6,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGenerator;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,6 +50,7 @@ public class AddCenterPopUpTestWithManager extends LoginWithManagerTestRunner {
         stepFour = addCenterPopUp.getStepFourContainer();
     }
     @Test(description = "TUA-136")
+    @Description("Verify that a club is created from 'Додати центр' pop-up without filling optional parameters")
     @Issue("TUA-136")
     public void verifyAClubIsCreatedWithoutFillingInOptionalParameters(){
         stepFour.getSelectAClubText().click();

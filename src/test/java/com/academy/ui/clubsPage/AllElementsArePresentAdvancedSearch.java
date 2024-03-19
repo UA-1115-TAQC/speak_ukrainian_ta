@@ -4,6 +4,7 @@ import com.academy.ui.components.AdvancedSearchSiderComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.LoginWithAdminTestRunner;
+import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
@@ -32,6 +33,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
     }
 
     @Test(description = "TUA-59")
+    @Description("Verify that all parameters for advanced search are present")
     @Issue("TUA-59")
     public void verifyAllElementsArePresentAdvancedSearch() {
         verifyPageIsLoaded();
@@ -42,6 +44,7 @@ public class AllElementsArePresentAdvancedSearch extends LoginWithAdminTestRunne
     }
 
     @Test(description = "TUA-329")
+    @Description("Verify that “Розширений пошук” displays when to click on “advanced search” button")
     @Issue("TUA-329")
     public void verifyAdvancedSearchAppearsAfter1stClickAndDisappearsAfter2ndClick(){
         verifyPageIsLoaded();

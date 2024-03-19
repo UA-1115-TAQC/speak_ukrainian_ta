@@ -4,6 +4,8 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.randomvaluesgenerators.RandomPasswordGenerator;
+import io.qameta.allure.Description;
+import io.qameta.allure.Issue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -34,7 +36,9 @@ public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunne
         editProfilePopUpComponent.clickCheckBox();
     }
     @Test(description = "TUA-849")
-    public void test(){
+    @Description("Check if user as 'Керівник' can change the password by inputting valid data in ‘New password field’")
+    @Issue("TUA-849")
+    public void checkThatAuserCanChangeThePasswordUsingValidData(){
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getNewPasswordInput(),validPassword8Characters);
         clearInputField(editProfilePopUpComponent.getNewPasswordInput().getInput());
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getNewPasswordInput(),validPassword20Characters);

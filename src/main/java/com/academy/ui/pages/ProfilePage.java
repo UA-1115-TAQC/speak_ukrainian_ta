@@ -2,6 +2,7 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.AddCenterPopUpComponent.AddCenterPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
+import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.CenterCardWithEditComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
 import com.academy.ui.components.ClubsPaginationComponent;
@@ -263,6 +264,21 @@ public class ProfilePage extends BasePage {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.joining(";"));
+    }
+
+    public ClubCardWithEditComponent getClubCardWithoutCenter() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (ClubCardWithEditComponent card : clubCardComponentsList) {
+            wait.until(e -> card.getWebElement().isDisplayed());
+            AddClubPopUpComponent chooseCard = card.clickMoreButton().clickEditClub();
+            String center = chooseCard.getStepOneContainer().getCenterSelectedTitle().getAttribute("title").toString();
+            if (center.equals("- центр не вказано")) {
+                return card;
+            } else {
+                chooseCard.close();
+            }
+        }
+        return null;
     }
 
 }

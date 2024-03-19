@@ -467,7 +467,9 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-922")
+    @Test(description = "Verify that Manager can add and delete photos for existing club")
+    @Description("Verify that 'Керівник' can add and delete 'Лого', 'Обкладинка' photo")
+    @Issue("TUA-922")
     public void testAddAndDeletePhotoInLogoAndCover() {
         fillStepOneWithValidDataPreconditions();
         fillStepTwoWithValidDataPreconditions();

@@ -1025,7 +1025,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "user can edit 'Опис' with invalid data")
+    @Test(description = "Check the submit button is disabled after entering invalid data in the description field")
     @Description("Verify that user can edit ‘Опис’ field with invalid data, " +
             "and changes will not be saved on the ‘Опис’ tab of the ‘Редагувати гурток’ pop-up window ")
     @Issue("TUA-79")
@@ -1207,7 +1207,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThreeContainer.clickCompleteButton();
     }
 
-    @Test(description = "User can add center")
+    @Test(description = "The user can add center for the existing club")
     @Description("Verify that user can add center for the existing club without center")
     @Issue("TUA-980")
     public void checkStepOneEditCenter() {

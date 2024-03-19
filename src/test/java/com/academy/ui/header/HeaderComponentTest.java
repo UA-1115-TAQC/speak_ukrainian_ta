@@ -65,6 +65,7 @@ public class HeaderComponentTest extends BaseTestRunner {
     }
 
     @Test
+    @Description("Check UI of all tabs in 'Header'")
     @Issue("TUA-347")
     public void checkUI() {
         softAssert.assertTrue(header.getTeachInUkrainianLogo().isDisplayed());
@@ -216,7 +217,8 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-23")
+    @Test
+    @Description("Verify that Kyiv is shown by default when the user doesn't select any city in dropdown")
     @Issue("TUA-23")
     public void testVerifyKyivIsShownByDefaultCity() {
         softAssert.assertTrue(header.getLocationIcon().isDisplayed());
@@ -225,7 +227,9 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertAll();
     }
 
-    @Test(description = "TUA-311")
+    @Test
+    @Description("Verify location item")
+    @Issue("TUA-311")
     public void testVerifyLocationItem() {
         softAssert.assertTrue(header.getLocationIcon().isDisplayed());
         softAssert.assertEquals(header.getClubsLocationButton().getText(), DEFAULT_CITY,

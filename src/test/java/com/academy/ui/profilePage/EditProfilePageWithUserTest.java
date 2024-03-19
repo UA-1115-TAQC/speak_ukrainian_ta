@@ -9,8 +9,11 @@ import io.qameta.allure.Issue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+
+import java.util.Objects;
 
 public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
     private SoftAssert softAssert;
@@ -530,13 +533,13 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         profilePage = editProfilePopUp.clickSubmitButton();
     }
 
-//    input in email field is disabled
+    //    input in email field is disabled
     @Ignore
     @Test(dataProvider = "invalidEmail", dataProviderClass = EditProfilePageWithUserDataProvider.class)
     @Description("Verify that error message is shown and 'Зберегти зміни' button becomes disabled " +
             "while entering invalid data for the ' Email' field. The user as 'Відвідувач'")
     @Issue("TUA-355")
-    public void checkErrorMsgInvalidEmail(String input){
+    public void checkErrorMsgInvalidEmail(String input) {
         softAssert = new SoftAssert();
         EditProfilePopUp editProfile = profilePage.openEditUserProfile();
         editProfile.getEmailElement().setValue(input);
@@ -549,4 +552,41 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
         softAssert.assertAll();
     }
 
+
+    @Test
+    @Issue("TUA-359")
+    @Description("Verify that error messages are shown while leaving empty any field in the 'Змінити пароль' pop-up")
+    public void checkErrorWhenPasswordEmpty() {
+        EditProfilePopUp editProfile = profilePage.openEditUserProfile();
+        editProfile.waitPopUpOpen(100);
+        editProfile.clickCheckBox();
+        editProfile.getCurrentPasswordInput().setValue("Blabla");
+        editProfile.getNewPasswordInput().setValue("BlablA@123");
+        editProfile.getSubmitButton().click();
+
+        editProfile.waitUntilElementIsVisible(editProfile.getConfirmPasswordElement().getErrorMessages().getFirst());
+        String borderColor = editProfile.getConfirmPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getConfirmPasswordElement().getErrorMessages()
+                                        .getFirst().getText().equals("Будь ласка, підтвердіть пароль"), "No error message");
+
+
+        editProfile.getConfirmPasswordInput().setValue("BlablA@123");
+        editProfile.getNewPasswordInput().clearInput();
+        editProfile.waitUntilElementIsVisible(editProfile.getNewPasswordElement().getErrorMessages().getFirst());
+        borderColor = editProfile.getNewPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getNewPasswordElement().getErrorMessages()
+                                        .getFirst().getText().equals("Будь ласка, введіть новий пароль"), "No error message");
+
+        editProfile.getNewPasswordInput().setValue("BlablA@123");
+        editProfile.getCurrentPasswordInput().clearInput();
+        editProfile.waitUntilElementIsVisible(editProfile.getCurrentPasswordElement().getErrorMessages().getFirst());
+        borderColor = editProfile.getCurrentPasswordInputNode().getCssValue("border-color");
+        softAssert.assertTrue(Objects.equals(borderColor, "rgb(255, 77, 79)"), "Border isn't red");
+        softAssert.assertTrue(editProfile.getCurrentPasswordElement().getErrorMessages()
+                                        .getFirst().getText().equals("Введіть старий пароль"), "No error message");
+
+        softAssert.assertAll();
+    }
 }

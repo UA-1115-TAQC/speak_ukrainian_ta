@@ -104,7 +104,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepOne.getMinAgeInput().getAttribute("value").isEmpty());
         softAssert.assertTrue(stepOne.getMaxAgeInput().getAttribute("value").isEmpty());
-        softAssert.assertEquals(stepOne.getSelectPlaceholder().getText(), "Назва центру");
+        softAssert.assertEquals(stepOne.getDropdownPlaceholder().getText(), "Назва центру");
 
         fillStepOneWithValidDataPreconditions();
 
@@ -135,7 +135,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
         softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
-        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+        stepThree.getUploadedGalleryImgByIndex(0).clickRemoveImg();
         softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
@@ -619,18 +619,18 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.getClubGalleryDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
-        stepThree.getUploadedGalleryImg(0).waitImageLoad(5);
+        stepThree.getUploadedGalleryImgByIndex(0).waitImageLoad(5);
         softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
-        stepThree.getUploadedGalleryImg(0).clickPreviewFile();
+        stepThree.getUploadedGalleryImgByIndex(0).clickPreviewFile();
         softAssert.assertEquals(stepThree
-                        .getUploadedGalleryImg(0)
+                        .getUploadedGalleryImgByIndex(0)
                         .getModalFormTitleImg()
                         .getText(),
                 image1FileName,
                 "Uploaded different photo");
 
-        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow().clickRemoveImg();
+        stepThree.getUploadedGalleryImgByIndex(0).clickClosePreviewWindow().clickRemoveImg();
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
         stepThree.getClubDescriptionTextarea().sendKeys("Спорт - це для кожного (за певних умов).");

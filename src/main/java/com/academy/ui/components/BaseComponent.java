@@ -2,6 +2,7 @@ package com.academy.ui.components;
 
 import com.academy.ui.pages.Base;
 import io.qameta.allure.Step;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -31,4 +32,11 @@ public abstract class BaseComponent extends Base {
                 .until(ExpectedConditions.visibilityOf(rootElement));
         return rootElement.isDisplayed();
     }
+
+    @Step("Scroll until the element of the pagination component is in view")
+    public void scrollIntoView(WebDriver driver, WebElement element) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", element);
+    }
+
 }

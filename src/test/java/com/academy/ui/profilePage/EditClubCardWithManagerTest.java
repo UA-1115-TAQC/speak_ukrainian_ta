@@ -772,14 +772,14 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
         clubCard.sleep(1000);
         AddClubPopUpComponent editClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
-        editClubPopUpComponent.waitPopUpOpen(5);
+        editClubPopUpComponent.waitPopUpOpen(15);
         AddClubPopUpStepOne editClubPopUpStepOne = editClubPopUpComponent.getStepOneContainer();
 
         editClubPopUpStepOne.getClubNameInputElement().clearInput();
         editClubPopUpStepOne.getClubNameInputElement().setValue("Harry 123&*? Potter");
         softAssert.assertEquals(editClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value"), "Harry 123&*? Potter");
 
-        editClubPopUpStepOne.selectCategoryForEdit("Центр розвитку");
+        editClubPopUpStepOne.selectCategory("Центр розвитку");
         softAssert.assertTrue(editClubPopUpStepOne.getCheckedCategoriesListForEdit().stream().anyMatch(category -> category.getText().equals("Центр розвитку")), "Категорія не вибрана 1");
 
         editClubPopUpStepOne.getMinAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
@@ -858,7 +858,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         AddClubPopUpStepOne one = edit.getStepOneContainer();
         String oldCenter = one.getCenterSelectedTitle().getText();
-        one.getCenterDropdown().clickDropdown().selectValue(centerToSelect);
+        one.getCenterDropdownElement().clickDropdown().selectValue(centerToSelect);
         one.clickNextStepButton();
         edit.getStepTwoContainer().clickNextStepButton();
         edit.getStepThreeContainer().clickCompleteButton();

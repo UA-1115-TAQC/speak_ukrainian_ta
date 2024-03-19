@@ -88,7 +88,7 @@ private String stepOneSelectedCentre;
                 "Some of the checkboxes are checked by default");
         softAssert.assertTrue(addClubPopUpStepOne.getMaxAgeInput().getAttribute("value").isEmpty(),
                 "The maximum age input isn't empty by default");
-        softAssert.assertTrue(addClubPopUpStepOne.getCenterSelect().getText().isEmpty(), "The club name input isn't empty by default");
+        softAssert.assertTrue(addClubPopUpStepOne.getCenterDropdownElement().getDropdown().getText().isEmpty(), "The club name input isn't empty by default");
         softAssert.assertTrue(addClubPopUpStepOne.getMinAgeInput().getAttribute("value").isEmpty(),
                 "The minimum age input isn't empty by default");
 
@@ -100,7 +100,7 @@ private String stepOneSelectedCentre;
         addClubPopUpStepOne.getCategoriesCheckboxList().get(checkboxToCheckIndex).click();
         addClubPopUpStepOne.setMaxAgeInput(validMaxAge);
         addClubPopUpStepOne.setMinAgeInput(validMinAge);
-        addClubPopUpStepOne.getCenterSelect().click();
+        addClubPopUpStepOne.getCenterDropdownElement().getDropdown().click();
         addClubPopUpStepOne.getCentersList().get(checkboxToCheckIndex).click();
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterSelectedTitle()));
     }

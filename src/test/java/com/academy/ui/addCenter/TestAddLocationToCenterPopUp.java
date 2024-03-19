@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.Objects;
+
 public class TestAddLocationToCenterPopUp extends LoginWithManagerTestRunner {
 
     private static final String CENTER = "Study Buddies";
@@ -92,4 +94,33 @@ public class TestAddLocationToCenterPopUp extends LoginWithManagerTestRunner {
 
     }
 
+    @Test()
+    @Issue("TUA-292")
+    public void checkFunctionalityOfAddCenterButton(){
+        stepOne = addCenterPopUp.getStepOneContainer();
+        stepOne.setCenterName(CENTER);
+        AddLocationPopUpComponent addLocation = stepOne.clickAddLocationButton();
+        addLocation.getLocatioNameInputElement().setValue(LOCATION);
+        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue(CITY);
+
+        addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue(DISTRICT);
+        addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("METRO");//doesn't work because there is no data in this dropdown on the website
+        addLocation.getLocationAddressInputElement().setValue(ADDRESS);
+        addLocation.getLocationCoordinatesInputElement().setValue(GEOGRAPHICAL_COORDINATES);
+        softAssert.assertFalse(Objects.equals(addLocation.getAddLocationButton().getAttribute("disabled"), "disabled"), "Button is enabled");
+
+        addLocation.getLocationTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        softAssert.assertTrue(addLocation.getAddLocationButton().isEnabled(), "Button isn't enabled");
+
+        addLocation.getLocationTelephoneInputElement().clearInput();
+        softAssert.assertFalse(Objects.equals(addLocation.getAddLocationButton().getAttribute("disabled"), "disabled"), "Button is enabled");
+
+        addLocation.getLocationTelephoneInputElement().setValue(TELEPHONE_NUMBER);
+        softAssert.assertTrue(addLocation.getAddLocationButton().isEnabled(), "Button isn't enabled");
+
+        addLocation.clickAddLocationButton();
+        softAssert.assertTrue(stepOne.centerTitle.isDisplayed(), "User is not redirected to Основна інформація");
+
+        softAssert.assertAll();
+    }
 }

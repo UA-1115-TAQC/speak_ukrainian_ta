@@ -287,6 +287,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         }
     }
     @Test(description = "TUA-956")
+    @Description("Verify that ‘Доступний онлайн’ checkbox is checked automatically " +
+            "if no location is checked (for a club that is in the center)")
     @Issue("TUA-956")
     public void checkClubIsOnlineWhenNoLocationsAreSelected(){
         if(profilePage.getClubCardComponents().isEmpty()){
@@ -333,9 +335,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         location.clickAddLocationButton();
         //    Delete icon in location Element does not work
         //therefore  uncomment the try/catch construction, to see the result of the tests - soft asserts
-//try {
+    //try {
     locationElement.clickDeleteIcon();
-//}catch (StaleElementReferenceException e) {
+    //}catch (StaleElementReferenceException e) {
     twoEdit.clickNextStepButton();
     edit.getStepThreeContainer().clickPreviousStepButton();
     softAssert.assertTrue(edit.getStepTwoContainer().getLocationList().isEmpty(),
@@ -344,7 +346,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
             "The club isn't displayed as an online club after deleting a location");
     edit.getStepTwoContainer().clickNextStepButton();
     edit.getStepThreeContainer().clickCompleteButton();
-//}
+    //}
     }
 
     private void undoChangesLocation(){

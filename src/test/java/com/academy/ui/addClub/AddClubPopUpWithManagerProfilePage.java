@@ -57,6 +57,7 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     @Description("Verify error message for ‘Назва’ field of ‘Додати локацію’ pop-up when creating a club")
     @Issue("TUA-249")
     public void CheckErrorMessagesForNameLocationField() {
+        String invalidLocationName = "vbyui1258/".repeat(9) + "nyrfvdoiu2587";
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
         stepOne = addClubPopUp.getStepOneContainer();
@@ -70,18 +71,20 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
 
         AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
         addLocation.getLocatioNameInputElement().setValue("Ы, э, Ѩ, Ѭ,");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи"));
 
         addLocation.getLocatioNameInputElement().clearInput().setValue("dfdg");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації закоротка"));
 
-        addLocation.getLocatioNameInputElement().clearInput().setValue("vbyui1258/vbyui1258/vbyui1258/vbyui1258" +
-                "/vbyui1258/vbyui1258/vbyui1258/vbyui1258/vbyui1258/nyrfvdoiu2587");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        addLocation.getLocatioNameInputElement().clearInput().setValue(invalidLocationName);
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації задовга"));
 

@@ -820,7 +820,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
 
-        softAssert.assertEquals(stepThree.getUploadedCoverImg().getImgTitle().getText(), imageName,
+        softAssert.assertEquals(stepThree
+                        .getUploadedCoverImg()
+                        .getImgTitle()
+                        .getText(),
+                imageName,
                 "Image should be changed");
 
         softAssert.assertTrue(stepThree
@@ -831,8 +835,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
-        profilePage = new ProfilePage(driver);
+        refreshProfilePage();
         ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
 
         softAssert.assertTrue(clubCardUpdated

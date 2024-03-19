@@ -49,11 +49,7 @@ public class BaseInputElement extends BaseComponent {
             input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        if (currentPlatform.is(Platform.MAC)) {
-            wait.until(ExpectedConditions.attributeContains(input, "value", ""));
-        } else {
-            wait.until(driver -> getInput().getAttribute("value").equals(""));
-        }
+        wait.until(driver -> getInput().getAttribute("value").contains(""));
         return this;
     }
 

@@ -809,13 +809,18 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Issue("TUA-958")
     public void checkChangeCoverPhoto() {
         String imageName= "image.png";
-        String clubName = getClubName();
-        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
-        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
-        editClubPopUp.waitPopUpOpen(5);
-        editClubPopUp.getStepOneContainer().clickNextStepButton();
-        editClubPopUp.getStepTwoContainer().clickNextStepButton();
-        AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
+        profilePage.getClubCardWithoutCenter();
+        AddClubPopUpComponent addClubPopUpComponent = new AddClubPopUpComponent(driver);
+        String clubName = addClubPopUpComponent
+                .getStepOneContainer()
+                .getClubNameInputElement()
+                .getInput()
+                .getAttribute("value")
+                .toString();
+
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+        AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
 
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
         stepThree.getUploadedCoverImg().waitImageLoad(5);
@@ -831,8 +836,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
-        profilePage = new ProfilePage(driver);
+        refreshProfilePage();
         ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
 
         softAssert.assertTrue(clubCardUpdated

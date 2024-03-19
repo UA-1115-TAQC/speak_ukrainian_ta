@@ -266,6 +266,7 @@ public class ProfilePage extends BasePage {
                 .collect(Collectors.joining(";"));
     }
 
+    @Step("Select club without center on the Profile page")
     public ClubCardWithEditComponent getClubCardWithoutCenter() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         for (ClubCardWithEditComponent card : clubCardComponentsList) {

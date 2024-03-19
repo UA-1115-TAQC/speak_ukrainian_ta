@@ -4,6 +4,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.pages.HomePage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
@@ -45,7 +46,8 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     public void checkAddClubPopUpProfilePage() {
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
-        softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(),
+        ProfilePage profilePage1 = new ProfilePage(driver);
+        softAssert.assertTrue(addClubPopUp.isOpen(),
                 "PopUp not opened clicking the button 'Add club' in ProfilePage");
 
         softAssert.assertAll();

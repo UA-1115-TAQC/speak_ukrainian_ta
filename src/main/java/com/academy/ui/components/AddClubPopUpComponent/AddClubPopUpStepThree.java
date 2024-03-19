@@ -113,11 +113,8 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
     }
 
     @Step("Click on the button 'Завершити' on the third step of Add/Edit club pop-up")
-    public ProfilePage clickCompleteButton(){
+    public void clickCompleteButton() {
         getNextStepButton().click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.urlContains("user"));
-        return new ProfilePage(driver);
     }
 
     @Step("Click on complete button with {timeOut} seconds wait")

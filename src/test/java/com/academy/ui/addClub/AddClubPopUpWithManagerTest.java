@@ -516,7 +516,8 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepTwoWithValidDataPreconditions();
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.setDescriptionValue(VALID_DESCRIPTION);
-        ProfilePage profilePage = stepThree.clickCompleteButton();
+        stepThree.clickCompleteButton();
+        ProfilePage profilePage = new ProfilePage(driver);
 
         List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
         ClubCardWithEditComponent newClub = null;

@@ -4,7 +4,6 @@ import com.academy.ui.components.BasePopUp;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,7 +32,7 @@ public class AddLocationPopUpComponent extends BasePopUp {
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][7]")
     private WebElement locationTelephoneTitle;
 
-    @FindBy(xpath = "./descendant::button[@type='submit']")
+    @FindBy(xpath = ".//button[@type='submit']")
     private WebElement addLocationButton;
 
     @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-row')][1]")
@@ -57,17 +56,17 @@ public class AddLocationPopUpComponent extends BasePopUp {
     @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-row')][7]")
     @Getter(AccessLevel.NONE) private WebElement locationTelephoneInput;
 
-    private AddLocationInputElement locatioNameInputElement;
-    private DropdownElement locatioCityDropdownElement;
-    private DropdownElement locationDistrictDropdownElement;
-    private DropdownElement locationMetroDropdownElement;
-    private AddLocationInputElement locationAddressInputElement;
-    private AddLocationInputElement locationCoordinatesInputElement;
-    private AddLocationInputElement locationTelephoneInputElement;
+    private final AddLocationInputElement locationNameInputElement;
+    private final DropdownElement locatioCityDropdownElement;
+    private final DropdownElement locationDistrictDropdownElement;
+    private final DropdownElement locationMetroDropdownElement;
+    private final AddLocationInputElement locationAddressInputElement;
+    private final AddLocationInputElement locationCoordinatesInputElement;
+    private final AddLocationInputElement locationTelephoneInputElement;
 
     public AddLocationPopUpComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
-        this.locatioNameInputElement = new AddLocationInputElement(driver,locationNameInput);
+        this.locationNameInputElement = new AddLocationInputElement(driver,locationNameInput);
         this.locatioCityDropdownElement = new DropdownElement(driver, locationCityDropdown);
         this.locationDistrictDropdownElement = new DropdownElement(driver, locationDistrictDropdown);
         this.locationMetroDropdownElement = new DropdownElement(driver, locationMetroDropdown);

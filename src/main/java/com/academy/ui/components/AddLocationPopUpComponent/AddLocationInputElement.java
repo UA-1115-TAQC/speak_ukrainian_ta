@@ -13,13 +13,15 @@ import java.util.stream.Collectors;
 @Getter
 public class AddLocationInputElement extends BaseInputElement {
 
-    @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
+    @FindBy(xpath = ".//div[@class='ant-form-item-control-input']" +
+            "//span[contains(@class,'anticon-close-circle') or contains(@class,'anticon-check-circle')]")
     private WebElement validationCircleIcon;
 
-    @FindBy(xpath = ".//div[@class='ant-form-item-control-input']/descendant::span[contains(@class,'anticon-check-circle')]")
+    @FindBy(xpath = ".//div[@class='ant-form-item-control-input']//span[contains(@class,'anticon-check-circle')]")
     private WebElement infoCircleHintIcon;
 
-    @FindBy(xpath = "//div[contains(@class, 'ant-tooltip ') and not(contains(@class, 'ant-tooltip-hidden'))]//div[@class='ant-tooltip-inner']")
+    @FindBy(xpath = "//div[contains(@class, 'ant-tooltip ') and not(contains(@class, 'ant-tooltip-hidden'))]" +
+            "//div[@class='ant-tooltip-inner']")
     private WebElement infoHintTooltip;
 
     @FindBy(xpath = ".//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
@@ -31,6 +33,8 @@ public class AddLocationInputElement extends BaseInputElement {
 
     @Step("Get list of error messages of input on the Add/Edit location pop-up")
     public List<String> getErrorMessagesTextList() {
-        return errorMessages.stream().map(elem -> elem.getAttribute("innerText")).collect(Collectors.toList());
+        return errorMessages.stream()
+                .map(elem -> elem.getAttribute("innerText"))
+                .collect(Collectors.toList());
     }
 }

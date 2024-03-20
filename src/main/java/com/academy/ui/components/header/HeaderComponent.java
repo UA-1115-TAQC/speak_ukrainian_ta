@@ -103,7 +103,7 @@ public class HeaderComponent extends BaseComponent {
     @FindBy(xpath = "//div[@class='left-side-menu']")
     private WebElement leftBlock;
 
-    @FindBy(xpath = "//div[@class='center-side']")
+    @FindBy(xpath = "//div[@class='center-side']/ul")
     private WebElement centerBlock;
 
     @FindBy(xpath = "//div[@class='right-side-menu']")

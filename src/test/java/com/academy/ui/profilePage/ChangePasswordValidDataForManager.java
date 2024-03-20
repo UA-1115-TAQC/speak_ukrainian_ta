@@ -2,6 +2,8 @@ package com.academy.ui.profilePage;
 
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.components.elements.InputWithIconElement;
+import com.academy.ui.components.loginPopUpComponent.LoginPopupComponent;
+import com.academy.ui.pages.HomePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.randomvaluesgenerators.RandomPasswordGenerator;
 import io.qameta.allure.Description;
@@ -46,14 +48,17 @@ public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunne
         editProfilePopUpComponent.getCurrentPasswordInput().getInput().sendKeys(configProperties.getManagerPassword());
         passwordGenerator = new RandomPasswordGenerator();
         newPassword = passwordGenerator.generateRandomPassword();
+        clearInputField(editProfilePopUpComponent.getCurrentPasswordInput().getInput());
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getCurrentPasswordInput(), configProperties.getManagerPassword());
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getNewPasswordInput(),newPassword);
         fillNewPasswordFieldWithValidDataAndVerify(editProfilePopUpComponent.getConfirmPasswordInput(),newPassword);
         editProfilePopUpComponent.clickSubmitButton();
-        //verify that password is changed - appearing window //todo
         System.out.println(newPassword);
-        configProperties.setManagerPassword(newPassword); // why isn't it is set??
-
+        configProperties.setManagerPassword(newPassword);
+        homePage.header.openUserMenu().clickLogout();
+        driver.navigate().refresh();
+        homePage = new HomePage(driver);
+        loginWithAnNewPassword();
         //+ Verify whether user's password is changed in the DB - it seems to me that there is a bug - the pwd remains the same //todo
         softAssert.assertAll();
     }
@@ -68,5 +73,17 @@ public class ChangePasswordValidDataForManager extends LoginWithManagerTestRunne
         wait.until(ExpectedConditions.attributeContains(inputWithIconElement.getInput(),"value",pwd));
         softAssert.assertTrue(inputWithIconElement.getValidationCircleIcon().getCssValue("color")
                 .contains("rgba(82, 196, 26, 1)"), "The validation icon is not highlighted in green");
+    }
+    private void loginWithAnNewPassword(){
+        LoginPopupComponent loginForm = homePage
+                .header
+                .openGuestMenu()
+                .openLoginForm();
+        loginForm.enterEmail(configProperties.getManagerEmail());
+        loginForm.enterPassword(configProperties.getManagerPassword());
+
+        loginForm.clickSubmitButton();
+        new WebDriverWait(driver, Duration.ofSeconds(30)).until(driver->homePage.header.isLoggedIn());
+        softAssert.assertTrue(homePage.header.isLoggedIn(), "The password wasn't changed");
     }
 }

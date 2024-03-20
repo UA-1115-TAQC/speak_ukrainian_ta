@@ -11,6 +11,7 @@ import com.academy.ui.runners.randomvaluesgenerators.RandomAlphanumericStringGen
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
+import io.qameta.allure.testng.Tag;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeMethod;
@@ -154,6 +155,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
     @Test(description = "TUA-66")
+    @Tag("YuUk")
     @Description("Verify that user can edit ‘Контакти’ fields (for a club that is not in the center) " +
             "with valid data, and save changes on the ‘Контакти’ tab of the ‘Редагувати гурток’ pop-up window")
     @Issue("TUA-66")
@@ -306,7 +308,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
            hasLocation=true;
        }
        addClubPopUpComponent = new AddClubPopUpComponent(driver);
-       addClubPopUpComponent.sleep(1000);
+
+       //addClubPopUpComponent.sleep(1000);
         deleteTheSetLocation(addClubPopUpComponent);
         refreshProfilePage();
         softAssert.assertTrue(profilePage.getEmailUser().isDisplayed(), "The profile page wasn't displayed " +

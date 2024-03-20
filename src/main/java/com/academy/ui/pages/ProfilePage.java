@@ -268,14 +268,21 @@ public class ProfilePage extends BasePage {
 
     public ClubCardWithEditComponent getClubCardWithoutCenter() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        for (ClubCardWithEditComponent card : clubCardComponentsList) {
+        int index = 0;
+        while (index < clubCardComponentsList.size()) {
+            ClubCardWithEditComponent card = clubCardComponentsList.get(index);
             wait.until(e -> card.getWebElement().isDisplayed());
             AddClubPopUpComponent chooseCard = card.clickMoreButton().clickEditClub();
-            String center = chooseCard.getStepOneContainer().getCenterSelectedTitle().getAttribute("title").toString();
+            String center = chooseCard
+                    .getStepOneContainer()
+                    .getCenterSelectedTitle()
+                    .getAttribute("title")
+                    .toString();
             if (center.equals("- центр не вказано")) {
                 return card;
             } else {
                 chooseCard.close();
+                index++;
             }
         }
         return null;

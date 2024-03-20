@@ -57,9 +57,9 @@ public class AddLocationPopUpComponent extends BasePopUp {
     @Getter(AccessLevel.NONE) private WebElement locationTelephoneInput;
 
     private final AddLocationInputElement locationNameInputElement;
-    private final DropdownElement locatioCityDropdownElement;
-    private final DropdownElement locationDistrictDropdownElement;
-    private final DropdownElement locationMetroDropdownElement;
+    private final AddLocationDropdownElement locationCityDropdownElement;
+    private final AddLocationDropdownElement locationDistrictDropdownElement;
+    private final AddLocationDropdownElement locationMetroDropdownElement;
     private final AddLocationInputElement locationAddressInputElement;
     private final AddLocationInputElement locationCoordinatesInputElement;
     private final AddLocationInputElement locationTelephoneInputElement;
@@ -67,9 +67,9 @@ public class AddLocationPopUpComponent extends BasePopUp {
     public AddLocationPopUpComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
         this.locationNameInputElement = new AddLocationInputElement(driver,locationNameInput);
-        this.locatioCityDropdownElement = new DropdownElement(driver, locationCityDropdown);
-        this.locationDistrictDropdownElement = new DropdownElement(driver, locationDistrictDropdown);
-        this.locationMetroDropdownElement = new DropdownElement(driver, locationMetroDropdown);
+        this.locationCityDropdownElement = new AddLocationDropdownElement(driver, locationCityDropdown);
+        this.locationDistrictDropdownElement = new AddLocationDropdownElement(driver, locationDistrictDropdown);
+        this.locationMetroDropdownElement = new AddLocationDropdownElement(driver, locationMetroDropdown);
         this.locationAddressInputElement = new AddLocationInputElement(driver, locationAddressInput);
         this.locationCoordinatesInputElement = new AddLocationInputElement(driver, locationCoordinatesInput);
         this.locationTelephoneInputElement = new AddLocationInputElement(driver, locationTelephoneInput);

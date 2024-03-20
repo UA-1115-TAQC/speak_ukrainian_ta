@@ -6,7 +6,6 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -171,11 +170,11 @@ private String stepOneSelectedCentre;
     }
 
     private void addLocation(String locationName,String locationCity, String address, String coordinates, String phone){
-        addLocationPopUpComponent.getLocatioNameInputElement().setValue(locationName);
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioNameInputElement().getInput().getAttribute("value"), locationName,
+        addLocationPopUpComponent.getLocationNameInputElement().setValue(locationName);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationNameInputElement().getInput().getAttribute("value"), locationName,
                 "The location name input doesn't contain the entered value");
-        addLocationPopUpComponent.getLocatioCityDropdownElement().clickDropdown().selectValue(locationCity);
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioCityDropdownElement().getSelectedItem().getAttribute("title"), locationCity,
+        addLocationPopUpComponent.getLocationCityDropdownElement().clickDropdown().selectValue(locationCity);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationCityDropdownElement().getSelectedItem().getAttribute("title"), locationCity,
                 "The selected value isn't displayed in the dropdown");
         addLocationPopUpComponent.getLocationAddressInputElement().setValue(address);
         softAssert.assertEquals(addLocationPopUpComponent.getLocationAddressInputElement().getInput().getAttribute("value"), address,

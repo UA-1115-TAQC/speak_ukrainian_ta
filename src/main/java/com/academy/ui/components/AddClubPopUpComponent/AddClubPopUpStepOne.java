@@ -1,6 +1,6 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
-import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
+import com.academy.ui.components.elements.BaseDropdownElement;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -91,12 +91,12 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     private WebElement centersDropdownListContainer;
 
     private final AddClubInputElement clubNameInputElement;
-    private final DropdownElement centerDropdownElement;
+    private final BaseDropdownElement centerDropdownElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
         clubNameInputElement = new AddClubInputElement(driver, clubNameInput);
-        centerDropdownElement = new DropdownElement(driver, centerDropdown);
+        centerDropdownElement = new BaseDropdownElement(driver, centerDropdown);
     }
 
     @Step("Select club category by name {name} on the first step of Add/Edit club pop-up")

@@ -67,19 +67,19 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
         stepTwo = addClubPopUp.getStepTwoContainer();
 
         AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
-        addLocation.getLocatioNameInputElement().setValue("Ы, э, Ѩ, Ѭ,");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        addLocation.getLocationNameInputElement().setValue("Ы, э, Ѩ, Ѭ,");
+        softAssert.assertTrue(addLocation.getLocationNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи"));
 
-        addLocation.getLocatioNameInputElement().clearInput().setValue("dfdg");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        addLocation.getLocationNameInputElement().clearInput().setValue("dfdg");
+        softAssert.assertTrue(addLocation.getLocationNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації закоротка"));
 
-        addLocation.getLocatioNameInputElement().clearInput().setValue("vbyui1258/vbyui1258/vbyui1258/vbyui1258" +
+        addLocation.getLocationNameInputElement().clearInput().setValue("vbyui1258/vbyui1258/vbyui1258/vbyui1258" +
                 "/vbyui1258/vbyui1258/vbyui1258/vbyui1258/vbyui1258/nyrfvdoiu2587");
-        softAssert.assertTrue(addLocation.getLocatioNameInputElement()
+        softAssert.assertTrue(addLocation.getLocationNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації задовга"));
 

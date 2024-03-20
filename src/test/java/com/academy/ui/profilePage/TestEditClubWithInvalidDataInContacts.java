@@ -11,6 +11,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestRunner {
 
@@ -19,8 +22,8 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
     private static final String TELEPHONE_WITH_SPECIAL_CHARACTERS_AND_LETTERS = " fu!@£$% ";
     private static final String INVALID_EMAIL = "prince@.@com";
     private static final String EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD = "Телефон не відповідає вказаному формату";
-    private static final String EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD_WITH_SYMBOLS = "Телефон не може містити спеціальні символи, літери та пробіли " +
-            "Телефон не відповідає вказаному формату";
+    private static final String[] EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD_WITH_SYMBOLS = {"Телефон не може містити спеціальні символи, літери та пробіли",
+            "Телефон не відповідає вказаному формату"};
 
     private static final String EXPECTED_ERROR_MASSAGE_IN_EMAIL_FIELD = "Некоректний формат email";
     private SoftAssert softAssert;
@@ -51,7 +54,8 @@ public class TestEditClubWithInvalidDataInContacts extends LoginWithManagerTestR
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 
         stepTwo.getTelephoneInputElement().clearInput().setValue(TELEPHONE_WITH_SPECIAL_CHARACTERS_AND_LETTERS);
-        String actualMessage = stepTwo.getErrorMessageTelephoneField().getText().replaceAll("\\s+", " ").trim();
+
+        String[] actualMessage = (String[])stepTwo.getTelephoneInputElement().getErrorMessagesTextList().toArray(String[]::new);
         softAssert.assertEquals(actualMessage, EXPECTED_ERROR_MASSAGE_IN_TELEPHONE_FIELD_WITH_SYMBOLS);
         softAssert.assertTrue(stepTwo.getNextStepButton().isEnabled());
 

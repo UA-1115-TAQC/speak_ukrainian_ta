@@ -106,7 +106,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepOne.getMinAgeInput().getAttribute("value").isEmpty());
         softAssert.assertTrue(stepOne.getMaxAgeInput().getAttribute("value").isEmpty());
-        softAssert.assertEquals(stepOne.getSelectPlaceholder().getText(), "Назва центру");
+        softAssert.assertEquals(stepOne.getDropdownPlaceholder().getText(), "Назва центру");
 
         fillStepOneWithValidDataPreconditions();
 
@@ -137,16 +137,16 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         List<WebElement> clubGalleryUploadedImgs = stepThree.getClubGalleryUploadedImgs();
         softAssert.assertFalse(clubGalleryUploadedImgs.isEmpty());
-        stepThree.getUploadedGalleryImg(0).clickRemoveImg();
+        stepThree.getUploadedGalleryImgByIndex(0).clickDeleteImage();
         softAssert.assertTrue(clubGalleryUploadedImgs.isEmpty());
 
         stepThree.getClubLogoDownloadButton().click();
         stepThree.getClubLogoDownloadInput().sendKeys(properties.getImagePath(testImage));
-        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().contains(testImage));
+        softAssert.assertTrue(stepThree.getUploadedLogoElement().getImageTitle().getText().contains(testImage));
 
         stepThree.getClubCoverDownloadButton().click();
         stepThree.getClubCoverDownloadInput().sendKeys(properties.getImagePath(testImage));
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testImage));
+        softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().contains(testImage));
 
         stepThree.setDescriptionValue(TEXT_50_SYMBOLS);
         softAssert.assertTrue(stepThree.getErrorMessagesTextarea().isEmpty(), "Should be no errors with 50 symbols");
@@ -355,7 +355,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepThree.getClubDescriptionTitle().getCssValue(
                 "font-size"), "19px");
 
-        softAssert.assertEquals(stepThree.getPrevStepButton().getText(), "Назад");
+        softAssert.assertEquals(stepThree.getPreviousStepButton().getText(), "Назад");
         softAssert.assertEquals(stepThree.getNextStepButton().getText(), "Завершити");
         softAssert.assertFalse(stepThree.getNextStepButton().isEnabled(), "Button should be not active");
 
@@ -373,7 +373,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getClubDescriptionTextarea().equals(driver.switchTo().activeElement()),
                 "Focus should be on Description Textarea");
         actions.sendKeys(Keys.TAB).perform();
-        softAssert.assertTrue(stepThree.getPrevStepButton().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepThree.getPreviousStepButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on Previous Step Button");
         actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(stepThree.getNextStepButton().equals(driver.switchTo().activeElement()),
@@ -424,7 +424,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getClubDescriptionTitle().isDisplayed(),
                 "Step Description title should be displayed");
 
-        softAssert.assertTrue(stepThree.getPrevStepButton().isDisplayed(),
+        softAssert.assertTrue(stepThree.getPreviousStepButton().isDisplayed(),
                 "Step Previous Step Button should be displayed");
         softAssert.assertTrue(stepThree.getNextStepButton().isDisplayed(),
                 "Step Submit Button should be displayed");
@@ -455,8 +455,8 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepOneWithValidDataPreconditions();
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
-        addLocation.getLocatioNameInputElement().setValue("Lorem");
-        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue("Одеса");
+        addLocation.getLocationNameInputElement().setValue("Lorem");
+        addLocation.getLocationCityDropdownElement().clickDropdown().selectValue("Одеса");
         addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue("Малиновський");
         addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("Фонтан");
 
@@ -478,6 +478,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.getClubLogoDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
+
         stepThree.getUploadedLogoImg().waitImageLoad(5);
         softAssert.assertEquals(stepThree
                 .getUploadedLogoImg()
@@ -496,7 +497,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
                 image2FileName,
                 "Photo not added for Cover");
 
-        stepThree.getUploadedCoverImg().clickRemoveImg();
+        stepThree.getUploadedCoverElement().clickDeleteImage();
 
         softAssert.assertAll();
     }
@@ -512,7 +513,10 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
 
-        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();
@@ -548,6 +552,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertAll();
     }
 
+    @Test()
     @Issue("TUA-178")
     public void checkBanRussianLanguageOnDescription() {
         fillStepOneWithValidDataPreconditions();
@@ -578,8 +583,8 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         fillStepOneWithValidDataPreconditions();
         stepTwo = addClubPopUpComponent.getStepTwoContainer();
         AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
-        addLocation.getLocatioNameInputElement().setValue(VALID_LOCATION.get("name"));
-        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("city"));
+        addLocation.getLocationNameInputElement().setValue(VALID_LOCATION.get("name"));
+        addLocation.getLocationCityDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("city"));
         addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("district"));
         addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue(VALID_LOCATION.get("metro"));
         addLocation.getLocationAddressInputElement().setValue(VALID_LOCATION.get("address"));
@@ -630,18 +635,18 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.getClubGalleryDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
-        stepThree.getUploadedGalleryImg(0).waitImageLoad(5);
+        stepThree.getUploadedGalleryImgByIndex(0).waitImageLoad(5);
         softAssert.assertFalse(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
-        stepThree.getUploadedGalleryImg(0).clickPreviewFile();
+        stepThree.getUploadedGalleryImgByIndex(0).clickPreviewImage();
         softAssert.assertEquals(stepThree
-                        .getUploadedGalleryImg(0)
-                        .getModalFormTitleImg()
+                        .getUploadedGalleryImgByIndex(0)
+                        .getModalPreviewImageTitle()
                         .getText(),
                 image1FileName,
                 "Uploaded different photo");
 
-        stepThree.getUploadedGalleryImg(0).clickClosePreviewWindow().clickRemoveImg();
+        stepThree.getUploadedGalleryImgByIndex(0).clickClosePreviewWindow().clickDeleteImage();
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().isEmpty());
 
         stepThree.getClubDescriptionTextarea().sendKeys("Спорт - це для кожного (за певних умов).");

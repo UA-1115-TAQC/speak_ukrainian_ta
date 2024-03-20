@@ -13,14 +13,11 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -326,8 +323,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(twoEdit.getSwitchButton().isDisplayed());
         LocationListElement locationElement = twoEdit.getListOfLocationElements().get(0);
         AddLocationPopUpComponent location = locationElement.clickEditIcon();
-        deletedLocationName = location.getLocatioNameInputElement().getInput().getAttribute("value");
-        deletedCity = location.getLocatioCityDropdownElement().getSelectedItem().getText();
+        deletedLocationName = location.getLocationNameInputElement().getInput().getAttribute("value");
+        deletedCity = location.getLocationCityDropdownElement().getSelectedItem().getText();
         deletedDistrict = location.getLocationDistrictDropdownElement().getSelectedItem().getText();
         deletedAddress = location.getLocationAddressInputElement().getInput().getAttribute("value");
         deletedCoordinates = location.getLocationCoordinatesInputElement().getInput().getAttribute("value");
@@ -358,8 +355,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
 
         AddLocationPopUpComponent location = twoEdit.clickAddLocationButton();
-        location.getLocatioNameInputElement().setValue(deletedLocationName);
-        location.getLocatioCityDropdownElement().clickDropdown().selectValue(deletedCity);
+        location.getLocationNameInputElement().setValue(deletedLocationName);
+        location.getLocationCityDropdownElement().clickDropdown().selectValue(deletedCity);
         location.getLocationDistrictDropdownElement().clickDropdown().selectValue(deletedDistrict);
         location.getLocationAddressInputElement().setValue(deletedAddress);
         location.getLocationCoordinatesInputElement().setValue(deletedCoordinates);
@@ -395,7 +392,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepTwo stepTwo = addClubPopUpComponent.getStepTwoContainer();
         stepTwo.clickNextStepButton();
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
-        stepThree.uploadImgToCover(ConfigProperties.getImagePath(image), image);
+        stepThree.uploadCoverImage(ConfigProperties.getImagePath(image));
         stepThree.clickCompleteButton();
     }
     private void deleteExistingCover(String cover){
@@ -483,8 +480,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepOne.setCenterName(validCenterName);
         validLocationName =RandomAlphanumericStringGenerator.generateRandomString(8,12,2);
         AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
-        addLocationPopUp.getLocatioNameInputElement().setValue(validLocationName);
-        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue("Київ");
+        addLocationPopUp.getLocationNameInputElement().setValue(validLocationName);
+        addLocationPopUp.getLocationCityDropdownElement().clickDropdown().selectValue("Київ");
         validAddress = RandomAlphanumericStringGenerator.generateRandomString(8,15,3);
         addLocationPopUp.getLocationAddressInputElement().setValue(validAddress);
         addLocationPopUp.getLocationCoordinatesInputElement().setValue(validCoordinates);
@@ -519,16 +516,16 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         addLocationPopUp.waitPopUpOpen(5);
         softAssert.assertTrue(addLocationPopUp.isOpen(), "Add location popup should be open");
 
-        addLocationPopUp.getLocatioNameInputElement().setValue(VALID_LOCATION_NAME);
+        addLocationPopUp.getLocationNameInputElement().setValue(VALID_LOCATION_NAME);
         softAssert.assertEquals(addLocationPopUp
-                        .getLocatioNameInputElement()
+                        .getLocationNameInputElement()
                         .getInput()
                         .getAttribute("value"),
                 VALID_LOCATION_NAME);
 
-        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue(VALID_CITY_NAME);
+        addLocationPopUp.getLocationCityDropdownElement().clickDropdown().selectValue(VALID_CITY_NAME);
         softAssert.assertEquals(addLocationPopUp
-                        .getLocatioCityDropdownElement()
+                        .getLocationCityDropdownElement()
                         .getSelectedItem()
                         .getText(),
                 VALID_CITY_NAME);
@@ -579,18 +576,18 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         editClubPopUp.getStepTwoContainer().clickNextStepButton();
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_1));
-        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        stepThree.getUploadedCoverElement().waitImageLoad(5);
         String uploadedImage = stepThree
-                .getUploadedCoverImg()
-                .getImgTitle()
+                .getUploadedCoverElement()
+                .getImageTitle()
                 .getText();
         softAssert.assertEquals(uploadedImage, IMAGE_NAME_1, "Image should be downloaded");
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(IMAGE_NAME_2));
-        stepThree.getUploadedCoverImg().waitImageChanged(uploadedImage, 5);
+        stepThree.getUploadedCoverElement().waitImageChanged(uploadedImage, 5);
 
         softAssert.assertEquals(stepThree
-                        .getUploadedCoverImg()
-                        .getImgTitle()
+                        .getUploadedCoverElement()
+                        .getImageTitle()
                         .getText(),
                 IMAGE_NAME_2,
                 "Image should be changed");
@@ -630,11 +627,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubLogoDownloadButton();
         stepThree.getClubLogoDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
-        softAssert.assertTrue(stepThree.getUploadedLogoImg().getImgTitle().getText().equals("harrybean.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedLogoElement().getImageTitle().getText().equals("harrybean.jpg"));
 
         stepThree.clickClubCoverDownloadButton();
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().equals("harrybean.jpg"));
+        softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().equals("harrybean.jpg"));
 
         stepThree.clickClubGalleryDownloadButton();
         stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
@@ -679,8 +676,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepThree stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubCoverDownloadButton();
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(testCoverImage));
-        stepThree.getUploadedCoverImg().waitImageLoad(5);
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(testCoverImage));
+        stepThree.getUploadedCoverElement().waitImageLoad(5);
+        softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().contains(testCoverImage));
         stepThree.clickCompleteButton();
 
         driver.navigate().refresh();
@@ -702,8 +699,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.clickClubCoverDownloadButton();
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(defaultCoverImage));
-        stepThree.getUploadedCoverImg().waitImageLoad(5);
-        softAssert.assertTrue(stepThree.getUploadedCoverImg().getImgTitle().getText().contains(defaultCoverImage));
+        stepThree.getUploadedCoverElement().waitImageLoad(5);
+        softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().contains(defaultCoverImage));
         stepThree.clickCompleteButton();
 
         driver.navigate().refresh();
@@ -772,14 +769,14 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         ClubCardWithEditComponent clubCard = profilePage.getClubCardComponents().getFirst();
         clubCard.sleep(1000);
         AddClubPopUpComponent editClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
-        editClubPopUpComponent.waitPopUpOpen(5);
+        editClubPopUpComponent.waitPopUpOpen(15);
         AddClubPopUpStepOne editClubPopUpStepOne = editClubPopUpComponent.getStepOneContainer();
 
         editClubPopUpStepOne.getClubNameInputElement().clearInput();
         editClubPopUpStepOne.getClubNameInputElement().setValue("Harry 123&*? Potter");
         softAssert.assertEquals(editClubPopUpStepOne.getClubNameInputElement().getInput().getAttribute("value"), "Harry 123&*? Potter");
 
-        editClubPopUpStepOne.selectCategoryForEdit("Центр розвитку");
+        editClubPopUpStepOne.selectCategory("Центр розвитку");
         softAssert.assertTrue(editClubPopUpStepOne.getCheckedCategoriesListForEdit().stream().anyMatch(category -> category.getText().equals("Центр розвитку")), "Категорія не вибрана 1");
 
         editClubPopUpStepOne.getMinAgeInput().sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
@@ -818,20 +815,20 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepThree stepThree = editClubPopUp.getStepThreeContainer();
 
         stepThree.getClubCoverDownloadInput().sendKeys(configProperties.getImagePath(imageName));
-        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        stepThree.getUploadedCoverElement().waitImageLoad(5);
 
         softAssert.assertEquals(stepThree
-                        .getUploadedCoverImg()
-                        .getImgTitle()
-                        .getText(),
-                imageName,
-                "Image should be changed");
+                                        .getUploadedCoverImg()
+                                        .getImgTitle()
+                                        .getText(),
+                                imageName,
+                                "Image should be changed");
 
         softAssert.assertTrue(stepThree
-                .getUploadedCoverImg()
-                .getImgTitle()
-                .isEnabled(),
-                "Cannot click on cover photo");
+                                .getUploadedCoverElement()
+                                .getImageTitle()
+                                .isEnabled(),
+                              "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
 
@@ -861,7 +858,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
 
         AddClubPopUpStepOne one = edit.getStepOneContainer();
         String oldCenter = one.getCenterSelectedTitle().getText();
-        one.getCenterDropdown().clickDropdown().selectValue(centerToSelect);
+        one.getCenterDropdownElement().clickDropdown().selectValue(centerToSelect);
         one.clickNextStepButton();
         edit.getStepTwoContainer().clickNextStepButton();
         edit.getStepThreeContainer().clickCompleteButton();
@@ -936,6 +933,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertEquals(stepTwo.getNextStepButton().getCssValue("color"),
                 "rgba(255, 255, 255, 1)");
 
+
         softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
         softAssert.assertEquals(stepTwo.getPrevStepButton().getText(), "Назад");
         softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"),
@@ -988,7 +986,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "Focus should be on Site Input");
         actions.sendKeys(Keys.TAB).perform();
 
-        softAssert.assertTrue(stepTwo.getPrevStepButton().equals(driver.switchTo().activeElement()),
+        softAssert.assertTrue(stepTwo.getPreviousStepButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on Previous Step Button");
         actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(stepTwo.getNextStepButton().equals(driver.switchTo().activeElement()),
@@ -1188,10 +1186,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 .getClubLogoDownloadInput()
                 .sendKeys(ConfigProperties.getImagePath(newLogoImage));
 
-        UploadedImgComponent uploadedLogoImg = stepThreeContainer.getUploadedLogoImg();
+        UploadedImgComponent uploadedLogoImg = stepThreeContainer.getUploadedLogoElement();
         uploadedLogoImg.waitImageLoad(5);
 
-        softAssert.assertEquals(uploadedLogoImg.getImgTitle().getAttribute("title"),
+        softAssert.assertEquals(uploadedLogoImg.getImageTitle().getAttribute("title"),
                 newLogoImage, "Logo title should be '%s'".formatted(newLogoImage));
 
         stepThreeContainer.clickCompleteButtonWithWait(10);
@@ -1217,7 +1215,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepThree stepThreeContainer = addClubPopUpComponent.getStepThreeContainer();
         stepThreeContainer.getClubLogoDownloadInput()
                 .sendKeys(ConfigProperties.getImagePath(initialLogoImage));
-        stepThreeContainer.getUploadedLogoImg()
+        stepThreeContainer.getUploadedLogoElement()
                 .waitImageLoad(5);
         stepThreeContainer.clickCompleteButton();
     }
@@ -1277,8 +1275,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         LocationListElement locationElement = twoEdit.getListOfLocationElements().get(0);
 
         AddLocationPopUpComponent location = locationElement.clickEditIcon();
-        deletedLocationName = location.getLocatioNameInputElement().getInput().getAttribute("value");
-        deletedCity = location.getLocatioCityDropdownElement().getSelectedItem().getText();
+        deletedLocationName = location.getLocationNameInputElement().getInput().getAttribute("value");
+        deletedCity = location.getLocationCityDropdownElement().getSelectedItem().getText();
         deletedDistrict = location.getLocationDistrictDropdownElement().getSelectedItem().getText();
         deletedAddress = location.getLocationAddressInputElement().getInput().getAttribute("value");
         deletedCoordinates = location.getLocationCoordinatesInputElement().getInput().getAttribute("value");
@@ -1299,8 +1297,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         AddClubPopUpStepTwo twoEdit = edit.getStepTwoContainer();
 
         AddLocationPopUpComponent location = twoEdit.clickAddLocationButton();
-        location.getLocatioNameInputElement().setValue(deletedLocationName);
-        location.getLocatioCityDropdownElement().clickDropdown().selectValue(deletedCity);
+        location.getLocationNameInputElement().setValue(deletedLocationName);
+        location.getLocationCityDropdownElement().clickDropdown().selectValue(deletedCity);
         location.getLocationDistrictDropdownElement().clickDropdown().selectValue(deletedDistrict);
         location.getLocationAddressInputElement().setValue(deletedAddress);
         location.getLocationCoordinatesInputElement().setValue(deletedCoordinates);

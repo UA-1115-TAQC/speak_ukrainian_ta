@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class AddClubPopUpSider extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-steps-item-wait') or contains(@class,'ant-steps-item-process')]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-steps-item-wait') or contains(@class,'ant-steps-item-process')]")
     private List<WebElement> stepsList;
 
     @FindBy(xpath = "./descendant::span[@class='ant-steps-icon'][1]")

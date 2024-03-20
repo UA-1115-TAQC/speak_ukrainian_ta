@@ -70,7 +70,7 @@ public class AdvancedSearchSiderWithoutLogInTest extends BaseTestRunner {
 
         for (ClubCardComponent clubCard : clubsPage.getClubCards()) {
             softAssert.assertTrue(clubCard.getAddress().getText().contains(SELECTED_CITY),
-                    "Address in the Card should contain selected city " + SELECTED_CITY);
+                    "Address of club " + clubCard.getTitle().getText() + " should contain selected city " + SELECTED_CITY);
         }
         softAssert.assertAll();
     }

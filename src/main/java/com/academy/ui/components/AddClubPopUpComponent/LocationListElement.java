@@ -18,16 +18,16 @@ import java.time.Duration;
 @Getter
 public class LocationListElement extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::h4[@class='ant-list-item-meta-title']")
+    @FindBy(xpath = ".//h4[@class='ant-list-item-meta-title']")
     private WebElement locationItemTitle;
 
-    @FindBy(xpath = "./descendant::div[@class='ant-list-item-meta-description']")
+    @FindBy(xpath = ".//div[@class='ant-list-item-meta-description']")
     private WebElement descriptionTitle;
 
-    @FindBy(xpath = "./descendant::ul[@class='ant-list-item-action']//span[@aria-label='edit']")
+    @FindBy(xpath = ".//ul[@class='ant-list-item-action']//span[@aria-label='edit']")
     private WebElement editIcon;
 
-    @FindBy(xpath = "./descendant::ul[@class='ant-list-item-action']//span[@aria-label='delete']")
+    @FindBy(xpath = ".//ul[@class='ant-list-item-action']//span[@aria-label='delete']")
     private WebElement deleteIcon;
 
     @FindBy(xpath = "//div[@class='ant-popover-inner-content']")
@@ -39,10 +39,10 @@ public class LocationListElement extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-popover-inner-content']/descendant::div[@class='ant-popconfirm-title']")
     private WebElement popConfirmTitle;
 
-    @FindBy(xpath = "//div[@class='ant-popover-inner-content']/descendant::button[contains(@class,'popConfirm-cancel-button')]")
+    @FindBy(xpath = "//div[@class='ant-popover-inner-content']//button[contains(@class,'popConfirm-cancel-button')]")
     private WebElement popConfirmCancelButton;
 
-    @FindBy(xpath = "//div[@class='ant-popover-inner-content']/descendant::button[contains(@class,'popConfirm-ok-button')]")
+    @FindBy(xpath = "//div[@class='ant-popover-inner-content']//button[contains(@class,'popConfirm-ok-button')]")
     private WebElement popConfirmOkButton;
 
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
@@ -56,8 +56,8 @@ public class LocationListElement extends BaseComponent {
     @Step("Click on the Edit-icon to edit location on the second step of Add/Edit club pop-up")
     public AddLocationPopUpComponent clickEditIcon() {
         editIcon.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOf(locationPopUp));
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOf(locationPopUp));
         return new AddLocationPopUpComponent(driver, locationPopUp);
     }
 

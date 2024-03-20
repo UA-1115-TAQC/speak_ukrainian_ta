@@ -6,7 +6,6 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -88,7 +87,7 @@ private String stepOneSelectedCentre;
                 "Some of the checkboxes are checked by default");
         softAssert.assertTrue(addClubPopUpStepOne.getMaxAgeInput().getAttribute("value").isEmpty(),
                 "The maximum age input isn't empty by default");
-        softAssert.assertTrue(addClubPopUpStepOne.getCenterSelect().getText().isEmpty(), "The club name input isn't empty by default");
+        softAssert.assertTrue(addClubPopUpStepOne.getCenterDropdownElement().getDropdown().getText().isEmpty(), "The club name input isn't empty by default");
         softAssert.assertTrue(addClubPopUpStepOne.getMinAgeInput().getAttribute("value").isEmpty(),
                 "The minimum age input isn't empty by default");
 
@@ -100,7 +99,7 @@ private String stepOneSelectedCentre;
         addClubPopUpStepOne.getCategoriesCheckboxList().get(checkboxToCheckIndex).click();
         addClubPopUpStepOne.setMaxAgeInput(validMaxAge);
         addClubPopUpStepOne.setMinAgeInput(validMinAge);
-        addClubPopUpStepOne.getCenterSelect().click();
+        addClubPopUpStepOne.getCenterDropdownElement().getDropdown().click();
         addClubPopUpStepOne.getCentersList().get(checkboxToCheckIndex).click();
         wait.until(ExpectedConditions.visibilityOf(addClubPopUpStepOne.getCenterSelectedTitle()));
     }
@@ -171,11 +170,11 @@ private String stepOneSelectedCentre;
     }
 
     private void addLocation(String locationName,String locationCity, String address, String coordinates, String phone){
-        addLocationPopUpComponent.getLocatioNameInputElement().setValue(locationName);
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioNameInputElement().getInput().getAttribute("value"), locationName,
+        addLocationPopUpComponent.getLocationNameInputElement().setValue(locationName);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationNameInputElement().getInput().getAttribute("value"), locationName,
                 "The location name input doesn't contain the entered value");
-        addLocationPopUpComponent.getLocatioCityDropdownElement().clickDropdown().selectValue(locationCity);
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioCityDropdownElement().getSelectedItem().getAttribute("title"), locationCity,
+        addLocationPopUpComponent.getLocationCityDropdownElement().clickDropdown().selectValue(locationCity);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationCityDropdownElement().getSelectedItem().getAttribute("title"), locationCity,
                 "The selected value isn't displayed in the dropdown");
         addLocationPopUpComponent.getLocationAddressInputElement().setValue(address);
         softAssert.assertEquals(addLocationPopUpComponent.getLocationAddressInputElement().getInput().getAttribute("value"), address,

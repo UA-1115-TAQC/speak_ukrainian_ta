@@ -37,7 +37,7 @@ public class AddClubContactPartTest extends LoginWithAdminTestRunner {
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getEmailInputElement().getWebElement()));
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getSkypeInputElement().getWebElement()));
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getSiteInputElement().getWebElement()));
-        softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getPrevStepButton().isDisplayed());
+        softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getPreviousStepButton().isDisplayed());
         softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getNextStepButton().isDisplayed());
 
         driver.manage().window().setSize(new Dimension(10, 10));
@@ -57,7 +57,7 @@ public class AddClubContactPartTest extends LoginWithAdminTestRunner {
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getEmailInputElement().getWebElement()));
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getSkypeInputElement().getWebElement()));
         softAssert.assertTrue(addClubPopUpComponent.isElementPresent(addClubPopUpComponent.getStepTwoContainer().getSiteInputElement().getWebElement()));
-        softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getPrevStepButton().isDisplayed());
+        softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getPreviousStepButton().isDisplayed());
         softAssert.assertTrue(addClubPopUpComponent.getStepTwoContainer().getNextStepButton().isDisplayed());
 
         softAssert.assertAll();

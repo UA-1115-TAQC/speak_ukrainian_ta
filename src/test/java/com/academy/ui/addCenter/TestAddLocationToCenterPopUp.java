@@ -2,7 +2,6 @@ package com.academy.ui.addCenter;
 
 import com.academy.ui.components.AddCenterPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
-import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
@@ -51,11 +50,11 @@ public class TestAddLocationToCenterPopUp extends LoginWithManagerTestRunner {
         stepOne.setCenterName(CENTER);
         AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
 
-        addLocationPopUp.getLocatioNameInputElement().setValue(LOCATION);
+        addLocationPopUp.getLocationNameInputElement().setValue(LOCATION);
         softAssert.assertTrue(addLocationPopUp.isOpen());
 
-        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue(CITY);
-        softAssert.assertEquals(addLocationPopUp.getLocatioCityDropdownElement().getSelectedItem().getText(), CITY);
+        addLocationPopUp.getLocationCityDropdownElement().clickDropdown().selectValue(CITY);
+        softAssert.assertEquals(addLocationPopUp.getLocationCityDropdownElement().getSelectedItem().getText(), CITY);
 
         addLocationPopUp.getLocationDistrictDropdownElement().clickDropdown().selectValue(DISTRICT);
         softAssert.assertEquals(addLocationPopUp.getLocationDistrictDropdownElement().getSelectedItem().getText(), DISTRICT);
@@ -100,8 +99,8 @@ public class TestAddLocationToCenterPopUp extends LoginWithManagerTestRunner {
         stepOne = addCenterPopUp.getStepOneContainer();
         stepOne.setCenterName(CENTER);
         AddLocationPopUpComponent addLocation = stepOne.clickAddLocationButton();
-        addLocation.getLocatioNameInputElement().setValue(LOCATION);
-        addLocation.getLocatioCityDropdownElement().clickDropdown().selectValue(CITY);
+        addLocation.getLocationNameInputElement().setValue(LOCATION);
+        addLocation.getLocationCityDropdownElement().clickDropdown().selectValue(CITY);
 
         addLocation.getLocationDistrictDropdownElement().clickDropdown().selectValue(DISTRICT);
         addLocation.getLocationMetroDropdownElement().clickDropdown().selectValue("METRO");//doesn't work because there is no data in this dropdown on the website

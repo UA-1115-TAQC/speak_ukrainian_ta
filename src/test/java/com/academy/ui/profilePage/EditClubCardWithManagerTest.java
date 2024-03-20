@@ -818,8 +818,8 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.getUploadedCoverElement().waitImageLoad(5);
 
         softAssert.assertEquals(stepThree
-                                        .getUploadedCoverImg()
-                                        .getImgTitle()
+                                        .getUploadedCoverElement()
+                                        .getImageTitle()
                                         .getText(),
                                 imageName,
                                 "Image should be changed");
@@ -934,9 +934,9 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
                 "rgba(255, 255, 255, 1)");
 
 
-        softAssert.assertTrue(stepTwo.getPrevStepButton().isDisplayed());
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getText(), "Назад");
-        softAssert.assertEquals(stepTwo.getPrevStepButton().getCssValue("color"),
+        softAssert.assertTrue(stepTwo.getPreviousStepButton().isDisplayed());
+        softAssert.assertEquals(stepTwo.getPreviousStepButton().getText(), "Назад");
+        softAssert.assertEquals(stepTwo.getPreviousStepButton().getCssValue("color"),
                 "rgba(250, 140, 22, 1)");
 
         Actions actions = new Actions(driver);

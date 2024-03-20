@@ -479,20 +479,20 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.getClubLogoDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
 
-        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        stepThree.getUploadedLogoElement().waitImageLoad(5);
         softAssert.assertEquals(stepThree
-                .getUploadedLogoImg()
-                .getImgTitle()
+                .getUploadedLogoElement()
+                .getImageTitle()
                 .getText(),
                 image1FileName,
                 "Photo not added for Logo");
-        stepThree.getUploadedLogoImg().clickRemoveImg();
+        stepThree.getUploadedLogoElement().clickDeleteImage();
 
         stepThree.getClubCoverDownloadInput().sendKeys(ConfigProperties.getImagePath(image2FileName));
-        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        stepThree.getUploadedCoverElement().waitImageLoad(5);
         softAssert.assertEquals(stepThree
-                .getUploadedCoverImg()
-                .getImgTitle()
+                .getUploadedCoverElement()
+                .getImageTitle()
                 .getText(),
                 image2FileName,
                 "Photo not added for Cover");

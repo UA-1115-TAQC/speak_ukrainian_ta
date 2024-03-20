@@ -90,9 +90,8 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "//div[@class='rc-virtual-list-holder']")
     private WebElement centersDropdownListContainer;
 
-    private AddClubInputElement clubNameInputElement;
-
-    private DropdownElement centerDropdownElement;
+    private final AddClubInputElement clubNameInputElement;
+    private final DropdownElement centerDropdownElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -122,8 +121,8 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
     @Step("Select center by name {name} on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne selectCenter(String name) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(centersDropdownListContainer));
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfAllElements(centersDropdownListContainer));
         centersList.stream()
                 .filter(center -> (center.getAttribute("title").contains(name)))
                 .forEach(WebElement::click);

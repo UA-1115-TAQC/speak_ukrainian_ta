@@ -28,28 +28,28 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][4]")
     private WebElement clubContactsTitle;
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-empty-normal')]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-empty-normal')]")
     private WebElement noDataLocationElement;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'add-club-location')]")
+    @FindBy(xpath = ".//span[contains(@class,'add-club-location')]")
     private WebElement addLocationButton;
 
-    @FindBy(xpath = "./descendant::button[contains(@class,'ant-switch')]")
+    @FindBy(xpath = ".//button[contains(@class,'ant-switch')]")
     private WebElement switchButton;
 
-    @FindBy(xpath = "//descendant::span[contains(@class,'anticon-info-circle')]")
+    @FindBy(xpath = ".//span[contains(@class,'anticon-info-circle')]")
     private WebElement infoHintIcon;
 
-    @FindBy(xpath = "//descendant::div[contains(@class,'ant-tooltip-inner')]")
+    @FindBy(xpath = "//div[contains(@class,'ant-tooltip-inner')]")
     private WebElement infoHintIconText;
 
-    @FindBy(xpath = "./descendant::div[@id='basic_workDay']//input[@class='ant-checkbox-input']")
+    @FindBy(xpath = ".//div[@id='basic_workDay']//input[@class='ant-checkbox-input']")
     private List<WebElement> workDaysCheckboxList;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/ancestor::div[@class='checkbox-item']")
+    @FindBy(xpath = ".//span[contains(@class,'ant-checkbox-checked')]/ancestor::div[@class='checkbox-item']")
     private List<WebElement> checkedWorkDaysList;
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-col')]/div[@class='checkbox-item']")
+    @FindBy(xpath = ".//div[contains(@class,'ant-col')]/div[@class='checkbox-item']")
     @Getter(AccessLevel.NONE)
     private List<WebElement> dayTimeCheckboxList;
 
@@ -77,32 +77,28 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
     @Getter(AccessLevel.NONE)
     private WebElement siteInput;
 
-    @FindBy(xpath = "./descendant::ul[@class='ant-list-items']/li[@class='ant-list-item']")
+    @FindBy(xpath = ".//ul[@class='ant-list-items']/li[@class='ant-list-item']")
     private List<WebElement> locationList;
-
-    @FindBy(xpath = "//div[contains(@class,'ant-message-top')]")
-    private WebElement topMessage;
 
     @FindBy(xpath = "//descendant::div[contains(@class,'modal-add-club')][2]")
     @Getter(AccessLevel.NONE)
     private WebElement locationPopUp;
 
-    @FindBy(xpath = ".//descendant::div[@id='basic_Телефон_help']")
-    private WebElement errorMessageTelephoneField;
-
-
     @Getter(AccessLevel.NONE)
     private HashMap<String, DayTimeCheckboxElement> dayTimeCheckboxElementsCollection;
+
     @Getter(AccessLevel.NONE)
     private List<LocationListElement> listOfLocationElements;
+
     @Getter(AccessLevel.NONE)
     private AddLocationPopUpComponent addLocationPopUpComponent;
-    private AddClubInputElement telephoneInputElement;
-    private AddClubInputElement facebookInputElement;
-    private AddClubInputElement whatsappInputElement;
-    private AddClubInputElement emailInputElement;
-    private AddClubInputElement skypeInputElement;
-    private AddClubInputElement siteInputElement;
+
+    private final AddClubInputElement telephoneInputElement;
+    private final AddClubInputElement facebookInputElement;
+    private final AddClubInputElement whatsappInputElement;
+    private final AddClubInputElement emailInputElement;
+    private final AddClubInputElement skypeInputElement;
+    private final AddClubInputElement siteInputElement;
 
     public AddClubPopUpStepTwo(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -125,19 +121,6 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return switchButton.getAttribute("aria-checked").equals("true");
     }
 
-    @Step("Get Day and Time collection on the second step of Add/Edit club pop-up")
-    public HashMap<String, DayTimeCheckboxElement> getDayTimeCheckboxElementsCollection() {
-        dayTimeCheckboxElementsCollection = new HashMap<>();
-        By locator = By.xpath("./descendant::input[@class='ant-checkbox-input']");
-        for (WebElement day : dayTimeCheckboxList) {
-            dayTimeCheckboxElementsCollection.put(
-                    day.findElement(locator).getAttribute("value"),
-                    new DayTimeCheckboxElement(driver, day)
-            );
-        }
-        return dayTimeCheckboxElementsCollection;
-    }
-
     @Step("Get list of locations on the second step of Add/Edit club pop-up")
     public List<LocationListElement> getListOfLocationElements() {
         listOfLocationElements = new ArrayList<>();
@@ -147,13 +130,6 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         return listOfLocationElements;
     }
 
-    @Step("Click on the checkbox with day {day} on the second step of Add/Edit club pop-up")
-    public AddClubPopUpStepTwo clickOnDayCheckbox(String day) {
-        dayTimeCheckboxElementsCollection.get(day).getCheckbox().click();
-        return this;
-    }
-
-    @Step("Click on the button 'Додати локацію' on the second step of Add/Edit club pop-up")
     public AddLocationPopUpComponent clickAddLocationButton() {
         addLocationButton.click();
         addLocationPopUpComponent = new AddLocationPopUpComponent(driver, locationPopUp);
@@ -166,4 +142,39 @@ public class AddClubPopUpStepTwo extends AddClubPopUpContainer {
         getListOfLocationElements().forEach(location -> list.add(location.getLocationItemTitle().getText()));
         return list;
     }
+
+    @Step("Get Day and Time collection on the second step of Add/Edit club pop-up")
+    public HashMap<String, DayTimeCheckboxElement> getDayTimeCheckboxElementsCollection() {
+        dayTimeCheckboxElementsCollection = new HashMap<>();
+        By locator = By.xpath(".//input[@class='ant-checkbox-input']");
+        for (WebElement day : dayTimeCheckboxList) {
+            dayTimeCheckboxElementsCollection.put(
+                    day.findElement(locator).getAttribute("value"),
+                    new DayTimeCheckboxElement(driver, day)
+            );
+        }
+        return dayTimeCheckboxElementsCollection;
+    }
+
+    @Step("Click on the button 'Додати локацію' on the second step of Add/Edit club pop-up")
+    public AddClubPopUpStepTwo clickOnCheckboxByDay(String day) {
+        dayTimeCheckboxElementsCollection.get(day.toUpperCase()).getCheckbox().click();
+        return this;
+    }
+
+    @Step("Click on the previous step button")
+    @Override
+    public AddClubPopUpStepOne clickPreviousStepButton() {
+        getPreviousStepButton().click();
+        return new AddClubPopUpStepOne(driver, rootElement);
+    }
+
+    @Step("Click on the next step button")
+    @Override
+    public AddClubPopUpStepThree clickNextStepButton() {
+        getNextStepButton().click();
+        return new AddClubPopUpStepThree(driver, rootElement);
+    }
+
+
 }

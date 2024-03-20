@@ -15,16 +15,16 @@ import java.util.List;
 @Getter
 public class DayTimeCheckboxElement extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::input[@class='ant-checkbox-input']")
+    @FindBy(xpath = ".//input[@class='ant-checkbox-input']")
     private WebElement checkbox;
 
-    @FindBy(xpath = "./descendant::label[contains(@class,'ant-checkbox-wrapper')]/span[2]/div")
+    @FindBy(xpath = ".//label[contains(@class,'ant-checkbox-wrapper')]/span[2]/div")
     private WebElement checkboxTitle;
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item')]/descendant::input[@placeholder='HH:mm'][1]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-form-item')]/descendant::input[@placeholder='HH:mm'][1]")
     private WebElement timeFromInput;
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item')]/descendant::input[@placeholder='HH:mm'][2]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-form-item')]/descendant::input[@placeholder='HH:mm'][2]")
     private WebElement timeToInput;
 
     @FindBy(xpath = "//div[@class='ant-picker-panel-container']")
@@ -33,13 +33,18 @@ public class DayTimeCheckboxElement extends BaseComponent {
     @FindBy(xpath = "//div[@class='ant-picker-panel-container']//button")
     private WebElement timePickerButton;
 
-    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]/descendant::ul[contains(@class,'ant-picker-time-panel-column')][1]//div[@class='ant-picker-time-panel-cell-inner']")
+    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]" +
+            "/descendant::ul[contains(@class,'ant-picker-time-panel-column')][1]" +
+            "//div[@class='ant-picker-time-panel-cell-inner']")
     private List<WebElement> timeFromPickerList;
 
-    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]/descendant::ul[contains(@class,'ant-picker-time-panel-column')][2]//div[@class='ant-picker-time-panel-cell-inner']")
+    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]" +
+            "/descendant::ul[contains(@class,'ant-picker-time-panel-column')][2]" +
+            "//div[@class='ant-picker-time-panel-cell-inner']")
     private List<WebElement> timeToPickerList;
 
-    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]/descendant::span[@class='ant-picker-suffix']/span[@aria-label='clock-circle']")
+    @FindBy(xpath = "//div[contains(@class,'ant-picker-dropdown')]" +
+            "//span[@class='ant-picker-suffix']/span[@aria-label='clock-circle']")
     private WebElement clockIcon;
 
     public DayTimeCheckboxElement(WebDriver driver, WebElement rootElement) {
@@ -60,8 +65,8 @@ public class DayTimeCheckboxElement extends BaseComponent {
 
     @Step("Click on 'OK' button on the time picker on the second step of Add/Edit club pop-up")
     public DayTimeCheckboxElement clickOkTimePickerButton() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(timePickerButton)).click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(timePickerButton)).click();
         return this;
     }
 }

@@ -14,23 +14,23 @@ import java.time.Duration;
 @Getter
 public class UploadedImgComponent extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='paper-clip')]")
-    private WebElement paperClipImg;
+    @FindBy(xpath = ".//span[(@role='img') and (@aria-label='paper-clip')]")
+    private WebElement paperClipIcon;
 
-    @FindBy(xpath = "./descendant::span[@class='ant-upload-list-item-name']")
-    public WebElement imgTitle;
+    @FindBy(xpath = ".//span[@class='ant-upload-list-item-name']")
+    public WebElement imageTitle;
 
-    @FindBy(xpath = "./descendant::button[(@title='Remove file') and (@type='button')]")
-    private WebElement removeImgButton;
+    @FindBy(xpath = ".//button[(@title='Remove file') and (@type='button')]")
+    private WebElement deleteImageIcon;
 
-    @FindBy(xpath = "./descendant::div[@class='ant-tooltip-inner']")
+    @FindBy(xpath = ".//div[@class='ant-tooltip-inner']")
     private WebElement uploadError;
 
-    @FindBy(xpath = "./descendant::a[@title='Preview file']")
-    private WebElement previewFile;
+    @FindBy(xpath = ".//a[@title='Preview file']")
+    private WebElement previewImage;
 
-    @FindBy(xpath = "./descendant::span[(@role='img') and (@aria-label='eye')]")
-    private WebElement previewIcon;
+    @FindBy(xpath = ".//span[(@role='img') and (@aria-label='eye')]")
+    private WebElement previewImageIcon;
 
     @FindBy(xpath = "//descendant::button[(@type='button') and (@aria-label='Close')][3]")
     private WebElement closeButton;
@@ -38,8 +38,8 @@ public class UploadedImgComponent extends BaseComponent {
     @FindBy(xpath = ".//div[contains(@class,'ant-upload-list-item-done')]")
     private WebElement uploadDone;
 
-    @FindBy(xpath = "//div[@class=\"ant-modal-title\"]")
-    private WebElement modalFormTitleImg;
+    @FindBy(xpath = "//div[@class='ant-modal-title']")
+    private WebElement modalPreviewImageTitle;
 
     public UploadedImgComponent(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -51,14 +51,14 @@ public class UploadedImgComponent extends BaseComponent {
     }
 
     @Step("Click on the Remove-icon to delete image on the third step of Add/Edit club pop-up")
-    public UploadedImgComponent clickRemoveImg() {
-        removeImgButton.click();
+    public UploadedImgComponent clickDeleteImage() {
+        deleteImageIcon.click();
         return this;
     }
 
     @Step("Click on the Preview-icon to preview image on the third step of Add/Edit club pop-up")
-    public UploadedImgComponent clickPreviewFile() {
-        previewFile.click();
+    public UploadedImgComponent clickPreviewImage() {
+        previewImage.click();
         return this;
     }
 
@@ -70,14 +70,14 @@ public class UploadedImgComponent extends BaseComponent {
 
     @Step("Wait for {timeout} seconds until image is loaded on the third step of Add/Edit club pop-up")
     public void waitImageLoad(long timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
-        wait.until(ExpectedConditions.visibilityOf(uploadDone));
+        new WebDriverWait(driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.visibilityOf(uploadDone));
     }
 
     @Step("Wait {timeout} seconds until loaded image is changed to the new one on the third step of Add/Edit club pop-up")
     public void waitImageChanged(String prevImage, long timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
-        wait.until(e -> !imgTitle.getText().equals(prevImage));
-        wait.until(ExpectedConditions.visibilityOf(uploadDone));
+        new WebDriverWait(driver, Duration.ofSeconds(timeout))
+                .until(e -> !imageTitle.getText().contains(prevImage));
+        waitImageLoad(timeout);
     }
 }

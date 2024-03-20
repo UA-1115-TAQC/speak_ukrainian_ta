@@ -49,7 +49,7 @@ public class BaseInputElement extends BaseComponent {
             input.sendKeys(Keys.CONTROL + "a", Keys.BACK_SPACE);
         }
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(e -> input.getAttribute("value").equals(""));
+        wait.until(driver -> getInput().getAttribute("value").isEmpty());
         return this;
     }
 

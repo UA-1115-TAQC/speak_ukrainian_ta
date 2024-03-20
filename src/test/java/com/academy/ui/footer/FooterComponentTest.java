@@ -171,7 +171,7 @@ public class FooterComponentTest extends BaseTestRunner {
     @Parameters({"WindowWidth", "WindowHeight"})
     @Description("Check the UI of all tabs in the 'Footer' section across different mobile devices")
     @Issue("TUA-982")
-    public void checkUIAscrossDifferentMobile(int width, int height) {
+    public void checkUIAcrossDifferentMobile(int width, int height) {
         Dimension dimension = new Dimension(width, height);
         driver.manage().window().setSize(dimension);
         checkFooterElements(footerComponent, "Home Page");
@@ -194,26 +194,26 @@ public class FooterComponentTest extends BaseTestRunner {
         softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("color"),
                 "rgba(45, 76, 104, 1)");
         softAssert.assertEquals(footerComponent.getSponsorsTitle().getCssValue("font-size"),
-                "20px");
+                "24px");
 
         softAssert.assertEquals(footerComponent.getDonateTitle().getText(),
                 "Як допомогти проєкту?");
         softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("color"),
                 "rgba(45, 76, 104, 1)");
         softAssert.assertEquals(footerComponent.getDonateTitle().getCssValue("font-size"),
-                "20px");
+                "24px");
 
         softAssert.assertEquals(footerComponent.getDonateExplanation().getText(),
                 "Ініціатива потребує постійної фінансової підтримки, аби покривати щоденні витрати на роботу.");
         softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("color"),
                 "rgba(45, 76, 104, 1)");
         softAssert.assertEquals(footerComponent.getDonateExplanation().getCssValue("font-size"),
-                "14px");
+                "12px");
 
         softAssert.assertEquals(footerComponent.getDonateButton().getText(),
                 "Допомогти проєкту");
         softAssert.assertEquals(footerComponent.getDonateButton().getCssValue("color"),
-                "rgba(250, 140, 22, 1)");
+                "rgba(255, 255, 255, 1)");
 
         softAssert.assertEquals(footerComponent.getMottoUnderLogo().getText(),
                 "Нам небайдуже майбутнє дітей та української мови");

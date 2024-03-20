@@ -38,7 +38,7 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
         final String ERROR_TO_LONG_MESSAGE = "Назва локації задовга";
 
         stepOne.setCenterName(VALID_CENTER_NAME);
-        AddLocationInputElement nameInput = stepOne.clickAddLocationButton().getLocatioNameInputElement();
+        AddLocationInputElement nameInput = stepOne.clickAddLocationButton().getLocationNameInputElement();
         nameInput.setValue(INVALID_CENTER_NAME);
         softAssert.assertTrue(nameInput
                         .getErrorMessagesTextList()
@@ -75,16 +75,16 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
 
         AddLocationPopUpComponent addLocationPopUp = stepOne.clickAddLocationButton();
 
-        addLocationPopUp.getLocatioNameInputElement().setValue(VALID_LOCATION_NAME);
+        addLocationPopUp.getLocationNameInputElement().setValue(VALID_LOCATION_NAME);
         softAssert.assertEquals(addLocationPopUp
-                        .getLocatioNameInputElement()
+                        .getLocationNameInputElement()
                         .getInput()
                         .getAttribute("value"),
                 VALID_LOCATION_NAME);
 
-        addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue(VALID_CITY_NAME);
+        addLocationPopUp.getLocationCityDropdownElement().clickDropdown().selectValue(VALID_CITY_NAME);
         softAssert.assertEquals(addLocationPopUp
-                        .getLocatioCityDropdownElement()
+                        .getLocationCityDropdownElement()
                         .getSelectedItem()
                         .getText(),
                 VALID_CITY_NAME);
@@ -135,11 +135,11 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
         int sizeBeforeAdd = stepOne.getLocationsElementsList().size();
 
         softAssert.assertTrue(addLocationPopUp.getAddLocationButton().isEnabled(), "Button is enabled");
-        softAssert.assertFalse(addLocationPopUp.getLocatioNameInputElement().getErrorMessages().isEmpty());
-        softAssert.assertTrue(addLocationPopUp.getLocatioNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+        softAssert.assertFalse(addLocationPopUp.getLocationNameInputElement().getErrorMessages().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationNameInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
 
-        softAssert.assertFalse(addLocationPopUp.getLocatioCityDropdownElement().getErrorMessage().getText().isEmpty());
-        softAssert.assertTrue(addLocationPopUp.getLocatioCityDropdownElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
+        softAssert.assertFalse(addLocationPopUp.getLocationCityDropdownElement().getErrorMessage().getText().isEmpty());
+        softAssert.assertTrue(addLocationPopUp.getLocationCityDropdownElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
 
         softAssert.assertFalse(addLocationPopUp.getLocationAddressInputElement().getErrorMessages().isEmpty());
         softAssert.assertTrue(addLocationPopUp.getLocationAddressInputElement().getValidationCircleIcon().getAttribute("class").contains("anticon-close-circle"));
@@ -159,8 +159,8 @@ public class AddCenterPopUpTestWithAdmin extends LoginWithAdminTestRunner {
     @Test(description = "TUA-162")
     public void checkDistrictEmptyIfCityEmpty() {
         AddLocationPopUpComponent addLocation = stepOne.clickAddLocationButton();
-        softAssert.assertTrue(addLocation.getLocatioCityDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
-        addLocation.getLocatioCityDropdownElement().clickDropdown(); // click again to remove dropdown
+        softAssert.assertTrue(addLocation.getLocationCityDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
+        addLocation.getLocationCityDropdownElement().clickDropdown(); // click again to remove dropdown
         softAssert.assertTrue(addLocation.getLocationDistrictDropdownElement().clickDropdown().getTextDropdownOptionsList().isEmpty());
     }
 }

@@ -15,13 +15,14 @@ public class AddClubPopUpComponent extends BasePopUp {
     @FindBy(xpath = "//div[contains(@class,'modal-add-club')]")
     private WebElement addClubPopUp;
 
-    @FindBy(xpath = "./descendant::div[@class='ant-layout-sider-children']")
+    @FindBy(xpath = ".//div[@class='ant-layout-sider-children']")
     private WebElement siderElement;
 
-    @FindBy(xpath = "./descendant::main[contains(@class,'add-club-container')]")
+    @FindBy(xpath = ".//main[contains(@class,'add-club-container')]")
     private WebElement stepContainerElement;
 
-    @FindBy(xpath = "./descendant::main[contains(@class,'add-club-container')]//div[contains(@class,'ant-steps-item-active')]//span[@class='ant-steps-icon']")
+    @FindBy(xpath = ".//main[contains(@class,'add-club-container')]" +
+            "//div[contains(@class,'ant-steps-item-active')]//span[@class='ant-steps-icon']")
     private WebElement activeStep;
 
     private AddClubPopUpSider sider;

@@ -373,7 +373,7 @@ public class EditProfilePageWithUserTest extends LogInWithUserTestRunner {
 
         EditProfilePopUp editProfile = profilePage.openEditUserProfile();
 
-        editProfile.getLastNameElement().clearInput().setValue(lastName);
+        editProfile.getLastNameElement().setValue(lastName);
         softAssert.assertEquals(editProfile.getLastNameElement().getErrorMessagesTextList().get(0), expectedErrorMsg);
         softAssert.assertFalse(editProfile.getSubmitButton().isEnabled(),
                 "Submit button should not be enabled");

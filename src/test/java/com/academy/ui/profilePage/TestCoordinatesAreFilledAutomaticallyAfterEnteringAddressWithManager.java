@@ -7,7 +7,6 @@ import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
-import io.qameta.allure.Step;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -49,15 +48,15 @@ public class TestCoordinatesAreFilledAutomaticallyAfterEnteringAddressWithManage
     }
 
     private void fillLocationComponent(String centerName, String cityDropdownValue, String address){
-        addLocationPopUpComponent.getLocatioNameInputElement().setValue(centerName);
-        addLocationPopUpComponent.getLocatioCityDropdownElement().clickDropdown();
-        addLocationPopUpComponent.getLocatioCityDropdownElement().selectValue(cityDropdownValue);
+        addLocationPopUpComponent.getLocationNameInputElement().setValue(centerName);
+        addLocationPopUpComponent.getLocationCityDropdownElement().clickDropdown();
+        addLocationPopUpComponent.getLocationCityDropdownElement().selectValue(cityDropdownValue);
         addLocationPopUpComponent.getLocationAddressInputElement().setValue(address);
     }
 
     private void verifyTheFilledDataIsPresentInFieldsLocationComponent(String centerName, String cityDropdownValue, String address){
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioNameInputElement().getInput().getAttribute("value"), centerName);
-        softAssert.assertEquals(addLocationPopUpComponent.getLocatioCityDropdownElement().getSelectedItem().getText(), cityDropdownValue);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationNameInputElement().getInput().getAttribute("value"), centerName);
+        softAssert.assertEquals(addLocationPopUpComponent.getLocationCityDropdownElement().getSelectedItem().getText(), cityDropdownValue);
         softAssert.assertEquals(addLocationPopUpComponent.getLocationAddressInputElement().getInput().getAttribute("value"), address);
     }
 

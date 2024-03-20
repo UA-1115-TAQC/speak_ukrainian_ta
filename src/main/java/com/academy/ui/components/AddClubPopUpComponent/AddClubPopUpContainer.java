@@ -10,14 +10,14 @@ import org.openqa.selenium.support.FindBy;
 @Getter
 public abstract class AddClubPopUpContainer extends BaseComponent {
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'add-club-header')]")
+    @FindBy(xpath = ".//div[contains(@class,'add-club-header')]")
     public WebElement clubTitle;
 
-    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-next')]")
+    @FindBy(xpath = ".//button[contains(@class,'add-club-content-next')]")
     private WebElement nextStepButton;
 
-    @FindBy(xpath = "./descendant::button[contains(@class,'add-club-content-prev')]")
-    private WebElement prevStepButton;
+    @FindBy(xpath = ".//button[contains(@class,'add-club-content-prev')]")
+    private WebElement previousStepButton;
 
     public AddClubPopUpContainer(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
@@ -31,7 +31,7 @@ public abstract class AddClubPopUpContainer extends BaseComponent {
 
     @Step("Get previous step button on the Add/Edit club pop-up")
     public AddClubPopUpContainer clickPreviousStepButton() {
-        prevStepButton.click();
+        previousStepButton.click();
         return this;
     }
 

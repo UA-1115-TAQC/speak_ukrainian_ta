@@ -63,8 +63,8 @@ public class AddCenterPopUpTestWithManager extends LoginWithManagerTestRunner {
     private void fillStepOneWithValidData(){
         stepOne.setCenterName(validCenterName);
          addLocationPopUp = stepOne.clickAddLocationButton();
-         addLocationPopUp.getLocatioNameInputElement().getInput().sendKeys(validLocationName);
-         addLocationPopUp.getLocatioCityDropdownElement().clickDropdown().selectValue(validCity);
+         addLocationPopUp.getLocationNameInputElement().getInput().sendKeys(validLocationName);
+         addLocationPopUp.getLocationCityDropdownElement().clickDropdown().selectValue(validCity);
          addLocationPopUp.getLocationAddressInputElement().setValue(validAddress);
          addLocationPopUp.getLocationCoordinatesInputElement().setValue(validCoordinates);
         addLocationPopUp.getLocationTelephoneInputElement().setValue(validPhone);

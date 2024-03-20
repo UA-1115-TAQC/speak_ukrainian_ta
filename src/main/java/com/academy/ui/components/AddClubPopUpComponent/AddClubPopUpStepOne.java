@@ -1,26 +1,22 @@
 package com.academy.ui.components.AddClubPopUpComponent;
 
-import com.academy.ui.components.AddLocationPopUpComponent.DropdownElement;
+import com.academy.ui.components.elements.BaseDropdownElement;
 import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
 
 @Getter
 public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
-    @FindBy(xpath = "./descendant::div[contains(@class,'ant-form-item-row')]")
+    @FindBy(xpath = ".//div[contains(@class,'ant-form-item-row')]")
     @Getter(AccessLevel.NONE)
     private WebElement clubNameInput;
 
@@ -36,25 +32,25 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[contains(@class,'ant-typography')][4]")
     private WebElement clubCenterTitle;
 
-    @FindBy(xpath = "./descendant::input[@class='ant-checkbox-input']")
+    @FindBy(xpath = ".//label[contains(@class,'ant-checkbox-wrapper')]")
     private List<WebElement> categoriesCheckboxList;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']")
+    @FindBy(xpath = ".//span[contains(@class,'ant-checkbox-checked')]/input[@class='ant-checkbox-input']")
     private List<WebElement> checkedCategoriesList;
 
-    @FindBy(xpath = "./descendant::span[contains(@class, 'checkbox')]/following-sibling::span")
+    @FindBy(xpath = ".//span[contains(@class, 'checkbox')]/following-sibling::span")
     private List<WebElement> categoriesListForEdit;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'ant-checkbox-checked')]/following-sibling::span")
+    @FindBy(xpath = ".//span[contains(@class,'ant-checkbox-checked')]/following-sibling::span")
     private List<WebElement> checkedCategoriesListForEdit;
 
     @FindBy(xpath = "./ancestor::div[@id='basic_categories_help']/div")
     private WebElement categoriesError;
 
-    @FindBy(xpath = "./descendant::span[contains(@class,'add-club-age')]")
+    @FindBy(xpath = ".//span[contains(@class,'add-club-age')]")
     private WebElement ageComponent;
 
-    @FindBy(xpath = "./descendant::input[contains(@id, 'ageFrom')]")
+    @FindBy(xpath = ".//input[contains(@id, 'ageFrom')]")
     private WebElement minAgeInput;
 
     @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][1]")
@@ -63,7 +59,7 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][1]")
     private WebElement minAgeDecreaseButton;
 
-    @FindBy(xpath = "./descendant::input[contains(@id, 'ageTo')]")
+    @FindBy(xpath = ".//input[contains(@id, 'ageTo')]")
     private WebElement maxAgeInput;
 
     @FindBy(xpath = "./descendant::span[@aria-label='Increase Value'][2]")
@@ -72,62 +68,42 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::span[@aria-label='Decrease Value'][2]")
     private WebElement maxAgeDecreaseButton;
 
-    @FindBy(xpath = "./descendant::div[@id='basic_ageFrom_help']/div")
+    @FindBy(xpath = ".//div[@id='basic_ageFrom_help']/div")
     private WebElement minAgeInputError;
 
-    @FindBy(xpath = "./descendant::div[@id='basic_ageTo_help']/div")
+    @FindBy(xpath = ".//div[@id='basic_ageTo_help']/div")
     private WebElement maxAgeInputError;
 
-    @FindBy(xpath = "./descendant::div[contains(@class, ' add-club-select')]")
-    private WebElement centerSelect;
+    @FindBy(xpath = ".//div[contains(@class, 'add-club-select')]")
+    @Getter(AccessLevel.NONE)
+    private WebElement centerDropdown;
 
-    @FindBy(xpath = "./descendant::span[@class='ant-select-selection-item']")
+    @FindBy(xpath = ".//span[@class='ant-select-selection-item']")
     private WebElement centerSelectedTitle;
 
     @FindBy(xpath = "//div[contains(@class,'ant-select-item ant-select-item-option')]")
     private List<WebElement> centersList;
 
-    @FindBy(xpath = "./descendant::span[@class='ant-select-selection-placeholder']")
-    private WebElement selectPlaceholder;
-
-    @FindBy(xpath = ".//span[text()='Приналежність до центру']/following-sibling::div")
-    @Getter(AccessLevel.NONE) private WebElement centerDropdown;
-
-    private DropdownElement centerDropdownElement;
+    @FindBy(xpath = ".//span[@class='ant-select-selection-placeholder']")
+    private WebElement dropdownPlaceholder;
 
     @FindBy(xpath = "//div[@class='rc-virtual-list-holder']")
-    private WebElement centersDropdownListForm;
+    private WebElement centersDropdownListContainer;
 
-    private AddClubInputElement clubNameInputElement;
+    private final AddClubInputElement clubNameInputElement;
+    private final BaseDropdownElement centerDropdownElement;
 
     public AddClubPopUpStepOne(WebDriver driver, WebElement rootElement) {
         super(driver, rootElement);
         clubNameInputElement = new AddClubInputElement(driver, clubNameInput);
+        centerDropdownElement = new BaseDropdownElement(driver, centerDropdown);
     }
 
     @Step("Select club category by name {name} on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne selectCategory(String name) {
         categoriesCheckboxList.stream()
-                .filter(category -> category.getAttribute("value").equals(name))
+                .filter(category -> category.getAttribute("innerText").contains(name))
                 .forEach(WebElement::click);
-        return this;
-    }
-
-    public AddClubPopUpStepOne selectCategoryForEdit(String value) {
-        OptionalInt index = IntStream.range(0, categoriesListForEdit.size())
-                .filter(i -> categoriesListForEdit.get(i).getText().equals(value))
-                .findFirst();
-
-        if (index.isPresent()) {
-            int foundIndex = index.getAsInt()+1;
-            categoriesCheckboxList.stream()
-                    .filter(category -> category.getAttribute("value").equals(String.valueOf(foundIndex)))
-                    .forEach(WebElement::click);
-        } else {
-            System.out.println("Елемент з текстом '" + value + "' не знайдено в списку");
-        }
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(e -> categoriesCheckboxList);
         return this;
     }
 
@@ -145,26 +121,25 @@ public class AddClubPopUpStepOne extends AddClubPopUpContainer {
 
     @Step("Select center by name {name} on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne selectCenter(String name) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfAllElements(centersDropdownListForm));
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfAllElements(centersDropdownListContainer));
         centersList.stream()
-                .filter(center -> (center.getAttribute("title").equals(name)))
+                .filter(center -> (center.getAttribute("title").contains(name)))
                 .forEach(WebElement::click);
         return this;
     }
 
     @Step("Click on center dropdown on the first step of Add/Edit club pop-up")
     public AddClubPopUpStepOne clickCenterDropdown() {
-        centerSelect.click();
+        centerDropdown.click();
         return this;
     }
 
-    public DropdownElement getCenterDropdown() {
-        this.centerDropdownElement = new DropdownElement(driver, centerDropdown);
-        return centerDropdownElement;
+    @Step("Click on the next step button")
+    @Override
+    public AddClubPopUpStepTwo clickNextStepButton() {
+        getNextStepButton().click();
+        return new AddClubPopUpStepTwo(driver, rootElement);
     }
-    public void scrollIntoView(WebDriver driver, WebElement element) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-        jsExecutor.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});", element);
-    }
+
 }

@@ -76,7 +76,7 @@ public class ClubPage extends BasePage {
     @FindBy(xpath = ".//header[contains(@class,'page-header')]")
     private WebElement clubCover;
 
-    @FindBy(xpath = "./descendant::div[@id='carousel-box']/descendant::div[@class='ant-image css-13m256z']")
+    @FindBy(xpath = "./descendant::div[@id='carousel-box']/descendant::div[contains(@class, 'ant-image css-13m256z')]")
     private List<WebElement> carouselImgs;
 
     private List<CommentsClubComponent> commentsClub;

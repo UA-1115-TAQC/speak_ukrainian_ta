@@ -644,12 +644,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickClubGalleryDownloadButton();
         stepThree.getClubGalleryDownloadInput().sendKeys(configProperties.getImagePath(imagePath));
 
-        stepThree.sleep(500);
+        stepThree.waitUntilGalleryImagesUpload(5);
         softAssert.assertEquals(stepThree.getClubGalleryUploadedImgs().size(), 5);
 
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
         profilePage = new ProfilePage(driver);
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
         ClubPage clubPage = card.clickDetailsButton();

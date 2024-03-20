@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -197,4 +196,11 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return new AddClubPopUpStepTwo(driver, rootElement);
     }
 
+    @Step("Wait for {expectedQuantity} uploaded Gallery images")
+    public void waitUntilGalleryImagesUpload(int expectedQuantity) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (int i = 0; i < expectedQuantity; i++) {
+            wait.until(ExpectedConditions.visibilityOf(clubGalleryUploadedImgs.get(i)));
+        }
+    }
 }

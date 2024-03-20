@@ -4,9 +4,7 @@ import io.qameta.allure.Step;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.openqa.selenium.*;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -65,12 +63,6 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
     @FindBy(xpath = ".//div[@class='ant-upload-list ant-upload-list-picture-card']//div[@class='ant-upload-list-item-container']")
     private List<WebElement> clubGalleryUploadedImgs;
 
-//    @FindBy(xpath = ".//a[@title='Preview file']")
-//    private WebElement previewFile;
-//
-//    @FindBy(xpath = ".//span[(@role='img') and (@aria-label='eye')]")
-//    private WebElement previewIcon;
-
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][1]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedLogoImgContainer;
@@ -78,9 +70,6 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
     @FindBy(xpath = "./descendant::div[@class='ant-upload-list ant-upload-list-text'][2]")
     @Getter(AccessLevel.NONE)
     private WebElement uploadedCoverImgContainer;
-
-//    @FindBy(xpath = ".//span[@class='ant-select-selection-placeholder']")
-//    private WebElement selectPlaceholder;
 
     private final UploadedImgComponent uploadedLogoElement;
     private final UploadedImgComponent uploadedCoverElement;
@@ -174,14 +163,9 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
 
     @Step("Clear club description textarea on the third step of Add/Edit club pop-up")
     public AddClubPopUpStepThree clearDescriptionTextarea() {
-        Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
-        if (currentPlatform.is(Platform.MAC)) {
-            clubDescriptionTextarea.sendKeys(Keys.chord(Keys.COMMAND, "a"), Keys.DELETE);
-        } else {
-            clubDescriptionTextarea.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-        }
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(driver -> clubDescriptionTextarea.getAttribute("value").isEmpty());
+        clubDescriptionTextarea.sendKeys(Keys.chord(Keys.COMMAND, "a"), Keys.DELETE);
+        clubDescriptionTextarea.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(driver -> clubDescriptionTextarea.getAttribute("value").isEmpty());
         return this;
     }
 

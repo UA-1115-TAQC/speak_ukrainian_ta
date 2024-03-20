@@ -396,13 +396,22 @@ public class AddClubPopUpWithAdminTest extends LoginWithAdminTestRunner {
         stepThree = addClubPopUpComponent.getStepThreeContainer();
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_40_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+        softAssert.assertTrue(stepThree
+                .getValidationTextareaCircleIcon()
+                .getAttribute("aria-label")
+                .contains(VALID_CIRCLE_ICON));
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1000_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+        softAssert.assertTrue(stepThree
+                .getValidationTextareaCircleIcon()
+                .getAttribute("aria-label")
+                .contains(VALID_CIRCLE_ICON));
 
         stepThree.clearDescriptionTextarea().setDescriptionValue(TEXT_1500_SYMBOLS);
-        softAssert.assertTrue(stepThree.getValidationTextareaCircleIcon().getAttribute("aria-label").contains(VALID_CIRCLE_ICON));
+        softAssert.assertTrue(stepThree
+                .getValidationTextareaCircleIcon()
+                .getAttribute("aria-label")
+                .contains(VALID_CIRCLE_ICON));
 
         softAssert.assertAll();
     }

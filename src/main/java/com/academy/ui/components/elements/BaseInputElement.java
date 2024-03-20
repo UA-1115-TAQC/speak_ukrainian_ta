@@ -41,14 +41,10 @@ public class BaseInputElement extends BaseComponent {
 
     @Step("Clear input")
     public BaseInputElement clearInput() {
-        Platform currentPlatform = ((RemoteWebDriver) driver).getCapabilities().getPlatformName();
-        if (currentPlatform.is(Platform.MAC)) {
-            input.sendKeys(Keys.chord(Keys.COMMAND, "a"), Keys.DELETE);
-        } else {
-            input.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
-        }
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(driver -> getInput().getAttribute("value").isEmpty());
+        input.sendKeys(Keys.chord(Keys.COMMAND, "a"), Keys.DELETE);
+        input.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(driver -> getInput().getAttribute("value").isEmpty());
         return this;
     }
 

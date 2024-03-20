@@ -31,7 +31,7 @@ public class HeaderComponentTest extends BaseTestRunner {
     @Description("Verify that on 'Про нас', 'Новини' and “Послуги українською” pages lower part of header is not displayed")
     @Issue("TUA-972")
     public void checkLowerPartOfHeaderOnPages(){
-        SoftAssert softAssert = new SoftAssert();
+        softAssert = new SoftAssert();
 
         ClubsPage clubs = header.clickClubsPageButton();
         softAssert.assertTrue(clubs.getSearchClubHeaderWebElement().isDisplayed());
@@ -169,13 +169,17 @@ public class HeaderComponentTest extends BaseTestRunner {
         int rightBlockWidth = header.getRightBlock().getSize().getWidth();
         int expectedCenterBlockPosition = (headerBoxWidth - leftBlockWidth - rightBlockWidth) / 2;
         int centerBlockPosition = header.getCenterBlock().getLocation().getX() - header.getHeaderBox().getLocation().getX();
-        softAssert.assertEquals(centerBlockPosition, expectedCenterBlockPosition, "Center block is not aligned to the center!");
+        softAssert.assertEquals(centerBlockPosition,
+                expectedCenterBlockPosition,
+                "Center block is not aligned to the center!");
 
         int numberOfElementsInLeftBlock = 0;
         if (header.getClubsLocationButton().isDisplayed()) numberOfElementsInLeftBlock++;
         if (header.getAddClubButton().isDisplayed()) numberOfElementsInLeftBlock++;
         if (header.getProfileMenuButton().isDisplayed()) numberOfElementsInLeftBlock++;
-        softAssert.assertEquals(numberOfElementsInLeftBlock, 3, "Number of elements in the left block is not equal to 3!");
+        softAssert.assertEquals(numberOfElementsInLeftBlock,
+                3,
+                "Number of elements in the left block is not equal to 3!");
 
         String initialTitle = driver.getTitle();
         homePage.header.clickTeachInUkrainianLogo();
@@ -183,9 +187,6 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertEquals(initialTitle, newTitle, "Page did not refresh after clicking the logo");
 
         Actions actions = new Actions(driver);
-//        actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(header.getLocationIcon().equals(driver.switchTo().activeElement()),
-//                "Focus should be on logo");
         actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(header.getCenterBlock().equals(driver.switchTo().activeElement()),
                 "Focus should be on center block");
@@ -193,9 +194,6 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertTrue(header.getClubsButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on clubs tab");
         actions.sendKeys(Keys.TAB).perform();
-//        softAssert.assertTrue(header.getChallengeButton().equals(driver.switchTo().activeElement()),
-//                "Focus should be on challenge tab");
-//        actions.sendKeys(Keys.TAB).perform();
         softAssert.assertTrue(header.getNewsButton().equals(driver.switchTo().activeElement()),
                 "Focus should be on news tab");
         actions.sendKeys(Keys.TAB).perform();

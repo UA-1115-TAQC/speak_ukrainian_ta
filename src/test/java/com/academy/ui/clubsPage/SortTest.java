@@ -53,12 +53,12 @@ public class SortTest extends BaseTestRunner {
             }
 
             SwitchPaginationComponent pagination = clubsPage.getSwitchPagination();
-            if(pagination.isNextDisabled()){
+            if(pagination == null || pagination.isNextDisabled()){
                 break;
             }
             clubsPage = pagination.clickNext();
         }
         return clubNames;
     }
-    
+
 }

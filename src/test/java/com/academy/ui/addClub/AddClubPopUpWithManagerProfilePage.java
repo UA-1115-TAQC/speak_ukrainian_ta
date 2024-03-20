@@ -4,6 +4,7 @@ import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpComponent;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepOne;
 import com.academy.ui.components.AddClubPopUpComponent.AddClubPopUpStepTwo;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
+import com.academy.ui.pages.HomePage;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import io.qameta.allure.Description;
@@ -45,7 +46,8 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     public void checkAddClubPopUpProfilePage() {
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
-        softAssert.assertTrue(addClubPopUp.getWebElement().isDisplayed(),
+        ProfilePage profilePage1 = new ProfilePage(driver);
+        softAssert.assertTrue(addClubPopUp.isOpen(),
                 "PopUp not opened clicking the button 'Add club' in ProfilePage");
 
         softAssert.assertAll();
@@ -55,6 +57,7 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
     @Description("Verify error message for ‘Назва’ field of ‘Додати локацію’ pop-up when creating a club")
     @Issue("TUA-249")
     public void CheckErrorMessagesForNameLocationField() {
+        String invalidLocationName = "vbyui1258/".repeat(9) + "nyrfvdoiu2587";
         ProfilePage profilePage = homePage.header.openUserMenu().clickProfile();
         AddClubPopUpComponent addClubPopUp = profilePage.openAddClubPopUp();
         stepOne = addClubPopUp.getStepOneContainer();
@@ -67,19 +70,21 @@ public class AddClubPopUpWithManagerProfilePage extends LoginWithManagerTestRunn
         stepTwo = addClubPopUp.getStepTwoContainer();
 
         AddLocationPopUpComponent addLocation = stepTwo.clickAddLocationButton();
-        addLocation.getLocationNameInputElement().setValue("Ы, э, Ѩ, Ѭ,");
-        softAssert.assertTrue(addLocation.getLocationNameInputElement()
+        addLocation.getLocatioNameInputElement().setValue("Ы, э, Ѩ, Ѭ,");
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Це поле може містити тільки українські та англійські літери, цифри та спеціальні символи"));
 
-        addLocation.getLocationNameInputElement().clearInput().setValue("dfdg");
-        softAssert.assertTrue(addLocation.getLocationNameInputElement()
+        addLocation.getLocatioNameInputElement().clearInput().setValue("dfdg");
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації закоротка"));
 
-        addLocation.getLocationNameInputElement().clearInput().setValue("vbyui1258/vbyui1258/vbyui1258/vbyui1258" +
-                "/vbyui1258/vbyui1258/vbyui1258/vbyui1258/vbyui1258/nyrfvdoiu2587");
-        softAssert.assertTrue(addLocation.getLocationNameInputElement()
+        addLocation.getLocatioNameInputElement().clearInput().setValue(invalidLocationName);
+        softAssert.assertTrue(addLocation
+                .getLocatioNameInputElement()
                 .getErrorMessagesTextList()
                 .contains("Назва локації задовга"));
 

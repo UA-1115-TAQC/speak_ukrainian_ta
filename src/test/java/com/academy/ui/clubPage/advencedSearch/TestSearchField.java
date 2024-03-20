@@ -4,6 +4,7 @@ import com.academy.ui.components.ClubInfoPopUp;
 import com.academy.ui.pages.ClubCardComponent;
 import com.academy.ui.pages.ClubsPage;
 import com.academy.ui.runners.BaseTestRunner;
+import com.academy.ui.runners.LoginWithAdminTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.qameta.allure.Step;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class TestSearchField extends BaseTestRunner {
+public class TestSearchField extends LoginWithAdminTestRunner {
 
     @Test
     @Description("Verify that the search results change with each new entered character")

@@ -3,6 +3,8 @@ package com.academy.ui.addClub;
 import com.academy.ui.components.AddClubPopUpComponent.*;
 import com.academy.ui.components.AddLocationPopUpComponent.AddLocationPopUpComponent;
 import com.academy.ui.components.ClubCardWithEditComponent;
+import com.academy.ui.components.ClubsPaginationComponent;
+import com.academy.ui.components.SwitchPaginationComponent;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
 import com.academy.ui.runners.utils.ConfigProperties;
@@ -476,13 +478,24 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         stepThree = addClubPopUpComponent.getStepThreeContainer();
         stepThree.getClubLogoDownloadInput().sendKeys(ConfigProperties.getImagePath(image1FileName));
-        stepThree.getUploadedLogoElement().waitImageLoad(5);
-        softAssert.assertEquals(stepThree.getUploadedLogoElement().getImageTitle().getText(), image1FileName, "Photo not added for Logo");
-        stepThree.getUploadedLogoElement().clickDeleteImage();
+
+        stepThree.getUploadedLogoImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree
+                .getUploadedLogoImg()
+                .getImgTitle()
+                .getText(),
+                image1FileName,
+                "Photo not added for Logo");
+        stepThree.getUploadedLogoImg().clickRemoveImg();
 
         stepThree.getClubCoverDownloadInput().sendKeys(ConfigProperties.getImagePath(image2FileName));
-        stepThree.getUploadedCoverElement().waitImageLoad(5);
-        softAssert.assertEquals(stepThree.getUploadedCoverElement().getImageTitle().getText(), image2FileName, "Photo not added for Cover");
+        stepThree.getUploadedCoverImg().waitImageLoad(5);
+        softAssert.assertEquals(stepThree
+                .getUploadedCoverImg()
+                .getImgTitle()
+                .getText(),
+                image2FileName,
+                "Photo not added for Cover");
 
         stepThree.getUploadedCoverElement().clickDeleteImage();
 
@@ -500,7 +513,10 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 1);
 
-        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png")).uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
+        stepThree = stepThree.uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"))
+          .uploadImgToGallery(ConfigProperties.getImagePath("test.png"));
 
         softAssert.assertTrue(stepThree.getClubGalleryUploadedImgs().size() == 5);
         softAssert.assertAll();
@@ -519,13 +535,12 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickCompleteButton();
         ProfilePage profilePage = new ProfilePage(driver);
 
-        List<ClubCardWithEditComponent> list = profilePage.getClubCardComponentsList();
-        ClubCardWithEditComponent newClub = null;
-        for (ClubCardWithEditComponent club : list) {
-            if (club.getClubName().equals(VALID_CLUB_NAME)) {
-                newClub = club;
-            }
+        SwitchPaginationComponent pagination = profilePage.getSwitchPagination();
+        if(pagination != null){
+            pagination.getPaginationItems().get(pagination.getPaginationItems().size() - 1).click();
+            profilePage = new ProfilePage(driver);
         }
+        ClubCardWithEditComponent newClub = profilePage.getClubCardByName(VALID_CLUB_NAME);
 
         if (newClub == null) {
             softAssert.fail("Club was not added");

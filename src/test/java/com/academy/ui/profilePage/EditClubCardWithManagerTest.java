@@ -652,6 +652,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         profilePage = new ProfilePage(driver);
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
         ClubPage clubPage = card.clickDetailsButton();
+        clubPage.waitUntilPageIsCompletelyLoaded();
         softAssert.assertTrue(driver.getCurrentUrl().contains("/club"));
         softAssert.assertEquals(clubPage.getCarouselImgs().size(), 5);
 
@@ -679,19 +680,19 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().contains(testCoverImage));
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
         profilePage = new ProfilePage(driver);
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
         ClubPage clubPage = card.clickDetailsButton();
+        clubPage.waitUntilPageIsCompletelyLoaded();
+        clubPage = new ClubPage(driver);
         softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(testCoverImage));
 
-        clubPage = new ClubPage(driver);
         profilePage = clubPage.getHeader().openUserMenu().clickProfile();
+        profilePage.waitUntilPageIsCompletelyLoaded();
 
         clubCard = profilePage.getClubCardComponents().getFirst();
         addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
         addClubPopUpComponent.waitPopUpOpen(5);
-
         addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
         addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
 
@@ -702,10 +703,10 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getUploadedCoverElement().getImageTitle().getText().contains(defaultCoverImage));
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
         profilePage = new ProfilePage(driver);
         card = profilePage.getClubCardComponents().getFirst();
         clubPage = card.clickDetailsButton();
+        clubPage.waitUntilPageIsCompletelyLoaded();
         softAssert.assertTrue(clubPage.getClubCover().getAttribute("style").contains(defaultCoverImage));
 
         softAssert.assertAll();
@@ -732,15 +733,18 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getNextStepButton().isEnabled());
 
         stepThree.clickCompleteButton();
-        driver.navigate().refresh();
 
         profilePage = new ProfilePage(driver);
+        softAssert.assertEquals(profilePage.getTopNoticeMessage().getText(), "Гурток успішно оновлено");
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
+
         ClubPage clubPage = card.clickDetailsButton();
+        clubPage.waitUntilPageIsCompletelyLoaded();
+        clubPage = new ClubPage(driver);
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(testDescription));
 
-        clubPage = new ClubPage(driver);
         profilePage = clubPage.getHeader().openUserMenu().clickProfile();
+        profilePage.waitUntilPageIsCompletelyLoaded();
 
         clubCard = profilePage.getClubCardComponents().getFirst();
         addClubPopUpComponent = clubCard.clickMoreButton().clickEditClub();
@@ -753,10 +757,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         softAssert.assertTrue(stepThree.getNextStepButton().isEnabled());
         stepThree.clickCompleteButton();
 
-        driver.navigate().refresh();
         profilePage = new ProfilePage(driver);
+        softAssert.assertEquals(profilePage.getTopNoticeMessage().getText(), "Гурток успішно оновлено");
         card = profilePage.getClubCardComponents().getFirst();
         clubPage = card.clickDetailsButton();
+        clubPage.waitUntilPageIsCompletelyLoaded();
         softAssert.assertTrue(clubPage.getClubDescription().getText().equals(defaultDescription));
 
         softAssert.assertAll();

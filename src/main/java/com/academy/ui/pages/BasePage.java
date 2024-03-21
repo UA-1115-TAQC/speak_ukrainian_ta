@@ -2,11 +2,16 @@ package com.academy.ui.pages;
 
 import com.academy.ui.components.FooterComponent;
 import com.academy.ui.components.header.HeaderComponent;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 @Getter
@@ -40,5 +45,11 @@ public abstract class BasePage extends BasePageWithoutHeaderAndFooter {
             footer = new FooterComponent(driver, node);
         }
         return footer;
+    }
+
+    @Step("Wait until page is completely loaded")
+    public void waitUntilPageIsCompletelyLoaded() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(d -> ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete"));
     }
 }

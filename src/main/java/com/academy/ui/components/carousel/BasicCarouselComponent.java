@@ -79,5 +79,16 @@ public class BasicCarouselComponent<T extends BasicCarouselComponent<T>> extends
     public String getSlickDotColor(WebElement slickDot) {
         return Color.fromString(slickDot.getCssValue("background-color")).asHex();
     }
+
+    @Step("Wait until dot is active")
+    public void waitActiveDot() {
+        WebElement activeSlickDot = getActiveSlickDot();
+        if (activeSlickDot.getAttribute("class").equals("slick-active")) {
+            wait.until(ExpectedConditions.visibilityOf(activeSlickDot));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(activeSlickDot, "class", "slick-active")));
+        }
+        getActiveSlickDot();
+    }
 }
 

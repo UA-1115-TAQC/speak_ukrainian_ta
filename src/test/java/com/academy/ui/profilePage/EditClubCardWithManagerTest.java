@@ -650,6 +650,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickCompleteButton();
 
         profilePage = new ProfilePage(driver);
+        profilePage.waitUntilPageIsCompletelyLoaded();
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
         ClubPage clubPage = card.clickDetailsButton();
         clubPage.waitUntilPageIsCompletelyLoaded();
@@ -681,6 +682,7 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.clickCompleteButton();
 
         profilePage = new ProfilePage(driver);
+        profilePage.waitUntilPageIsCompletelyLoaded();
         ClubCardWithEditComponent card = profilePage.getClubCardComponents().getFirst();
         ClubPage clubPage = card.clickDetailsButton();
         clubPage.waitUntilPageIsCompletelyLoaded();

@@ -118,6 +118,9 @@ public class EditProfilePopUp extends BasePopUp {
     @FindBy(xpath = "//div[contains(@class,'ant-col')]/descendant::div[@class='ant-form-item-explain-error']")
     private List<WebElement> errorMessages;
 
+    @FindBy(xpath = "//div[contains(@class,\"explain-error\")]")
+    private List<WebElement> errorMessagesForChangingPassword;
+
     private EditProfileInputElement lastNameElement;
     private EditProfileInputElement firstNameElement;
     private EditProfileInputElement phoneElement;

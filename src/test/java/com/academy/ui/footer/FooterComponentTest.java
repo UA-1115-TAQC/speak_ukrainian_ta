@@ -97,6 +97,7 @@ public class FooterComponentTest extends BaseTestRunner {
     public void checkThatLogoClickRefreshesThePageAfterCheckingFooter(){
         checkFooterElements(footerComponent, "HomePage");
         String initialTitle = driver.getTitle();
+        homePage.scrollToFooter();
         homePage.header.clickTeachInUkrainianLogo();
         String newTitle = driver.getTitle();
         softAssert.assertNotEquals(initialTitle, newTitle, "Page did not refresh after clicking the logo");

@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class AddClubPopUpWithManagerTest extends LoginWithManagerTestRunner {
         addClubPopUpComponent.waitPopUpOpen(5);
         stepOne = addClubPopUpComponent.getStepOneContainer();
         softAssert = new SoftAssert();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     private void fillStepOneWithValidDataPreconditions() {

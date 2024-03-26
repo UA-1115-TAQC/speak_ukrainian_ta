@@ -5,6 +5,7 @@ import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.runners.LogInWithUserTestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
+import io.qameta.allure.testng.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -35,8 +36,9 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     @Test (description = "TUA-154")
     @Description("Check if the error message appears after user as 'Відвідувач' inputs " +
             "invalid data in the ‘New password’ field")
+    @Tag("YuUk")
     @Issue("TUA-154")
-    public void test(){
+    public void checkErrorMessageAfterUserInputsInvalidPassword(){
         checkThatAllFieldsAreFilledWithTheSameDataAsDuringRegistration();
         WebElement inputField = editProfilePopUpComponent.getNewPasswordInput().getInput();
        enterInvalidNewPasswordAndVerifyField("qwer", inputField,TOO_SHORT_OR_TOO_LONG_PASSWORD_ERROR);
@@ -67,18 +69,14 @@ public class PasswordFieldTestWithLoggedInUser extends LogInWithUserTestRunner {
     }
 
     private void enterInvalidNewPasswordAndVerifyField(String pwd, WebElement inputField, String errorMessage){
-
         inputField.sendKeys(pwd);
-        // editProfilePopUpComponent.enterNewPassword(pwd); - use this method later
-        List<WebElement> errorMessages= driver.findElements(By.xpath("//div[contains(@class,\"explain-error\")]"));
+        wait.until(driver1 -> inputField.getAttribute("value").contains(pwd));
         boolean HasMessageFlag =false;
-        for(WebElement error:errorMessages){
-            if(!error.getText().equals(errorMessage)){
-                continue;
-            }else{
+        for(WebElement error:editProfilePopUpComponent.getErrorMessagesForChangingPassword()){
+            if(error.getText().equals(errorMessage)){
                 HasMessageFlag =true;
             }
         }
-        softAssert.assertTrue(HasMessageFlag, "The corresponding error message " + errorMessage + "isn't displayed");
+        softAssert.assertTrue(HasMessageFlag, "The corresponding error message " + errorMessage + " isn't displayed");
     }
 }

@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -70,7 +71,12 @@ public class ConfigProperties {
 
 
     public void setManagerPassword(String pass) {
-        properties.setProperty("manager.pass ", pass);
+        properties.setProperty("manager.pass", pass);
+        try (FileOutputStream outputStream = new FileOutputStream("src/test/resources/config.properties")) {
+            properties.store(outputStream, "Updated manager password");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

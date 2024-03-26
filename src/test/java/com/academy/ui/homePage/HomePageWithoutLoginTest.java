@@ -17,6 +17,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 
 public class HomePageWithoutLoginTest extends BaseTestRunner {
 
@@ -56,27 +57,19 @@ public class HomePageWithoutLoginTest extends BaseTestRunner {
     @Issue("TUA-833")
     public void checkCarouselSlidesChangingAutomatically() {
         // It's invalid test. For checking carousel with imagines use URL : https://speak-ukrainian.org.ua/
-        HashMap<Integer, WebElement> carouselImgCards = carouselImgComponent.getCarouselImgCards();
 
-        Actions actions = new Actions(driver);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.attributeToBe(carouselImgCards.get(0), "class",
-                "slick-slide slick-active slick-current"));
+        List<WebElement> slickDots = homePage.carouselImgComponent.getSlickDots();
+        carouselImgComponent.waitActiveDot();
+        softAssert.assertEquals(slickDots.get(0).getText(), carouselImgComponent.getActiveSlickDot().getText());
 
-        actions.clickAndHold(carouselImgCards.get(0)).perform();
-        softAssert.assertTrue(carouselImgComponent.getActiveCarouselImgCard()
-                .getCardHeading().getText().contains("Єдині"));
-        actions.release().perform();
+        carouselImgComponent.waitActiveDot();
+        softAssert.assertEquals(slickDots.get(1).getText(), carouselImgComponent.getActiveSlickDot().getText());
 
-        actions.clickAndHold(carouselImgCards.get(1)).perform();
-        softAssert.assertTrue(carouselImgComponent.getActiveCarouselImgCard()
-                .getCardHeading().getText().contains("Про гуртки українською"));
-        actions.release().perform();
+        carouselImgComponent.waitActiveDot();
+        softAssert.assertEquals(slickDots.get(2).getText(), carouselImgComponent.getActiveSlickDot().getText());
 
-        actions.clickAndHold(carouselImgCards.get(2)).perform();
-        softAssert.assertTrue(carouselImgComponent.getActiveCarouselImgCard()
-                .getCardHeading().getText().contains("Навчай Українською"));
-        actions.release().perform();
+        carouselImgComponent.waitActiveDot();
+        softAssert.assertEquals(slickDots.get(0).getText(), carouselImgComponent.getActiveSlickDot().getText());
 
         softAssert.assertAll();
     }

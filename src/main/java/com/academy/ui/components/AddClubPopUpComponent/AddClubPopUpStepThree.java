@@ -181,4 +181,11 @@ public class AddClubPopUpStepThree extends AddClubPopUpContainer {
         return new AddClubPopUpStepTwo(driver, rootElement);
     }
 
+    @Step("Wait for {expectedQuantity} uploaded Gallery images")
+    public void waitUntilGalleryImagesUpload(int expectedQuantity) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        for (int i = 0; i < expectedQuantity; i++) {
+            wait.until(ExpectedConditions.visibilityOf(clubGalleryUploadedImgs.get(i)));
+        }
+    }
 }

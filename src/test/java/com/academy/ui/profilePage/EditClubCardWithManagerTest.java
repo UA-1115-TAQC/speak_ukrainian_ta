@@ -1234,14 +1234,19 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Issue("TUA-980")
     public void checkStepOneEditCenter() {
         String centerName = "Академія талановитих дітей";
-        String clubName = getClubName();
-        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
-        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
-        editClubPopUp.waitPopUpOpen(5);
-        editClubPopUp.getStepOneContainer().clickCenterDropdown().selectCenter(centerName);
-        editClubPopUp.getStepOneContainer().clickNextStepButton();
-        editClubPopUp.getStepTwoContainer().clickNextStepButton();
-        editClubPopUp.getStepThreeContainer().clickCompleteButton();
+        profilePage.getClubCardWithoutCenter();
+        AddClubPopUpComponent addClubPopUpComponent = new AddClubPopUpComponent(driver);
+        String clubName = addClubPopUpComponent
+                .getStepOneContainer()
+                .getClubNameInputElement()
+                .getInput()
+                .getAttribute("value")
+                .toString();
+
+        addClubPopUpComponent.getStepOneContainer().clickCenterDropdown().selectCenter(centerName);
+        addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();
+        addClubPopUpComponent.getStepThreeContainer().clickCompleteButton();
 
         refreshProfilePage();
         ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);

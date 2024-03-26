@@ -80,24 +80,24 @@ public class HeaderComponentTest extends BaseTestRunner {
 
         BasePageWithAdvancedSearch advancedSearchHeader = new BasePageWithAdvancedSearch(driver);
         softAssert.assertTrue(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchTextHeading()
-                .isDisplayed());
+                                                .getAdvancedSearchHeaderComponent()
+                                                .getAdvancedSearchTextHeading()
+                                                .isDisplayed());
 
         softAssert.assertTrue(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getSelectionSearchInputField()
-                .isDisplayed());
+                                                .getAdvancedSearchHeaderComponent()
+                                                .getSelectionSearchInputField()
+                                                .isDisplayed());
 
         softAssert.assertTrue(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getSearchIcon()
-                .isDisplayed());
+                                                .getAdvancedSearchHeaderComponent()
+                                                .getSearchIcon()
+                                                .isDisplayed());
 
         softAssert.assertTrue(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchIcon()
-                .isDisplayed());
+                                                .getAdvancedSearchHeaderComponent()
+                                                .getAdvancedSearchIcon()
+                                                .isDisplayed());
 
         softAssert.assertEquals(header.getClubsButton().getText(), "Гуртки");
         softAssert.assertEquals(header.getChallengeButton().getText(), "Челендж");
@@ -106,72 +106,76 @@ public class HeaderComponentTest extends BaseTestRunner {
         softAssert.assertEquals(header.getServiceButton().getText(), "Послуги українською");
 
        softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchTextHeading()
-                .getText(), "Ініціатива “Навчай українською”");
+                                                .getAdvancedSearchHeaderComponent()
+                                                .getAdvancedSearchTextHeading()
+                                                .getText(),
+               "Ініціатива “Навчай українською”");
 
         softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getSelectionSearchInputFieldPlaceholder()
-                        .getText(),
+                                                    .getAdvancedSearchHeaderComponent()
+                                                    .getSelectionSearchInputFieldPlaceholder()
+                                                            .getText(),
                 "Який гурток шукаєте?"
                 );
 
         softAssert.assertEquals(header.getClubsButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "1");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getChallengeButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "2");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getNewsButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "3");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getAboutUsButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "4");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getServiceButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "5");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getClubsLocationButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "6");
+                "rgba(255, 255, 255, 1)");
         softAssert.assertEquals(header.getAddClubButton().getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "7");
+                "rgba(255, 255, 255, 1)");
 
         softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchTextHeading()
-                .getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "8");
+                                                    .getAdvancedSearchHeaderComponent()
+                                                    .getAdvancedSearchTextHeading()
+                                                    .getCssValue("color"),
+                "rgba(255, 255, 255, 1)");
 
         softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getSelectionSearchInputField()
-                .getCssValue("color"),
-                "rgba(0, 0, 0, 0.88)", "9");
+                                                    .getAdvancedSearchHeaderComponent()
+                                                    .getSelectionSearchInputField()
+                                                    .getCssValue("color"),
+                "rgba(0, 0, 0, 0.88)");
 
         softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getSearchIcon()
-                .getCssValue("color"),
-                "rgba(255, 255, 255, 1)", "9");
+                                                    .getAdvancedSearchHeaderComponent()
+                                                    .getSearchIcon()
+                                                    .getCssValue("color"),
+                "rgba(255, 255, 255, 1)");
 
         softAssert.assertEquals(advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchIcon()
-                .getCssValue("color"),
-                "rgba(255, 165, 0, 1)", "10");
+                                                    .getAdvancedSearchHeaderComponent()
+                                                    .getAdvancedSearchIcon()
+                                                    .getCssValue("color"),
+                "rgba(255, 165, 0, 1)");
 
         String headerPadding = header.getHeaderBox().getCssValue("padding-right");
         String advancedSearchPadding = advancedSearchHeader
-                .getAdvancedSearchHeaderComponent()
-                .getAdvancedSearchIcon()
-                .getCssValue("padding-right");
+                                                            .getAdvancedSearchHeaderComponent()
+                                                            .getContainerAdvancedSearch()
+                                                            .getCssValue("padding-right");
 
-        softAssert.assertEquals(advancedSearchPadding, headerPadding, "Padding-right values are not equal!");
+        softAssert.assertEquals(advancedSearchPadding, headerPadding, "Padding-right values are not equal.");
 
         int headerBoxWidth = header.getHeaderBox().getSize().getWidth();
         int leftBlockWidth = header.getLeftBlock().getSize().getWidth();
         int rightBlockWidth = header.getRightBlock().getSize().getWidth();
         int expectedCenterBlockPosition = (headerBoxWidth - leftBlockWidth - rightBlockWidth) / 2;
-        int centerBlockPosition = header.getCenterBlock().getLocation().getX() - header.getHeaderBox().getLocation().getX();
+        int centerBlockPosition = header.getCenterBlock().getLocation().getX()
+                                + header.getCenterBlock().getSize().getWidth() / 2
+                                - header.getHeaderBox().getLocation().getX();
+
         softAssert.assertEquals(centerBlockPosition,
                 expectedCenterBlockPosition,
-                "Center block is not aligned to the center!");
+                "Center block is not aligned to the center.");
 
         int numberOfElementsInLeftBlock = 0;
         if (header.getClubsLocationButton().isDisplayed()) numberOfElementsInLeftBlock++;
@@ -179,7 +183,7 @@ public class HeaderComponentTest extends BaseTestRunner {
         if (header.getProfileMenuButton().isDisplayed()) numberOfElementsInLeftBlock++;
         softAssert.assertEquals(numberOfElementsInLeftBlock,
                 3,
-                "Number of elements in the left block is not equal to 3!");
+                "Number of elements in the left block is not equal to 3.");
 
         String initialTitle = driver.getTitle();
         homePage.header.clickTeachInUkrainianLogo();

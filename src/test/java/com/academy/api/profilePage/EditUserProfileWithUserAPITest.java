@@ -18,10 +18,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
 
-    @Test(description = "API test for editing User profile with valid data")
+    @Test(description = "Positive API test for editing User profile with valid data")
     @Description("[API. Edit profile] User can edit profile with valid data")
     @Issue("TUA-408")
     public void userCanEditProfileWithValidData() {
+        String NEW_FIRST_NAME = "Anna";
+        String NEW_LAST_NAME = "Kukarska";
+        String NEW_PHONE = "0234567891";
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -45,14 +48,10 @@ public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
         String currentLastName = jsonPath.get("lastName");
         String currentPhone = jsonPath.get("phone");
 
-        String newFirstName = "Anna";
-        String newLastName = "Kukarska";
-        String newPhone = "0234567891";
-
         LinkedHashMap<String, Object> jsonBodyMap = new LinkedHashMap<>();
         jsonBodyMap.put("id", userId);
         jsonBodyMap.put("email", jsonPath.get("email"));
-        jsonBodyMap.put("firstName", newFirstName);
+        jsonBodyMap.put("firstName", NEW_FIRST_NAME);
         jsonBodyMap.put("lastName", jsonPath.get("lastName"));
         jsonBodyMap.put("phone", jsonPath.get("phone"));
         jsonBodyMap.put("urlLogo", jsonPath.get("urlLogo"));
@@ -72,7 +71,7 @@ public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
                 .log()
                 .ifValidationFails();
 
-        jsonBodyMap.put("lastName", newLastName);
+        jsonBodyMap.put("lastName", NEW_LAST_NAME);
 
 
         RestAssured.given()
@@ -86,7 +85,7 @@ public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
                 .log()
                 .ifValidationFails();
 
-        jsonBodyMap.put("phone", newPhone);
+        jsonBodyMap.put("phone", NEW_PHONE);
         requestedBodyWithNewName = mapToJson(jsonBodyMap);
 
         RestAssured.given()
@@ -108,9 +107,9 @@ public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
                 .then()
                 .statusCode(200)
                 .assertThat()
-                .body("firstName", equalTo(newFirstName))
-                .body("lastName", equalTo(newLastName))
-                .body("phone", equalTo(newPhone))
+                .body("firstName", equalTo(NEW_FIRST_NAME))
+                .body("lastName", equalTo(NEW_LAST_NAME))
+                .body("phone", equalTo(NEW_PHONE))
                 .log()
                 .ifValidationFails();
 
@@ -141,4 +140,164 @@ public class EditUserProfileWithUserAPITest extends LoginWithUserAPITestRunner {
             throw new RuntimeException(e);
         }
     }
+
+
+    @Test(description = "Negative API test for editing User profile with invalid data")
+    @Description("[API. Edit profile] Verify that user can not save changes with invalid data (fields lastName and firstName)")
+    @Issue("TUA-415")
+    public void userCantEditProfileWithInvalidData() {
+        String INVALID_DATA_WITH_NUMBERS_IN_FIRSTNAME = "{\n" +
+                "    \"id\": " + userId + ",\n" +
+                "    \"firstName\": \"Nastia1234\",\n" +
+                "    \"lastName\": \"Kukh\",\n" +
+                "    \"phone\": \"999999922\",\n" +
+                "    \"email\": \"soyec48727@busantei.com\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\",\n" +
+                "    \"urlLogo\": null,\n" +
+                "    \"status\": \"true\"\n" +
+                "}";
+
+        String INVALID_DATA_WITH_MORE_25_SYMBOLS_IN_FIRSTNAME = "{\n" +
+                "  \"id\": " + userId + ",\n" +
+                "  \"firstName\": \"fgfgfgfgfgfgfgfgfgfgfgfgfg\",\n" +
+                "  \"lastName\": \"string\",\n" +
+                "  \"phone\": \"string\",\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"roleName\": \"string\",\n" +
+                "  \"urlLogo\": \"string\",\n" +
+                "  \"status\": \"string\"\n" +
+                "}";
+
+        String INVALID_DATA_WITH_CHARACTERS_IN_FIRSTNAME = "{\n" +
+                "  \"id\": " + userId + ",\n" +
+                "  \"firstName\": \"Anna!@£\",\n" +
+                "  \"lastName\": \"string\",\n" +
+                "  \"phone\": \"string\",\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"roleName\": \"string\",\n" +
+                "  \"urlLogo\": \"string\",\n" +
+                "  \"status\": \"string\"\n" +
+                "}";
+
+        String INVALID_DATA_WITH_NUMBERS_IN_LASTNAME = "{\n" +
+                "  \"id\": " + userId + ",\n" +
+                "  \"firstName\": \"string\",\n" +
+                "  \"lastName\": \"Mola12345\",\n" +
+                "  \"phone\": \"string\",\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"roleName\": \"string\",\n" +
+                "  \"urlLogo\": \"string\",\n" +
+                "  \"status\": \"string\"\n" +
+                "}";
+
+        String INVALID_DATA_WITH_MORE_25_SYMBOLS_IN_LASTNAME = "{\n" +
+                "  \"id\": " + userId + ",\n" +
+                "  \"firstName\": \"string\",\n" +
+                "  \"lastName\": \"sslorygndiejdpcngksoerfvgj\",\n" +
+                "  \"phone\": \"string\",\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"roleName\": \"string\",\n" +
+                "  \"urlLogo\": \"string\",\n" +
+                "  \"status\": \"string\"\n" +
+                "}";
+
+        String INVALID_DATA_WITH_CHARACTERS_IN_LASTNAME = "{\n" +
+                "  \"id\": " + userId + ",\n" +
+                "  \"firstName\": \"string\",\n" +
+                "  \"lastName\": \"Mola!@£%^&\",\n" +
+                "  \"phone\": \"string\",\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"roleName\": \"string\",\n" +
+                "  \"urlLogo\": \"string\",\n" +
+                "  \"status\": \"string\"\n" +
+                "}";
+
+        String NUMBERS_ERROR_MESSAGE = " can`t contain numbers";
+        String LENGTH_ERROR_MESSAGE = " can contain from 1 to 25 letters";
+        String LANGUAGE_ERROR_MESSAGE = " can contain only ukrainian and english letters";
+
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .when()
+                .get("/api/user/" + userId)
+                .then()
+                .statusCode(200)
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_NUMBERS_IN_FIRSTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"firstName\"" + NUMBERS_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_MORE_25_SYMBOLS_IN_FIRSTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"firstName\"" + LENGTH_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_CHARACTERS_IN_FIRSTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"firstName\"" + LANGUAGE_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_NUMBERS_IN_LASTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"lastName\"" + NUMBERS_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_MORE_25_SYMBOLS_IN_LASTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"lastName\"" + LENGTH_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .body(INVALID_DATA_WITH_CHARACTERS_IN_LASTNAME)
+                .when()
+                .put("/api/user/" + userId)
+                .then()
+                .statusCode(400)
+                .body("message", equalTo("\"lastName\"" + LANGUAGE_ERROR_MESSAGE))
+                .log()
+                .ifValidationFails();
+    }
+
 }

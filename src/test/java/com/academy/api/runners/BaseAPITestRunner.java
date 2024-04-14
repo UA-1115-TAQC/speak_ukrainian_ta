@@ -16,7 +16,6 @@ public class BaseAPITestRunner {
     public void setUpClass() {
         configProperties = new ConfigProperties();
         RestAssured.baseURI = configProperties.getBaseUrl();
-        System.out.println(configProperties.getBaseUrl());
     }
 
     protected String getAccessToken(String email, String password) {

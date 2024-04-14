@@ -33,7 +33,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
         home.advancedSearchHeaderComponent.setTextSelectionSearchInputField("Гурток");
         home.advancedSearchHeaderComponent.clickSelectionSearchCloseButton();
 
-        home.sleep(1000);
+        //home.sleep(1000);
         softAssert.assertTrue(home.getAdvancedSearchHeaderComponent().getTextSelectionSearchInputField().isEmpty(), "Search input field is not empty");
     }
 
@@ -53,7 +53,7 @@ public class SearchFieldInAdvancedHeader extends HomePageTestRunner {
                                 " doesn't contain the search query " + string);
             }
         }
-        home.sleep(1000);
+       // home.sleep(1000);
         //+Check the search result with DB //todo
         driver.get(configProperties.getBaseUrl());
         wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("clubs")));

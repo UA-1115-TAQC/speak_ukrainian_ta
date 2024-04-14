@@ -46,7 +46,6 @@ public class CertificatesSubmenuPopup extends BaseComponent {
         AdminGenerateCertificatePage adminGenerateCertificatePage = new AdminGenerateCertificatePage(driver);
         wait.until(ExpectedConditions.visibilityOf(adminGenerateCertificatePage.getStudyDurationLabel()));
         return adminGenerateCertificatePage;
-
     }
 
     public void clickGenerateCertificateByTemplate() {

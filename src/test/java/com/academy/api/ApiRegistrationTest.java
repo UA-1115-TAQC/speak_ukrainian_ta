@@ -1,5 +1,6 @@
 package com.academy.api;
 
+import io.qameta.allure.Issue;
 import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -12,7 +13,8 @@ public class ApiRegistrationTest {
     public static void setup(){
         RestAssured.baseURI ="http://speak-ukrainian.eastus2.cloudapp.azure.com/dev/";
     }
-    @Test
+    @Issue("TUA-418")
+    @Test(description = "[API.Реєстрація] Verify that a user with already existing credentials cannot be created")
     public void verifyThatAUserWithExistingCredentialsCanNotBeCreated(){
         String requestBody = "{\n" +
                 "   \"firstName\":\"Ted\",\n" +

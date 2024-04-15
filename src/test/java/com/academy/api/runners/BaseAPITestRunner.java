@@ -9,7 +9,7 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 
-public class BaseAPIRunner {
+public class BaseAPITestRunner {
     protected static ConfigProperties configProperties;
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

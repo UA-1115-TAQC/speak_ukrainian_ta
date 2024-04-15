@@ -33,7 +33,25 @@ public class BaseRunner {
                 .filter(response -> response.getStatusCode() == 200)
                 .map(r -> new JSONObject(r.getBody().asString()))
                 .map(json -> json.getString("accessToken"))
-                .orElseThrow(() -> new RuntimeException("Invalid sign-in. Status code - "
+                .orElseThrow(() -> new RuntimeException("Invalid sign-in. Status code: "
                         + loginResponse.getStatusCode()));
+    }
+
+    public String getRefreshedAccessToken(String refreshToken) {
+        JSONObject requestBody = new JSONObject()
+                .put("refreshToken", refreshToken);
+
+        Response loginResponse = RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(requestBody.toString())
+                .when()
+                .post("/api/token/refresh");
+
+        return Optional.of(loginResponse)
+                .filter(response -> response.getStatusCode() == 200)
+                .map(r -> new JSONObject(r.getBody().asString()))
+                .map(json -> json.getString("accessToken"))
+                .orElseThrow(() -> new RuntimeException("Refresh token is invalid or has been expired. "
+                        + " Status code: " + loginResponse.getStatusCode()));
     }
 }

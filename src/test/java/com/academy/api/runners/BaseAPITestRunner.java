@@ -11,6 +11,9 @@ import org.testng.annotations.BeforeClass;
 
 public class BaseAPITestRunner {
     protected static ConfigProperties configProperties;
+    protected String accessToken;
+    protected String userId;
+    protected String refreshToken;
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public record LoginRequestDto(String email,
@@ -42,19 +45,22 @@ public class BaseAPITestRunner {
     }
 
     public String getUserId(LoginResponseDto response) {
-        return String.valueOf(response.getId());
+        userId = String.valueOf(response.getId());
+        return userId;
     }
 
     public String getAccessToken(LoginResponseDto response) {
-        return response.getAccessToken();
+        accessToken = response.getAccessToken();
+        return accessToken;
     }
 
     public String getRefreshToken(LoginResponseDto response) {
-        return response.getRefreshToken();
+        refreshToken = response.getRefreshToken();
+        return refreshToken;
     }
 
-    public String getRefreshedAccessToken(LoginResponseDto loginResponseDto) {
-        JSONObject requestBody = new JSONObject().put("refreshToken", getRefreshToken(loginResponseDto));
+    public String getRefreshedAccessToken(String refreshToken) {
+        JSONObject requestBody = new JSONObject().put("refreshToken", refreshToken);
 
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)

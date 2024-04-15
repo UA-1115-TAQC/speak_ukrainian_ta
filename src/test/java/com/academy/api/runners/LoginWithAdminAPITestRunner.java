@@ -9,6 +9,8 @@ public class LoginWithAdminAPITestRunner extends BaseAPITestRunner {
     public void loginWithAdmin() {
         LoginResponseDto authResponseBody = getAuthResponseBody(configProperties.getAdminEmail(),
                 configProperties.getAdminPassword());
-        getAccessToken(authResponseBody);
+        accessToken = getAccessToken(authResponseBody);
+        refreshToken = getRefreshToken(authResponseBody);
+        userId = getUserId(authResponseBody);
     }
 }

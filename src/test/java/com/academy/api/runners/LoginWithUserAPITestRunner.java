@@ -9,6 +9,8 @@ public class LoginWithUserAPITestRunner extends BaseAPITestRunner {
     public void loginWithUser() {
         LoginResponseDto authResponseBody = getAuthResponseBody(configProperties.getUserEmail(),
                 configProperties.getUserPassword());
-        getAccessToken(authResponseBody);
+        accessToken = getAccessToken(authResponseBody);
+        refreshToken = getRefreshToken(authResponseBody);
+        userId = getUserId(authResponseBody);
     }
 }

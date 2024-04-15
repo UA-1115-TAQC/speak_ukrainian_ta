@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeClass;
 
 import java.util.Optional;
 
-public class BaseRunner {
+public class BaseAPIRunner {
     protected static ConfigProperties configProperties;
 
     @BeforeClass
@@ -18,26 +18,40 @@ public class BaseRunner {
         RestAssured.baseURI = configProperties.getBaseUrl();
     }
 
-    public String getAccessToken(String email, String password) {
+    public Response getAuthResponseBody(String email, String password) {
         JSONObject requestBody = new JSONObject()
                 .put("email", email)
                 .put("password", password);
 
-        Response loginResponse = RestAssured.given()
+        Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(requestBody.toString())
                 .when()
                 .post("/api/signin");
 
-        return Optional.of(loginResponse)
-                .filter(response -> response.getStatusCode() == 200)
-                .map(r -> new JSONObject(r.getBody().asString()))
-                .map(json -> json.getString("accessToken"))
-                .orElseThrow(() -> new RuntimeException("Invalid sign-in. Status code: "
-                        + loginResponse.getStatusCode()));
+        if (response.getStatusCode() != 200) {
+            throw new RuntimeException("Invalid request, password or email incorrect."
+                    + " Status code: " + response.getStatusCode());
+        }
+        return response;
     }
 
-    public String getRefreshedAccessToken(String refreshToken) {
+    public String getUserId(Response response) {
+        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
+        return jsonResponse.getString("id");
+    }
+
+    public String getAccessToken(Response response) {
+        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
+        return jsonResponse.getString("accessToken");
+    }
+
+    public String getRefreshToken(Response response) {
+        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
+        return jsonResponse.getString("refreshToken");
+    }
+
+    public String getRefreshedAccessToken(Response response, String refreshToken) {
         JSONObject requestBody = new JSONObject()
                 .put("refreshToken", refreshToken);
 
@@ -48,7 +62,7 @@ public class BaseRunner {
                 .post("/api/token/refresh");
 
         return Optional.of(loginResponse)
-                .filter(response -> response.getStatusCode() == 200)
+                .filter(res -> res.getStatusCode() == 200)
                 .map(r -> new JSONObject(r.getBody().asString()))
                 .map(json -> json.getString("accessToken"))
                 .orElseThrow(() -> new RuntimeException("Refresh token is invalid or has been expired. "

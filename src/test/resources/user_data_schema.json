@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "firstName": {"type": "string"},
+    "lastName": {"type": "string"},
+    "phone": {"type": "string"},
+    "email": {"type": "string"},
+    "password": {"type": "string"},
+    "roleName": {"type": "string"},
+    "urlLogo": {"type": "string"},
+    "status": {"type": "string"}
+  },
+  "required": ["id", "firstName", "lastName", "phone", "email", "password", "roleName", "urlLogo", "status"]
+}

@@ -12,7 +12,6 @@ public class UserSchemaValidationWithUserTest extends LoginWithUserAPITestRunner
 
     @Test(description = "Validate scheme for User Response")
     public void validateSchemeForUserResponse() {
-        String USER_SCHEME = "schemas/user_response_scheme.json";
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -20,11 +19,9 @@ public class UserSchemaValidationWithUserTest extends LoginWithUserAPITestRunner
                 .when()
                 .get("/api/user/" + userId)
                 .then()
-                .statusCode(200)
                 .assertThat()
-                .body(matchesJsonSchemaInClasspath(USER_SCHEME))
-                .log()
-                .ifValidationFails();
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("api-docs.json"));
     }
 
 }

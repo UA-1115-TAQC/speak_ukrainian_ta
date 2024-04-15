@@ -1,16 +1,22 @@
 package com.academy.api.runners;
 
+import com.academy.api.dto.LoginResponseDto;
 import com.academy.ui.runners.utils.ConfigProperties;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.restassured.RestAssured;
-import org.json.JSONObject;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
-
-import java.util.Optional;
 
 public class BaseAPIRunner {
     protected static ConfigProperties configProperties;
+
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+    public record LoginRequestDto(String email,
+                                  String password
+    ) {
+    }
 
     @BeforeClass
     public void setUp() {
@@ -18,54 +24,48 @@ public class BaseAPIRunner {
         RestAssured.baseURI = configProperties.getBaseUrl();
     }
 
-    public Response getAuthResponseBody(String email, String password) {
-        JSONObject requestBody = new JSONObject()
-                .put("email", email)
-                .put("password", password);
+    public LoginResponseDto getAuthResponseBody(String email, String password) {
 
-        Response response = RestAssured.given()
+        Response response = RestAssured.with()
+                .body(new LoginRequestDto(email, password))
                 .contentType(ContentType.JSON)
-                .body(requestBody.toString())
-                .when()
                 .post("/api/signin");
 
         if (response.getStatusCode() != 200) {
             throw new RuntimeException("Invalid request, password or email incorrect."
                     + " Status code: " + response.getStatusCode());
         }
-        return response;
+        return response.then()
+                .extract()
+                .body()
+                .as(LoginResponseDto.class);
     }
 
-    public String getUserId(Response response) {
-        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
-        return String.valueOf(jsonResponse.getInt("id"));
+    public String getUserId(LoginResponseDto response) {
+        return String.valueOf(response.getId());
     }
 
-    public String getAccessToken(Response response) {
-        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
-        return jsonResponse.getString("accessToken");
+    public String getAccessToken(LoginResponseDto response) {
+        return response.getAccessToken();
     }
 
-    public String getRefreshToken(Response response) {
-        JSONObject jsonResponse = new JSONObject(response.getBody().asString());
-        return jsonResponse.getString("refreshToken");
+    public String getRefreshToken(LoginResponseDto response) {
+        return response.getRefreshToken();
     }
 
-    public String getRefreshedAccessToken(Response response, String refreshToken) {
-        JSONObject requestBody = new JSONObject()
-                .put("refreshToken", refreshToken);
+    public String getRefreshedAccessToken(LoginResponseDto loginResponseDto) {
+        JSONObject requestBody = new JSONObject().put("refreshToken", getRefreshToken(loginResponseDto));
 
-        Response loginResponse = RestAssured.given()
+        Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(requestBody.toString())
                 .when()
                 .post("/api/token/refresh");
 
-        return Optional.of(loginResponse)
-                .filter(res -> res.getStatusCode() == 200)
-                .map(r -> new JSONObject(r.getBody().asString()))
-                .map(json -> json.getString("accessToken"))
-                .orElseThrow(() -> new RuntimeException("Refresh token is invalid or has been expired. "
-                        + " Status code: " + loginResponse.getStatusCode()));
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Refresh token is invalid or has been expired. "
+                    + " Status code: " + response.getStatusCode());
+        }
+        return response.jsonPath().getString("accessToken");
     }
 }

@@ -38,7 +38,7 @@ public class BaseAPIRunner {
 
     public String getUserId(Response response) {
         JSONObject jsonResponse = new JSONObject(response.getBody().asString());
-        return jsonResponse.getString("id");
+        return String.valueOf(jsonResponse.getInt("id"));
     }
 
     public String getAccessToken(Response response) {

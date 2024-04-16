@@ -20,7 +20,6 @@ public class EditProfileWithAdminAPITest extends LoginWithAdminAPITestRunner {
     @Description("Verify that user can not save changes with invalid data: lastName and firstName")
     @Issue("TUA-415")
     public void checkEditUserProfileWithInvalidData(UserRequestDto userRequestDto, String expectedMessage) {
-
         Response userResponse = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)

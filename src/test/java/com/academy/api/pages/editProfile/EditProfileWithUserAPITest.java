@@ -18,7 +18,6 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
 
     @BeforeMethod
     public void userSigninSetUp() {
-
         Response userResponse = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
@@ -42,7 +41,6 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
     @Description("The user or manager can change their role on MANAGER")
     @Issue("TUA-417")
     public void checkUserCanChangeRole() {
-
         UserRequestDto userRequestDto = new UserRequestDto(userResponseDto.getId(),
                 userResponseDto.getFirstName(), userResponseDto.getLastName(),
                 userResponseDto.getPhone(), userResponseDto.getEmail(),"ROLE_MANAGER",
@@ -75,7 +73,6 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
     @Description("The user or manager can not change their role on ADMIN")
     @Issue("TUA-417")
     public void checkUserCanNotChangeRole() {
-
         UserRequestDto userRequestDto = new UserRequestDto(203,
                 userResponseDto.getFirstName(), userResponseDto.getLastName(),
                 userResponseDto.getPhone(), userResponseDto.getEmail(),"ROLE_ADMIN",

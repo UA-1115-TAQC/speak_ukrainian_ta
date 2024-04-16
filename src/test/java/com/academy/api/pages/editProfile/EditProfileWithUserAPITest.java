@@ -11,6 +11,7 @@ import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.containsString;
 
 public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
@@ -87,6 +88,20 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
                 .statusCode(403)
                 .body("message", containsString("Forbidden"))
                 .body("path", containsString("dev/api/user/203"))
+                .log()
+                .ifValidationFails();
+    }
+
+    @Test
+    public void validateUserResponseSchema() {
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + accessToken)
+                .when()
+                .get("/api/user/" + userId)
+                .then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath("schemes/user-response.json"))
                 .log()
                 .ifValidationFails();
     }

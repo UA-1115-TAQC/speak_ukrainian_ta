@@ -83,7 +83,7 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .body(userRequestDto)
-                .put("/api/user/" + userRequestDto.getId())
+                .put("/api/user/" + userRequestDto.id())
                 .then()
                 .statusCode(403)
                 .body("message", containsString("Forbidden"))

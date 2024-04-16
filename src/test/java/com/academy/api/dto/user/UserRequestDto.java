@@ -1,17 +1,15 @@
 package com.academy.api.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
-@Data
-@AllArgsConstructor
-public class UserRequestDto {
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String email;
-    private String roleName;
-    private String urlLogo;
-    private String status;
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public record UserRequestDto(Integer id,
+        String firstName,
+        String lastName,
+        String phone,
+        String email,
+        String roleName,
+        String urlLogo,
+        String status
+) {
 }

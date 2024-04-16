@@ -1,4 +1,4 @@
-package com.academy.api.dto;
+package com.academy.api.dto.login;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

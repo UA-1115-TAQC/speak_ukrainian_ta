@@ -1,8 +1,8 @@
 package com.academy.api.runners;
 
-import com.academy.api.dto.LoginResponseDto;
+import com.academy.api.dto.login.LoginRequestDto;
+import com.academy.api.dto.login.LoginResponseDto;
 import com.academy.ui.runners.utils.ConfigProperties;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -14,12 +14,6 @@ public class BaseAPITestRunner {
     protected String accessToken;
     protected String userId;
     protected String refreshToken;
-
-    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-    public record LoginRequestDto(String email,
-                                  String password
-    ) {
-    }
 
     @BeforeClass
     public void setUp() {

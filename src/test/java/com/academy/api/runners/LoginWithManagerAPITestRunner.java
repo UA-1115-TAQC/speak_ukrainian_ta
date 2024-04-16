@@ -1,6 +1,6 @@
 package com.academy.api.runners;
 
-import com.academy.api.dto.LoginResponseDto;
+import com.academy.api.dto.login.LoginResponseDto;
 import org.testng.annotations.BeforeClass;
 
 public class LoginWithManagerAPITestRunner extends BaseAPITestRunner {

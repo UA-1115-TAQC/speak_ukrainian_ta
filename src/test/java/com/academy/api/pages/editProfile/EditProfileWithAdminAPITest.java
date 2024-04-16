@@ -1,37 +1,48 @@
 package com.academy.api.pages.editProfile;
 
+import com.academy.api.dto.user.UserRequestDto;
 import com.academy.api.dto.user.UserResponseDto;
 import com.academy.api.runners.LoginWithAdminAPITestRunner;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.containsString;
 
 public class EditProfileWithAdminAPITest extends LoginWithAdminAPITestRunner {
+    private UserResponseDto userResponseDto;
 
     @Test(dataProvider = "userDataWithExpectedMessage")
     @Description("Verify that user can not save changes with invalid data: lastName and firstName")
     @Issue("TUA-415")
-    public void checkEditUserProfileWithInvalidData(UserResponseDto userResponseDto, String expectedMessage) {
+    public void checkEditUserProfileWithInvalidData(UserRequestDto userRequestDto, String expectedMessage) {
 
-        RestAssured.given()
+        Response userResponse = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .when()
-                .get("/api/user/" + userId)
-                .then()
-                .statusCode(200)
-                .log()
-                .ifValidationFails();
+                .get("/api/user/" + userId);
+
+        if (userResponse.statusCode() == 200) {
+            userResponseDto = userResponse.then()
+                    .extract()
+                    .body()
+                    .as(UserResponseDto.class);
+        } else {
+            userResponse
+                    .then()
+                    .log()
+                    .ifValidationFails();
+        }
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
-                .body(userResponseDto)
+                .body(userRequestDto)
                 .when()
                 .put("/api/user/" + userId)
                 .then()
@@ -43,22 +54,22 @@ public class EditProfileWithAdminAPITest extends LoginWithAdminAPITestRunner {
 
     private Object[][] userInvalidData() {
         return new Object[][] {
-                {new UserResponseDto(203, "Nastia1234", "Kukh",
+                {new UserRequestDto(203, "Nastia1234", "Kukh",
                         "0635224393", "soyec48727@busantei.com",
                         "ROLE_MANAGER", null, "true")},
-                {new UserResponseDto(0, "fgfgfgfgfgfgfgfgfgfgfgfgff", "string",
+                {new UserRequestDto(0, "fgfgfgfgfgfgfgfgfgfgfgfgff", "string",
                         "0635224393", "string",
                         "string", "string", "string")},
-                {new UserResponseDto(0, "Anna!@£", "string",
+                {new UserRequestDto(0, "Anna!@£", "string",
                         "0635224393", "string",
                         "string", "string", "string")},
-                {new UserResponseDto(0, "string", "Mola!@£%^&",
+                {new UserRequestDto(0, "string", "Mola!@£%^&",
                         "0635224393", "string",
                         "string", "string", "string")},
-                {new UserResponseDto(0, "string", "sslorygndiejdpcngksoerfvgf",
+                {new UserRequestDto(0, "string", "sslorygndiejdpcngksoerfvgf",
                         "0635224393", "string",
                         "string", "string", "string")},
-                {new UserResponseDto(0, "string", "Mola12345",
+                {new UserRequestDto(0, "string", "Mola12345",
                         "0635224393", "string",
                         "string", "string", "string")}
         };

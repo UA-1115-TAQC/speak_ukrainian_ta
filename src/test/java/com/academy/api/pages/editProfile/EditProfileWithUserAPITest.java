@@ -16,10 +16,11 @@ import static org.hamcrest.Matchers.containsString;
 
 public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
     private UserResponseDto userResponseDto;
+    private Response userResponse;
 
     @BeforeMethod
     public void userSigninSetUp() {
-        Response userResponse = RestAssured.given()
+         userResponse = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", "Bearer " + accessToken)
                 .when()
@@ -94,12 +95,7 @@ public class EditProfileWithUserAPITest extends LoginWithUserAPITestRunner {
 
     @Test
     public void validateUserResponseSchema() {
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + accessToken)
-                .when()
-                .get("/api/user/" + userId)
-                .then()
+        userResponse.then()
                 .assertThat()
                 .body(matchesJsonSchemaInClasspath("schemes/user-response.json"))
                 .log()

@@ -50,69 +50,9 @@ public class RegistrationAPITests extends BaseAPITestRunner {
                 "    \"email\": \"youremail\",\n" +
                 "    \"password\": \"Kvitka1989@\",\n" +
                 "    \"phone\": \"0971151309\",\n" +
-                "    \"roleName\": \"ROLE_MANAGER\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\"\n" +
                 "}";
-
-        Map<String, Object> LAST_NAME = new HashMap<>();
-        LAST_NAME.put("firstName", "Ігор");
-        LAST_NAME.put("lastName", "");
-        LAST_NAME.put("email", "youremail");
-        LAST_NAME.put("password", "Kvitka1989@");
-        LAST_NAME.put("phone", "0971151309");
-        LAST_NAME.put("roleName", "ROLE_MANAGER");
-
-//        String EMPTY_LAST_NAME = "{\n" +
-//                "    \"firstName\": \"Ігор\",\n" +
-//                "    \"lastName\": \"\",\n" +
-//                "    \"email\": \"youremail\",\n" +
-//                "    \"password\": \"Kvitka1989@\",\n" +
-//                "    \"phone\": \"0971151309\",\n" +
-//                "    \"roleName\": \"ROLE_MANAGER\",\n" +
-//                "}";
-
-        String EMPTY_EMAIL = "{\n" +
-                "    \"firstName\": \"Ігор\",\n" +
-                "    \"lastName\": \"Когут\",\n" +
-                "    \"email\": \"\",\n" +
-                "    \"password\": \"Kvitka1989@\",\n" +
-                "    \"phone\": \"0971151309\",\n" +
-                "    \"roleName\": \"ROLE_MANAGER\",\n" +
-                "}";
-
-        String EMPTY_PASSWORD = "{\n" +
-                "    \"firstName\": \"Ігор\",\n" +
-                "    \"lastName\": \"Когут\",\n" +
-                "    \"email\": \"youremail\",\n" +
-                "    \"password\": \"\",\n" +
-                "    \"phone\": \"0971151309\",\n" +
-                "    \"roleName\": \"ROLE_MANAGER\",\n" +
-                "}";
-
-        String EMPTY_PHONE = "{\n" +
-                "    \"firstName\": \"Ігор\",\n" +
-                "    \"lastName\": \"Когут\",\n" +
-                "    \"email\": \"youremail\",\n" +
-                "    \"password\": \"Kvitka1989@\",\n" +
-                "    \"phone\": \"\",\n" +
-                "    \"roleName\": \"ROLE_MANAGER\",\n" +
-                "}";
-
-        String EMPTY_ROLE_NAME = "{\n" +
-                "    \"firstName\": \"Ігор\",\n" +
-                "    \"lastName\": \"Когут\",\n" +
-                "    \"email\": \"youremail\",\n" +
-                "    \"password\": \"Kvitka1989@\",\n" +
-                "    \"phone\": \"0971151309\",\n" +
-                "    \"roleName\": \"\",\n" +
-                "}";
-
         String EMPTY_FIRST_NAME_ERROR_MESSAGES = "\"firstName\" can`t be empty";
-        String EMPTY_LAST_NAME_ERROR_MESSAGES = "\"lastName\" can`t be empty";
-        String EMPTY_EMAIL_ERROR_MESSAGES = "\"email\" can`t be empty";
-        String EMPTY_PASSWORD_ERROR_MESSAGES = "\"password\" can`t be empty";
-        String EMPTY_PHONE_ERROR_MESSAGES = "\"phone\" can`t be empty";
-        String ROLE_NAME_ERROR_MESSAGES = "\"roleName\" can`t be empty";
-
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(EMPTY_FIRST_NAME)
@@ -121,7 +61,112 @@ public class RegistrationAPITests extends BaseAPITestRunner {
                 .then()
                 .assertThat()
                 .statusCode(400)
+                .body("message", equalTo(EMPTY_FIRST_NAME_ERROR_MESSAGES))
+                .log()
+                .ifValidationFails();
+
+        String EMPTY_LAST_NAME = "{\n" +
+                "    \"firstName\": \"Ігор\",\n" +
+                "    \"lastName\": \"\",\n" +
+                "    \"email\": \"your@gmail.com\",\n" +
+                "    \"password\": \"Kvitka1989@\",\n" +
+                "    \"phone\": \"0971151309\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\"\n" +
+                "}";
+        String EMPTY_LAST_NAME_ERROR_MESSAGES = "\"lastName\" can`t be empty";
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(EMPTY_LAST_NAME)
+                .when()
+                .post("/api/signup")
+                .then()
+                .assertThat()
+                .statusCode(400)
                 .body("message", equalTo(EMPTY_LAST_NAME_ERROR_MESSAGES))
+                .log()
+                .ifValidationFails();
+
+        String EMPTY_EMAIL = "{\n" +
+                "    \"firstName\": \"Ігор\",\n" +
+                "    \"lastName\": \"Когут\",\n" +
+                "    \"email\": \"\",\n" +
+                "    \"password\": \"Kvitka1989@\",\n" +
+                "    \"phone\": \"0971151309\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\"\n" +
+                "}";
+        String EMPTY_EMAIL_ERROR_MESSAGES = "\"email\" can`t be empty";
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(EMPTY_EMAIL)
+                .when()
+                .post("/api/signup")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("message", equalTo(EMPTY_EMAIL_ERROR_MESSAGES))
+                .log()
+                .ifValidationFails();
+
+        String EMPTY_PASSWORD = "{\n" +
+                "    \"firstName\": \"Ігор\",\n" +
+                "    \"lastName\": \"Когут\",\n" +
+                "    \"email\": \"55a5755f9d@emailbbox.pro\",\n" +
+                "    \"password\": \"\",\n" +
+                "    \"phone\": \"0971151309\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\"\n" +
+                "}";
+        String EMPTY_PASSWORD_ERROR_MESSAGES = "\"password\" can`t be empty";
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(EMPTY_PASSWORD)
+                .when()
+                .post("/api/signup")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("message", equalTo(EMPTY_PASSWORD_ERROR_MESSAGES))
+                .log()
+                .ifValidationFails();
+
+        String EMPTY_PHONE = "{\n" +
+                "    \"firstName\": \"Ігор\",\n" +
+                "    \"lastName\": \"Когут\",\n" +
+                "    \"email\": \"55a5755f9d@emailbbox.pro\",\n" +
+                "    \"password\": \"Kvitka1989@\",\n" +
+                "    \"phone\": \"\",\n" +
+                "    \"roleName\": \"ROLE_MANAGER\"\n" +
+                "}";
+        String EMPTY_PHONE_ERROR_MESSAGES = "\"phone\" can`t be empty";
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(EMPTY_PHONE)
+                .when()
+                .post("/api/signup")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("message", equalTo(EMPTY_PHONE_ERROR_MESSAGES))
+                .log()
+                .ifValidationFails();
+
+        String EMPTY_ROLE_NAME = "{\n" +
+                "    \"firstName\": \"Ігор\",\n" +
+                "    \"lastName\": \"Когут\",\n" +
+                "    \"email\": \"55a5755f9d@emailbbox.pro\",\n" +
+                "    \"password\": \"Kvitka1989@\",\n" +
+                "    \"phone\": \"0971151309\",\n" +
+                "    \"roleName\": \"\"\n" +
+                "}";
+        String ROLE_NAME_ERROR_MESSAGES = "\"roleName\" can`t be empty";
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(EMPTY_ROLE_NAME)
+                .when()
+                .post("/api/signup")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("message", equalTo(ROLE_NAME_ERROR_MESSAGES))
                 .log()
                 .ifValidationFails();
 

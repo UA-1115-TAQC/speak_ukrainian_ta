@@ -13,9 +13,7 @@
 
 package com.academy.api.model;
 
-import com.academy.api.ApiException;
 import java.util.Objects;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 /**

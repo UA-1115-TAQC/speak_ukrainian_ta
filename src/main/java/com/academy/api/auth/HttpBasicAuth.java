@@ -13,16 +13,14 @@
 
 package com.academy.api.auth;
 
-import com.academy.api.Pair;
-import com.academy.api.ApiException;
+import com.academy.api.invoker.Pair;
+import com.academy.api.invoker.ApiException;
 
 import okhttp3.Credentials;
 
 import java.net.URI;
 import java.util.Map;
 import java.util.List;
-
-import java.io.UnsupportedEncodingException;
 
 public class HttpBasicAuth implements Authentication {
     private String username;

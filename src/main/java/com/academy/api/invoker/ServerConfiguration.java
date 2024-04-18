@@ -1,4 +1,4 @@
-package com.academy.api;
+package com.academy.api.invoker;
 
 import java.util.Map;
 

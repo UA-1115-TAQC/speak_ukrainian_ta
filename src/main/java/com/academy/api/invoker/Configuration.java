@@ -11,7 +11,7 @@
  */
 
 
-package com.academy.api;
+package com.academy.api.invoker;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2024-04-13T22:54:03.211302+03:00[Europe/Kiev]")
 public class Configuration {

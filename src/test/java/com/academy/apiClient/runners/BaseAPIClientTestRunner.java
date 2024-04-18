@@ -1,8 +1,9 @@
 package com.academy.apiClient.runners;
 
-import com.academy.api.ApiClient;
-import com.academy.api.ApiException;
 import com.academy.api.api.LoginApi;
+import com.academy.api.invoker.ApiClient;
+import com.academy.api.invoker.ApiException;
+import com.academy.api.api.impl.LoginApiImpl;
 import com.academy.api.model.SuccessLogin;
 import com.academy.api.model.UserLogin;
 import com.academy.ui.runners.utils.ConfigProperties;
@@ -17,20 +18,18 @@ public class BaseAPIClientTestRunner {
     @BeforeClass
     public void setUpClass() {
         configProperties = new ConfigProperties();
-        apiClient = new ApiClient();
-        apiClient.setBasePath(configProperties.getBaseUrl());
+        apiClient = new ApiClient().setBasePath(configProperties.getBaseUrl());
     }
 
     protected void getAccessToken(String email, String password) throws ApiException {
-        UserLogin userLogin = new UserLogin();
-        userLogin.setEmail(email);
-        userLogin.setPassword(password);
+        UserLogin userLogin = new UserLogin()
+                .email(email)
+                .password(password);
 
-        LoginApi loginApi = new LoginApi(apiClient);
-        SuccessLogin successLogin = loginApi.signIn(userLogin.email(userLogin.getEmail()));
+        LoginApi loginApi = new LoginApiImpl(apiClient);
+        SuccessLogin successLogin = loginApi.signIn(userLogin);
 
         userId = successLogin.getId();
         apiClient.setBearerToken(successLogin.getAccessToken());
     }
-
 }

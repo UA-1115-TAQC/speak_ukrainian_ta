@@ -13,18 +13,14 @@
 
 package com.academy.api.api;
 
-import com.academy.api.ApiCallback;
-import com.academy.api.ApiClient;
-import com.academy.api.ApiException;
-import com.academy.api.ApiResponse;
-import com.academy.api.Configuration;
-import com.academy.api.Pair;
-import com.academy.api.ProgressRequestBody;
-import com.academy.api.ProgressResponseBody;
+import com.academy.api.invoker.ApiCallback;
+import com.academy.api.invoker.ApiClient;
+import com.academy.api.invoker.ApiException;
+import com.academy.api.invoker.ApiResponse;
+import com.academy.api.invoker.Configuration;
+import com.academy.api.invoker.Pair;
 
 import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
 
 
 import com.academy.api.model.MessageProfile;

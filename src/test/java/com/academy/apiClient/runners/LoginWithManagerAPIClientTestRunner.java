@@ -1,6 +1,6 @@
 package com.academy.apiClient.runners;
 
-import com.academy.api.ApiException;
+import com.academy.api.invoker.ApiException;
 import org.testng.annotations.BeforeClass;
 
 public class LoginWithManagerAPIClientTestRunner extends BaseAPIClientTestRunner {
@@ -9,5 +9,4 @@ public class LoginWithManagerAPIClientTestRunner extends BaseAPIClientTestRunner
     public void loginWithManager() throws ApiException {
         getAccessToken(configProperties.getManagerEmail(), configProperties.getManagerPassword());
     }
-
 }

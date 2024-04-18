@@ -11,9 +11,9 @@
  */
 
 
-package com.academy.api;
+package com.academy.api.invoker;
 
-import java.io.IOException;
+import com.academy.api.invoker.ApiException;
 
 import java.util.Map;
 import java.util.List;

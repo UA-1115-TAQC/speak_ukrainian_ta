@@ -11,7 +11,7 @@
  */
 
 
-package com.academy.api;
+package com.academy.api.invoker;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

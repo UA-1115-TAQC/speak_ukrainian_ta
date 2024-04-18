@@ -13,8 +13,8 @@
 
 package com.academy.api.auth;
 
-import com.academy.api.ApiException;
-import com.academy.api.Pair;
+import com.academy.api.invoker.ApiException;
+import com.academy.api.invoker.Pair;
 
 import java.net.URI;
 import java.util.List;

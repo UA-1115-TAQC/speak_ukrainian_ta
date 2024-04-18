@@ -1,8 +1,8 @@
 package com.academy.apiClient.profilePage;
 
-import com.academy.api.ApiException;
-import com.academy.api.ApiResponse;
-import com.academy.api.api.UserApi;
+import com.academy.api.invoker.ApiException;
+import com.academy.api.invoker.ApiResponse;
+import com.academy.api.api.impl.UserApiImpl;
 import com.academy.api.model.UserResponse;
 import com.academy.api.model.UserUpdateProfile;
 import com.academy.apiClient.runners.LoginWithUserAPIClientTestRunner;
@@ -34,7 +34,7 @@ public class EditUserProfileWithManagerAPIClientTest extends LoginWithUserAPICli
         String NEW_LAST_NAME = "Kukarska";
         String NEW_PHONE = "0234567891";
 
-        UserApi userApi = new UserApi(apiClient);
+        UserApiImpl userApi = new UserApiImpl(apiClient);
         ApiResponse<UserResponse> userApiResponse = userApi.getUserByIdWithHttpInfo(userId);
         UserResponse userResponse = userApiResponse.getData();
 
@@ -99,7 +99,7 @@ public class EditUserProfileWithManagerAPIClientTest extends LoginWithUserAPICli
         String LENGTH_ERROR_MESSAGE = " can contain from 1 to 25 letters";
         String LANGUAGE_ERROR_MESSAGE = " can contain only ukrainian and english letters";
 
-        UserApi userApi = new UserApi(apiClient);
+        UserApiImpl userApi = new UserApiImpl(apiClient);
         ApiResponse<UserResponse> userApiResponse = userApi.getUserByIdWithHttpInfo(userId);
 
         softAssert.assertEquals(userApiResponse.getStatusCode(), OK_STATUS,
@@ -146,7 +146,7 @@ public class EditUserProfileWithManagerAPIClientTest extends LoginWithUserAPICli
         softAssert.assertAll();
     }
 
-    private void assertInvalidProfileUpdate(UserApi userApi, UserUpdateProfile invalidProfile, String field, String errorMessage) throws ApiException {
+    private void assertInvalidProfileUpdate(UserApiImpl userApi, UserUpdateProfile invalidProfile, String field, String errorMessage) throws ApiException {
         try {
             userApi.updateUser(userId, invalidProfile);
         } catch (ApiException e) {

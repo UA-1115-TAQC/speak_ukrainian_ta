@@ -1,4 +1,4 @@
-package com.academy.api.profilePage;
+package com.academy.api.profilePage.positiveTests;
 
 import com.academy.api.dto.request.UserDtoRequest;
 import com.academy.api.runners.LoginWithUserRunnerAPI;
@@ -13,14 +13,12 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class ChangeRoleUserProfileTest extends LoginWithUserRunnerAPI {
-    Response response;
-
+    private Response response;
 
     @Test
     @Description("The user or manager can't change their role")
     @Issue("TUA-416")
-
-    public void putChangeRoleUser(){
+    public void changeRoleUser() {
 
         UserDtoRequest userDtoRequest = UserDtoRequest.
                 builder().
@@ -30,7 +28,7 @@ public class ChangeRoleUserProfileTest extends LoginWithUserRunnerAPI {
                 lastName(configProperties.getUserLastname()).
                 urlLogo(configProperties.getUserLogo()).
                 id(configProperties.getUserId()).
-                phone(configProperties.getManagerPhone()).
+                phone(configProperties.getUserPhone()).
                 urlLogo(configProperties.getUserLogo()).
                 status(configProperties.getUserStatus())
                 .build();
@@ -43,22 +41,21 @@ public class ChangeRoleUserProfileTest extends LoginWithUserRunnerAPI {
 
         Assert.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
 
-
     }
 
     @AfterTest
-    public void backRoleToManager() {
+    public void backRoleToUser() {
         UserDtoRequest userDtoRequest = UserDtoRequest.
                 builder().
                 roleName("ROLE_USER").
-                email(configProperties.getManagerEmail()).
-                firstName(configProperties.getManagerFirstname()).
-                lastName(configProperties.getManagerLastname()).
-                urlLogo(configProperties.getManagerLogo()).
-                id(configProperties.getManagerId()).
-                phone(configProperties.getManagerPhone()).
-                urlLogo(configProperties.getManagerLogo()).
-                status(configProperties.getManagerStatus())
+                email(configProperties.getUserEmail()).
+                firstName(configProperties.getUserFirstname()).
+                lastName(configProperties.getUserLastname()).
+                urlLogo(configProperties.getUserLogo()).
+                id(configProperties.getUserId()).
+                phone(configProperties.getUserPhone()).
+                urlLogo(configProperties.getUserLogo()).
+                status(configProperties.getUserStatus())
                 .build();
 
         response = RestAssured.given()

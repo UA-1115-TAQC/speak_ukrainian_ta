@@ -40,7 +40,7 @@ public class RegistrationAPITests extends BaseAPITestRunner {
     @Test(dataProvider = "registrationDataWithExpectedMessage")
     @Description("[API] Verify that user is not registered if at least one of the mandatory fields is empty")
     @Issue("TUA-377")
-    public void checkEditUserProfileWithInvalidData(RegistrationRequestDto registrationRequestDto,
+    public void testUserNotRegisteredWhenOneMandatoryFieldsEmpty(RegistrationRequestDto registrationRequestDto,
                                                     String expectedMessage) {
         RestAssured.given()
                 .contentType(ContentType.JSON)

@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string",
+      "pattern": "^[0-9]{10}$"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "pattern": "^\\$2a\\$10\\$[A-Za-z0-9./]{53}$"
+    },
+    "roleName": {
+      "type": "string"
+    },
+    "urlLogo": {
+      "type": "string",
+      "format": "uri"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["true", "false"]
+    }
+  },
+  "required": ["id", "firstName", "lastName", "phone", "email", "password", "roleName", "urlLogo", "status"]
+}

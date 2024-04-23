@@ -827,17 +827,17 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         stepThree.getUploadedCoverElement().waitImageLoad(5);
 
         softAssert.assertEquals(stepThree
-                                        .getUploadedCoverElement()
-                                        .getImageTitle()
-                                        .getText(),
-                                imageName,
-                                "Image should be changed");
+                                            .getUploadedCoverElement()
+                                            .getImageTitle()
+                                            .getText(),
+                                             imageName,
+                                    "Image should be changed");
 
         softAssert.assertTrue(stepThree
-                                .getUploadedCoverElement()
-                                .getImageTitle()
-                                .isEnabled(),
-                              "Cannot click on cover photo");
+                                        .getUploadedCoverElement()
+                                        .getImageTitle()
+                                        .isEnabled(),
+                                      "Cannot click on cover photo");
 
         stepThree.clickCompleteButton();
 
@@ -845,11 +845,11 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
         ClubCardWithEditComponent clubCardUpdated = profilePage.getClubCardByName(clubName);
 
         softAssert.assertTrue(clubCardUpdated
-                        .clickDetailsButton()
-                        .getClubCover()
-                        .getAttribute("style")
-                        .contains(imageName),
-                "Image should be changed to the " + imageName);
+                                            .clickDetailsButton()
+                                            .getClubCover()
+                                            .getAttribute("style")
+                                            .contains(imageName),
+                                    "Image should be changed to the " + imageName);
 
         softAssert.assertAll();
     }
@@ -1234,15 +1234,12 @@ public class EditClubCardWithManagerTest extends LoginWithManagerTestRunner {
     @Issue("TUA-980")
     public void checkStepOneEditCenter() {
         String centerName = "Академія талановитих дітей";
-        profilePage.getClubCardWithoutCenter();
+        String clubName = getClubName();
+        ClubCardWithEditComponent clubCardByName = profilePage.getClubCardByName(clubName);
+        AddClubPopUpComponent editClubPopUp = clubCardByName.clickMoreButton().clickEditClub();
+        editClubPopUp.waitPopUpOpen(5);
+        editClubPopUp.getStepOneContainer().clickNextStepButton();
         AddClubPopUpComponent addClubPopUpComponent = new AddClubPopUpComponent(driver);
-        String clubName = addClubPopUpComponent
-                .getStepOneContainer()
-                .getClubNameInputElement()
-                .getInput()
-                .getAttribute("value")
-                .toString();
-
         addClubPopUpComponent.getStepOneContainer().clickCenterDropdown().selectCenter(centerName);
         addClubPopUpComponent.getStepOneContainer().clickNextStepButton();
         addClubPopUpComponent.getStepTwoContainer().clickNextStepButton();

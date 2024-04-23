@@ -6,7 +6,7 @@ public class LoginWithAdminAPITestRunner extends BaseAPITestRunner{
 
     @BeforeClass
     public void loginWithAdmin() {
-        accessToken = getAccessToken(configProperties.getAdminEmail(), configProperties.getAdminEmail());
+        accessToken = getAccessToken(configProperties.getAdminEmail(), configProperties.getAdminPassword());
     }
 
 }

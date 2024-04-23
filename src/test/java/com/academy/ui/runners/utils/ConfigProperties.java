@@ -1,6 +1,5 @@
 package com.academy.ui.runners.utils;
 
-import io.qameta.allure.Step;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,4 +92,40 @@ public class ConfigProperties {
     public String getUserPhone() {
         return properties.getProperty("user.phone");
     }
+
+
+    public String getAdminFirstName() {
+        return properties.getProperty("admin.firstName");
+    }
+
+
+    public String getAdminLastName() {
+        return properties.getProperty("admin.lastName");
+    }
+
+
+    public String getAdminPhone() {
+        return properties.getProperty("admin.phone");
+    }
+
+
+    public String getAdminRoleName() {
+        return properties.getProperty("admin.roleName");
+    }
+
+
+    public String getAdminUrlLogo() {
+        return properties.getProperty("admin.urlLogo");
+    }
+
+
+    public String getAdminStatus() {
+        return properties.getProperty("admin.status");
+    }
+
+
+    public int getAdminId() {
+        return Integer.parseInt(properties.getProperty("admin.id"));
+    }
+
 }

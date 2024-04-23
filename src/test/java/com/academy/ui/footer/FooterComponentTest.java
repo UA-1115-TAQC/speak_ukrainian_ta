@@ -131,8 +131,8 @@ public class FooterComponentTest extends BaseTestRunner {
         footer.clickOnInstagramLink();
         basePageWithoutHeaderAndFooter.getTabHandles();
         basePageWithoutHeaderAndFooter.switchToANewTabByItsIndex(1);
-        String title = driver.getTitle();
-        softAssert.assertTrue(title.contains("Єдині"), "Instagram page 'Єдині' didn't open in a new tab");
+        String url = driver.getCurrentUrl();
+        softAssert.assertEquals(url, "https://www.instagram.com/yedyni.ruh/");
 
         softAssert.assertAll();
     }

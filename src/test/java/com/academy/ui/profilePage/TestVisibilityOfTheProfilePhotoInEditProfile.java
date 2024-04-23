@@ -3,6 +3,7 @@ package com.academy.ui.profilePage;
 import com.academy.ui.components.EditProfilePopUp;
 import com.academy.ui.pages.ProfilePage;
 import com.academy.ui.runners.LoginWithManagerTestRunner;
+import com.academy.ui.runners.utils.ConfigProperties;
 import io.qameta.allure.Description;
 import io.qameta.allure.Issue;
 import org.testng.Assert;
@@ -25,7 +26,7 @@ public class TestVisibilityOfTheProfilePhotoInEditProfile extends LoginWithManag
     public void checkVisibilityOfTheProfilePhotoOnEditProfileWindow() {
         profilePage.editButtonClick();
         EditProfilePopUp editProfilePopUp = profilePage.openEditUserProfile();
-        editProfilePopUp.getUploadPhoto().sendKeys(configProperties.getImagePath(PHOTO_PROFILE));
+        editProfilePopUp.getUploadPhoto().sendKeys(ConfigProperties.getImagePath(PHOTO_PROFILE));
         Assert.assertEquals(editProfilePopUp.getUploadPictureTitle().getText(), PHOTO_PROFILE);
 
     }

@@ -1,4 +1,4 @@
-package com.academy.api;
+package com.academy.api.restassured;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

@@ -1,5 +1,4 @@
 package com.academy.apiClient.profilePage;
-
 import com.academy.api.ApiException;
 import com.academy.api.ApiResponse;
 import com.academy.api.api.UserApi;
@@ -155,6 +154,4 @@ public class EditUserProfileWithManagerAPIClientTest extends LoginWithUserAPICli
                     "Response message should contains message: " + message);
         }
     }
-
-
 }

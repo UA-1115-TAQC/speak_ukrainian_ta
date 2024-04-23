@@ -1,4 +1,4 @@
-package com.academy.api;
+package com.academy.api.restassured;
 
 import com.academy.ui.runners.utils.ConfigProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;

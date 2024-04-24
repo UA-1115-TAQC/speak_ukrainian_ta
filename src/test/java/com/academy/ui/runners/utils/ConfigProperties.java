@@ -104,9 +104,9 @@ public class ConfigProperties {
         return properties.getProperty("user.status");
     }
 
-    public int getUserId() {
+    public long getUserId() {
         String userId =  properties.getProperty("user.id");
-        return Integer.parseInt(userId);
+        return Long.parseLong(userId);
     }
 
     public String getManagerFirstname() {

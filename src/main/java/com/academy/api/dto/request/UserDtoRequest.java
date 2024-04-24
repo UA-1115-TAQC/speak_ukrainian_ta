@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class UserDtoRequest {
 
-    public int id;
+    public long id;
     public String firstName;
     public String lastName;
     public String phone;

@@ -1,7 +1,7 @@
-package com.academy.api;
+package com.academy.api.rest;
 
 import com.academy.api.dto.request.UserDtoRequest;
-import com.academy.api.runners.LoginWithUserRunnerAPI;
+import com.academy.api.rest.runners.LoginWithUserRunnerAPI;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

@@ -1,4 +1,4 @@
-package com.academy.api.runners;
+package com.academy.api.rest.runners;
 
 import org.testng.annotations.BeforeClass;
 

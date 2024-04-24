@@ -1,4 +1,4 @@
-package com.academy.api.runners;
+package com.academy.api.rest.runners;
 
 import com.academy.ui.runners.utils.ConfigProperties;
 import io.restassured.RestAssured;

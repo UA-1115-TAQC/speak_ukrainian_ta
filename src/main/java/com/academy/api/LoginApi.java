@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LoginApi {
+public class LoginApi implements Login {
     private ApiClient localVarApiClient;
     private int localHostIndex;
     private String localCustomBaseUrl;
@@ -51,26 +51,32 @@ public class LoginApi {
         this.localVarApiClient = apiClient;
     }
 
+    @Override
     public ApiClient getApiClient() {
         return localVarApiClient;
     }
 
+    @Override
     public void setApiClient(ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
+    @Override
     public int getHostIndex() {
         return localHostIndex;
     }
 
+    @Override
     public void setHostIndex(int hostIndex) {
         this.localHostIndex = hostIndex;
     }
 
+    @Override
     public String getCustomBaseUrl() {
         return localCustomBaseUrl;
     }
 
+    @Override
     public void setCustomBaseUrl(String customBaseUrl) {
         this.localCustomBaseUrl = customBaseUrl;
     }
@@ -87,6 +93,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call refreshAccessTokenCall(RefreshTokenRequest refreshTokenRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
@@ -155,6 +162,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public RefreshTokenResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest) throws ApiException {
         ApiResponse<RefreshTokenResponse> localVarResp = refreshAccessTokenWithHttpInfo(refreshTokenRequest);
         return localVarResp.getData();
@@ -172,6 +180,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public ApiResponse<RefreshTokenResponse> refreshAccessTokenWithHttpInfo(RefreshTokenRequest refreshTokenRequest) throws ApiException {
         okhttp3.Call localVarCall = refreshAccessTokenValidateBeforeCall(refreshTokenRequest, null);
         Type localVarReturnType = new TypeToken<RefreshTokenResponse>(){}.getType();
@@ -191,6 +200,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call refreshAccessTokenAsync(RefreshTokenRequest refreshTokenRequest, final ApiCallback<RefreshTokenResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = refreshAccessTokenValidateBeforeCall(refreshTokenRequest, _callback);
@@ -210,6 +220,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call revokeRefreshTokenCall(RefreshTokenRequest refreshTokenRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
@@ -276,6 +287,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public void revokeRefreshToken(RefreshTokenRequest refreshTokenRequest) throws ApiException {
         revokeRefreshTokenWithHttpInfo(refreshTokenRequest);
     }
@@ -292,6 +304,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public ApiResponse<Void> revokeRefreshTokenWithHttpInfo(RefreshTokenRequest refreshTokenRequest) throws ApiException {
         okhttp3.Call localVarCall = revokeRefreshTokenValidateBeforeCall(refreshTokenRequest, null);
         return localVarApiClient.execute(localVarCall);
@@ -310,6 +323,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call revokeRefreshTokenAsync(RefreshTokenRequest refreshTokenRequest, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = revokeRefreshTokenValidateBeforeCall(refreshTokenRequest, _callback);
@@ -328,6 +342,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call signInCall(UserLogin userLogin, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
@@ -396,6 +411,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public SuccessLogin signIn(UserLogin userLogin) throws ApiException {
         ApiResponse<SuccessLogin> localVarResp = signInWithHttpInfo(userLogin);
         return localVarResp.getData();
@@ -413,6 +429,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public ApiResponse<SuccessLogin> signInWithHttpInfo(UserLogin userLogin) throws ApiException {
         okhttp3.Call localVarCall = signInValidateBeforeCall(userLogin, null);
         Type localVarReturnType = new TypeToken<SuccessLogin>(){}.getType();
@@ -432,6 +449,7 @@ public class LoginApi {
         <tr><td> 200 </td><td> new &lt;code&gt;SuccessLogin&lt;/code&gt;. </td><td>  -  </td></tr>
      </table>
      */
+    @Override
     public okhttp3.Call signInAsync(UserLogin userLogin, final ApiCallback<SuccessLogin> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = signInValidateBeforeCall(userLogin, _callback);

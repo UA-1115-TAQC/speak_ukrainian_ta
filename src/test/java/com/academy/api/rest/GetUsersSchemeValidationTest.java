@@ -1,6 +1,6 @@
-package com.academy.api;
+package com.academy.api.rest;
 
-import com.academy.api.runners.LoginWithAdminRunnerAPI;
+import com.academy.api.rest.runners.LoginWithAdminRunnerAPI;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 

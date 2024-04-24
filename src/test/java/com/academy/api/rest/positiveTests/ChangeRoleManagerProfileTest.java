@@ -1,7 +1,7 @@
-package com.academy.api.profilePage.positiveTests;
+package com.academy.api.rest.positiveTests;
 
 import com.academy.api.dto.request.UserDtoRequest;
-import com.academy.api.runners.LoginWithManagerRunnerAPI;
+import com.academy.api.rest.runners.LoginWithManagerRunnerAPI;
 import io.qameta.allure.Issue;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

@@ -1,7 +1,7 @@
-package com.academy.api.profilePage.negativeTests;
+package com.academy.api.rest.negativeTests;
 
 import com.academy.api.dto.request.UserDtoRequest;
-import com.academy.api.runners.LoginWithUserRunnerAPI;
+import com.academy.api.rest.runners.LoginWithUserRunnerAPI;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.qameta.allure.Issue;

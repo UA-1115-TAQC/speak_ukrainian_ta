@@ -1,5 +1,6 @@
 package com.academy.api.restassured;
 
+import com.academy.ui.runners.utils.ConfigProperties;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.qameta.allure.Issue;
@@ -16,7 +17,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static io.restassured.RestAssured.given;
 
 public class ApiRegistrationTest {
-    String ERROR_MESSAGE = "Email tohep83544@undewp.com already exists";
+    ConfigProperties configProperties = new ConfigProperties();
+    String ERROR_MESSAGE = "Email "+configProperties.getManagerEmail()+" already exists";
     SoftAssert softAssert;
     @BeforeClass
     public static void setup(){
@@ -32,8 +34,8 @@ public class ApiRegistrationTest {
         String requestBody = "{\n" +
                 "   \"firstName\":\"Ted\",\n" +
                 "   \"lastName\":\"Frankly\",\n" +
-                "\"email\":\"tohep83544@undewp.com\"\n" +
-                "   \"password\":\"Tohep8-9/\",\n" +
+                "\"email\":\"\""+configProperties.getManagerEmail()+"\"\n" +
+                "   \"password\":\""+configProperties.getManagerPassword()+"\",\n" +
                 "   \"phone\":\"0975483923\",\n" +
                 "   \"roleName\":\"ROLE_MANAGER\"\n" +
                 "}";

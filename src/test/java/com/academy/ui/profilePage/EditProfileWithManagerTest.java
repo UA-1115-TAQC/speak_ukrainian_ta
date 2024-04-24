@@ -32,21 +32,21 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
         profilePage = homePage.header.openUserMenu().clickProfile();
     }
   
-  @DataProvider(name = "invalidFirstName")
-    private Object[][] invalidFirstNameDataProvider() {
-        return new Object[][] {
-                {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
-                {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
-                {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
-                {"1234", "Ім'я не може містити цифри"},
-                {"-Name", "Ім'я повинно починатися та закінчуватися літерою"},
-                {"< Name>", "Ім'я не може містити спеціальні символи"},
-                {"'Name", "Ім'я повинно починатися та закінчуватися літерою"},
-                {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
-                {"<Name >", "Ім'я не може містити спеціальні символи"},
-                {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
-        };
-    }
+//  @DataProvider(name = "invalidFirstName")
+//    private Object[][] invalidFirstNameDataProvider() {
+//        return new Object[][] {
+//                {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
+//                {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
+//                {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
+//                {"1234", "Ім'я не може містити цифри"},
+//                {"-Name", "Ім'я повинно починатися та закінчуватися літерою"},
+//                {"< Name>", "Ім'я не може містити спеціальні символи"},
+//                {"'Name", "Ім'я повинно починатися та закінчуватися літерою"},
+//                {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
+//                {"<Name >", "Ім'я не може містити спеціальні символи"},
+//                {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
+//        };
+//    }
   
 
     @Test
@@ -232,6 +232,22 @@ public class EditProfileWithManagerTest extends LoginWithManagerTestRunner {
                 "Submit button should not be enabled");
 
         softAssert.assertAll();
+    }
+
+    @DataProvider(name = "invalidFirstName")
+    private Object[][] invalidFirstNameDataProvider() {
+        return new Object[][] {
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMmNn", "Ім'я не може містити більше, ніж 25 символів"},
+                {"AfBbCcDdEeFfGgHhIiJjKkLlMm", "Ім'я не може містити більше, ніж 25 символів"},
+                {"!@#$%^&,", "Ім'я не може містити спеціальні символи"},
+                {"1234", "Ім'я не може містити цифри"},
+                {"-Name", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"< Name>", "Ім'я не може містити спеціальні символи"},
+                {"'Name", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"Name-", "Ім'я повинно починатися та закінчуватися літерою"},
+                {"<Name >", "Ім'я не може містити спеціальні символи"},
+                {"Name'", "Ім'я повинно починатися та закінчуватися літерою"}
+        };
     }
   
     @Test

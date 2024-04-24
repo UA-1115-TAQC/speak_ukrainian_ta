@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class RegistrationTest extends BaseAPIClientTestRunner {
+public class RegistrationApiClientTest extends BaseAPIClientTestRunner {
     private SoftAssert softAssert;
 
     private String ERROR_MESSAGE_EMPTY_FIRST_NAME = "\"firstName\" can`t be empty";

@@ -1,4 +1,4 @@
-# speak_ukrainian_ta
+# speak ukrainian ta
 
 
 create file `src/test/resources/config.properties`

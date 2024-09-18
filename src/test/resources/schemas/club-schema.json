@@ -1,0 +1,890 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/ClubResponse",
+  "definitions": {
+    "ClubResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "ageFrom": {
+          "type": "integer"
+        },
+        "ageTo": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "urlWeb": {
+          "type": ["string", "null"]
+        },
+        "urlLogo": {
+          "type": ["string", "null"]
+        },
+        "urlBackground": {
+          "type": ["string", "null"]
+        },
+        "urlGallery": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/URLGallery"
+          }
+        },
+        "workTimes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorkTime"
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "center": {
+          "$ref": "#/definitions/Center"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CenterLocation"
+          }
+        },
+        "isApproved": {
+          "type": "boolean"
+        },
+        "isOnline": {
+          "type": "boolean"
+        },
+        "feedbackCount": {
+          "type": "integer"
+        },
+        "contacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Contact"
+          }
+        }
+      },
+      "required": [
+        "ageFrom",
+        "ageTo",
+        "categories",
+        "contacts",
+        "description",
+        "name"
+      ],
+      "title": "ClubResponse"
+    },
+    "Category": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "sortby": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        },
+        "backgroundColor": {
+          "type": "string"
+        },
+        "tagBackgroundColor": {
+          "type": "string"
+        },
+        "tagTextColor": {
+          "type": "string"
+        },
+        "clubs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "backgroundColor",
+        "description",
+        "id",
+        "name",
+        "sortby",
+        "tagBackgroundColor",
+        "tagTextColor",
+        "urlLogo"
+      ],
+      "title": "Category"
+    },
+    "Center": {
+      "additionalProperties": false,
+      "type": ["object", "null"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "urlBackgroundPicture": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phones": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "urlWeb": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        },
+        "socialLinks": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CenterLocation"
+          }
+        },
+        "contacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Contact"
+          }
+        }
+      },
+      "required": [
+        "contacts",
+        "description",
+        "email",
+        "id",
+        "locations",
+        "name",
+        "phones",
+        "socialLinks",
+        "urlBackgroundPicture",
+        "urlLogo",
+        "urlWeb",
+        "user"
+      ],
+      "title": "Center"
+    },
+    "Contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contactType": {
+          "$ref": "#/definitions/ContactType"
+        },
+        "contactData": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "contactData",
+        "contactType"
+      ],
+      "title": "Contact"
+    },
+    "ContactType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "urlLogo"
+      ],
+      "title": "ContactType"
+    },
+    "CenterLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "cityName": {
+          "type": "string"
+        },
+        "districtName": {
+          "type": "string"
+        },
+        "stationName": {
+          "type": "string"
+        },
+        "cityId": {
+          "type": "integer"
+        },
+        "districtId": {
+          "type": "integer"
+        },
+        "stationId": {
+          "type": "integer"
+        },
+        "centerId": {
+          "type": "integer"
+        },
+        "clubId": {
+          "type": "integer"
+        },
+        "coordinates": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "integer"
+        },
+        "latitude": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "address",
+        "centerId",
+        "cityId",
+        "cityName",
+        "clubId",
+        "coordinates",
+        "districtId",
+        "districtName",
+        "id",
+        "latitude",
+        "longitude",
+        "name",
+        "phone",
+        "stationId",
+        "stationName"
+      ],
+      "title": "CenterLocation"
+    },
+    "User": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "id",
+        "lastName",
+        "urlLogo"
+      ],
+      "title": "User"
+    },
+    "URLGallery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        },
+        "club": {
+          "$ref": "#/definitions/Club"
+        }
+      },
+      "required": [
+        "club",
+        "id",
+        "url"
+      ],
+      "title": "URLGallery"
+    },
+    "Club": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "ageFrom": {
+          "type": "integer"
+        },
+        "ageTo": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "urlWeb": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        },
+        "urlBackground": {
+          "type": "string"
+        },
+        "urlGallery": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "workTimes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "feedbackCount": {
+          "type": "integer"
+        },
+        "isOnline": {
+          "type": "boolean"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClubLocation"
+          }
+        },
+        "feedbacks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Feedback"
+          }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "user": {
+          "$ref": "#/definitions/FeedbackUser"
+        },
+        "center": {
+          "$ref": "#/definitions/ClubCenter"
+        },
+        "isApproved": {
+          "type": "boolean"
+        },
+        "contacts": {
+          "type": "string"
+        },
+        "clubExternalId": {
+          "type": "integer"
+        },
+        "centerExternalId": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ageFrom",
+        "ageTo",
+        "categories",
+        "center",
+        "centerExternalId",
+        "clubExternalId",
+        "contacts",
+        "description",
+        "feedbackCount",
+        "feedbacks",
+        "id",
+        "isApproved",
+        "isOnline",
+        "locations",
+        "name",
+        "rating",
+        "urlBackground",
+        "urlGallery",
+        "urlLogo",
+        "urlWeb",
+        "user",
+        "workTimes"
+      ],
+      "title": "Club"
+    },
+    "ClubCenter": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "contacts": {
+          "type": "string"
+        },
+        "urlBackgroundPicture": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "urlWeb": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "clubs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "user": {
+          "$ref": "#/definitions/FeedbackUser"
+        },
+        "centerExternalId": {
+          "type": "integer"
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "feedbackCount": {
+          "type": "integer"
+        },
+        "clubCount": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "centerExternalId",
+        "clubCount",
+        "clubs",
+        "contacts",
+        "description",
+        "feedbackCount",
+        "id",
+        "locations",
+        "name",
+        "rating",
+        "urlBackgroundPicture",
+        "urlLogo",
+        "urlWeb",
+        "user"
+      ],
+      "title": "ClubCenter"
+    },
+    "FeedbackUser": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "urlLogo": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/Role"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "providerId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "verificationCode": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Child"
+          }
+        },
+        "searchStatistics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchStatistic"
+          }
+        }
+      },
+      "required": [
+        "children",
+        "email",
+        "firstName",
+        "id",
+        "lastName",
+        "password",
+        "phone",
+        "provider",
+        "providerId",
+        "role",
+        "searchStatistics",
+        "status",
+        "urlLogo",
+        "verificationCode"
+      ],
+      "title": "FeedbackUser"
+    },
+    "Child": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "parent": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer"
+        },
+        "gender": {
+          "$ref": "#/definitions/Gender"
+        }
+      },
+      "required": [
+        "age",
+        "firstName",
+        "gender",
+        "id",
+        "lastName",
+        "parent"
+      ],
+      "title": "Child"
+    },
+    "Gender": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "value"
+      ],
+      "title": "Gender"
+    },
+    "Role": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "users"
+      ],
+      "title": "Role"
+    },
+    "SearchStatistic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "queryString": {
+          "type": "string"
+        },
+        "searchCount": {
+          "type": "integer"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "queryString",
+        "searchCount",
+        "timestamp",
+        "user"
+      ],
+      "title": "SearchStatistic"
+    },
+    "Feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "rate": {
+          "type": "integer"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "text": {
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/FeedbackUser"
+        },
+        "club": {
+          "type": "string"
+        },
+        "parentComment": {
+          "type": "string"
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "club",
+        "date",
+        "id",
+        "parentComment",
+        "rate",
+        "replies",
+        "text",
+        "user"
+      ],
+      "title": "Feedback"
+    },
+    "ClubLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "integer"
+        },
+        "longitude": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "district": {
+          "$ref": "#/definitions/District"
+        },
+        "station": {
+          "$ref": "#/definitions/District"
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        },
+        "club": {
+          "type": "string"
+        },
+        "center": {
+          "$ref": "#/definitions/ClubCenter"
+        }
+      },
+      "required": [
+        "address",
+        "center",
+        "city",
+        "club",
+        "district",
+        "id",
+        "latitude",
+        "longitude",
+        "name",
+        "phone",
+        "station"
+      ],
+      "title": "ClubLocation"
+    },
+    "City": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "integer"
+        },
+        "longitude": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "latitude",
+        "longitude",
+        "name"
+      ],
+      "title": "City"
+    },
+    "District": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        },
+        "district": {
+          "$ref": "#/definitions/District"
+        }
+      },
+      "required": [
+        "city",
+        "id",
+        "name"
+      ],
+      "title": "District"
+    },
+    "WorkTime": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "club": {
+          "$ref": "#/definitions/Club"
+        },
+        "day": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "club",
+        "day",
+        "endTime",
+        "id",
+        "startTime"
+      ],
+      "title": "WorkTime"
+    }
+  }
+}
